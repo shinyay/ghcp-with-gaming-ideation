@@ -1,0 +1,21 @@
+schema_version: 1
+name: "STAR RELAY / Cleared Archive"
+automation_status: manual_fallback
+repositories:
+  - shinyay/ghcp-with-gaming-ideation
+forbidden_repositories:
+  - shinyay/ghcp-with-gaming-ideation-reference
+allowed_paths:
+  - governance/evidence-policy.md
+  - archive/catalog/assets.yaml
+  - archive/derived/**
+  - research/conflicts/**
+excluded_paths:
+  - research/findings/**
+  - design/**
+requirements:
+  classification: demo-safe
+  ai_eligible: true
+notes:
+  ja: Space APIが利用できない場合、このmanifestを使って手動設定し、reference repositoryを追加しない。
+  en: When Space automation is unavailable, configure these sources manually and never add the reference repository.

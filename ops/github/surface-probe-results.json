@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-08-24T23:33:00+09:00",
+  "repository": "shinyay/ghcp-with-gaming-ideation",
+  "pages": {
+    "published": false,
+    "evidence": "REST /pages returned HTTP 404"
+  },
+  "ruleset": {
+    "applied": false,
+    "fallback": "ops/github/ruleset-guidance.md"
+  },
+  "issue": {
+    "status": "pending",
+    "url": null
+  },
+  "discussion": {
+    "status": "pending",
+    "url": null
+  },
+  "project": {
+    "status": "pending",
+    "url": "https://github.com/users/shinyay/projects/6"
+  },
+  "wiki": {
+    "status": "pending",
+    "url": null
+  },
+  "release": {
+    "status": "pending",
+    "url": null
+  },
+  "copilot_space": {
+    "status": "manual_fallback",
+    "manifest": "ops/github/copilot-space-manifest.yaml"
+  },
+  "canary": {
+    "status": "passed_initial",
+    "sha256": "f247ccb83de2f6c306b7b781661254617ae10cdf0610aee402d31eb0b72645e5",
+    "local_matches": 0,
+    "demo_repository_code_matches": 0,
+    "demo_repository_issue_matches": 0
+  }
+}

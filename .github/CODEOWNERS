@@ -1,0 +1,7 @@
+# Keep the solo owner as the explicit reviewer without enabling a rule that can
+# lock the owner out. See ops/github/ruleset-guidance.md.
+/.github/ @shinyay
+/schemas/ @shinyay
+/governance/ @shinyay
+/archive/catalog/ @shinyay
+/ops/github/ @shinyay

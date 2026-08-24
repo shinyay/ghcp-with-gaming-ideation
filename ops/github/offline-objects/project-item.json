@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "stable_id": "PROJECT-ITEM-001",
+  "project_title": "STAR RELAY — Idea to Playable",
+  "content_id": "ISSUE-001",
+  "status": "live_url_pending",
+  "linked_ids": ["VS-001"]
+}

@@ -1,0 +1,39 @@
+name: Thin-slice implementation
+description: Track one demo-safe implementation unit with stable-ID lineage.
+title: "[VS-001] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        日本語を正本にし、reference-only contentや自由記述のplaytest dataを含めないでください。
+  - type: input
+    id: stable-id
+    attributes:
+      label: Stable ID
+      description: VS、EXP、またはBLD ID
+      placeholder: VS-001
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence links
+      description: DRV/FND/ADR IDとlocator。結論だけを書かない。
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: 検証可能な受入条件
+    validations:
+      required: true
+  - type: checkboxes
+    id: guardrails
+    attributes:
+      label: Guardrails
+      options:
+        - label: Demo-safe synthetic content only
+          required: true
+        - label: No PII, free-text playtest data, or browser GitHub token
+          required: true

@@ -1,0 +1,26 @@
+title: "[Design Lab] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Discussionは選択肢を検討する場です。決定はADRへ移し、架空の投票や反応を作らないでください。
+  - type: input
+    id: lineage
+    attributes:
+      label: Stable IDs
+      description: 関連するDRV、FND、BET、ADR、VS
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: Open design question
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and uncertainty
+      description: EvidenceとInferenceを分ける
+    validations:
+      required: true
