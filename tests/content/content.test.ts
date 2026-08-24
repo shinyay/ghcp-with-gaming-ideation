@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import assert from "node:assert/strict";
 import test from "node:test";
+import { join, resolve } from "node:path";
 import {
   hashCanonical,
   serializeIntegerState
@@ -10,6 +11,7 @@ import {
   DERIVED_HASH_PROJECTION,
   hashFixtureText
 } from "../../scripts/lib/text-projection";
+import { isPathWithin } from "../../scripts/lib/safe-path";
 
 test("canonical integer serializer fixes field order and rejects floats", () => {
   const serialized = serializeIntegerState(1, [
@@ -71,4 +73,16 @@ test("fixture hash projection is identical for LF and CRLF checkouts", () => {
   const lf = "STAR RELAY\n受領\n";
   const crlf = "STAR RELAY\r\n受領\r\n";
   assert.equal(hashFixtureText(lf), hashFixtureText(crlf));
+});
+
+test("package containment accepts children and rejects sibling prefixes", () => {
+  const root = resolve("dist", "offline-demo-pack");
+  assert.equal(isPathWithin(root, join(root, "assets", "app.js")), true);
+  assert.equal(
+    isPathWithin(
+      root,
+      resolve(root, "..", "offline-demo-pack-escape", "app.js")
+    ),
+    false
+  );
 });

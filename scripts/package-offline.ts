@@ -10,6 +10,7 @@ import {
 } from "node:fs/promises";
 import { dirname, join, relative, resolve } from "node:path";
 import Ajv from "ajv";
+import { isPathWithin } from "./lib/safe-path";
 
 interface AllowlistEntry {
   readonly from: string;
@@ -69,7 +70,7 @@ for (const entry of allowlist.sources) {
 
   for (const sourcePath of await collectFiles(sourceRoot)) {
     const targetPath = resolve(TARGET, entry.to, relative(sourceRoot, sourcePath));
-    if (!targetPath.startsWith(`${TARGET}\\`) && targetPath !== TARGET) {
+    if (!isPathWithin(TARGET, targetPath)) {
       throw new Error(`Package path escapes target: ${targetPath}`);
     }
     await mkdir(dirname(targetPath), { recursive: true });
