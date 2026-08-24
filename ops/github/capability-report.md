@@ -46,14 +46,23 @@ all implementation work remains off `main`.
 
 ## Canary isolation
 
-Status: `passed_initial`.
+Status: `passed_final`.
 
 - Supplied canary SHA-256 fingerprint:
   `f247ccb83de2f6c306b7b781661254617ae10cdf0610aee402d31eb0b72645e5`
-- Demo worktree matches: `0`
+- Demo worktree and packaged artifact matches: `0`
+- Exact pushed demo branch matches: `0`
 - Demo-repository-scoped code search matches: `0`
 - Demo-repository-scoped Issue search matches: `0`
+- Demo-repository Discussion matches: `0`
 - Reference content read during check: none
 
 The literal canary is intentionally not committed. This check will be repeated
-after the final branch push.
+after any future source expansion.
+
+## Automated gate
+
+The Linux `validate-thin-slice` workflow passed typecheck, simulation API guard,
+schema/provenance checks, Node replay/handoff tests, Chromium hash equivalence,
+production build, allowlisted packaging, and packaged offline smoke:
+<https://github.com/shinyay/ghcp-with-gaming-ideation/actions/runs/32742854205>.

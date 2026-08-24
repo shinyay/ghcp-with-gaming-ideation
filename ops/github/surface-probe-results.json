@@ -61,11 +61,19 @@
     "status": "manual_fallback",
     "manifest": "ops/github/copilot-space-manifest.yaml"
   },
+  "actions": {
+    "status": "passed",
+    "head_sha": "68fa4cf656092be886ec9042d3cd4862ea30f8c9",
+    "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/actions/runs/32742854205"
+  },
   "canary": {
-    "status": "passed_initial",
+    "status": "passed_final",
     "sha256": "f247ccb83de2f6c306b7b781661254617ae10cdf0610aee402d31eb0b72645e5",
     "local_matches": 0,
+    "packaged_artifact_matches": 0,
+    "exact_remote_branch_matches": 0,
     "demo_repository_code_matches": 0,
-    "demo_repository_issue_matches": 0
+    "demo_repository_issue_matches": 0,
+    "demo_repository_discussion_matches": 0
   }
 }
