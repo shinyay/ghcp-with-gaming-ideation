@@ -1,0 +1,29 @@
+{
+  "id": "EVP-007",
+  "title_ja": "RETURN音声cueが最終buildで鳴らない理由",
+  "summary_en": "Reading set for explaining why the planned RETURN voice cue is absent from the shipped build.",
+  "classification": "demo-safe",
+  "status": "open",
+  "question_ja": "計画されたRETURN音声cueが最終buildで再生されないのはなぜか。指示書は採否を記録せず、配置表は判断の経緯を記録せず、bug表は容量の内訳を記録しない。",
+  "question_en": "Why is the planned RETURN voice cue silent in the shipped build? The direction records no disposition, the ROM map records no reasoning, and the tracker records no capacity figures.",
+  "sufficiency": "cross-asset",
+  "reading_set": [
+    { "asset_id": "DRV-025", "locator": "md:heading/return-voice-cue", "read_for_ja": "cueの構成と、声部が欠けた場合の扱い" },
+    { "asset_id": "DRV-026", "locator": "json:pointer//entries", "read_for_ja": "sample単位の配置可否と要求容量" },
+    { "asset_id": "DRV-026", "locator": "json:pointer//totals", "read_for_ja": "配置済み容量と空き容量" },
+    { "asset_id": "DRV-026", "locator": "json:pointer//capacity_bytes", "read_for_ja": "sound ROMの総容量" },
+    { "asset_id": "DRV-011", "locator": "md:heading/rom-budget", "read_for_ja": "sound ROMの増設可否と最終allocationの見通し" },
+    { "asset_id": "DRV-017", "locator": "csv:row/BUG-063", "read_for_ja": "QAでの報告と処理区分" }
+  ],
+  "single_asset_is_insufficient": true,
+  "falsified_if": [
+    "空き容量が要求容量以上である場合",
+    "sound ROMの増設が可能と記録されている場合",
+    "配置表に該当sampleがallocated trueで存在する場合"
+  ],
+  "out_of_scope": [
+    "残された断片を復元して再生すること",
+    "代替cueを設計すること",
+    "どの担当が落としたかの特定"
+  ]
+}

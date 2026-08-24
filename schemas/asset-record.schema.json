@@ -65,15 +65,15 @@
     },
     "derived_hash_projection": { "const": "utf8-nfc-lf-v1" },
     "derived_sha256": { "$ref": "#/definitions/sha256" },
-    "locator_grammar_version": { "const": "sr-loc/v1" },
+    "locator_grammar_version": {
+      "type": "string",
+      "enum": ["sr-loc/v1", "sr-loc/v2"]
+    },
     "locators": {
       "type": "array",
       "minItems": 1,
       "uniqueItems": true,
-      "items": {
-        "type": "string",
-        "pattern": "^(md:heading|json:pointer)/.+$"
-      }
+      "items": { "$ref": "#/definitions/locator" }
     },
     "review_status": {
       "type": "string",
@@ -98,12 +98,36 @@
           "transform_config_sha256": { "const": null }
         }
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "locator_grammar_version": { "const": "sr-loc/v1" }
+        },
+        "required": ["locator_grammar_version"]
+      },
+      "then": {
+        "properties": {
+          "locators": {
+            "type": "array",
+            "items": { "$ref": "#/definitions/locatorV1" }
+          }
+        }
+      }
     }
   ],
   "definitions": {
     "sha256": {
       "type": "string",
       "pattern": "^[a-f0-9]{64}$"
+    },
+    "locator": {
+      "type": "string",
+      "pattern": "^(md:heading/[a-z0-9]+(-[a-z0-9]+)*|json:pointer/(/[^/,\\s]+)*|csv:row/[^,\\s]+|csv:column/[^,\\s]+|c:symbol/[A-Za-z_][A-Za-z0-9_]*|c:define/[A-Za-z_][A-Za-z0-9_]*)$"
+    },
+    "locatorV1": {
+      "type": "string",
+      "pattern": "^(md:heading/[a-z0-9]+(-[a-z0-9]+)*|json:pointer/(/[^/,\\s]+)*)$"
     }
   }
 }

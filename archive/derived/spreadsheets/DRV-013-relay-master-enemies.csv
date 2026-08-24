@@ -1,0 +1,15 @@
+# origin_kind: synthetic_fixture
+# classification: demo-safe
+# workbook: RELAY_MASTER / sheet: ENEMY
+# fictional_source_created_at: 1998-06-12
+# 架空の敵tableである。挙動名は実装識別子であり、物語設定の記述ではない。
+enemy_id,name,stage_id,hp,behavior,link_group,link_release_ticks,note_ja
+EN-01,DRIFTER,ST-01,1,straight_drift,,0,基本敵
+EN-02,MIRRORLING,ST-02,2,mirror_hug,,0,Mirror沿いに滞留
+EN-03,SPLITTER,ST-03,2,split_on_pierce,,0,貫通時に分裂
+EN-04,HUSH_MOTE,ST-04,1,silent_drift,,0,SE抑制区間で使用
+EN-05,WARDEN_A,ST-05,3,paired_bind,LG-1,90,LG-1の片側
+EN-06,WARDEN_B,ST-05,3,paired_bind,LG-1,90,LG-1の片側
+EN-07,LAP_SENTRY,ST-06,2,orbit_relay,,0,Relay Point周回
+EN-08,LAP_WARDEN_A,ST-06,4,paired_bind,LG-2,60,LG-2の片側
+EN-09,LAP_WARDEN_B,ST-06,4,paired_bind,LG-2,60,LG-2の片側

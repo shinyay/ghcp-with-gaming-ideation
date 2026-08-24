@@ -32,6 +32,13 @@ const RELAY_HIT_HALF_HEIGHT = 460;
 const RETURN_TRACKING_SPEED = 48;
 const ENEMY_HIT_RADIUS = 420;
 
+export const LEGACY_MIRROR_MIN_X = MIRROR_MIN_X;
+export const LEGACY_MIRROR_MAX_X = MIRROR_MAX_X;
+export const LEGACY_MIRROR_Y = MIRROR_Y;
+export const LEGACY_RELAY_X = RELAY_X;
+export const LEGACY_RELAY_Y = RELAY_Y;
+export const LEGACY_RELAY_HIT_HALF_HEIGHT = RELAY_HIT_HALF_HEIGHT;
+
 const HUM_X = 8_300;
 const HUM_Y = 2_120;
 const PEAL_X = 9_400;
@@ -209,6 +216,101 @@ function clamp(value: number, minimum: number, maximum: number): number {
     return maximum;
   }
   return value;
+}
+
+export interface LegacyRoutePoint {
+  readonly x: number;
+  readonly y: number;
+}
+
+export type LegacyRouteOutcome =
+  | "connects"
+  | "misses-mirror"
+  | "misses-relay"
+  | "leaves-field";
+
+export interface LegacyRoutePrediction {
+  /** Vertices of the flight path: launch, optional bank point, terminal. */
+  readonly points: readonly LegacyRoutePoint[];
+  readonly banked: boolean;
+  readonly connects: boolean;
+  readonly outcome: LegacyRouteOutcome;
+}
+
+/**
+ * Replays the outbound and banked geometry of `stepLegacy` without advancing
+ * any state, so a preview can draw the trajectory the simulation would really
+ * produce. This never mutates or influences the simulation itself.
+ */
+export function predictLegacyRoute(
+  playerX: number,
+  playerY: number
+): LegacyRoutePrediction {
+  const launch: LegacyRoutePoint = { x: playerX, y: playerY };
+  let x = playerX;
+  let y = playerY;
+  let vy = LEGACY_OUTBOUND_VY;
+  let bank: LegacyRoutePoint | null = null;
+
+  const limit = LEGACY_DURATION_TICKS;
+  for (let tick = 0; tick < limit; tick += 1) {
+    const previousY = y;
+    x += LEGACY_OUTBOUND_VX;
+    y += vy;
+
+    if (bank === null) {
+      if (previousY > MIRROR_Y && y <= MIRROR_Y) {
+        if (x >= MIRROR_MIN_X && x <= MIRROR_MAX_X) {
+          y = MIRROR_Y + (MIRROR_Y - y);
+          vy = -vy;
+          bank = { x, y: MIRROR_Y };
+        } else {
+          return {
+            points: [launch, { x, y }],
+            banked: false,
+            connects: false,
+            outcome: "misses-mirror"
+          };
+        }
+      } else if (y < 0 || x > LEGACY_WORLD_WIDTH || x < 0) {
+        return {
+          points: [launch, { x, y }],
+          banked: false,
+          connects: false,
+          outcome: "leaves-field"
+        };
+      }
+      continue;
+    }
+
+    if (x >= RELAY_X) {
+      const relayDeltaY = y - RELAY_Y;
+      const seated =
+        relayDeltaY >= -RELAY_HIT_HALF_HEIGHT &&
+        relayDeltaY <= RELAY_HIT_HALF_HEIGHT;
+      return {
+        points: [launch, bank, seated ? { x: RELAY_X, y: RELAY_Y } : { x, y }],
+        banked: true,
+        connects: seated,
+        outcome: seated ? "connects" : "misses-relay"
+      };
+    }
+    if (y < 0 || y > LEGACY_WORLD_HEIGHT || x > LEGACY_WORLD_WIDTH) {
+      return {
+        points: [launch, bank, { x, y }],
+        banked: true,
+        connects: false,
+        outcome: "leaves-field"
+      };
+    }
+  }
+
+  return {
+    points: bank === null ? [launch, { x, y }] : [launch, bank, { x, y }],
+    banked: bank !== null,
+    connects: false,
+    outcome: "leaves-field"
+  };
 }
 
 function squaredDistance(

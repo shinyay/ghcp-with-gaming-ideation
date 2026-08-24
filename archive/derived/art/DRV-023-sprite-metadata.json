@@ -1,0 +1,48 @@
+{
+  "id": "DRV-023",
+  "origin_kind": "synthetic_fixture",
+  "classification": "demo-safe",
+  "fictional_source_created_at": "1998-06-30",
+  "artifact_kind": "sprite_metadata",
+  "note_ja": "架空のsprite配置表。画像binaryは保管しない。metadataのみを扱う。",
+  "banks": [
+    {
+      "bank_id": "BNK-00",
+      "label": "PLAYER",
+      "tiles": 48,
+      "referenced_by_build": true,
+      "entries": [
+        { "sprite_id": "SPR-P1-IDLE", "frames": 4, "palette_slot": "PAL-07" },
+        { "sprite_id": "SPR-P1-AIM", "frames": 6, "palette_slot": "PAL-07" },
+        { "sprite_id": "SPR-P1-CATCH", "frames": 5, "palette_slot": "PAL-04" }
+      ]
+    },
+    {
+      "bank_id": "BNK-01",
+      "label": "CORE",
+      "tiles": 32,
+      "referenced_by_build": true,
+      "entries": [
+        { "sprite_id": "SPR-CORE-HELD", "frames": 2, "palette_slot": "PAL-04" },
+        { "sprite_id": "SPR-CORE-OUT", "frames": 4, "palette_slot": "PAL-05" },
+        { "sprite_id": "SPR-CORE-RETURN", "frames": 4, "palette_slot": "PAL-05" }
+      ]
+    },
+    {
+      "bank_id": "BNK-07",
+      "label": "RESERVED_B",
+      "tiles": 48,
+      "referenced_by_build": false,
+      "entries": [
+        { "sprite_id": "SPR-B-IDLE", "frames": 4, "palette_slot": "PAL-06" },
+        { "sprite_id": "SPR-B-AIM", "frames": 6, "palette_slot": "PAL-06" },
+        { "sprite_id": "SPR-B-CATCH", "frames": 5, "palette_slot": "PAL-06" }
+      ]
+    }
+  ],
+  "observations_ja": [
+    "BNK-07 は build から参照されないが ROM 配置表には残っている。",
+    "BNK-07 の frame 構成は BNK-00 と同数で、向きだけが左右反転している。",
+    "BNK-07 が何のために作られたかはこの表に記録がない。"
+  ]
+}

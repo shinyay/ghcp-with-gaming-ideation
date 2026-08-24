@@ -1,0 +1,31 @@
+{
+  "id": "EVP-005",
+  "title_ja": "公開表記の数値と内部記述の対応",
+  "summary_en": "Reading set for locating the internal record that corresponds to each published figure.",
+  "classification": "demo-safe",
+  "status": "open",
+  "question_ja": "公開資料に現れる各数値は、内部資料のどの記述に対応するか。数値ごとに対応先を特定し、両者がどのような関係にあるかを読み取る。対応先が存在しない場合はそのことを記録する。",
+  "question_en": "For each figure printed in the public material, which internal record does it correspond to, and how do the two relate? Where no internal counterpart exists, record that instead.",
+  "sufficiency": "cross-asset",
+  "reading_set": [
+    { "asset_id": "DRV-021", "locator": "json:pointer//ocr_lines", "read_for_ja": "公開表記に現れる数値一式" },
+    { "asset_id": "DRV-021", "locator": "json:pointer//visual_annotations", "read_for_ja": "公開表記の桁と根拠の扱い" },
+    { "asset_id": "DRV-005", "locator": "md:heading/chain-display", "read_for_ja": "公開manualが案内するCHAIN表示" },
+    { "asset_id": "DRV-003", "locator": "md:heading/catch-and-chain", "read_for_ja": "内部counterの上限" },
+    { "asset_id": "DRV-018", "locator": "md:heading/investigation", "read_for_ja": "表示側の実装制約" },
+    { "asset_id": "DRV-010", "locator": "md:heading/stage-list", "read_for_ja": "仕様書が記述するstage数と、章の範囲外とした事項" },
+    { "asset_id": "DRV-014", "locator": "csv:column/build_flag", "read_for_ja": "data table側の値の件数と区分" },
+    { "asset_id": "DRV-012", "locator": "json:pointer//core_speed", "read_for_ja": "版が異なる数値の存在" }
+  ],
+  "single_asset_is_insufficient": true,
+  "falsified_if": [
+    "公開表記の数値に対応する内部記述が特定できない場合",
+    "対応先とされた内部記述が公開表記と同一の値を持たない場合",
+    "公開表記が根拠となる計測や版を明記している場合"
+  ],
+  "out_of_scope": [
+    "公開判断を行った担当や日付の特定",
+    "現在の公開資料をどう修正すべきかの提案",
+    "読み取った対応関係をFindingとして確定すること"
+  ]
+}

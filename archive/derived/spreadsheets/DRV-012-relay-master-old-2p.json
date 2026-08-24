@@ -1,0 +1,43 @@
+{
+  "id": "DRV-012",
+  "origin_kind": "synthetic_fixture",
+  "classification": "demo-safe",
+  "fictional_source_created_at": "1996-11-22",
+  "workbook": "RELAY_MASTER",
+  "sheet": "OLD_2P",
+  "sheet_note_ja": "1996年の2人用前提で記録された作業sheet。以後の版で更新されていない。",
+  "field_geometry": {
+    "screen_width_px": 384,
+    "units_per_pixel": 16,
+    "field_width_units": 6144
+  },
+  "core_speed": {
+    "holder_units_per_tick": 96,
+    "non_holder_units_per_tick": 144,
+    "outbound_units_per_tick": 216,
+    "return_units_per_tick": 288
+  },
+  "player_slots": [
+    {
+      "slot": "P1",
+      "spawn_side": "left",
+      "aim_symbol_id": "SYM-1996-013"
+    },
+    {
+      "slot": "P2",
+      "spawn_side": "right",
+      "aim_symbol_id": "SYM-1996-014"
+    }
+  ],
+  "score_events": [
+    { "event": "enemy_pierce", "score": 100, "charge": 30 },
+    { "event": "relay_connect", "score": 200, "charge": 50 },
+    { "event": "perfect_catch", "score": 500, "charge": 20 },
+    { "event": "partner_catch", "score": 500, "charge": 20 }
+  ],
+  "sheet_limits_ja": [
+    "この sheet は出荷値ではない。出荷値は実装側の定数を正とする。",
+    "この sheet に換算方針や係数の記載はない。",
+    "P2 slot の採否はこの sheet からは判断できない。"
+  ]
+}

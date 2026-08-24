@@ -58,7 +58,7 @@ test("directly authored fixtures never claim source or transform execution", asy
     }[];
   };
 
-  assert.equal(catalog.assets.length, 6);
+  assert.ok(catalog.assets.length >= 30);
   for (const asset of catalog.assets) {
     assert.equal(asset.derivation_kind, "directly_authored_fixture");
     assert.equal(asset.src_sha256, null);

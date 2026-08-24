@@ -1,0 +1,14 @@
+# origin_kind: synthetic_fixture
+# classification: demo-safe
+# workbook: RELAY_MASTER / sheet: STAGE
+# fictional_source_created_at: 1998-06-12
+# data table の行数と仕様書の記述数が一致するとは限らない。
+stage_id,name,order_index,build_flag,relay_points,mirror_count,note_ja
+ST-01,FIRST LIGHT,1,ship,3,2,
+ST-02,LONG MIRROR,2,ship,4,6,
+ST-03,CROSSFIRE,3,ship,5,4,
+ST-04,THE HUSH,4,ship,4,3,SE抑制区間
+ST-05,DOUBLE WARDEN,5,ship,5,5,
+ST-06,ZERO LAP,6,ship,7,7,
+ST-90,SPEED RIG,90,test_only,1,1,速度確認用治具
+ST-91,PAIR RIG,91,unused,2,2,2人配置検証の名残

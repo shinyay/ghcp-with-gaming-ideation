@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "purpose_ja": "単一資産が結論を丸ごと露出させないための禁止語彙。Evidenceは横断読解でのみ成立させる。",
+  "purpose_en": "Guard list keeping any single fixture from carrying a whole conclusion, and keeping reference content out of the demo repository.",
+  "scanned_roots": ["archive", "research", "design", "canon"],
+  "derived_forbidden_substrings": [
+    "5/6",
+    "5 / 6",
+    "0.8333",
+    "83.33",
+    "screen-crossing time is preserved",
+    "横断時間を保存する",
+    "制限時間ではなく",
+    "実測平均である",
+    "容量不足で削除",
+    "を転用している",
+    "reuses p2_aim",
+    "p2_aim を転用"
+  ],
+  "taxonomy_forbidden_substrings": [
+    "単一の誤りではなく",
+    "複数の種類に分かれる",
+    "丸め、非公開",
+    "いずれに当たるか",
+    "数値差の分類",
+    "差分の分類",
+    "rounding, non-disclosure",
+    "version difference, or an omission",
+    "differ in more than one way",
+    "four kinds",
+    "四種類",
+    "四つの種類"
+  ],
+  "repository_forbidden_substrings": [
+    "REFCANARY-",
+    "answer-keys/",
+    "expected-findings",
+    "expected-design-bets",
+    "ghcp-with-gaming-ideation-reference"
+  ],
+  "notes_ja": [
+    "derived_forbidden_substrings は archive/derived 配下のfixtureのみを対象とする。",
+    "taxonomy_forbidden_substrings は archive/evidence-packets 配下を対象とし、問いが期待される分類そのものを列挙することを防ぐ。packetは読む位置だけを示し、答えの形を示さない。",
+    "repository_forbidden_substrings は scanned_roots 全体を対象とする。",
+    "Evidence packetのconclusion系fieldはschema側で禁止しているため、ここでは扱わない。",
+    "この一覧はアクセス制御ではない。分類とrepository分離が正本である。"
+  ]
+}

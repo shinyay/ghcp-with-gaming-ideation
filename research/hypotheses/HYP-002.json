@@ -1,0 +1,31 @@
+{
+  "id": "HYP-002",
+  "title": "Shipping constraints were fixed before the experience was redesigned",
+  "classification": "demo-safe",
+  "status": "open",
+  "statement": "出荷制約が先に確定し、体験設計はその内側で再構成されたという仮説。",
+  "falsified_if": [
+    "制約資料の日付が体験側の変更より後である場合",
+    "体験評価を理由として構成を変更した記録が見つかった場合",
+    "制約が体験側の要求に合わせて緩和された記録がある場合"
+  ],
+  "candidate_evidence": [
+    {
+      "asset_id": "DRV-011",
+      "locator": "md:heading/display-change"
+    },
+    {
+      "asset_id": "DRV-020",
+      "locator": "md:heading/cabinet-configuration"
+    },
+    {
+      "asset_id": "DRV-024",
+      "locator": "json:pointer//sheets"
+    },
+    {
+      "asset_id": "DRV-008",
+      "locator": "md:heading/attachments-referenced"
+    }
+  ],
+  "not_established": "制約が妥当であったかどうかの評価、および現代版で同じ順序を採るべきかどうか。"
+}

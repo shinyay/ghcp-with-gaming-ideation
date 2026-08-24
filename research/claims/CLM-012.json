@@ -1,0 +1,14 @@
+{
+  "id": "CLM-012",
+  "title": "Two enemy rows share a single link group",
+  "classification": "demo-safe",
+  "status": "single-source-reading",
+  "asset_id": "DRV-013",
+  "locators": [
+    "csv:row/EN-05",
+    "csv:row/EN-06"
+  ],
+  "statement_kind": "literal-value",
+  "statement": "EN-05 と EN-06 はいずれも behavior paired_bind、link_group LG-1、link_release_ticks 90 を持つ。",
+  "does_not_establish": "paired_bind の評価規則そのもの。索引側の記述が必要である。"
+}

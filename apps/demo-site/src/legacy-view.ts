@@ -1,6 +1,9 @@
 import {
   LEGACY_CATCH_RADIUS,
   LEGACY_DURATION_TICKS,
+  LEGACY_MIRROR_MAX_X,
+  LEGACY_MIRROR_MIN_X,
+  LEGACY_MIRROR_Y,
   LEGACY_OUTBOUND_VX,
   LEGACY_OUTBOUND_VY,
   LEGACY_PERFECT_RADIUS,
@@ -14,6 +17,7 @@ import {
   LegacyPhase,
   createLegacyState,
   legacyInputAtTick,
+  predictLegacyRoute,
   stepLegacy,
   type LegacyState
 } from "@star-relay/legacy-1998";
@@ -224,9 +228,9 @@ function drawMirror(
   y: (value: number) => number,
   banked: boolean
 ): void {
-  const left = x(5_500);
-  const right = x(7_900);
-  const top = y(1_500);
+  const left = x(LEGACY_MIRROR_MIN_X);
+  const right = x(LEGACY_MIRROR_MAX_X);
+  const top = y(LEGACY_MIRROR_Y);
   context.strokeStyle = banked ? "#f9d87b" : "#bcdded";
   context.lineWidth = 7;
   context.beginPath();
@@ -250,38 +254,64 @@ function drawRoute(
   x: (value: number) => number,
   y: (value: number) => number
 ): void {
-  const bounceX =
-    state.playerX +
-    ((state.playerY - 1_500) * LEGACY_OUTBOUND_VX) /
-      -LEGACY_OUTBOUND_VY;
+  const prediction = predictLegacyRoute(state.playerX, state.playerY);
+  const ready = state.routePreviewTicks >= LEGACY_ROUTE_READY_TICKS;
+  const locked = ready && prediction.connects;
   const strength =
     state.routePreviewTicks / (LEGACY_ROUTE_READY_TICKS * 2);
+  const hue = prediction.connects ? "120, 239, 255" : "255, 138, 128";
+
   context.save();
   context.setLineDash([10, 10]);
-  context.strokeStyle =
-    state.routePreviewTicks >= LEGACY_ROUTE_READY_TICKS
+  context.strokeStyle = ready
+    ? prediction.connects
       ? "#78efff"
-      : `rgba(120, 239, 255, ${0.35 + strength * 0.55})`;
-  context.lineWidth =
-    state.routePreviewTicks >= LEGACY_ROUTE_READY_TICKS ? 3 : 2;
+      : "#ff8a80"
+    : `rgba(${hue}, ${0.35 + strength * 0.55})`;
+  context.lineWidth = ready ? 3 : 2;
   context.beginPath();
-  context.moveTo(x(state.playerX), y(state.playerY));
-  context.lineTo(x(bounceX), y(1_500));
-  context.lineTo(x(12_100), y(4_680));
+
+  const [first, ...rest] = prediction.points;
+  if (first !== undefined) {
+    context.moveTo(x(first.x), y(first.y));
+    for (const point of rest) {
+      context.lineTo(x(point.x), y(point.y));
+    }
+  }
   context.stroke();
   context.setLineDash([]);
-  drawDiamond(context, x(bounceX), y(1_500), 7, "#07111f", "#78efff");
-  drawText(
-    context,
-    state.routePreviewTicks >= LEGACY_ROUTE_READY_TICKS
-      ? "ROUTE LOCKED"
-      : "HOLD A",
-    x(bounceX),
-    y(1_500) - 34,
-    10,
-    "#78efff",
-    "center"
-  );
+
+  const marker = prediction.banked ? prediction.points[1] : undefined;
+  if (marker !== undefined) {
+    drawDiamond(
+      context,
+      x(marker.x),
+      y(marker.y),
+      7,
+      "#07111f",
+      prediction.connects ? "#78efff" : "#ff8a80"
+    );
+  }
+
+  const label = locked
+    ? "ROUTE LOCKED"
+    : ready
+      ? prediction.banked
+        ? "RELAY MISS"
+        : "MIRROR MISS"
+      : "HOLD A";
+  const anchor = marker ?? prediction.points[prediction.points.length - 1];
+  if (anchor !== undefined) {
+    drawText(
+      context,
+      label,
+      x(anchor.x),
+      y(anchor.y) - 34,
+      10,
+      prediction.connects ? "#78efff" : "#ff8a80",
+      "center"
+    );
+  }
   context.restore();
 }
 
@@ -550,9 +580,16 @@ function tutorialLine(state: LegacyState, mode: LegacyMode): string {
     return "BANK // 鏡で経路を折る。BANK自体には直接報酬なし";
   }
   if (state.routePreviewTicks > 0) {
-    return state.routePreviewTicks >= LEGACY_ROUTE_READY_TICKS
-      ? "ROUTE LOCKED // Aを離して投射"
-      : "A HOLD // 点線を鏡からRelayへ接続";
+    if (state.routePreviewTicks < LEGACY_ROUTE_READY_TICKS) {
+      return "A HOLD // 点線を鏡からRelayへ接続";
+    }
+    const prediction = predictLegacyRoute(state.playerX, state.playerY);
+    if (prediction.connects) {
+      return "ROUTE LOCKED // Aを離して投射";
+    }
+    return prediction.banked
+      ? "RELAY MISS // 鏡では折れるがRelayに届かない。位置を変える"
+      : "MIRROR MISS // 経路が鏡を外れる。位置を変える";
   }
   return mode === "manual"
     ? "MOVE // Core保持中は低速。矢印キーで重さを確認"
@@ -884,7 +921,11 @@ function phaseStatus(state: LegacyState): string {
     return "CORE OUTBOUND";
   }
   if (state.routePreviewTicks >= LEGACY_ROUTE_READY_TICKS) {
-    return "ROUTE LOCKED";
+    const prediction = predictLegacyRoute(state.playerX, state.playerY);
+    if (prediction.connects) {
+      return "ROUTE LOCKED";
+    }
+    return prediction.banked ? "RELAY MISS" : "MIRROR MISS";
   }
   if (state.routePreviewTicks > 0) {
     return "ROUTE PREVIEW";

@@ -1,0 +1,24 @@
+{
+  "id": "CFL-004",
+  "title": "No specified time limit versus a published 150 second figure",
+  "classification": "demo-safe",
+  "status": "open",
+  "kind": "public-versus-internal",
+  "sides": [
+    {
+      "asset_id": "DRV-010",
+      "locators": [
+        "md:heading/zero-lap-conditions"
+      ],
+      "statement": "仕様書はZERO LAPに制限時間を設けないと記述する。"
+    },
+    {
+      "asset_id": "DRV-021",
+      "locators": [
+        "json:pointer//ocr_lines"
+      ],
+      "statement": "公開資料はZERO LAPに150秒という数値を示す。"
+    }
+  ],
+  "needed_evidence": "公開表記の根拠となる計測記録または版管理された公開原稿が必要である。"
+}

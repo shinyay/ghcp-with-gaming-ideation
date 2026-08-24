@@ -7,9 +7,13 @@ forbidden_repositories:
   - shinyay/ghcp-with-gaming-ideation-reference
 allowed_paths:
   - governance/evidence-policy.md
-  - archive/catalog/assets.yaml
+  - archive/README.md
+  - archive/catalog/**
   - archive/derived/**
+  - archive/evidence-packets/**
+  - research/claims/**
   - research/conflicts/**
+  - research/hypotheses/**
 excluded_paths:
   - research/findings/**
   - design/**

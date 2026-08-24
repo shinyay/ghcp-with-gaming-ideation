@@ -1,0 +1,13 @@
+{
+  "id": "CLM-011",
+  "title": "The scenario draft marks the two-body protocol as dropped",
+  "classification": "demo-safe",
+  "status": "single-source-reading",
+  "asset_id": "DRV-009",
+  "locators": [
+    "md:heading/adopted-and-dropped-sections"
+  ],
+  "statement_kind": "literal-text",
+  "statement": "Two-body protocol は採否欄で不採用と記録され、物語稿から削除されたと記述されている。",
+  "does_not_establish": "system、敵挙動、ending 条件における扱い。"
+}

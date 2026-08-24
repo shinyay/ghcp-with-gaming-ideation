@@ -1,0 +1,13 @@
+{
+  "id": "CLM-006",
+  "title": "The 1996 annex assigns SYM-1996-014 to the p2 module",
+  "classification": "demo-safe",
+  "status": "single-source-reading",
+  "asset_id": "DRV-007",
+  "locators": [
+    "md:heading/planned-module-list"
+  ],
+  "statement_kind": "literal-value",
+  "statement": "SYM-1996-014 は planned name p2_aim、owner module p2 として記載されている。",
+  "does_not_establish": "この module 割り当てが実装され、維持されたかどうか。"
+}

@@ -1,0 +1,30 @@
+schema_version: 1
+classification: demo-safe
+notice: >-
+  Cross reference only. The QA record of truth stays in the derived CSV and the
+  per-bug fixtures. Historical bugs are not duplicated into GitHub Issues.
+tracker_asset: DRV-017
+records:
+  - bug_id: BUG-021
+    area: ui
+    detail_asset: DRV-018
+    detail_locator: md:heading/investigation
+    tracker_locator: csv:row/BUG-021
+  - bug_id: BUG-047
+    area: gameplay
+    detail_asset: DRV-019
+    detail_locator: md:heading/runs
+    tracker_locator: csv:row/BUG-047
+  - bug_id: BUG-053
+    area: art
+    detail_asset: null
+    detail_locator: null
+    tracker_locator: csv:row/BUG-053
+  - bug_id: BUG-063
+    area: audio
+    detail_asset: null
+    detail_locator: null
+    tracker_locator: csv:row/BUG-063
+symbol_index_assets:
+  thin: DRV-006
+  full: DRV-029

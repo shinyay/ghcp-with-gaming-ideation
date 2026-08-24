@@ -1,0 +1,13 @@
+{
+  "id": "CLM-005",
+  "title": "The full symbol index places partner_aim in the ai module",
+  "classification": "demo-safe",
+  "status": "single-source-reading",
+  "asset_id": "DRV-029",
+  "locators": [
+    "json:pointer//symbols/partner_aim"
+  ],
+  "statement_kind": "literal-value",
+  "statement": "partner_aim は symbol_id SYM-1996-014、module ai、first_seen_build 1996-10-30 として記録され、module_history に p2 から ai への移動が記録されている。",
+  "does_not_establish": "この symbol を呼び出す箇所、移動の理由、旧名称の有無。"
+}

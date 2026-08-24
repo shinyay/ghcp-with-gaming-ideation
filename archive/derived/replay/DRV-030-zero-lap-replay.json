@@ -1,0 +1,46 @@
+{
+  "id": "DRV-030",
+  "origin_kind": "synthetic_fixture",
+  "classification": "demo-safe",
+  "fictional_source_created_at": "1998-08-27",
+  "artifact_kind": "replay_event_stream",
+  "note_ja": "架空のreplay projection。列挙値と整数のみを保持し、氏名、端末識別子、自由記述を含まない。",
+  "capture": {
+    "stage_id": "ST-06",
+    "ticks_per_second": 60,
+    "build_label": "qa-1998-08",
+    "run_ref": "R-10"
+  },
+  "events": [
+    { "tick": 0, "type": "stage_start", "value": 0 },
+    { "tick": 120, "type": "core_throw", "value": 0 },
+    { "tick": 149, "type": "core_reach_far_edge", "value": 5120 },
+    { "tick": 171, "type": "core_return_caught", "value": 1 },
+    { "tick": 171, "type": "chain_increment", "value": 1 },
+    { "tick": 640, "type": "relay_connect", "value": 1 },
+    { "tick": 1288, "type": "relay_connect", "value": 2 },
+    { "tick": 2040, "type": "relay_connect", "value": 3 },
+    { "tick": 2884, "type": "relay_connect", "value": 4 },
+    { "tick": 3720, "type": "relay_connect", "value": 5 },
+    { "tick": 4602, "type": "link_group_broken", "value": 2 },
+    { "tick": 5410, "type": "relay_connect", "value": 6 },
+    { "tick": 6288, "type": "relay_connect", "value": 7 },
+    { "tick": 7104, "type": "charge_full", "value": 100 },
+    { "tick": 7920, "type": "chain_cap_reached", "value": 32 },
+    { "tick": 8904, "type": "final_contact_simultaneous", "value": 1 },
+    { "tick": 9048, "type": "stage_clear", "value": 1 }
+  ],
+  "expected_outcome": {
+    "final_tick": 9048,
+    "relay_connects": 7,
+    "chain_final": 32,
+    "charge_final": 100,
+    "ending_branch": "true_end",
+    "timer_expired": false
+  },
+  "limits_ja": [
+    "この replay は 1 回分の記録である。平均や代表値ではない。",
+    "制限時間の有無はこの stream からは判断できない。timer_expired は発火の有無のみを表す。",
+    "tick と秒の換算は capture.ticks_per_second を用いること。"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "EVP-001",
+  "title_ja": "384px前提の速度表と320px実装の速度定数の関係",
+  "summary_en": "Reading set for comparing the 384px-era speed sheet with the 320px implementation constants.",
+  "classification": "demo-safe",
+  "status": "open",
+  "question_ja": "旧sheetの速度値と実装の速度定数は、どのような関係で決められているか。関係を主張するには、画面幅、unit換算、両方の速度値が必要である。",
+  "question_en": "What relationship, if any, connects the older sheet speeds to the shipped code constants? Answering requires field width, unit conversion, and both speed sets.",
+  "sufficiency": "cross-asset",
+  "reading_set": [
+    { "asset_id": "DRV-012", "locator": "json:pointer//field_geometry", "read_for_ja": "旧sheetが前提とする画面幅とunit換算" },
+    { "asset_id": "DRV-012", "locator": "json:pointer//core_speed", "read_for_ja": "旧sheetの速度値" },
+    { "asset_id": "DRV-004", "locator": "json:pointer//tables/core_speed", "read_for_ja": "出荷版として登録された速度値" },
+    { "asset_id": "DRV-027", "locator": "c:define/SCREEN_W", "read_for_ja": "実装が前提とする画面幅" },
+    { "asset_id": "DRV-027", "locator": "c:define/UNITS_PER_PX", "read_for_ja": "実装のunit換算" },
+    { "asset_id": "DRV-027", "locator": "c:define/CORE_OUTBOUND_STEP", "read_for_ja": "実装の外向き速度定数" },
+    { "asset_id": "DRV-011", "locator": "md:heading/display-change", "read_for_ja": "表示幅の変更と、変更時に守るよう指示された性質" },
+    { "asset_id": "DRV-011", "locator": "md:heading/fixed-point-convention", "read_for_ja": "座標と速度の保持方式" }
+  ],
+  "single_asset_is_insufficient": true,
+  "falsified_if": [
+    "画面幅とunit換算から求めた横断tick数が、旧sheetと実装で一致しない場合",
+    "実装側の定数が旧sheetと同一で、幅だけが変わっている場合",
+    "DRV-011が具体的な換算率を記載していた場合"
+  ],
+  "out_of_scope": [
+    "画面幅を変更した意思決定の経緯",
+    "旧sheetが更新されなかった理由",
+    "他の速度値が同じ規則に従うかどうかの一般化"
+  ]
+}

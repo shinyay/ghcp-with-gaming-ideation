@@ -1,0 +1,24 @@
+{
+  "id": "CFL-008",
+  "title": "High two-player receive ratings versus a single-panel cabinet",
+  "classification": "demo-safe",
+  "status": "open",
+  "kind": "evaluation-versus-constraint",
+  "sides": [
+    {
+      "asset_id": "DRV-016",
+      "locators": [
+        "md:heading/rating-aggregate"
+      ],
+      "statement": "ロケテスト集計では2P構成の受領評価が1P構成より高い。"
+    },
+    {
+      "asset_id": "DRV-020",
+      "locators": [
+        "md:heading/cabinet-configuration"
+      ],
+      "statement": "出荷筐体は操作パネル1面のみで、連結運用に対応しない。"
+    }
+  ],
+  "needed_evidence": "評価と出荷構成のどちらが先に確定したかを示す記録、および構成を定めた制約資料が必要である。"
+}

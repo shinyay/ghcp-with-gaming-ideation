@@ -286,6 +286,64 @@ test("gamepad movement and A button share the deterministic input path", async (
     .toBe(1);
 });
 
+test("the route preview only locks when the simulation would connect", async ({
+  page
+}) => {
+  await page.goto("/");
+  await page.locator("#legacy-mode").click();
+  const canvas = page.locator("#legacy-canvas");
+  const status = page.locator("#legacy-status");
+  await expect(status).toHaveAttribute("data-mode", "manual");
+  await canvas.focus();
+
+  const readPreview = () =>
+    page.evaluate(() => {
+      const demo = window.__STAR_RELAY_DEMO__;
+      const state = demo.getLegacyState();
+      return {
+        playerX: state.playerX,
+        previewTicks: state.routePreviewTicks,
+        connects: demo.predictLegacyRoute(state.playerX, state.playerY).connects
+      };
+    });
+
+  await page.keyboard.down("a");
+  await expect.poll(async () => (await readPreview()).previewTicks).toBeGreaterThanOrEqual(48);
+
+  const seated = await readPreview();
+  expect(seated.connects).toBe(true);
+  await expect(status).toHaveText(/ROUTE LOCKED/);
+  await page.keyboard.up("a");
+
+  await page.locator("#legacy-restart").click();
+  await canvas.focus();
+
+  // Walk right until the simulation would no longer reach the Relay.
+  await page.keyboard.down("ArrowRight");
+  await expect.poll(async () => (await readPreview()).connects).toBe(false);
+  await page.keyboard.up("ArrowRight");
+
+  await page.keyboard.down("a");
+  await expect.poll(async () => (await readPreview()).previewTicks).toBeGreaterThanOrEqual(48);
+
+  const missing = await readPreview();
+  expect(missing.connects).toBe(false);
+  await expect(status).not.toHaveText(/ROUTE LOCKED/);
+  await expect(status).toHaveText(/(MIRROR|RELAY) MISS/);
+  await page.keyboard.up("a");
+
+  // The simulation must agree with what the preview promised.
+  await expect
+    .poll(() =>
+      page.evaluate(() => window.__STAR_RELAY_DEMO__.getLegacyState().routeMissed)
+    )
+    .toBe(1);
+  const finalState = await page.evaluate(() =>
+    window.__STAR_RELAY_DEMO__.getLegacyState()
+  );
+  expect(finalState.connectedRelay).toBe(0);
+});
+
 test("CRT and reduced-flash treatments remain optional", async ({ page }) => {
   await page.goto("/");
   const screen = page.locator("#legacy-screen");

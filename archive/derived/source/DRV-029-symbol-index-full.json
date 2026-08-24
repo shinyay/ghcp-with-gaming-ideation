@@ -1,0 +1,82 @@
+{
+  "id": "DRV-029",
+  "origin_kind": "synthetic_fixture",
+  "classification": "demo-safe",
+  "fictional_source_created_at": "1998-09-10",
+  "artifact_kind": "symbol_index",
+  "note_ja": "架空のsymbol索引。symbol_id は社内採番の想定値で、採番はmodule移動でも維持される。",
+  "symbols": {
+    "core_throw_step": {
+      "symbol_id": "SYM-1996-031",
+      "kind": "function",
+      "module": "core",
+      "first_seen_build": "1996-08-12",
+      "summary_ja": "外向きCoreを固定整数速度で進める。"
+    },
+    "core_return_step": {
+      "symbol_id": "SYM-1996-032",
+      "kind": "function",
+      "module": "core",
+      "first_seen_build": "1996-08-12",
+      "summary_ja": "戻るCoreを受け手へ向けて進める。"
+    },
+    "chain_commit": {
+      "symbol_id": "SYM-1996-041",
+      "kind": "function",
+      "module": "score",
+      "first_seen_build": "1996-09-02",
+      "summary_ja": "成功した中継1件をChainとChargeへ確定する。"
+    },
+    "relay_owner": {
+      "symbol_id": "SYM-1996-021",
+      "kind": "variable",
+      "module": "core",
+      "first_seen_build": "1996-08-12",
+      "summary_ja": "Coreのownerを1体だけ保持する。"
+    },
+    "partner_aim": {
+      "symbol_id": "SYM-1996-014",
+      "kind": "function",
+      "module": "ai",
+      "first_seen_build": "1996-10-30",
+      "module_history": [
+        { "module": "p2", "until_build": "1997-03-19" },
+        { "module": "ai", "from_build": "1997-03-20" }
+      ],
+      "summary_ja": "先読みtickを与えて受領位置を算出する。"
+    },
+    "return_pass_target": {
+      "symbol_id": "SYM-1998-108",
+      "kind": "function",
+      "module": "ai",
+      "first_seen_build": "1998-02-11",
+      "summary_ja": "戻るCoreに対する受領位置をclampして返す。"
+    },
+    "return_pass_update": {
+      "symbol_id": "SYM-1998-109",
+      "kind": "function",
+      "module": "ai",
+      "first_seen_build": "1998-02-11",
+      "summary_ja": "Return Pass中の自機位置を1 tick分更新する。"
+    },
+    "enemy_paired_bind_update": {
+      "symbol_id": "SYM-1998-072",
+      "kind": "function",
+      "module": "enemy",
+      "first_seen_build": "1998-01-27",
+      "summary_ja": "同一link_groupの2体を評価する。link_release_ticks 以内に両方が貫通されなければ、両方をhpごと復帰させる。片方だけの貫通は成立しない。"
+    },
+    "ending_select": {
+      "symbol_id": "SYM-1998-090",
+      "kind": "function",
+      "module": "flow",
+      "first_seen_build": "1998-03-05",
+      "summary_ja": "最終tickの接触状態からendingを分岐する。分岐条件の由来は索引の対象外。"
+    }
+  },
+  "limits_ja": [
+    "この索引は symbol の所在と要約のみを記録する。",
+    "module 移動の理由、旧名称、削除された機能の一覧は記録しない。",
+    "呼び出し関係は source 側を参照すること。"
+  ]
+}

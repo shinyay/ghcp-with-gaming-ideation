@@ -1,0 +1,19 @@
+# origin_kind: synthetic_fixture
+# classification: demo-safe
+# workbook: LOCATION_TEST_1996 / sheet: SESSIONS
+# fictional_source_created_at: 1996-11-10
+# session_id は無作為の連番記号。氏名、年齢、連絡先、自由記述は収集していない。
+# receive_rating は 1..5 の列挙値で、5 が最良。
+session_id,test_date,cabinet_mode,stage_id,duration_seconds,outcome,receive_rating,failure_cause_code
+LT-0101,1996-11-09,2P,ST-01,96,cleared,5,
+LT-0102,1996-11-09,2P,ST-02,132,cleared,5,
+LT-0103,1996-11-09,2P,ST-03,118,failed,4,FC-03
+LT-0104,1996-11-09,2P,ST-01,88,cleared,5,
+LT-0105,1996-11-09,2P,ST-02,141,cleared,4,
+LT-0106,1996-11-09,2P,ST-03,127,cleared,5,
+LT-0107,1996-11-10,2P,ST-02,155,failed,5,FC-01
+LT-0108,1996-11-10,2P,ST-03,110,cleared,4,
+LT-0201,1996-11-09,1P,ST-01,102,cleared,3,
+LT-0202,1996-11-09,1P,ST-02,148,failed,3,FC-02
+LT-0203,1996-11-10,1P,ST-01,99,cleared,3,
+LT-0204,1996-11-10,1P,ST-03,136,failed,2,FC-02

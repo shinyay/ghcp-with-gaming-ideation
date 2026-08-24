@@ -1,0 +1,30 @@
+{
+  "id": "EVP-006",
+  "title_ja": "ZERO LAPの150という数値の性質",
+  "summary_en": "Reading set for deciding what the published 150 for the final stage actually denotes.",
+  "classification": "demo-safe",
+  "status": "open",
+  "question_ja": "公開資料がZERO LAPに示す150という数値は、仕様上の制限時間か、それとも別の由来を持つ値か。仕様書、QA計測、replayの3種を突き合わせる必要がある。",
+  "question_en": "Is the published 150 for the final stage a specified time limit, or a number with another origin? The specification, the QA measurement, and a replay must be read together.",
+  "sufficiency": "cross-asset",
+  "reading_set": [
+    { "asset_id": "DRV-021", "locator": "json:pointer//ocr_lines", "read_for_ja": "公開資料でのZERO LAPの数値表記" },
+    { "asset_id": "DRV-010", "locator": "md:heading/zero-lap-conditions", "read_for_ja": "仕様書における制限時間の扱い" },
+    { "asset_id": "DRV-019", "locator": "md:heading/measurement-method", "read_for_ja": "計測条件と試行数" },
+    { "asset_id": "DRV-019", "locator": "md:heading/runs", "read_for_ja": "各試行の所要時間と統計値" },
+    { "asset_id": "DRV-030", "locator": "json:pointer//capture", "read_for_ja": "replayのtick換算と対象stage" },
+    { "asset_id": "DRV-030", "locator": "json:pointer//expected_outcome", "read_for_ja": "終了tickと時間切れ発火の有無" },
+    { "asset_id": "DRV-017", "locator": "csv:row/BUG-047", "read_for_ja": "QA上の判定区分" }
+  ],
+  "single_asset_is_insufficient": true,
+  "falsified_if": [
+    "仕様書がZERO LAPに制限時間を定めている場合",
+    "replayの終了tickが150秒相当を超えているのに時間切れが発火している場合",
+    "QA計測の統計値が公開表記と対応しない場合"
+  ],
+  "out_of_scope": [
+    "公開資料へ転記した担当や経緯の特定",
+    "他stageの数値表記への一般化",
+    "現行仕様として制限時間を追加すべきかの判断"
+  ]
+}
