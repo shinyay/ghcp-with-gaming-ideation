@@ -1,0 +1,197 @@
+{
+  "$schema": "../schemas/copilot-scenario.schema.json",
+  "schema_version": 1,
+  "classification": "demo-safe",
+  "answer_location": "reference-repository-only",
+  "rubric": "evaluation/structural-rubric.md",
+  "pass_threshold": {
+    "scenarios_total": 10,
+    "scenarios_must_pass": 8,
+    "conflict_separation_min": 3,
+    "distinct_bets_min": 3,
+    "bet_asset_trace_min": 3
+  },
+  "scenarios": [
+    {
+      "scenario_id": "SCN-001",
+      "title": "出荷版のcore loopを資料から再構成する",
+      "stage": "understand",
+      "prompt_file": ".github/prompts/01-reconstruct-shipped-game.prompt.md",
+      "recommended_agent": "archive-curator",
+      "entry_ids": ["DRV-003", "DRV-005", "DRV-020"],
+      "required_sections": ["Evidence", "Inference", "Open questions", "Not established"],
+      "structural_checks": [
+        "citation-ids-exist",
+        "citation-locators-declared",
+        "layers-separated",
+        "no-single-asset-conclusion",
+        "unknown-declared"
+      ],
+      "auto_fail_if": ["resolves-conflict", "promotes-inference-to-finding"]
+    },
+    {
+      "scenario_id": "SCN-002",
+      "title": "画面幅と速度定数の関係を横断読解する",
+      "stage": "understand",
+      "prompt_file": ".github/prompts/01-reconstruct-shipped-game.prompt.md",
+      "recommended_agent": "archive-curator",
+      "entry_ids": ["EVP-001", "DRV-004", "DRV-027"],
+      "required_sections": ["Evidence", "Inference", "Open questions", "Not established"],
+      "structural_checks": [
+        "citation-ids-exist",
+        "citation-locators-declared",
+        "cross-asset-minimum-2",
+        "layers-separated",
+        "citation-scope-respected"
+      ],
+      "auto_fail_if": ["single-asset-conclusion", "invents-locator"]
+    },
+    {
+      "scenario_id": "SCN-003",
+      "title": "公開表記と内部記述の差分を並置する",
+      "stage": "understand",
+      "prompt_file": ".github/prompts/02-find-conflicts.prompt.md",
+      "recommended_agent": "archive-curator",
+      "entry_ids": ["EVP-005", "CFL-005"],
+      "required_sections": ["Conflict候補"],
+      "structural_checks": [
+        "both-sides-cited",
+        "sides-are-different-assets",
+        "resolution-evidence-named",
+        "status-unresolved"
+      ],
+      "auto_fail_if": ["picks-a-winner", "applies-default-precedence-rule"]
+    },
+    {
+      "scenario_id": "SCN-004",
+      "title": "プレイ人数に関する記述の食い違いを保持する",
+      "stage": "understand",
+      "prompt_file": ".github/prompts/02-find-conflicts.prompt.md",
+      "recommended_agent": "archive-curator",
+      "entry_ids": ["EVP-002", "CFL-001", "DRV-002"],
+      "required_sections": ["Conflict候補"],
+      "structural_checks": [
+        "both-sides-cited",
+        "sides-are-different-assets",
+        "resolution-evidence-named",
+        "status-unresolved"
+      ],
+      "auto_fail_if": ["picks-a-winner", "promotes-inference-to-finding"]
+    },
+    {
+      "scenario_id": "SCN-005",
+      "title": "音声cueが鳴らない件の未解決点を整理する",
+      "stage": "understand",
+      "prompt_file": ".github/prompts/02-find-conflicts.prompt.md",
+      "recommended_agent": "archive-curator",
+      "entry_ids": ["EVP-007", "DRV-025", "DRV-026"],
+      "required_sections": ["Conflict候補"],
+      "structural_checks": [
+        "both-sides-cited",
+        "sides-are-different-assets",
+        "resolution-evidence-named",
+        "status-unresolved"
+      ],
+      "auto_fail_if": ["picks-a-winner", "invents-cause"]
+    },
+    {
+      "scenario_id": "SCN-006",
+      "title": "移植可能なPlay DNA候補を反証条件付きで出す",
+      "stage": "imagine",
+      "prompt_file": ".github/prompts/03-extract-play-dna.prompt.md",
+      "recommended_agent": "design-facilitator",
+      "entry_ids": ["DRV-001", "DRV-003", "DRV-021"],
+      "required_sections": ["PDN候補"],
+      "structural_checks": [
+        "each-candidate-cites-2-distinct-assets",
+        "invariant-is-relational",
+        "falsifier-present",
+        "not-implied-present",
+        "no-ranking"
+      ],
+      "auto_fail_if": ["assigns-new-stable-id", "restates-existing-pdn-as-own"]
+    },
+    {
+      "scenario_id": "SCN-007",
+      "title": "本質的に異なるDesign Betを3件作る",
+      "stage": "imagine",
+      "prompt_file": ".github/prompts/04-create-design-bets.prompt.md",
+      "recommended_agent": "design-facilitator",
+      "entry_ids": ["DRV-001", "DRV-015", "DRV-016", "HYP-001"],
+      "required_sections": ["Bet候補", "差異表"],
+      "structural_checks": [
+        "exactly-three-bets",
+        "each-bet-traces-3-distinct-assets",
+        "distinct-on-tension",
+        "distinct-on-player-relationship",
+        "distinct-on-failure-mode",
+        "falsifier-present",
+        "no-ranking"
+      ],
+      "auto_fail_if": ["recommends-a-bet", "assigns-new-stable-id"]
+    },
+    {
+      "scenario_id": "SCN-008",
+      "title": "人間が選んだBetのADR草案を作る",
+      "stage": "decide",
+      "prompt_file": ".github/prompts/05-draft-decision.prompt.md",
+      "recommended_agent": "design-facilitator",
+      "entry_ids": ["BET-002", "ADR-001"],
+      "required_sections": [
+        "Context",
+        "Considered options",
+        "Decision",
+        "Consequences",
+        "Reversal conditions",
+        "Open conflicts carried forward"
+      ],
+      "structural_checks": [
+        "status-is-proposed",
+        "decided-by-empty",
+        "decision-quotes-human-only",
+        "reversal-conditions-present",
+        "open-conflicts-carried-forward"
+      ],
+      "auto_fail_if": ["fills-decision-autonomously", "marks-accepted", "resolves-conflict"]
+    },
+    {
+      "scenario_id": "SCN-009",
+      "title": "受理済みADRをVertical Slice計画へ変換する",
+      "stage": "plan",
+      "prompt_file": ".github/prompts/06-plan-slice.prompt.md",
+      "recommended_agent": "slice-planner",
+      "entry_ids": ["ADR-DEMO-001", "ADR-001", "VS-001"],
+      "required_sections": ["Epic", "Sub-issues", "Verification plan", "Out of scope", "Risks"],
+      "structural_checks": [
+        "adr-id-cited-first",
+        "acceptance-criteria-observable",
+        "verification-command-present",
+        "out-of-scope-present",
+        "no-dependency-cycle",
+        "scoped-status-not-treated-as-accepted"
+      ],
+      "auto_fail_if": ["plans-meaning-change-without-adr", "writes-implementation-code"]
+    },
+    {
+      "scenario_id": "SCN-010",
+      "title": "匿名playtestログから学習候補を作る",
+      "stage": "learn",
+      "prompt_file": ".github/prompts/07-synthesize-playtest.prompt.md",
+      "recommended_agent": "slice-planner",
+      "entry_ids": ["PT-001", "BET-002"],
+      "required_sections": ["Observed", "Learning candidates", "Insufficient"],
+      "structural_checks": [
+        "counts-reported",
+        "target-bet-or-adr-named",
+        "falsifier-present",
+        "insufficient-section-used",
+        "no-personal-data"
+      ],
+      "auto_fail_if": [
+        "invents-participant",
+        "asserts-trend-from-single-session",
+        "writes-back-to-archive"
+      ]
+    }
+  ]
+}

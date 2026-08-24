@@ -1,0 +1,114 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://star-relay.invalid/schemas/copilot-scenario.schema.json",
+  "title": "STAR RELAY Copilot scenario manifest",
+  "description": "Fixed demo-side evaluation scenarios. Structure and citations only; no expected answer text is stored in this repository.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_version",
+    "classification",
+    "answer_location",
+    "rubric",
+    "pass_threshold",
+    "scenarios"
+  ],
+  "properties": {
+    "$schema": { "const": "../schemas/copilot-scenario.schema.json" },
+    "schema_version": { "const": 1 },
+    "classification": { "const": "demo-safe" },
+    "answer_location": { "const": "reference-repository-only" },
+    "rubric": { "const": "evaluation/structural-rubric.md" },
+    "pass_threshold": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scenarios_total",
+        "scenarios_must_pass",
+        "conflict_separation_min",
+        "distinct_bets_min",
+        "bet_asset_trace_min"
+      ],
+      "properties": {
+        "scenarios_total": { "const": 10 },
+        "scenarios_must_pass": { "const": 8 },
+        "conflict_separation_min": { "const": 3 },
+        "distinct_bets_min": { "const": 3 },
+        "bet_asset_trace_min": { "const": 3 }
+      }
+    },
+    "scenarios": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": { "$ref": "#/definitions/scenario" }
+    }
+  },
+  "definitions": {
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scenario_id",
+        "title",
+        "stage",
+        "prompt_file",
+        "recommended_agent",
+        "entry_ids",
+        "required_sections",
+        "structural_checks",
+        "auto_fail_if"
+      ],
+      "properties": {
+        "scenario_id": { "type": "string", "pattern": "^SCN-[0-9]{3}$" },
+        "title": { "type": "string", "minLength": 1 },
+        "stage": {
+          "type": "string",
+          "enum": ["understand", "imagine", "decide", "plan", "build", "learn"]
+        },
+        "prompt_file": {
+          "type": "string",
+          "pattern": "^\\.github/prompts/[0-9]{2}-[a-z0-9-]+\\.prompt\\.md$"
+        },
+        "recommended_agent": {
+          "type": "string",
+          "enum": [
+            "archive-curator",
+            "design-facilitator",
+            "slice-planner",
+            "provenance-auditor"
+          ]
+        },
+        "entry_ids": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": { "$ref": "#/definitions/stableId" }
+        },
+        "required_sections": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "structural_checks": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" }
+        },
+        "auto_fail_if": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" }
+        }
+      }
+    },
+    "stableId": {
+      "type": "string",
+      "pattern": "^(SRC|AST|DRV|EVP|CLM|CFL|FND|HYP|PDN|BET|ADR|EXP|VS|BLD|PT|LRN)-[A-Z0-9][A-Z0-9-]*$"
+    }
+  }
+}

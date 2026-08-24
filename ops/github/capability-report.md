@@ -109,3 +109,60 @@ Wiki verification now compares the complete recursive tree, removes unmanaged
 remote paths before publishing, forces `core.autocrlf=false`, writes LF, and
 uses `utf8-lf-sha256-v1` hashes. The first-page initialization fallback remains
 the only Wiki blocker.
+
+## Phase 5 re-probe
+
+Probe time: `2026-08-25T02:41:00+09:00`
+Client: Copilot CLI `github-app` `1.0.80` on Windows, GitHub CLI `2.96.0`
+
+### Copilot customization surfaces
+
+Observed for the branch state at session start, not inferred from docs.
+
+| Surface | Live result | Evidence |
+|---|---|---|
+| Repository instructions | Discovered and applied | `.github/copilot-instructions.md` body was injected into the session verbatim |
+| Path instructions | Discovered and applied | The session listed each `.instructions.md` file with its `applyTo` glob |
+| Custom agent | Discovered and selectable | `archive-curator` appeared in the agent list carrying its frontmatter `description` |
+| Prompt file | **Not surfaced** | `.github/prompts/01-reconstruct-shipped-game.prompt.md` was present on the branch but was offered neither as a slash command nor as a tool |
+
+Agents and prompts added during the session are not re-read by the same
+session, so the three new agents and six new prompt files are unobserved here.
+Re-probe on a later session or another surface before claiming otherwise.
+
+The prompt-file gap has a documented fallback: paste the prompt body into chat.
+See `demo/self-guided-workshop.md`.
+
+### Copilot Space automation
+
+Re-confirmed that no supported creation surface exists.
+
+| Probe | Result |
+|---|---|
+| REST `/user/copilot/spaces` | HTTP 404 Not Found |
+| REST `/copilot/spaces` | HTTP 404 Not Found |
+| GraphQL `__type(name: "CopilotSpace")` | `null` |
+| GraphQL mutations matching Copilot Space | 0 |
+| `gh extension list` | empty |
+
+`copilot-space-manifest.yaml` therefore records `automation_status: manual_only`
+and `verification.space_created: false`. **No Space was created.** The manual
+procedure is [copilot-space-setup.md](copilot-space-setup.md).
+
+### Canary isolation re-run
+
+Status: `passed_phase_5`. Repeated after the reference answer keys existed.
+
+- Canary SHA-256 fingerprint (unchanged):
+  `f247ccb83de2f6c306b7b781661254617ae10cdf0610aee402d31eb0b72645e5`
+- Demo worktree matches: `0`
+- Packaged offline artifact matches: `0` (10 files)
+- Pushed demo branch matches: `0`
+- Demo-repository-scoped code search matches: `0`
+- Demo-repository-scoped Issue search matches: `0`
+- Demo-repository Discussion matches: `0`
+- Reference content copied into the demo repository: none
+
+The only `REFCANARY-` occurrence in the demo repository is the prefix inside
+`governance/disclosure-guard.json`, which is the guard list itself rather than a
+concrete token.
