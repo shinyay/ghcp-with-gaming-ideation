@@ -1,0 +1,269 @@
+{
+  "schema_version": 1,
+  "id": "LINEAGE-SNAPSHOT-001",
+  "classification": "demo-safe",
+  "browser_network": "forbidden",
+  "sources": [
+    {
+      "path": "design/lineage/LINEAGE-001.json",
+      "sha256": "e9a7e2348a57bb766805dc5e04ea462012fc73790cac9edb8b043a5ee1e3704e"
+    },
+    {
+      "path": "demo/offline-snapshots/github-objects.json",
+      "sha256": "5002610ec58d48a9b3701dad46383ea2f094a0b1a8529e878ed36c46bcd9e347"
+    },
+    {
+      "path": "ops/packaging/demo-snapshot-allowlist.json",
+      "sha256": "54512821062090414ab1ed580cc64c8c317ba02f7ec7dd27eaaa7b62400ab4d0"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "DRV-001",
+      "kind": "evidence",
+      "label_ja": "1996年 Relay Pair企画fixture",
+      "summary_en": "Synthetic proposal for active receiving.",
+      "repository_path": "archive/derived/documents/DRV-001-relay-pair-brief.md",
+      "external_url": null,
+      "github_object_id": null
+    },
+    {
+      "id": "DRV-002",
+      "kind": "evidence",
+      "label_ja": "1997年 1人用transition notes fixture",
+      "summary_en": "Synthetic notes record a one-player target without a reason.",
+      "repository_path": "archive/derived/documents/DRV-002-solo-transition-notes.md",
+      "external_url": null,
+      "github_object_id": null
+    },
+    {
+      "id": "DRV-003",
+      "kind": "evidence",
+      "label_ja": "1998年 最終gameplay仕様fixture",
+      "summary_en": "Synthetic final gameplay excerpt.",
+      "repository_path": "archive/derived/documents/DRV-003-final-gameplay-spec.md",
+      "external_url": null,
+      "github_object_id": null
+    },
+    {
+      "id": "CFL-001",
+      "kind": "conflict",
+      "label_ja": "2人proposalと1人targetの矛盾",
+      "summary_en": "The thin archive does not explain the player-count change.",
+      "repository_path": "research/conflicts/CFL-001.json",
+      "external_url": null,
+      "github_object_id": null
+    },
+    {
+      "id": "FND-001",
+      "kind": "finding",
+      "label_ja": "能動的な受領はcore interactionとして残る",
+      "summary_en": "Receiving remains explicit across two synthetic sources.",
+      "repository_path": "research/findings/FND-001.json",
+      "external_url": null,
+      "github_object_id": null
+    },
+    {
+      "id": "PDN-001",
+      "kind": "play-dna",
+      "label_ja": "Active receiving",
+      "summary_en": "A relay completes only through deliberate reception.",
+      "repository_path": "design/play-dna.md",
+      "external_url": null,
+      "github_object_id": null
+    },
+    {
+      "id": "BET-002",
+      "kind": "bet",
+      "label_ja": "SECOND HAND thin stub",
+      "summary_en": "Reframe receiving as a local co-op role.",
+      "repository_path": "design/bets/BET-002-second-hand.md",
+      "external_url": "https://github.com/shinyay/ghcp-with-gaming-ideation/discussions/2",
+      "github_object_id": "DISC-004"
+    },
+    {
+      "id": "ADR-001",
+      "kind": "decision",
+      "label_ja": "2つの最小simulationで検証する",
+      "summary_en": "Limit implementation to deterministic thin proofs.",
+      "repository_path": "design/decisions/ADR-001-thin-proof.md",
+      "external_url": null,
+      "github_object_id": null
+    },
+    {
+      "id": "VS-001",
+      "kind": "slice",
+      "label_ja": "Active receiving thin proof",
+      "summary_en": "Acceptance contract for the Phase 2 gate.",
+      "repository_path": "design/vertical-slices/VS-001-thin-proof.md",
+      "external_url": "https://github.com/users/shinyay/projects/6",
+      "github_object_id": "PROJECT-001"
+    },
+    {
+      "id": "ISSUE-001",
+      "kind": "issue",
+      "label_ja": "Thin proof implementation issue",
+      "summary_en": "Live GitHub work item with an offline resolver.",
+      "repository_path": "ops/github/offline-objects/issue.json",
+      "external_url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/1",
+      "github_object_id": "ISSUE-001"
+    },
+    {
+      "id": "PR-004",
+      "kind": "pull-request",
+      "label_ja": "Legacy Mirror Corridor実装PR",
+      "summary_en": "Merged pull request for the deterministic 1998 representative route.",
+      "repository_path": "apps/demo-site/src/legacy-view.ts",
+      "external_url": "https://github.com/shinyay/ghcp-with-gaming-ideation/pull/4",
+      "github_object_id": "PR-004"
+    },
+    {
+      "id": "PR-005",
+      "kind": "pull-request",
+      "label_ja": "SECOND HAND Twin Span実装PR",
+      "summary_en": "Merged pull request for the deterministic local cooperative slice.",
+      "repository_path": "apps/demo-site/src/second-hand-view.ts",
+      "external_url": "https://github.com/shinyay/ghcp-with-gaming-ideation/pull/5",
+      "github_object_id": "PR-005"
+    },
+    {
+      "id": "BLD-001",
+      "kind": "build",
+      "label_ja": "main統合後の検証build",
+      "summary_en": "Successful combined gate on the current main baseline.",
+      "repository_path": ".github/workflows/validate-thin-slice.yml",
+      "external_url": "https://github.com/shinyay/ghcp-with-gaming-ideation/actions/runs/32769228061",
+      "github_object_id": "BLD-001"
+    },
+    {
+      "id": "PLAYABLE-001",
+      "kind": "playable",
+      "label_ja": "1998 replayとlocal 2P handoff",
+      "summary_en": "Two Canvas 2D proofs sharing deterministic state rules.",
+      "repository_path": "apps/demo-site/src/main.ts",
+      "external_url": null,
+      "github_object_id": null
+    }
+  ],
+  "edges": [
+    {
+      "from": "DRV-001",
+      "to": "CFL-001",
+      "relation": "reveals"
+    },
+    {
+      "from": "DRV-002",
+      "to": "CFL-001",
+      "relation": "reveals"
+    },
+    {
+      "from": "DRV-001",
+      "to": "FND-001",
+      "relation": "supports"
+    },
+    {
+      "from": "DRV-003",
+      "to": "FND-001",
+      "relation": "supports"
+    },
+    {
+      "from": "FND-001",
+      "to": "PDN-001",
+      "relation": "abstracted-as"
+    },
+    {
+      "from": "PDN-001",
+      "to": "BET-002",
+      "relation": "motivates"
+    },
+    {
+      "from": "BET-002",
+      "to": "ADR-001",
+      "relation": "approved-by"
+    },
+    {
+      "from": "ADR-001",
+      "to": "VS-001",
+      "relation": "implemented-as"
+    },
+    {
+      "from": "VS-001",
+      "to": "ISSUE-001",
+      "relation": "tracked-by"
+    },
+    {
+      "from": "ISSUE-001",
+      "to": "PLAYABLE-001",
+      "relation": "demonstrated-by"
+    },
+    {
+      "from": "ISSUE-001",
+      "to": "PR-004",
+      "relation": "implemented-by"
+    },
+    {
+      "from": "ISSUE-001",
+      "to": "PR-005",
+      "relation": "implemented-by"
+    },
+    {
+      "from": "PR-004",
+      "to": "BLD-001",
+      "relation": "verified-by"
+    },
+    {
+      "from": "PR-005",
+      "to": "BLD-001",
+      "relation": "verified-by"
+    },
+    {
+      "from": "BLD-001",
+      "to": "PLAYABLE-001",
+      "relation": "demonstrated-by"
+    }
+  ],
+  "github_objects": [
+    {
+      "stable_id": "ISSUE-001",
+      "collection": "issues",
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/1",
+      "status": "open"
+    },
+    {
+      "stable_id": "DISC-004",
+      "collection": "discussions",
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/discussions/2",
+      "status": "open"
+    },
+    {
+      "stable_id": "PROJECT-001",
+      "collection": "project",
+      "url": "https://github.com/users/shinyay/projects/6",
+      "status": "open"
+    },
+    {
+      "stable_id": "WIKI-ROOT-001",
+      "collection": "wiki",
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/tree/main/ops/github/wiki",
+      "status": "fallback"
+    },
+    {
+      "stable_id": "PR-004",
+      "collection": "pull-request",
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/pull/4",
+      "status": "merged"
+    },
+    {
+      "stable_id": "PR-005",
+      "collection": "pull-request",
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/pull/5",
+      "status": "merged"
+    },
+    {
+      "stable_id": "BLD-001",
+      "collection": "actions-run",
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/actions/runs/32769228061",
+      "status": "success"
+    }
+  ]
+}

@@ -73,6 +73,13 @@ snapshot:
 release:
   visibility: repository_access_controlled
   phase_0_probe: draft
+  workflow: .github/workflows/package-private-release.yml
+  trigger: manual_existing_annotated_tag
+  tag_pattern: v*.*.*-demo-reference
+  tag_protection:
+    application: manual_after_owner_bypass_verification
+    verified_live: false
+  pages_publication: forbidden
 copilot_space:
   title: "STAR RELAY / Cleared Archive"
   automation: optional

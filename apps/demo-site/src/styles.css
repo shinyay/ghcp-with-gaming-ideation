@@ -161,6 +161,278 @@ main {
   line-height: 1.7;
 }
 
+.offline-badge,
+.result-count {
+  flex: 0 0 auto;
+  border: 1px solid var(--cp-success);
+  border-radius: 0.625rem;
+  background: var(--cp-surface-soft);
+  padding: 8px 12px;
+  color: var(--cp-success);
+  font: 700 0.78rem/1.2 Consolas, "Courier New", Courier, monospace;
+}
+
+.museum-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.museum-stats div {
+  display: grid;
+  gap: 4px;
+  border: 1px solid var(--cp-border);
+  border-radius: 0.625rem;
+  background: var(--cp-surface-soft);
+  padding: 16px;
+}
+
+.museum-stats strong {
+  color: var(--cp-accent);
+  font: 800 1.8rem/1 Consolas, "Courier New", Courier, monospace;
+}
+
+.museum-stats span {
+  color: var(--cp-text-muted);
+  font-size: 0.78rem;
+}
+
+.museum-route {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.museum-route li {
+  min-width: 0;
+  border-top: 1px solid var(--cp-border-strong);
+  padding-top: 12px;
+}
+
+.museum-route a {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  color: var(--cp-text);
+  text-decoration: none;
+}
+
+.museum-route a:hover strong {
+  color: var(--cp-accent);
+}
+
+.museum-route a span {
+  color: var(--cp-accent);
+  font: 700 0.72rem Consolas, "Courier New", Courier, monospace;
+}
+
+.museum-route p {
+  margin: 8px 0 0;
+  color: var(--cp-text-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.layer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.layer-grid article {
+  border: 1px solid var(--cp-border);
+  border-radius: 16px;
+  background: var(--cp-surface-soft);
+  padding: 18px;
+}
+
+.layer-grid article p {
+  margin: 6px 0 0;
+  color: var(--cp-text-muted);
+  line-height: 1.6;
+}
+
+.layer-grid .layer-label {
+  margin: 0 0 8px;
+  color: var(--cp-accent);
+  font: 700 0.72rem Consolas, "Courier New", Courier, monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.archive-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(180px, 1fr) auto;
+  gap: 12px;
+  align-items: end;
+  margin: 24px 0;
+  border: 1px solid var(--cp-border);
+  border-radius: 0.625rem;
+  background: var(--cp-surface-soft);
+  padding: 16px;
+}
+
+.archive-controls label {
+  display: grid;
+  gap: 6px;
+  color: var(--cp-text-muted);
+  font-size: 0.82rem;
+}
+
+.archive-results {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.archive-card {
+  min-width: 0;
+  border: 1px solid var(--cp-border);
+  border-radius: 16px;
+  background: var(--cp-surface-soft);
+  padding: 18px;
+}
+
+.archive-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--cp-text-muted);
+  font: 0.75rem Consolas, "Courier New", Courier, monospace;
+}
+
+.archive-id {
+  color: var(--cp-accent);
+  font-weight: 800;
+}
+
+.archive-card h3 {
+  margin: 14px 0;
+  font-size: 1.05rem;
+}
+
+.archive-facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 12px;
+  margin: 0;
+  color: var(--cp-text-muted);
+  font-size: 0.78rem;
+}
+
+.archive-facts dt {
+  color: var(--cp-text-soft);
+  font-weight: 700;
+}
+
+.archive-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.archive-locator-heading {
+  margin: 16px 0 6px;
+  color: var(--cp-text);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.archive-locators {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+}
+
+.archive-locators code,
+.archive-source,
+.archive-hash {
+  overflow-wrap: anywhere;
+  font-size: 0.72rem;
+}
+
+.lineage-relations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lineage-relations li {
+  border: 1px solid var(--cp-border);
+  border-radius: 0.625rem;
+  background: var(--cp-surface);
+  padding: 4px 8px;
+  color: var(--cp-text-muted);
+  font: 0.7rem Consolas, "Courier New", Courier, monospace;
+}
+
+.archive-source {
+  display: block;
+}
+
+.archive-hash {
+  display: block;
+  margin-top: 8px;
+  color: var(--cp-text-muted);
+}
+
+.empty-state {
+  border: 1px dashed var(--cp-border-strong);
+  border-radius: 0.625rem;
+  background: var(--cp-surface-soft);
+  padding: 28px;
+  text-align: center;
+}
+
+.lineage-filters,
+.lineage-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.lineage-filters {
+  margin-top: 20px;
+}
+
+.lineage-action {
+  border: 1px solid var(--cp-border);
+  border-radius: 0.625rem;
+  background: var(--cp-surface);
+  padding: 7px 10px;
+  color: var(--cp-link);
+  font-size: 0.78rem;
+  text-decoration: none;
+}
+
+.lineage-action:hover {
+  border-color: var(--cp-accent);
+}
+
+.lineage-meta {
+  color: var(--cp-accent) !important;
+  font: 700 0.68rem Consolas, "Courier New", Courier, monospace;
+  letter-spacing: 0.1em;
+}
+
+.lineage-resolver {
+  display: block;
+  margin-top: 10px;
+  overflow-wrap: anywhere;
+  color: var(--cp-text-muted);
+  font-size: 0.72rem;
+}
+
 .slice-controls,
 .slice-footer-grid {
   display: grid;
@@ -676,15 +948,6 @@ th {
   background: var(--cp-surface-soft);
 }
 
-.lineage-node:not(:last-child)::after {
-  content: "↓";
-  position: absolute;
-  left: 64px;
-  bottom: -22px;
-  z-index: 1;
-  color: var(--cp-accent);
-}
-
 .lineage-badge {
   align-self: start;
   border: 1px solid var(--cp-border);
@@ -769,7 +1032,12 @@ footer {
   .slice-controls,
   .slice-footer-grid,
   .binding-grid,
-  .settings-grid {
+  .settings-grid,
+  .archive-controls,
+  .archive-results,
+  .layer-grid,
+  .museum-stats,
+  .museum-route {
     grid-template-columns: 1fr;
   }
 
@@ -790,9 +1058,6 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  .lineage-node:not(:last-child)::after {
-    left: 28px;
-  }
 }
 
 @media (max-width: 900px) {

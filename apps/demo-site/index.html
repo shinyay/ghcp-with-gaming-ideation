@@ -67,30 +67,142 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="STAR RELAY deterministic Mirror Corridor and SECOND HAND playables"
+      content="STAR RELAY private museum, archive, creative lineage, and deterministic playables"
     />
-    <title>STAR RELAY — Mirror Corridor + SECOND HAND</title>
+    <title>STAR RELAY — Archive to Playable Museum</title>
   </head>
   <body>
     <header class="hero">
-      <div class="eyebrow">PHASE 6–7 / DEMO-SAFE PLAYABLES</div>
+      <div class="eyebrow">PHASE 8 / PRIVATE DEMO / OFFLINE READY</div>
       <h1>STAR RELAY</h1>
       <p class="hero-copy">
-        1998年版Mirror Corridorと、受領を能動化するTwin Span協力slice。
+        架空の1998年archiveから、判断の来歴を経て、2つのplayableへ。
         <span lang="en">
-          Two deterministic playables: the representative route and its
-          modern local co-op hypothesis.
+          A private, offline-ready museum tracing synthetic evidence to two
+          deterministic playable proofs.
         </span>
       </p>
       <nav aria-label="Page sections">
-        <a href="#legacy">1998 Mirror Corridor</a>
-        <a href="#second-hand">SECOND HAND</a>
-        <a href="#lineage">Creative Lineage</a>
+        <a href="#museum">01 Museum</a>
+        <a href="#archive">02 Archive</a>
+        <a href="#lineage">03 Lineage</a>
+        <a href="#legacy">04 Legacy</a>
+        <a href="#second-hand">05 SECOND HAND</a>
       </nav>
     </header>
 
     <main>
-      <section class="panel second-hand-panel" id="second-hand">
+      <section class="panel museum-panel" id="museum" data-demo-view="museum">
+        <div class="panel-heading">
+          <div>
+            <p class="kicker">MUSEUM-001 / FIVE-STOP PATH</p>
+            <h2>Archive to Playable</h2>
+          </div>
+          <span class="offline-badge">OFFLINE READY</span>
+        </div>
+        <p>
+          資料を事実として読み、既存の人間判断と将来案を分離し、実装までの接続を
+          stable IDで確認します。ここにはreference answerや期待回答はありません。
+          <span lang="en">
+            Read evidence first, keep human interpretation separate, then inspect
+            the implementation trail.
+          </span>
+        </p>
+
+        <div class="museum-stats" aria-label="Museum inventory">
+          <div><strong>30</strong><span>demo-safe DRV</span></div>
+          <div><strong>14</strong><span>lineage nodes</span></div>
+          <div><strong>2</strong><span>playables</span></div>
+          <div><strong>0</strong><span>browser API calls</span></div>
+        </div>
+
+        <ol class="museum-route" aria-label="Recommended demo route">
+          <li>
+            <a href="#museum"><span>01</span><strong>Museum</strong></a>
+            <p>境界と5つのstopを確認する。</p>
+          </li>
+          <li>
+            <a href="#archive"><span>02</span><strong>Archive</strong></a>
+            <p>30件のfixture metadataとlocatorを探す。</p>
+          </li>
+          <li>
+            <a href="#lineage"><span>03</span><strong>Lineage</strong></a>
+            <p>Evidence / Inference / Proposalを分けて辿る。</p>
+          </li>
+          <li>
+            <a href="#legacy"><span>04</span><strong>Legacy</strong></a>
+            <p>1998 representative routeを体験する。</p>
+          </li>
+          <li>
+            <a href="#second-hand"><span>05</span><strong>SECOND HAND</strong></a>
+            <p>受領者を能動化したlocal co-op sliceを試す。</p>
+          </li>
+        </ol>
+
+        <div class="layer-grid">
+          <article>
+            <p class="layer-label">Evidence</p>
+            <h3>逐語的に読む</h3>
+            <p>DRV IDとcatalog宣言済みlocatorだけを起点にします。</p>
+          </article>
+          <article>
+            <p class="layer-label">Inference</p>
+            <h3>既存判断として読む</h3>
+            <p>Conflict、Finding、Play DNAは資料そのものではありません。</p>
+          </article>
+          <article>
+            <p class="layer-label">Proposal</p>
+            <h3>未決の選択肢を保つ</h3>
+            <p>Design Betを推奨・順位付けせず、人間の決定へ接続します。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel archive-panel" id="archive" data-demo-view="archive">
+        <div class="panel-heading">
+          <div>
+            <p class="kicker">ARCHIVE-SNAPSHOT-001 / 30 ALLOWLISTED DRV</p>
+            <h2>Archive Explorer</h2>
+          </div>
+          <output id="archive-count" class="result-count" aria-live="polite"></output>
+        </div>
+        <p>
+          表示対象はcatalogで`demo-safe`、`ai_eligible: true`、
+          `package_allowed: true`を満たすrecordだけです。日付はGit履歴ではなくfixture
+          metadataです。
+        </p>
+        <form class="archive-controls" role="search" onsubmit="return false">
+          <label>
+            ID、title、path、locatorを検索
+            <input id="archive-search" type="search" autocomplete="off" />
+          </label>
+          <label>
+            資料群
+            <select id="archive-media">
+              <option value="all">All media</option>
+              <option value="documents">Documents</option>
+              <option value="spreadsheets">Spreadsheets</option>
+              <option value="manuals">Manuals</option>
+              <option value="qa">QA</option>
+              <option value="art">Art metadata</option>
+              <option value="audio">Audio metadata</option>
+              <option value="source">Source projections</option>
+              <option value="replay">Replay</option>
+            </select>
+          </label>
+          <button id="archive-clear" type="button">条件をクリア</button>
+        </form>
+        <div id="archive-results" class="archive-results"></div>
+        <p id="archive-empty" class="empty-state" hidden>
+          一致するallowlisted DRVはありません。
+        </p>
+      </section>
+
+      <section
+        class="panel second-hand-panel"
+        id="second-hand"
+        data-demo-view="second-hand"
+      >
         <div class="panel-heading">
           <div>
             <p class="kicker">VS-001 / TWIN SPAN / 5–10 MIN</p>
@@ -283,7 +395,7 @@
         </div>
       </section>
 
-      <section class="panel legacy-panel" id="legacy">
+      <section class="panel legacy-panel" id="legacy" data-demo-view="legacy">
         <div class="panel-heading">
           <div>
             <p class="kicker">PLAYABLE-001 / 60 HZ INTEGER SIMULATION</p>
@@ -369,25 +481,46 @@
         <div class="status-row" id="legacy-status" aria-live="polite"></div>
       </section>
 
-      <section class="panel lineage-panel" id="lineage">
-        <p class="kicker">LINEAGE-001 / STATIC SNAPSHOT</p>
-        <h2>Creative Lineage</h2>
+      <section class="panel lineage-panel" id="lineage" data-demo-view="lineage">
+        <div class="panel-heading">
+          <div>
+            <p class="kicker">LINEAGE-SNAPSHOT-001 / COMMITTED ALLOWLIST</p>
+            <h2>Creative Lineage Explorer</h2>
+          </div>
+          <output id="lineage-count" class="result-count" aria-live="polite"></output>
+        </div>
         <p>
-          GitHub APIを呼ばず、同じstable IDをonline objectとoffline fallbackで解決します。
+          GitHub APIをbrowserから呼ばず、同じstable IDをlive objectとcommit済み
+          offline resolverで解決します。表示は既存recordへの索引であり、答えではありません。
         </p>
+        <div class="lineage-filters" role="group" aria-label="Lineage layers">
+          <button type="button" data-lineage-stage="all" aria-pressed="true">
+            All
+          </button>
+          <button type="button" data-lineage-stage="evidence" aria-pressed="false">
+            Evidence
+          </button>
+          <button type="button" data-lineage-stage="inference" aria-pressed="false">
+            Inference
+          </button>
+          <button type="button" data-lineage-stage="proposal" aria-pressed="false">
+            Proposal / delivery
+          </button>
+        </div>
         <ol id="lineage-list" class="lineage-list"></ol>
       </section>
 
       <aside class="boundary">
         <strong>Boundary:</strong>
-        このsliceは承認済み実装仮説です。実network backend、matchmaking、account、
-        final ADR/Design Bet answer materialは含みません。
+        このprivate demoは既存の承認済み実装範囲を表示します。実network backend、
+        matchmaking、account、final answer、recording、Reference repository内容は
+        含みません。GitHub Pagesは公開しません。
       </aside>
     </main>
 
     <footer>
       <span>STAR RELAY is fictional.</span>
-      <span id="build-proof">BLD-001 / offline-safe</span>
+      <span id="build-proof">BLD-001 / demo-safe / offline-safe</span>
     </footer>
 
     <script type="module" src="/src/main.ts"></script>

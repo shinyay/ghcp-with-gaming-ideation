@@ -9,7 +9,8 @@ import type {
   PlaytestLog,
   SecondHandState
 } from "@star-relay/second-hand";
-import { renderLineage } from "./lineage-view";
+import { mountArchiveExplorer } from "./archive-view";
+import { mountCreativeLineage } from "./creative-lineage-view";
 import { mountLegacyProof } from "./legacy-view";
 import { mountSecondHandProof } from "./second-hand-view";
 
@@ -74,11 +75,48 @@ const legacyController = mountLegacyProof({
   steps: legacySteps
 });
 
-const secondHandRoot = requireElement("#second-hand", HTMLElement);
-const secondHand = mountSecondHandProof(secondHandRoot);
+mountArchiveExplorer({
+  search: requireElement("#archive-search", HTMLInputElement),
+  media: requireElement("#archive-media", HTMLSelectElement),
+  clear: requireElement("#archive-clear", HTMLButtonElement),
+  list: requireElement("#archive-results", HTMLElement),
+  count: requireElement("#archive-count", HTMLElement),
+  empty: requireElement("#archive-empty", HTMLElement)
+});
 
 const lineageList = requireElement("#lineage-list", HTMLOListElement);
-renderLineage(lineageList);
+mountCreativeLineage({
+  list: lineageList,
+  count: requireElement("#lineage-count", HTMLElement),
+  filters: Array.from(
+    document.querySelectorAll<HTMLButtonElement>("[data-lineage-stage]")
+  )
+});
+
+const main = requireElement("main", HTMLElement);
+const lineageSection = requireElement("#lineage", HTMLElement);
+const legacySection = requireElement("#legacy", HTMLElement);
+const secondHandRoot = requireElement("#second-hand", HTMLElement);
+main.insertBefore(lineageSection, secondHandRoot);
+main.insertBefore(legacySection, secondHandRoot);
+const scrollToDirectTarget = (): void => {
+  if (window.location.hash.length <= 1) {
+    return;
+  }
+  document
+    .getElementById(window.location.hash.slice(1))
+    ?.scrollIntoView({ block: "start" });
+};
+const queueDirectTargetScroll = (): void => {
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(scrollToDirectTarget);
+  });
+};
+queueDirectTargetScroll();
+window.addEventListener("load", queueDirectTargetScroll, { once: true });
+window.addEventListener("hashchange", queueDirectTargetScroll);
+
+const secondHand = mountSecondHandProof(secondHandRoot);
 
 const replay = runLegacyReplay();
 document.documentElement.dataset["legacyHash"] = replay.finalHash;

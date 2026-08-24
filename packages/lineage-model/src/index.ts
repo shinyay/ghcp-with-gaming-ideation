@@ -1,4 +1,4 @@
-import rawLineage from "../../../design/lineage/LINEAGE-001.json";
+import rawLineage from "../../../demo/offline-snapshots/lineage-snapshot.json";
 
 export type LineageNodeKind =
   | "evidence"
@@ -9,6 +9,8 @@ export type LineageNodeKind =
   | "decision"
   | "slice"
   | "issue"
+  | "pull-request"
+  | "build"
   | "playable";
 
 export interface LineageNode {
@@ -18,6 +20,7 @@ export interface LineageNode {
   readonly summary_en: string;
   readonly repository_path: string;
   readonly external_url: string | null;
+  readonly github_object_id: string | null;
 }
 
 export interface LineageEdge {
@@ -28,10 +31,29 @@ export interface LineageEdge {
 
 export interface Lineage {
   readonly schema_version: 1;
-  readonly id: "LINEAGE-001";
+  readonly id: "LINEAGE-SNAPSHOT-001";
   readonly classification: "demo-safe";
+  readonly browser_network: "forbidden";
+  readonly sources: readonly {
+    readonly path: string;
+    readonly sha256: string;
+  }[];
   readonly nodes: readonly LineageNode[];
   readonly edges: readonly LineageEdge[];
+  readonly github_objects: readonly LineageGitHubObject[];
+}
+
+export interface LineageGitHubObject {
+  readonly stable_id: string;
+  readonly collection:
+    | "issues"
+    | "discussions"
+    | "project"
+    | "wiki"
+    | "pull-request"
+    | "actions-run";
+  readonly url: string;
+  readonly status: string;
 }
 
 export const thinLineage = rawLineage as Lineage;
@@ -54,6 +76,30 @@ export function validateLineageReferences(lineage: Lineage): readonly string[] {
     if (!ids.has(edge.to)) {
       errors.push(`Missing lineage target: ${edge.to}`);
     }
+  }
+
+  const githubObjects = new Map(
+    lineage.github_objects.map((object) => [object.stable_id, object])
+  );
+  for (const node of lineage.nodes) {
+    if (node.github_object_id === null) {
+      if (node.external_url !== null) {
+        errors.push(`Unresolved external URL on lineage node: ${node.id}`);
+      }
+      continue;
+    }
+    const object = githubObjects.get(node.github_object_id);
+    if (object === undefined) {
+      errors.push(
+        `Missing GitHub object ${node.github_object_id} for lineage node: ${node.id}`
+      );
+    } else if (node.external_url !== object.url) {
+      errors.push(`GitHub object URL mismatch on lineage node: ${node.id}`);
+    }
+  }
+
+  if (lineage.browser_network !== "forbidden") {
+    errors.push("Lineage snapshot must forbid browser network access.");
   }
 
   return errors;

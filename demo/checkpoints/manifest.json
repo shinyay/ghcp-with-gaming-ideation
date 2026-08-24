@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "id": "CHECKPOINT-MANIFEST-001",
+  "created_at": "2026-08-25T04:39:32+09:00",
+  "lineage_snapshot_sha256": "1cfba5d2e7370a52221d497a41cf3809f48483db5460f46bac6ba3c51eca2078",
+  "history_policy": "Existing commits only; fixture dates are never used as Git dates.",
+  "checkpoints": [
+    {
+      "tag": "checkpoint/archive",
+      "kind": "annotated",
+      "tag_object": "475a2d4ab02a064f4ac7886e76994f70fa58b405",
+      "commit": "644d5a0806d3003a7245bc1158a73318471b60ef",
+      "commit_subject": "Complete the derived archive corpus",
+      "runbook_step": "Archive Explorer",
+      "truthful_scope": "First existing commit that completes the 30-DRV derived archive corpus."
+    },
+    {
+      "tag": "checkpoint/understand",
+      "kind": "annotated",
+      "tag_object": "29945d4a1d3a9a681bdce20bf226c3df3ff97540",
+      "commit": "ad7e6266266aa5d23f0fb137f72bf958f49f68fb",
+      "commit_subject": "Establish owner-safe demo guardrails",
+      "runbook_step": "Before existing Finding records",
+      "truthful_scope": "Parent of the commit that introduced FND-001; the complete archive did not yet exist."
+    },
+    {
+      "tag": "checkpoint/decide",
+      "kind": "annotated",
+      "tag_object": "4eb23bef6e95ea257594f56d5f0321a960d135c2",
+      "commit": "ad7e6266266aa5d23f0fb137f72bf958f49f68fb",
+      "commit_subject": "Establish owner-safe demo guardrails",
+      "runbook_step": "Before ADR-001",
+      "truthful_scope": "ADR-001 and FND-001 entered in one later commit, so this tag intentionally shares a commit with checkpoint/understand."
+    },
+    {
+      "tag": "checkpoint/build",
+      "kind": "annotated",
+      "tag_object": "5285db1347b070c351b0a9a606fb10c4be49d519",
+      "commit": "630ad0f8582c75f60637e19887e13258aac38d51",
+      "commit_subject": "Correct synthetic provenance and lineage",
+      "runbook_step": "Before the playable implementation commit",
+      "truthful_scope": "Parent of the deterministic thin vertical proof implementation commit."
+    }
+  ]
+}

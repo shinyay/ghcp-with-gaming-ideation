@@ -34,7 +34,8 @@ test("browser source has no GitHub API or token dependency", async () => {
       "apps/demo-site/src/main.ts",
       "apps/demo-site/src/legacy-view.ts",
       "apps/demo-site/src/second-hand-view.ts",
-      "apps/demo-site/src/lineage-view.ts"
+      "apps/demo-site/src/archive-view.ts",
+      "apps/demo-site/src/creative-lineage-view.ts"
     ].map((path) => readFile(path, "utf8"))
   );
   const joined = sources.join("\n");

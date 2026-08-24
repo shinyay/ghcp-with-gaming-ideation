@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "id": "RECORDING-PLACEHOLDER-001",
+  "status": "not-recorded",
+  "recording_file": null,
+  "sha256": null,
+  "duration_seconds": null,
+  "rights_review": "required-before-registration",
+  "static_fallback": {
+    "entrypoint": "index.html",
+    "source": "dist/offline-demo-pack"
+  }
+}

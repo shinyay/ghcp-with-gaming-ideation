@@ -1,0 +1,466 @@
+{
+  "schema_version": 1,
+  "id": "ARCHIVE-SNAPSHOT-001",
+  "classification": "demo-safe",
+  "source": {
+    "path": "archive/catalog/assets.yaml",
+    "sha256": "47f9eef464d427b264b0b7bd6ffd3d2a3979af5ab7b34c0b6a38a50c6eeef3b2"
+  },
+  "asset_count": 30,
+  "assets": [
+    {
+      "id": "DRV-001",
+      "title": "1996 Relay Pair planning brief",
+      "source_created_at": "1996-04-18",
+      "media_type": "text/markdown",
+      "path": "archive/derived/documents/DRV-001-relay-pair-brief.md",
+      "derived_sha256": "04bc91f7de0ac0163abc9a475d2086009470a6c61957309a27860e86efee1826",
+      "locators": [
+        "md:heading/active-receiving",
+        "md:heading/two-player-layout"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-002",
+      "title": "1997 Solo transition notes",
+      "source_created_at": "1997-02-03",
+      "media_type": "text/markdown",
+      "path": "archive/derived/documents/DRV-002-solo-transition-notes.md",
+      "derived_sha256": "ca8a31f332015e60034338df3a89fc1f75bba84508fb79f95f34f2641c4dfd2f",
+      "locators": [
+        "md:heading/decision-table",
+        "md:heading/open-questions"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-003",
+      "title": "1998 Final gameplay specification excerpt",
+      "source_created_at": "1998-06-12",
+      "media_type": "text/markdown",
+      "path": "archive/derived/documents/DRV-003-final-gameplay-spec.md",
+      "derived_sha256": "975c243811f98317fa334c57c717d4a50cecd089b547905e09065331204e60b6",
+      "locators": [
+        "md:heading/core-loop",
+        "md:heading/catch-and-chain"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-004",
+      "title": "RELAY_MASTER thin table projection",
+      "source_created_at": "1998-06-12",
+      "media_type": "application/json",
+      "path": "archive/derived/spreadsheets/DRV-004-relay-master.json",
+      "derived_sha256": "ba0720599b8a66bd47b09f03c7529d4f33cf0e996b5d55c80b0b68ac66f2f45e",
+      "locators": [
+        "json:pointer//tables/core_speed",
+        "json:pointer//tables/score_events"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-005",
+      "title": "Player guide excerpt",
+      "source_created_at": "1998-07-01",
+      "media_type": "text/markdown",
+      "path": "archive/derived/manuals/DRV-005-player-guide.md",
+      "derived_sha256": "facffd3f54aa14fe87cc7ea26b40f53cca82f45769efb96e1a00f47ef3f2273b",
+      "locators": [
+        "md:heading/public-promise",
+        "md:heading/chain-display"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-006",
+      "title": "Legacy symbol index projection",
+      "source_created_at": "1998-06-20",
+      "media_type": "application/json",
+      "path": "archive/derived/source/DRV-006-symbol-index.json",
+      "derived_sha256": "a6596e425d73dd186046396f844cb51494e428f340fdf76c72d479b902b8e8ff",
+      "locators": [
+        "json:pointer//symbols/core_throw_step",
+        "json:pointer//symbols/core_return_step"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-007",
+      "title": "1996 Relay Pair module annex",
+      "source_created_at": "1996-04-18",
+      "media_type": "text/markdown",
+      "path": "archive/derived/documents/DRV-007-relay-pair-module-annex.md",
+      "derived_sha256": "1822b87cbf32bde749c49f02c85246af3c4477d0867d7967b5362b2a6f9b9c26",
+      "locators": [
+        "md:heading/planned-module-list",
+        "md:heading/screen-assumptions",
+        "md:heading/unresolved-in-this-annex"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-008",
+      "title": "1997 Solo transition minutes",
+      "source_created_at": "1997-02-03",
+      "media_type": "text/markdown",
+      "path": "archive/derived/documents/DRV-008-solo-transition-minutes.md",
+      "derived_sha256": "22c67830f674c2392051a15ee861092336da652ff7eea4a280d150ae91325bbe",
+      "locators": [
+        "md:heading/recorded-decisions",
+        "md:heading/attachments-referenced",
+        "md:heading/module-handling",
+        "md:heading/open-questions"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-009",
+      "title": "1997 Cut scenario draft",
+      "source_created_at": "1997-09-30",
+      "media_type": "text/markdown",
+      "path": "archive/derived/documents/DRV-009-cut-scenario-draft.md",
+      "derived_sha256": "491600b1ebec9b498e4e03c8675a638e034113fc3cddb4e5781267a71d666a6c",
+      "locators": [
+        "md:heading/two-body-protocol",
+        "md:heading/adopted-and-dropped-sections",
+        "md:heading/dialogue-list"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-010",
+      "title": "1998 Final specification stage section",
+      "source_created_at": "1998-06-12",
+      "media_type": "text/markdown",
+      "path": "archive/derived/documents/DRV-010-final-spec-stages.md",
+      "derived_sha256": "eb724b363ce859bf7da46b4c4adad26d0b347d1a3b8a5c48c070cdd97ed4620b",
+      "locators": [
+        "md:heading/stage-list",
+        "md:heading/zero-lap-conditions",
+        "md:heading/true-ending-condition",
+        "md:heading/charge-and-chain"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-011",
+      "title": "1997 Hardware and ROM budget memo",
+      "source_created_at": "1997-11-14",
+      "media_type": "text/markdown",
+      "path": "archive/derived/documents/DRV-011-hardware-rom-memo.md",
+      "derived_sha256": "7e85d95fffaf37defb4fb29bfd9ee41fdea340faec1946ec10743213831cfa12",
+      "locators": [
+        "md:heading/display-change",
+        "md:heading/field-layout-impact",
+        "md:heading/rom-budget",
+        "md:heading/fixed-point-convention"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-012",
+      "title": "RELAY_MASTER OLD_2P sheet projection",
+      "source_created_at": "1996-11-22",
+      "media_type": "application/json",
+      "path": "archive/derived/spreadsheets/DRV-012-relay-master-old-2p.json",
+      "derived_sha256": "f24c18a296250ddf82b5e296cc213d1430c46c5f56d178678095b2953e40f23a",
+      "locators": [
+        "json:pointer//field_geometry",
+        "json:pointer//core_speed",
+        "json:pointer//player_slots",
+        "json:pointer//score_events"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-013",
+      "title": "RELAY_MASTER ENEMY sheet projection",
+      "source_created_at": "1998-06-12",
+      "media_type": "text/csv",
+      "path": "archive/derived/spreadsheets/DRV-013-relay-master-enemies.csv",
+      "derived_sha256": "f055944e5b270caf1465a1b0a220d3b356ee3793c96d0c47a6ad3a29ba928d76",
+      "locators": [
+        "csv:column/link_group",
+        "csv:column/link_release_ticks",
+        "csv:row/EN-05",
+        "csv:row/EN-06"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-014",
+      "title": "RELAY_MASTER STAGE sheet projection",
+      "source_created_at": "1998-06-12",
+      "media_type": "text/csv",
+      "path": "archive/derived/spreadsheets/DRV-014-relay-master-stages.csv",
+      "derived_sha256": "6de43752175a7c95dfd6d17b330bd78781a9582f5f8a5f8741a1c69f1965ebb1",
+      "locators": [
+        "csv:column/build_flag",
+        "csv:row/ST-06",
+        "csv:row/ST-90",
+        "csv:row/ST-91"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-015",
+      "title": "1996 Location test session table",
+      "source_created_at": "1996-11-10",
+      "media_type": "text/csv",
+      "path": "archive/derived/spreadsheets/DRV-015-location-test-sessions.csv",
+      "derived_sha256": "0ec0678bd87dd3efebcdabac2f7a23c13c197de7683114c771a286e0b694d40d",
+      "locators": [
+        "csv:column/cabinet_mode",
+        "csv:column/receive_rating",
+        "csv:column/failure_cause_code",
+        "csv:row/LT-0101"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-016",
+      "title": "1996 Location test summary notes",
+      "source_created_at": "1996-11-10",
+      "media_type": "text/markdown",
+      "path": "archive/derived/spreadsheets/DRV-016-location-test-notes.md",
+      "derived_sha256": "be48f2e9c1279d362d6f4cdc0ac5753d57d5b649fda37346b79c6e901afdae08",
+      "locators": [
+        "md:heading/rating-aggregate",
+        "md:heading/failure-cause-codes",
+        "md:heading/operation-notes"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-017",
+      "title": "1998 QA bug tracker projection",
+      "source_created_at": "1998-08-20",
+      "media_type": "text/csv",
+      "path": "archive/derived/qa/DRV-017-bug-tracker.csv",
+      "derived_sha256": "58a01da98ccd78f852cf810d2001abfce23082bf1b1609bd67281068657195c3",
+      "locators": [
+        "csv:column/resolution",
+        "csv:row/BUG-021",
+        "csv:row/BUG-047",
+        "csv:row/BUG-053",
+        "csv:row/BUG-063"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-018",
+      "title": "QA record BUG-021 CHAIN display cap",
+      "source_created_at": "1998-08-24",
+      "media_type": "text/markdown",
+      "path": "archive/derived/qa/DRV-018-bug-021-chain-display.md",
+      "derived_sha256": "fc113e5aceb6dd9620a6fb455e75426c2964213538becd2c775ded2b875e5ae8",
+      "locators": [
+        "md:heading/observed",
+        "md:heading/investigation",
+        "md:heading/resolution-note"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-019",
+      "title": "QA record BUG-047 ZERO LAP duration measurement",
+      "source_created_at": "1998-08-27",
+      "media_type": "text/markdown",
+      "path": "archive/derived/qa/DRV-019-bug-047-zero-lap-duration.md",
+      "derived_sha256": "fc6d67c40293d193e87951dbd3d75f0e6f400ce508e3ce753ca056bf2ff64796",
+      "locators": [
+        "md:heading/measurement-method",
+        "md:heading/runs",
+        "md:heading/disposition"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-020",
+      "title": "1998 Operator manual excerpt",
+      "source_created_at": "1998-07-15",
+      "media_type": "text/markdown",
+      "path": "archive/derived/manuals/DRV-020-operator-manual.md",
+      "derived_sha256": "b08f93caa62ae8f2704746f22e10c8115e2ca7da47c371547e8c1824d83b6310",
+      "locators": [
+        "md:heading/cabinet-configuration",
+        "md:heading/operation-guidance",
+        "md:heading/service-notes"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-021",
+      "title": "1998 Instruction card text projection",
+      "source_created_at": "1998-07-20",
+      "media_type": "application/json",
+      "path": "archive/derived/manuals/DRV-021-instruction-card.json",
+      "derived_sha256": "5283f7481954b9ddfc3df94da31037cff777ec5979306c8d585524cab25aa48b",
+      "locators": [
+        "json:pointer//ocr_lines",
+        "json:pointer//visual_annotations"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-022",
+      "title": "1998 Art bible excerpt",
+      "source_created_at": "1998-05-08",
+      "media_type": "text/markdown",
+      "path": "archive/derived/art/DRV-022-art-bible.md",
+      "derived_sha256": "0daeff8baf6996b82bf4a1672177a6c1665d1a9b0594d289f84b7defd52f82ea",
+      "locators": [
+        "md:heading/palette",
+        "md:heading/shape-language",
+        "md:heading/hud-layout"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-023",
+      "title": "1998 Sprite bank metadata",
+      "source_created_at": "1998-06-30",
+      "media_type": "application/json",
+      "path": "archive/derived/art/DRV-023-sprite-metadata.json",
+      "derived_sha256": "6ae79c63818b6e8f4f9897022b16e2f27d07dc65aaf9708a6fa6de6b0be3f5cb",
+      "locators": [
+        "json:pointer//banks",
+        "json:pointer//observations_ja"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-024",
+      "title": "1996 Storyboard scene metadata",
+      "source_created_at": "1996-12-05",
+      "media_type": "application/json",
+      "path": "archive/derived/art/DRV-024-storyboard-metadata.json",
+      "derived_sha256": "f4604c7454ff8dae6867c9387202ffde9ff081e1a5ea4546aee62a3058d727a1",
+      "locators": [
+        "json:pointer//sheets",
+        "json:pointer//limits_ja"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-025",
+      "title": "1998 Sound direction excerpt",
+      "source_created_at": "1998-04-22",
+      "media_type": "text/markdown",
+      "path": "archive/derived/audio/DRV-025-sound-direction.md",
+      "derived_sha256": "d401ef7c852172fdb2866e98b6a4d0987be8e1e72dd730eb288c9baa7258503b",
+      "locators": [
+        "md:heading/bgm-layers",
+        "md:heading/se-list",
+        "md:heading/return-voice-cue"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-026",
+      "title": "1998 Sound ROM allocation map",
+      "source_created_at": "1998-09-03",
+      "media_type": "application/json",
+      "path": "archive/derived/audio/DRV-026-audio-rom-map.json",
+      "derived_sha256": "f1ff46a32f7245fbd9567977a94e4910a92b3f1a5485b8dd40d0dc2d56eacd30",
+      "locators": [
+        "json:pointer//capacity_bytes",
+        "json:pointer//entries",
+        "json:pointer//totals"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-027",
+      "title": "1998 Core step source projection",
+      "source_created_at": "1998-06-20",
+      "media_type": "text/x-c",
+      "path": "archive/derived/source/DRV-027-core-step.c",
+      "derived_sha256": "9d4d387adf501d63693955d1e78791a374c9dcd8d5f70fdacf996370772fcc9c",
+      "locators": [
+        "c:define/SCREEN_W",
+        "c:define/UNITS_PER_PX",
+        "c:define/CORE_OUTBOUND_STEP",
+        "c:define/CORE_RETURN_STEP",
+        "c:define/CHAIN_MAX",
+        "c:symbol/core_throw_step"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-028",
+      "title": "1998 Return Pass source projection",
+      "source_created_at": "1998-06-20",
+      "media_type": "text/x-c",
+      "path": "archive/derived/source/DRV-028-return-pass.c",
+      "derived_sha256": "874326188872dded4e4c72ccd289df3ad56ec3e0b0a98952404eff134f7f92fd",
+      "locators": [
+        "c:symbol/return_pass_target",
+        "c:symbol/return_pass_update",
+        "c:symbol/partner_aim"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-029",
+      "title": "1998 Full symbol index",
+      "source_created_at": "1998-09-10",
+      "media_type": "application/json",
+      "path": "archive/derived/source/DRV-029-symbol-index-full.json",
+      "derived_sha256": "ddb63fd4e0a718c83c92a61688a16272971824b133685e79ee5097101d901257",
+      "locators": [
+        "json:pointer//symbols/partner_aim",
+        "json:pointer//symbols/return_pass_target",
+        "json:pointer//symbols/enemy_paired_bind_update",
+        "json:pointer//symbols/ending_select"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    },
+    {
+      "id": "DRV-030",
+      "title": "1998 ZERO LAP replay event stream",
+      "source_created_at": "1998-08-27",
+      "media_type": "application/json",
+      "path": "archive/derived/replay/DRV-030-zero-lap-replay.json",
+      "derived_sha256": "794b24b81b914f68ea1f6a024a9f78b541ea5cb777fffd360e08168ffde16eec",
+      "locators": [
+        "json:pointer//capture",
+        "json:pointer//events",
+        "json:pointer//expected_outcome"
+      ],
+      "review_status": "fixture-reviewed",
+      "origin_kind": "synthetic_fixture"
+    }
+  ]
+}
