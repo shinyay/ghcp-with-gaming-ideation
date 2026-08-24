@@ -1,0 +1,531 @@
+{
+  "schema_version": 1,
+  "repository": "shinyay/ghcp-with-gaming-ideation",
+  "labels": [
+    { "name": "type:archive-question", "color": "1d76db", "description": "Open question requiring cross-asset archive reading" },
+    { "name": "type:finding", "color": "0e8a16", "description": "Candidate finding; repository record remains canonical" },
+    { "name": "type:hypothesis", "color": "5319e7", "description": "Falsifiable interpretation awaiting evidence" },
+    { "name": "type:experiment", "color": "fbca04", "description": "Bounded validation experiment" },
+    { "name": "type:decision", "color": "b60205", "description": "Human decision work; ADR remains canonical" },
+    { "name": "type:epic", "color": "0052cc", "description": "Parent issue coordinating sub-issues" },
+    { "name": "type:implementation", "color": "0075ca", "description": "Implementation work with verifiable acceptance criteria" },
+    { "name": "type:bug", "color": "d73a4a", "description": "Current implementation defect, not a copied historical ticket" },
+    { "name": "type:learning", "color": "bfdadc", "description": "Learning loop work linked to enumerated playtest data" },
+    { "name": "area:archive", "color": "c2e0c6", "description": "Archive catalog, derived assets, or evidence packets" },
+    { "name": "area:design", "color": "d4c5f9", "description": "Design framing without adopting an unapproved bet" },
+    { "name": "area:gameplay", "color": "006b75", "description": "Gameplay rules and interaction" },
+    { "name": "area:art", "color": "f9d0c4", "description": "Visual language and readability" },
+    { "name": "area:audio", "color": "fef2c0", "description": "Audio behavior and asset constraints" },
+    { "name": "area:qa", "color": "e99695", "description": "Quality evidence and reproducibility" },
+    { "name": "area:platform", "color": "bfd4f2", "description": "Build, delivery, and platform behavior" },
+    { "name": "risk:rights", "color": "b60205", "description": "Rights state requires human review before use" },
+    { "name": "risk:scope", "color": "d93f0b", "description": "Scope may exceed the approved demo slice" },
+    { "name": "risk:reproducibility", "color": "e4e669", "description": "Deterministic or repeatable behavior is at risk" },
+    { "name": "review:human-required", "color": "5319e7", "description": "A human must decide or review before promotion" },
+    { "name": "review:copilot-safe", "color": "0e8a16", "description": "Only demo-safe AI-eligible sources are linked" },
+    { "name": "demo:seed", "color": "ededed", "description": "Unresolved seed object for the demo starting state" },
+    { "name": "demo:live", "color": "c5def5", "description": "Object created during a live demo session" },
+    { "name": "demo:fallback", "color": "fef2c0", "description": "Deterministic fallback for an unavailable live surface" },
+    { "name": "good first issue", "color": "7057ff", "description": "Good for newcomers" }
+  ],
+  "milestones": [
+    {
+      "stable_id": "MILESTONE-001",
+      "title": "Archive understanding",
+      "description": "Resolve bounded archive questions without promoting inference to fact.",
+      "state": "open"
+    },
+    {
+      "stable_id": "MILESTONE-002",
+      "title": "Twin Span vertical slice",
+      "description": "Coordinate the VS-001 work breakdown while repository records remain canonical.",
+      "state": "open"
+    },
+    {
+      "stable_id": "MILESTONE-003",
+      "title": "Learning loop",
+      "description": "Collect enum-only playtest signals and record follow-up questions.",
+      "state": "open"
+    }
+  ],
+  "issues": [
+    {
+      "stable_id": "ISSUE-001",
+      "existing_number": 1,
+      "domain_ids": ["VS-001"],
+      "title": "[ISSUE-001][VS-001] Active receiving thin proofを再検証する",
+      "question_ja": "Node.js、Chromium、offline packageでactive receivingの決定的な契約を同じstable IDから再検証できるか。",
+      "summary_en": "Re-verify the deterministic active-receiving contract across all supported runtimes.",
+      "evidence": [
+        { "asset_id": "DRV-001", "locator": "md:heading/active-receiving" },
+        { "asset_id": "DRV-003", "locator": "md:heading/catch-and-chain" }
+      ],
+      "acceptance": [
+        "Node.jsとChromiumのcheckpoint hashが一致する。",
+        "local 2P handoffでCore ownerが常に1人である。",
+        "offline packageがbrowser GitHub APIやtokenを必要としない。"
+      ],
+      "labels": ["type:implementation", "area:gameplay", "risk:reproducibility", "review:copilot-safe", "demo:seed"],
+      "milestone": "MILESTONE-002",
+      "project": { "Status": "Ready", "Stage": "Build", "Discipline": "Gameplay", "Evidence Confidence": "Reviewed", "Design Bet": "Shared", "Gate": "Demo-safe", "Demo Moment": "Seed", "Priority": "High", "Estimate": 3 }
+    },
+    {
+      "stable_id": "ISSUE-002",
+      "domain_ids": ["EVP-001"],
+      "title": "[ISSUE-002][EVP-001] 384pxと320pxの速度関係を説明する",
+      "question_ja": "旧sheetと出荷実装の横断時間は、画面幅と固定小数点換算を含めてどのような関係にあるか。",
+      "summary_en": "Explain the relationship between the 384px-era speed sheet and the 320px implementation.",
+      "evidence": [
+        { "asset_id": "DRV-012", "locator": "json:pointer//field_geometry" },
+        { "asset_id": "DRV-012", "locator": "json:pointer//core_speed" },
+        { "asset_id": "DRV-027", "locator": "c:define/SCREEN_W" },
+        { "asset_id": "DRV-027", "locator": "c:define/UNITS_PER_PX" },
+        { "asset_id": "DRV-027", "locator": "c:define/CORE_OUTBOUND_STEP" },
+        { "asset_id": "DRV-011", "locator": "md:heading/display-change" }
+      ],
+      "acceptance": [
+        "Evidence、Inference、未解決点を別見出しで記録する。",
+        "単一資産だけで結論を確定しない。",
+        "結果をFindingへ昇格せずreview依頼として残す。"
+      ],
+      "labels": ["type:archive-question", "area:archive", "risk:reproducibility", "review:human-required", "review:copilot-safe", "demo:seed"],
+      "milestone": "MILESTONE-001",
+      "project": { "Status": "Inbox", "Stage": "Understand", "Discipline": "Engine", "Evidence Confidence": "Candidate", "Design Bet": "Shared", "Gate": "Evidence", "Demo Moment": "Seed", "Priority": "High", "Estimate": 2 }
+    },
+    {
+      "stable_id": "ISSUE-003",
+      "domain_ids": ["EVP-002", "CFL-001"],
+      "title": "[ISSUE-003][EVP-002] 1996年のPlayer 2がtargetから外れた要因を切り分ける",
+      "question_ja": "Player 2の変更要因を、体験評価と筐体・表示制約に分けてどこまで説明できるか。",
+      "summary_en": "Separate experience evidence from cabinet and display constraints behind the player-count change.",
+      "evidence": [
+        { "asset_id": "DRV-008", "locator": "md:heading/recorded-decisions" },
+        { "asset_id": "DRV-016", "locator": "md:heading/rating-aggregate" },
+        { "asset_id": "DRV-020", "locator": "md:heading/cabinet-configuration" },
+        { "asset_id": "DRV-011", "locator": "md:heading/field-layout-impact" },
+        { "asset_id": "DRV-024", "locator": "json:pointer//sheets" }
+      ],
+      "acceptance": [
+        "CFL-001の両側を保持する。",
+        "記録されていない決定者や理由を補わない。",
+        "複数の可能性を人間レビューへ提示する。"
+      ],
+      "labels": ["type:archive-question", "area:archive", "risk:scope", "review:human-required", "review:copilot-safe", "demo:seed"],
+      "milestone": "MILESTONE-001",
+      "project": { "Status": "Inbox", "Stage": "Understand", "Discipline": "Design", "Evidence Confidence": "Candidate", "Design Bet": "Shared", "Gate": "Evidence", "Demo Moment": "Seed", "Priority": "High", "Estimate": 3 }
+    },
+    {
+      "stable_id": "ISSUE-004",
+      "domain_ids": ["EVP-003", "HYP-003"],
+      "title": "[ISSUE-004][EVP-003] Return Passのaim処理の来歴を検証する",
+      "question_ja": "Return Passが呼ぶaim処理の初出buildとmodule履歴を、source、symbol index、1996年module一覧から検証できるか。",
+      "summary_en": "Trace the aim routine called by Return Pass without assuming why it survived.",
+      "evidence": [
+        { "asset_id": "DRV-028", "locator": "c:symbol/return_pass_target" },
+        { "asset_id": "DRV-028", "locator": "c:symbol/partner_aim" },
+        { "asset_id": "DRV-029", "locator": "json:pointer//symbols/partner_aim" },
+        { "asset_id": "DRV-007", "locator": "md:heading/planned-module-list" },
+        { "asset_id": "DRV-008", "locator": "md:heading/module-handling" }
+      ],
+      "acceptance": [
+        "symbol採番とmodule履歴を別々に確認する。",
+        "残存理由や作業者を推測しない。",
+        "HYP-003をFindingとして扱わない。"
+      ],
+      "labels": ["type:archive-question", "area:archive", "area:gameplay", "review:human-required", "review:copilot-safe", "demo:seed"],
+      "milestone": "MILESTONE-001",
+      "project": { "Status": "Inbox", "Stage": "Understand", "Discipline": "Engine", "Evidence Confidence": "Candidate", "Design Bet": "Shared", "Gate": "Evidence", "Demo Moment": "Seed", "Priority": "Medium", "Estimate": 2 }
+    },
+    {
+      "stable_id": "ISSUE-005",
+      "domain_ids": ["EVP-007"],
+      "title": "[ISSUE-005][EVP-007] RETURN音声cueの欠落経路を確認する",
+      "question_ja": "指示書、ROM配置、容量、QA記録を横断して、RETURN音声cueが鳴らない条件をどこまで説明できるか。",
+      "summary_en": "Trace the missing RETURN voice cue across direction, allocation, capacity, and QA records.",
+      "evidence": [
+        { "asset_id": "DRV-025", "locator": "md:heading/return-voice-cue" },
+        { "asset_id": "DRV-026", "locator": "json:pointer//entries" },
+        { "asset_id": "DRV-026", "locator": "json:pointer//totals" },
+        { "asset_id": "DRV-011", "locator": "md:heading/rom-budget" },
+        { "asset_id": "DRV-017", "locator": "csv:row/BUG-063" }
+      ],
+      "acceptance": [
+        "配置可否と判断理由を同一視しない。",
+        "残存断片を復元または再配布しない。",
+        "未記録の意思決定を補わない。"
+      ],
+      "labels": ["type:archive-question", "area:archive", "area:audio", "review:human-required", "review:copilot-safe", "demo:seed"],
+      "milestone": "MILESTONE-001",
+      "project": { "Status": "Inbox", "Stage": "Understand", "Discipline": "Audio", "Evidence Confidence": "Candidate", "Design Bet": "Shared", "Gate": "Evidence", "Demo Moment": "Seed", "Priority": "Medium", "Estimate": 2 }
+    },
+    {
+      "stable_id": "ISSUE-006",
+      "domain_ids": ["CFL-004", "EVP-005"],
+      "title": "[ISSUE-006][CFL-004] CHAIN 30/32の不一致を保持して調べる",
+      "question_ja": "公開表示30、内部上限32、BUG-021の記録を、どれか一つへ上書きせずどう説明できるか。",
+      "summary_en": "Investigate the CHAIN 30/32 discrepancy without collapsing conflicting records.",
+      "evidence": [
+        { "asset_id": "DRV-005", "locator": "md:heading/chain-display" },
+        { "asset_id": "DRV-003", "locator": "md:heading/catch-and-chain" },
+        { "asset_id": "DRV-018", "locator": "md:heading/investigation" },
+        { "asset_id": "DRV-027", "locator": "c:define/CHAIN_MAX" }
+      ],
+      "acceptance": [
+        "表示値、内部値、QA観察を別々に記録する。",
+        "Conflictを自動解消しない。",
+        "現在の仕様変更を提案しない。"
+      ],
+      "labels": ["type:archive-question", "area:archive", "area:qa", "risk:reproducibility", "review:human-required", "review:copilot-safe", "demo:seed"],
+      "milestone": "MILESTONE-001",
+      "project": { "Status": "Inbox", "Stage": "Understand", "Discipline": "QA", "Evidence Confidence": "Candidate", "Design Bet": "Shared", "Gate": "Evidence", "Demo Moment": "Seed", "Priority": "Medium", "Estimate": 2 }
+    },
+    {
+      "stable_id": "ISSUE-007",
+      "domain_ids": ["CFL-003", "EVP-005"],
+      "title": "[ISSUE-007][CFL-003] 6 stageと8 table entriesの境界を確認する",
+      "question_ja": "仕様書の6 stageとdata tableの8 entriesは、build flagを含めてどの範囲を表しているか。",
+      "summary_en": "Inspect the boundary between six specified stages and eight stage-table entries.",
+      "evidence": [
+        { "asset_id": "DRV-010", "locator": "md:heading/stage-list" },
+        { "asset_id": "DRV-014", "locator": "csv:column/build_flag" },
+        { "asset_id": "DRV-014", "locator": "csv:row/ST-06" },
+        { "asset_id": "DRV-014", "locator": "csv:row/ST-90" },
+        { "asset_id": "DRV-014", "locator": "csv:row/ST-91" }
+      ],
+      "acceptance": [
+        "stage数とrow数を同一概念として扱わない。",
+        "CFL-003の両側を保持する。",
+        "未使用rowの意図を推測しない。"
+      ],
+      "labels": ["type:archive-question", "area:archive", "area:qa", "review:human-required", "review:copilot-safe", "demo:seed"],
+      "milestone": "MILESTONE-001",
+      "project": { "Status": "Inbox", "Stage": "Understand", "Discipline": "QA", "Evidence Confidence": "Candidate", "Design Bet": "Shared", "Gate": "Evidence", "Demo Moment": "Seed", "Priority": "Medium", "Estimate": 2 }
+    },
+    {
+      "stable_id": "ISSUE-008",
+      "domain_ids": ["HYP-001"],
+      "title": "[ISSUE-008][HYP-001] 能動的受領が感情的中核かを反証可能にする",
+      "question_ja": "能動的に受け取る役割が感情的中核だという仮説を、どの観察で支持または反証できるか。",
+      "summary_en": "Define falsifiable observations for the active-receiving hypothesis.",
+      "evidence": [
+        { "asset_id": "DRV-001", "locator": "md:heading/active-receiving" },
+        { "asset_id": "DRV-015", "locator": "csv:column/receive_rating" },
+        { "asset_id": "DRV-016", "locator": "md:heading/rating-aggregate" }
+      ],
+      "acceptance": [
+        "支持条件と反証条件を両方記録する。",
+        "HYP-001をFindingへ昇格しない。",
+        "playtest入力は列挙値と数値だけに限定する。"
+      ],
+      "labels": ["type:hypothesis", "area:design", "area:gameplay", "review:human-required", "review:copilot-safe", "demo:seed"],
+      "milestone": "MILESTONE-002",
+      "project": { "Status": "Ready", "Stage": "Imagine", "Discipline": "Design", "Evidence Confidence": "Candidate", "Design Bet": "Shared", "Gate": "Human decision", "Demo Moment": "Seed", "Priority": "High", "Estimate": 3 }
+    },
+    {
+      "stable_id": "ISSUE-009",
+      "domain_ids": ["EXP-001"],
+      "title": "[ISSUE-009][EXP-001] Design direction比較の中立な評価軸を定義する",
+      "question_ja": "人間がDesign Betを選ぶ前に、3方向を同じ条件で比較する評価軸をどう定義するか。",
+      "summary_en": "Define neutral comparison criteria before any design direction is selected.",
+      "evidence": [
+        { "asset_id": "DRV-001", "locator": "md:heading/active-receiving" },
+        { "asset_id": "DRV-022", "locator": "md:heading/shape-language" },
+        { "asset_id": "DRV-025", "locator": "md:heading/bgm-layers" }
+      ],
+      "acceptance": [
+        "どのDesign Betも採用済みとして扱わない。",
+        "各評価軸を計測可能または観察可能にする。",
+        "人間の選択はDiscussionまたはADRへ残す。"
+      ],
+      "labels": ["type:experiment", "area:design", "review:human-required", "review:copilot-safe", "demo:seed"],
+      "milestone": "MILESTONE-002",
+      "project": { "Status": "Ready", "Stage": "Imagine", "Discipline": "Design", "Evidence Confidence": "Candidate", "Design Bet": "Shared", "Gate": "Human decision", "Demo Moment": "Seed", "Priority": "High", "Estimate": 3 }
+    },
+    {
+      "stable_id": "ISSUE-010",
+      "domain_ids": ["VS-001"],
+      "title": "[ISSUE-010][VS-001] Twin Span vertical sliceを作業分解する",
+      "question_ja": "VS-001の意味をADRなしで変更せず、検証可能な実装単位へどう分解するか。",
+      "summary_en": "Coordinate the Twin Span vertical slice as an epic without duplicating canonical design prose.",
+      "evidence": [
+        { "asset_id": "DRV-001", "locator": "md:heading/active-receiving" },
+        { "asset_id": "DRV-003", "locator": "md:heading/core-loop" }
+      ],
+      "acceptance": [
+        "9件のsub-issueが親Issueへ接続される。",
+        "各sub-issueに検証可能な受入条件がある。",
+        "Playableの意味を変更する場合は別ADRを要求する。"
+      ],
+      "labels": ["type:epic", "area:gameplay", "risk:scope", "review:human-required", "demo:seed"],
+      "milestone": "MILESTONE-002",
+      "project": { "Status": "Ready", "Stage": "Plan", "Discipline": "Gameplay", "Evidence Confidence": "Reviewed", "Design Bet": "SECOND HAND", "Gate": "Human decision", "Demo Moment": "Seed", "Priority": "High", "Estimate": 8 }
+    },
+    {
+      "stable_id": "ISSUE-011",
+      "parent": "ISSUE-010",
+      "domain_ids": ["VS-001"],
+      "title": "[ISSUE-011][VS-001] Core handoff invariantを検証する",
+      "question_ja": "Core ownerが常に1人でhandoff sequenceが単調増加することをどう検証するか。",
+      "summary_en": "Verify exclusive Core ownership and monotonic handoff sequencing.",
+      "evidence": [
+        { "asset_id": "DRV-001", "locator": "md:heading/active-receiving" },
+        { "asset_id": "DRV-027", "locator": "c:symbol/core_throw_step" }
+      ],
+      "acceptance": ["owner count invariantの自動testを維持する。", "handoff sequenceの逆行を失敗として扱う。"],
+      "labels": ["type:implementation", "area:gameplay", "risk:reproducibility", "review:copilot-safe", "demo:seed"],
+      "milestone": "MILESTONE-002",
+      "project": { "Status": "Ready", "Stage": "Build", "Discipline": "Gameplay", "Evidence Confidence": "Reviewed", "Design Bet": "SECOND HAND", "Gate": "Demo-safe", "Demo Moment": "Seed", "Priority": "High", "Estimate": 3 }
+    },
+    {
+      "stable_id": "ISSUE-012",
+      "parent": "ISSUE-010",
+      "domain_ids": ["VS-001"],
+      "title": "[ISSUE-012][VS-001] Receiver roleの能動性を検証する",
+      "question_ja": "受領者が独立した入力と失敗可能性を持つことをどう観察可能にするか。",
+      "summary_en": "Make the receiver role independently active and observable.",
+      "evidence": [
+        { "asset_id": "DRV-001", "locator": "md:heading/active-receiving" },
+        { "asset_id": "DRV-003", "locator": "md:heading/catch-and-chain" }
+      ],
+      "acceptance": ["受領入力なしではhandoffが成立しないfixtureを維持する。", "色だけに依存しない役割表示を確認する。"],
+      "labels": ["type:implementation", "area:gameplay", "review:human-required", "review:copilot-safe", "demo:seed"],
+      "milestone": "MILESTONE-002",
+      "project": { "Status": "Ready", "Stage": "Build", "Discipline": "Gameplay", "Evidence Confidence": "Reviewed", "Design Bet": "SECOND HAND", "Gate": "Demo-safe", "Demo Moment": "Seed", "Priority": "High", "Estimate": 3 }
+    },
+    {
+      "stable_id": "ISSUE-013",
+      "parent": "ISSUE-010",
+      "domain_ids": ["VS-001"],
+      "title": "[ISSUE-013][VS-001] AI companionの入力境界を固定する",
+      "question_ja": "AI companionが人間の役割を奪わず、決定的fixtureとして再現できる入力境界は何か。",
+      "summary_en": "Bound AI-companion inputs without replacing the human receiver role.",
+      "evidence": [
+        { "asset_id": "DRV-003", "locator": "md:heading/core-loop" },
+        { "asset_id": "DRV-030", "locator": "json:pointer//events" }
+      ],
+      "acceptance": ["runtime乱数と時計に依存しない。", "人間とAIの役割切替を明示する。"],
+      "labels": ["type:implementation", "area:gameplay", "risk:scope", "review:human-required", "demo:seed"],
+      "milestone": "MILESTONE-002",
+      "project": { "Status": "Inbox", "Stage": "Plan", "Discipline": "Gameplay", "Evidence Confidence": "Candidate", "Design Bet": "SECOND HAND", "Gate": "Human decision", "Demo Moment": "Seed", "Priority": "Low", "Estimate": 5 }
+    },
+    {
+      "stable_id": "ISSUE-014",
+      "parent": "ISSUE-010",
+      "domain_ids": ["VS-001"],
+      "title": "[ISSUE-014][VS-001] Latency simulation fixturesを維持する",
+      "question_ja": "delay、jitter、loss、seedの組合せでhandoff収束をどう再現可能にするか。",
+      "summary_en": "Keep latency simulation deterministic across the approved fixture matrix.",
+      "evidence": [
+        { "asset_id": "DRV-027", "locator": "c:define/CORE_OUTBOUND_STEP" },
+        { "asset_id": "DRV-027", "locator": "c:define/CORE_RETURN_STEP" }
+      ],
+      "acceptance": ["fixtureごとの最大受領tick以内に収束する。", "seed以外のruntime乱数を使用しない。"],
+      "labels": ["type:implementation", "area:gameplay", "area:platform", "risk:reproducibility", "review:copilot-safe", "demo:seed"],
+      "milestone": "MILESTONE-002",
+      "project": { "Status": "Ready", "Stage": "Build", "Discipline": "Engine", "Evidence Confidence": "Reviewed", "Design Bet": "SECOND HAND", "Gate": "Demo-safe", "Demo Moment": "Seed", "Priority": "High", "Estimate": 3 }
+    },
+    {
+      "stable_id": "ISSUE-015",
+      "parent": "ISSUE-010",
+      "domain_ids": ["VS-001"],
+      "title": "[ISSUE-015][VS-001] Art readabilityを検証する",
+      "question_ja": "保持者と受領者、handoff状態を色だけに頼らずどう判読可能にするか。",
+      "summary_en": "Verify role and handoff readability without color-only cues.",
+      "evidence": [
+        { "asset_id": "DRV-022", "locator": "md:heading/shape-language" },
+        { "asset_id": "DRV-022", "locator": "md:heading/hud-layout" }
+      ],
+      "acceptance": ["shape、label、motionのうち2系統以上で状態を示す。", "keyboard focusと高contrast表示を確認する。"],
+      "labels": ["type:implementation", "area:art", "review:human-required", "review:copilot-safe", "demo:seed"],
+      "milestone": "MILESTONE-002",
+      "project": { "Status": "Ready", "Stage": "Build", "Discipline": "Art", "Evidence Confidence": "Reviewed", "Design Bet": "SECOND HAND", "Gate": "Demo-safe", "Demo Moment": "Seed", "Priority": "Medium", "Estimate": 3 }
+    },
+    {
+      "stable_id": "ISSUE-016",
+      "parent": "ISSUE-010",
+      "domain_ids": ["VS-001"],
+      "title": "[ISSUE-016][VS-001] Audio layersの状態対応を検証する",
+      "question_ja": "保持、送信、受領の状態を、未承認の復元音声に頼らずどう聴き分け可能にするか。",
+      "summary_en": "Verify state-linked audio layers without reconstructing unapproved voice assets.",
+      "evidence": [
+        { "asset_id": "DRV-025", "locator": "md:heading/bgm-layers" },
+        { "asset_id": "DRV-025", "locator": "md:heading/se-list" },
+        { "asset_id": "DRV-026", "locator": "json:pointer//entries" }
+      ],
+      "acceptance": ["状態遷移とaudio cueを決定的に対応させる。", "RETURN音声断片を復元または利用しない。"],
+      "labels": ["type:implementation", "area:audio", "review:human-required", "review:copilot-safe", "demo:seed"],
+      "milestone": "MILESTONE-002",
+      "project": { "Status": "Inbox", "Stage": "Plan", "Discipline": "Audio", "Evidence Confidence": "Candidate", "Design Bet": "SECOND HAND", "Gate": "Rights review", "Demo Moment": "Seed", "Priority": "Medium", "Estimate": 3 }
+    },
+    {
+      "stable_id": "ISSUE-017",
+      "parent": "ISSUE-010",
+      "domain_ids": ["VS-001"],
+      "title": "[ISSUE-017][VS-001] Accessibility input pathを確認する",
+      "question_ja": "pointer、keyboard、focusの各経路で同じhandoff操作を完了できるか。",
+      "summary_en": "Verify equivalent handoff controls for pointer, keyboard, and focus paths.",
+      "evidence": [
+        { "asset_id": "DRV-022", "locator": "md:heading/hud-layout" },
+        { "asset_id": "DRV-003", "locator": "md:heading/catch-and-chain" }
+      ],
+      "acceptance": ["keyboard-onlyでsliceを完了できる。", "focus trapと色だけの状態伝達を許可しない。"],
+      "labels": ["type:implementation", "area:gameplay", "review:human-required", "review:copilot-safe", "demo:seed"],
+      "milestone": "MILESTONE-002",
+      "project": { "Status": "Ready", "Stage": "Build", "Discipline": "QA", "Evidence Confidence": "Reviewed", "Design Bet": "SECOND HAND", "Gate": "Demo-safe", "Demo Moment": "Seed", "Priority": "High", "Estimate": 3 }
+    },
+    {
+      "stable_id": "ISSUE-018",
+      "parent": "ISSUE-010",
+      "domain_ids": ["VS-001"],
+      "title": "[ISSUE-018][VS-001] Replay equivalence testsを維持する",
+      "question_ja": "Node.jsとChromiumが同じcanonical state hashへ到達することをどう継続検証するか。",
+      "summary_en": "Maintain Node.js and Chromium replay equivalence.",
+      "evidence": [
+        { "asset_id": "DRV-030", "locator": "json:pointer//capture" },
+        { "asset_id": "DRV-030", "locator": "json:pointer//events" },
+        { "asset_id": "DRV-030", "locator": "json:pointer//expected_outcome" }
+      ],
+      "acceptance": ["final hashと主要checkpoint hashを両runtimeで比較する。", "floatをsimulation stateへ戻さない。"],
+      "labels": ["type:implementation", "area:qa", "area:platform", "risk:reproducibility", "review:copilot-safe", "demo:seed"],
+      "milestone": "MILESTONE-002",
+      "project": { "Status": "Ready", "Stage": "Build", "Discipline": "QA", "Evidence Confidence": "Verified", "Design Bet": "SECOND HAND", "Gate": "Demo-safe", "Demo Moment": "Seed", "Priority": "High", "Estimate": 3 }
+    },
+    {
+      "stable_id": "ISSUE-019",
+      "parent": "ISSUE-010",
+      "domain_ids": ["VS-001", "BLD-001"],
+      "title": "[ISSUE-019][BLD-001] Offline release packageを検証する",
+      "question_ja": "network遮断下で2つのPlayableとlineageを実行し、allowlist外の内容を含まないpackageをどう検証するか。",
+      "summary_en": "Verify the offline package without relying on network access or hidden content.",
+      "evidence": [
+        { "asset_id": "DRV-030", "locator": "json:pointer//expected_outcome" },
+        { "asset_id": "DRV-001", "locator": "md:heading/active-receiving" }
+      ],
+      "acceptance": ["clean展開後にoffline smokeが通る。", "manifestとSHA256SUMSを生成する。", "token、PII、reference-only contentを含めない。"],
+      "labels": ["type:implementation", "area:platform", "risk:reproducibility", "review:copilot-safe", "demo:seed"],
+      "milestone": "MILESTONE-002",
+      "project": { "Status": "Ready", "Stage": "Build", "Discipline": "Platform", "Evidence Confidence": "Reviewed", "Design Bet": "SECOND HAND", "Gate": "Demo-safe", "Demo Moment": "Fallback", "Priority": "High", "Estimate": 3 }
+    },
+    {
+      "stable_id": "ISSUE-020",
+      "domain_ids": ["PT-001", "LRN-001"],
+      "title": "[ISSUE-020][LRN-001] 「受け取られた」をenum-only playtestで検証する",
+      "question_ja": "自由記述や参加者情報を保存せず、プレイヤーが受領を認識したかをどの列挙値で検証するか。",
+      "summary_en": "Define enum-only playtest signals for perceived reception.",
+      "evidence": [
+        { "asset_id": "DRV-015", "locator": "csv:column/receive_rating" },
+        { "asset_id": "DRV-015", "locator": "csv:column/failure_cause_code" },
+        { "asset_id": "DRV-016", "locator": "md:heading/rating-aggregate" }
+      ],
+      "acceptance": ["氏名、連絡先、端末ID、自由記述を収集しない。", "列挙値と数値だけをschemaで許可する。", "結果は次の質問として記録し、Design Betを自動選択しない。"],
+      "labels": ["type:learning", "area:design", "area:gameplay", "review:human-required", "review:copilot-safe", "demo:seed"],
+      "milestone": "MILESTONE-003",
+      "project": { "Status": "Inbox", "Stage": "Learn", "Discipline": "Design", "Evidence Confidence": "Candidate", "Design Bet": "Shared", "Gate": "Human decision", "Demo Moment": "Seed", "Priority": "Medium", "Estimate": 2 }
+    }
+  ],
+  "discussion_categories": [
+    { "stable_id": "DISC-CAT-001", "name": "Announcements", "slug": "announcements", "fallback_slug": "announcements", "answerable": false },
+    { "stable_id": "DISC-CAT-002", "name": "Archive Lab", "slug": "archive-lab", "fallback_slug": "general", "answerable": false },
+    { "stable_id": "DISC-CAT-003", "name": "Design Lab", "slug": "design-lab", "fallback_slug": "ideas", "answerable": false },
+    { "stable_id": "DISC-CAT-004", "name": "Playtests & Feedback", "slug": "playtests-feedback", "fallback_slug": "general", "answerable": false },
+    { "stable_id": "DISC-CAT-005", "name": "Q&A", "slug": "q-a", "fallback_slug": "q-a", "answerable": true }
+  ],
+  "discussions": [
+    {
+      "stable_id": "DISC-001",
+      "title": "[DISC-001] Welcome / STAR RELAYの歩き方",
+      "category": "DISC-CAT-001",
+      "question_ja": "このrepositoryを、Archive、Issue、Discussion、Project、Wikiの役割を混ぜずにどう辿るか。",
+      "summary_en": "A navigation thread for the repository's separated collaboration surfaces.",
+      "links": ["REPO-001", "PROJECT-001"],
+      "status": "open"
+    },
+    {
+      "stable_id": "DISC-002",
+      "title": "[DISC-002][Archive Lab] どの資料を正典と呼べるか",
+      "category": "DISC-CAT-002",
+      "question_ja": "変換済み資産、catalog、evidence packetのうち、何をどの主張の正本として扱うべきか。",
+      "summary_en": "Discuss source authority without promoting inference into evidence.",
+      "links": ["EVP-001", "EVP-002", "EVP-003"],
+      "status": "open"
+    },
+    {
+      "stable_id": "DISC-003",
+      "title": "[DISC-003][Archive Lab] バグ票は仕様資料になり得るか",
+      "category": "DISC-CAT-002",
+      "question_ja": "QA観察、処理区分、仕様記述が異なるとき、bug recordをどの範囲でEvidenceとして使えるか。",
+      "summary_en": "Discuss the evidentiary limits of historical QA fixtures.",
+      "links": ["DRV-017", "DRV-018", "EVP-005"],
+      "status": "open"
+    },
+    {
+      "stable_id": "DISC-004",
+      "existing_number": 2,
+      "title": "[DISC-004][Design Lab] 3つのDesign directionを比較する評価軸",
+      "category": "DISC-CAT-003",
+      "question_ja": "人間が選択する前に、3つの方向を同じ条件で比較する評価軸は何か。",
+      "summary_en": "Discuss neutral criteria without selecting or publishing a winning design bet.",
+      "links": ["EXP-001", "HYP-001"],
+      "status": "open"
+    },
+    {
+      "stable_id": "DISC-005",
+      "title": "[DISC-005][Playtests] Playtest Guide",
+      "category": "DISC-CAT-004",
+      "question_ja": "PIIや自由記述を保存せず、列挙値だけで再現可能なfeedbackをどう残すか。",
+      "summary_en": "Guide enum-only playtest feedback without participant data.",
+      "links": ["PT-001", "LRN-001"],
+      "status": "open"
+    },
+    {
+      "stable_id": "DISC-006",
+      "title": "[DISC-006][Q&A] EvidenceからPlayableまでの質問",
+      "category": "DISC-CAT-005",
+      "question_ja": "stable IDを使ってEvidenceからIssue、Project、Playableへ辿る際、どこで迷ったか。",
+      "summary_en": "Open Q&A for navigating the stable-ID lineage.",
+      "links": ["LINEAGE-001", "VS-001", "ISSUE-001"],
+      "status": "open"
+    }
+  ],
+  "project": {
+    "stable_id": "PROJECT-001",
+    "owner": "shinyay",
+    "number": 6,
+    "title": "STAR RELAY — Idea to Playable",
+    "short_description": "Private coordination for evidence-to-playable work; canonical prose stays in repository records.",
+    "public": false,
+    "fields": [
+      { "name": "Status", "type": "SINGLE_SELECT", "options": ["Inbox", "Ready", "In progress", "In review", "Validated", "Done", "Parked"] },
+      { "name": "Stage", "type": "SINGLE_SELECT", "options": ["Archive", "Understand", "Imagine", "Decide", "Plan", "Build", "Learn"] },
+      { "name": "Discipline", "type": "SINGLE_SELECT", "options": ["Design", "Art", "Audio", "Gameplay", "Engine", "QA", "Platform"] },
+      { "name": "Evidence Confidence", "type": "SINGLE_SELECT", "options": ["Candidate", "Reviewed", "Verified"] },
+      { "name": "Design Bet", "type": "SINGLE_SELECT", "options": ["RE-LIGHT", "SECOND HAND", "THE HUSH", "Shared"] },
+      { "name": "Gate", "type": "SINGLE_SELECT", "options": ["Evidence", "Human decision", "Rights review", "Demo-safe"] },
+      { "name": "Demo Moment", "type": "SINGLE_SELECT", "options": ["Seed", "Live", "Fallback", "Reference"] },
+      { "name": "Priority", "type": "SINGLE_SELECT", "options": ["Urgent", "High", "Medium", "Low"] },
+      { "name": "Estimate", "type": "NUMBER" }
+    ],
+    "views": [
+      { "name": "Creative Pipeline", "layout": "TABLE_LAYOUT", "filter": "" },
+      { "name": "Evidence Review", "layout": "TABLE_LAYOUT", "filter": "label:\"type:archive-question\"" },
+      { "name": "Design Bet Portfolio", "layout": "BOARD_LAYOUT", "filter": "stage:Imagine,Decide" },
+      { "name": "Twin Span Vertical Slice", "layout": "TABLE_LAYOUT", "filter": "milestone:\"Twin Span vertical slice\"" },
+      { "name": "Demo Cue", "layout": "TABLE_LAYOUT", "filter": "label:\"demo:seed\",\"demo:live\",\"demo:fallback\"" },
+      { "name": "Learning Loop", "layout": "TABLE_LAYOUT", "filter": "label:\"type:learning\"" }
+    ]
+  },
+  "wiki": {
+    "source": "ops/github/wiki",
+    "pages": [
+      { "stable_id": "WIKI-001", "file": "Home.md", "title": "Home" },
+      { "stable_id": "WIKI-002", "file": "Museum-Guide.md", "title": "Museum Guide" },
+      { "stable_id": "WIKI-003", "file": "STAR-RELAY-1998-Overview.md", "title": "STAR RELAY 1998 Overview" },
+      { "stable_id": "WIKI-004", "file": "Timeline.md", "title": "Timeline" },
+      { "stable_id": "WIKI-005", "file": "Glossary.md", "title": "Glossary" },
+      { "stable_id": "WIKI-006", "file": "Archive-Tour.md", "title": "Archive Tour" },
+      { "stable_id": "WIKI-007", "file": "How-to-read-the-evidence.md", "title": "How to read the evidence" },
+      { "stable_id": "WIKI-008", "file": "Demo-and-Workshop-Guide.md", "title": "Demo and Workshop Guide" },
+      { "stable_id": "WIKI-009", "file": "FAQ.md", "title": "FAQ" }
+    ]
+  }
+}

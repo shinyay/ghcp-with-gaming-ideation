@@ -1,9 +1,11 @@
 title: "[Design Lab] "
+labels: []
 body:
   - type: markdown
     attributes:
       value: |
-        Discussionは選択肢を検討する場です。決定はADRへ移し、架空の投票や反応を作らないでください。
+        Discussionは選択肢を検討する場です。決定はADRへ移し、架空の投票、反応、comment、参加者を作らないでください。
+        最終Finding、Play DNA、Design Bet、ADRの本文やanswer keyは複製しません。
   - type: input
     id: lineage
     attributes:
@@ -21,6 +23,6 @@ body:
     id: evidence
     attributes:
       label: Evidence and uncertainty
-      description: EvidenceとInferenceを分ける
+      description: demo-safe、ai_eligibleなDRV ID＋locatorを使い、EvidenceとInferenceを分ける
     validations:
       required: true

@@ -1,0 +1,60 @@
+name: Archive question
+description: Open a bounded cross-asset question without promoting inference to a finding.
+title: "[ISSUE-][EVP-] "
+labels:
+  - type:archive-question
+  - area:archive
+  - review:human-required
+  - review:copilot-safe
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Evidence、Inference、Proposalを分離してください。単一資産だけで結論を確定せず、Conflictは両側を保持します。
+  - type: input
+    id: issue-id
+    attributes:
+      label: Issue stable ID
+      placeholder: ISSUE-021
+    validations:
+      required: true
+  - type: input
+    id: evidence-packet
+    attributes:
+      label: Evidence packet or conflict ID
+      placeholder: EVP-001
+    validations:
+      required: true
+  - type: textarea
+    id: open-question
+    attributes:
+      label: Open question
+      description: 回答ではなく、検証したい問いを書く。
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: demo-safe、ai_eligibleなDRV IDと宣言済みlocatorを2件以上記載する。
+      placeholder: |
+        DRV-012 — json:pointer//field_geometry
+        DRV-027 — c:define/SCREEN_W
+    validations:
+      required: true
+  - type: textarea
+    id: limits
+    attributes:
+      label: Limits and falsifiers
+      description: 何を主張できないか、何が出れば仮説が崩れるか。
+    validations:
+      required: true
+  - type: checkboxes
+    id: guardrails
+    attributes:
+      label: Guardrails
+      options:
+        - label: Demo-safe synthetic fixtures only
+          required: true
+        - label: No final Finding, answer key, fictional participant, or historical Git claim
+          required: true

@@ -1,5 +1,6 @@
-schema_version: 1
+schema_version: 2
 repository:
+  stable_id: REPO-001
   name: shinyay/ghcp-with-gaming-ideation
   visibility: private
   default_branch: main
@@ -29,14 +30,46 @@ ruleset:
   destructive_updates:
     force_push: blocked
     deletion: blocked
+collaboration:
+  automation_manifest: ops/github/surfaces.json
+  reconciliation:
+    default: create_missing_preserve_existing
+    destructive_reset: requires_Reset_and_ConfirmReset
+    pagination: required
+  labels_script: ops/github/seed-labels.ps1
+  issues_script: ops/github/seed-issues.ps1
+  discussions_script: ops/github/seed-discussions.ps1
+  project_script: ops/github/configure-project.ps1
+  wiki_script: ops/github/publish-wiki.ps1
+  snapshot_script: ops/github/export-demo-snapshot.ps1
+  source_of_truth:
+    evidence_and_decisions: repository
+    work_and_acceptance: issues
+    dialogue_and_polls: discussions
+    status: project
+    museum_navigation: wiki
 project:
+  stable_id: PROJECT-001
   owner: shinyay
+  number: 6
   title: "STAR RELAY — Idea to Playable"
   visibility: private
-  thin_slice_item: VS-001
+  duplicate_policy: reuse_number_6
 wiki:
   source: ops/github/wiki
   mode: output_only
+  verification: recursive_tree_and_utf8_lf_sha256
+  unmanaged_remote_paths: removed_before_publish
+snapshot:
+  output: demo/offline-snapshots/github-objects.json
+  allowlist: ops/github/snapshot-allowlist.json
+  forbidden_fields:
+    - author
+    - body
+    - comments
+    - reactions
+    - token
+    - free_text
 release:
   visibility: repository_access_controlled
   phase_0_probe: draft
@@ -47,4 +80,7 @@ copilot_space:
 classification:
   repository_allowed:
     - demo-safe
+  evidence_required:
+    classification: demo-safe
+    ai_eligible: true
   package_mode: explicit_allowlist

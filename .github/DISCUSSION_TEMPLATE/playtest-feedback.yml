@@ -1,0 +1,47 @@
+title: "[Playtests] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        個人情報、端末識別子、自由記述、架空の参加者や反応を保存しません。列挙値と数値だけを扱います。
+  - type: input
+    id: stable-ids
+    attributes:
+      label: Stable IDs
+      placeholder: PT-001, LRN-001
+    validations:
+      required: true
+  - type: dropdown
+    id: outcome
+    attributes:
+      label: Outcome
+      options:
+        - completed
+        - incomplete
+        - blocked
+    validations:
+      required: true
+  - type: dropdown
+    id: receive-rating
+    attributes:
+      label: Receive rating
+      options:
+        - clear
+        - partial
+        - unclear
+        - not-observed
+    validations:
+      required: true
+  - type: dropdown
+    id: failure-code
+    attributes:
+      label: Failure cause code
+      options:
+        - none
+        - input
+        - timing
+        - readability
+        - technical
+        - not-observed
+    validations:
+      required: true

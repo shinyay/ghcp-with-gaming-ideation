@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "stable_id": "DISC-001",
-  "title": "Design Lab: 受領役をどう読めるようにするか",
+  "stable_id": "DISC-004",
+  "title": "[DISC-004][Design Lab] 3つのDesign directionを比較する評価軸",
   "category": "Ideas",
   "status": "live",
   "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/discussions/2",
-  "body_kind": "structured_fixture",
-  "linked_ids": ["FND-001", "ADR-001", "VS-001"],
+  "body_kind": "open_dialogue",
+  "linked_ids": ["EXP-001", "HYP-001"],
   "free_text_playtest_data": false
 }

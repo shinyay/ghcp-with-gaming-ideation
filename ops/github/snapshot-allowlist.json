@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "output": "demo/offline-snapshots/github-objects.json",
+  "allowed_top_level": ["schema_version", "repository", "milestones", "issues", "discussions", "project", "wiki"],
+  "allowed_object_fields": ["stable_id", "github_id", "number", "url", "title", "status", "visibility", "kind", "category", "labels", "milestone", "data_type", "options", "layout", "fields", "views", "items", "features", "pages"],
+  "forbidden_fields": ["author", "body", "comments", "reactions", "token", "free_text", "created_at", "updated_at"],
+  "repository": ["REPO-001"],
+  "milestones": ["MILESTONE-001", "MILESTONE-002", "MILESTONE-003"],
+  "issues": [
+    "ISSUE-001", "ISSUE-002", "ISSUE-003", "ISSUE-004", "ISSUE-005",
+    "ISSUE-006", "ISSUE-007", "ISSUE-008", "ISSUE-009", "ISSUE-010",
+    "ISSUE-011", "ISSUE-012", "ISSUE-013", "ISSUE-014", "ISSUE-015",
+    "ISSUE-016", "ISSUE-017", "ISSUE-018", "ISSUE-019", "ISSUE-020"
+  ],
+  "discussions": ["DISC-001", "DISC-002", "DISC-003", "DISC-004", "DISC-005", "DISC-006"],
+  "projects": ["PROJECT-001"],
+  "wiki_pages": ["WIKI-001", "WIKI-002", "WIKI-003", "WIKI-004", "WIKI-005", "WIKI-006", "WIKI-007", "WIKI-008", "WIKI-009"]
+}
