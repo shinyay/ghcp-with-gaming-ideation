@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "snapshot_id": "DEMO-SNAPSHOT-001",
+  "archive_catalog": "archive/catalog/assets.yaml",
+  "archive_asset_ids": [
+    "DRV-001",
+    "DRV-002",
+    "DRV-003",
+    "DRV-004",
+    "DRV-005",
+    "DRV-006",
+    "DRV-007",
+    "DRV-008",
+    "DRV-009",
+    "DRV-010",
+    "DRV-011",
+    "DRV-012",
+    "DRV-013",
+    "DRV-014",
+    "DRV-015",
+    "DRV-016",
+    "DRV-017",
+    "DRV-018",
+    "DRV-019",
+    "DRV-020",
+    "DRV-021",
+    "DRV-022",
+    "DRV-023",
+    "DRV-024",
+    "DRV-025",
+    "DRV-026",
+    "DRV-027",
+    "DRV-028",
+    "DRV-029",
+    "DRV-030"
+  ],
+  "lineage_source": "design/lineage/LINEAGE-001.json",
+  "lineage_node_ids": [
+    "DRV-001",
+    "DRV-002",
+    "DRV-003",
+    "CFL-001",
+    "FND-001",
+    "PDN-001",
+    "BET-002",
+    "ADR-001",
+    "VS-001",
+    "ISSUE-001",
+    "PLAYABLE-001"
+  ],
+  "github_snapshot": "demo/offline-snapshots/github-objects.json",
+  "github_object_refs": [
+    {
+      "stable_id": "ISSUE-001",
+      "collection": "issues"
+    },
+    {
+      "stable_id": "DISC-004",
+      "collection": "discussions"
+    },
+    {
+      "stable_id": "PROJECT-001",
+      "collection": "project"
+    },
+    {
+      "stable_id": "WIKI-ROOT-001",
+      "collection": "wiki"
+    }
+  ],
+  "external_github_objects": [
+    {
+      "stable_id": "PR-004",
+      "collection": "pull-request",
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/pull/4",
+      "status": "merged"
+    },
+    {
+      "stable_id": "PR-005",
+      "collection": "pull-request",
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/pull/5",
+      "status": "merged"
+    },
+    {
+      "stable_id": "BLD-001",
+      "collection": "actions-run",
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/actions/runs/32769228061",
+      "status": "success"
+    }
+  ],
+  "node_github_object_refs": {
+    "BET-002": "DISC-004",
+    "VS-001": "PROJECT-001",
+    "ISSUE-001": "ISSUE-001",
+    "PR-004": "PR-004",
+    "PR-005": "PR-005",
+    "BLD-001": "BLD-001"
+  },
+  "additional_nodes": [
+    {
+      "id": "PR-004",
+      "kind": "pull-request",
+      "label_ja": "Legacy Mirror Corridor実装PR",
+      "summary_en": "Merged pull request for the deterministic 1998 representative route.",
+      "repository_path": "apps/demo-site/src/legacy-view.ts",
+      "external_url": "https://github.com/shinyay/ghcp-with-gaming-ideation/pull/4"
+    },
+    {
+      "id": "PR-005",
+      "kind": "pull-request",
+      "label_ja": "SECOND HAND Twin Span実装PR",
+      "summary_en": "Merged pull request for the deterministic local cooperative slice.",
+      "repository_path": "apps/demo-site/src/second-hand-view.ts",
+      "external_url": "https://github.com/shinyay/ghcp-with-gaming-ideation/pull/5"
+    },
+    {
+      "id": "BLD-001",
+      "kind": "build",
+      "label_ja": "main統合後の検証build",
+      "summary_en": "Successful combined gate on the current main baseline.",
+      "repository_path": ".github/workflows/validate-thin-slice.yml",
+      "external_url": "https://github.com/shinyay/ghcp-with-gaming-ideation/actions/runs/32769228061"
+    }
+  ],
+  "additional_edges": [
+    {
+      "from": "ISSUE-001",
+      "to": "PR-004",
+      "relation": "implemented-by"
+    },
+    {
+      "from": "ISSUE-001",
+      "to": "PR-005",
+      "relation": "implemented-by"
+    },
+    {
+      "from": "PR-004",
+      "to": "BLD-001",
+      "relation": "verified-by"
+    },
+    {
+      "from": "PR-005",
+      "to": "BLD-001",
+      "relation": "verified-by"
+    },
+    {
+      "from": "BLD-001",
+      "to": "PLAYABLE-001",
+      "relation": "demonstrated-by"
+    }
+  ],
+  "forbidden_github_fields": [
+    "author",
+    "body",
+    "comments",
+    "reactions",
+    "token"
+  ]
+}

@@ -11,8 +11,9 @@
 
 『STAR RELAY』は、1998年に稼働したという設定の**架空の**アーケードゲームです。
 このリポジトリは、異種資料をGitHubで管理し、証拠・解釈・意思決定・実装をstable
-IDで接続するデモの開始点です。現在の実装範囲はPhase 0〜3で、変換済み旧資産の
-完全コーパスとその横断読解索引までを含みます。
+IDで接続するデモです。現在の実装範囲はPhase 0〜8で、変換済み旧資産、GitHub /
+Copilot surface、2つのplayable、Museum、Archive / Lineage Explorer、再現可能な
+private Release packagingまでを含みます。
 
 ```text
 Archive -> Understand -> Imagine -> Decide -> Plan -> Build -> Learn
@@ -26,9 +27,12 @@ Archive -> Understand -> Imagine -> Decide -> Plan -> Build -> Learn
 - 1件の人間レビュー済みFindingから`VS-001`までのCreative Lineage
 - 60 Hz・整数state・固定replayで動く30秒の1998 core-loop proof
 - 1画面・ローカル2人のCore handoff proof
-- GitHub APIを呼ばない静的Lineage表示とoffline package
-- 4つのcustom agentと7つのprompt fileを使う60分の
+- GitHub APIを呼ばないMuseum、Archive Explorer、Creative Lineage Explorer
+- `Museum -> Archive -> Lineage -> Legacy -> SECOND HAND`のoffline path
+- `demo-site.zip`、両playable zip、offline pack、manifest、SHA256SUMS
+- 4つのcustom agentと7つのprompt fileを使う70分の
   [self-guided workshop](demo/self-guided-workshop.md)
+- [60分runbook](demo/runbook.md)と[20分self-guided demo](demo/self-guided-demo.md)
 - 構造と引用だけを見る[固定10シナリオの評価](evaluation/README.md)
 
 Archiveの読み方は[archive/README.md](archive/README.md)と
@@ -45,11 +49,17 @@ npm run typecheck
 npm test
 npm run build
 npm run package:offline
+npm run package:release
+npm run verify:release
 npm run serve:offline
 ```
 
 `http://127.0.0.1:4173`を開きます。実行中のbrowser codeはGitHub tokenやGitHub
 APIを必要としません。
+
+Phase 8の全gateは`npm run gate:phase8`です。Release workflowは既存のannotated
+`vX.Y.Z-demo-reference` tagだけを受け取り、Private repositoryのdraft Releaseへ
+allowlisted assetを添付します。Pages publicationは行いません。
 
 ## 情報の境界
 

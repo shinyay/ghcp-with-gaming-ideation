@@ -7,8 +7,52 @@
       "to": "."
     },
     {
-      "from": "demo/offline-snapshots",
-      "to": "github-objects"
+      "from": "demo/offline-snapshots/github-objects.json",
+      "to": "snapshots/github-objects.json"
+    },
+    {
+      "from": "demo/offline-snapshots/archive-assets.json",
+      "to": "snapshots/archive-assets.json"
+    },
+    {
+      "from": "demo/offline-snapshots/lineage-snapshot.json",
+      "to": "snapshots/lineage-snapshot.json"
+    },
+    {
+      "from": "demo/runbook.md",
+      "to": "docs/runbook.md"
+    },
+    {
+      "from": "demo/speaker-notes.md",
+      "to": "docs/speaker-notes.md"
+    },
+    {
+      "from": "demo/60-minute-cue-sheet.md",
+      "to": "docs/60-minute-cue-sheet.md"
+    },
+    {
+      "from": "demo/self-guided-demo.md",
+      "to": "docs/self-guided-demo.md"
+    },
+    {
+      "from": "demo/fallback-matrix.md",
+      "to": "docs/fallback-matrix.md"
+    },
+    {
+      "from": "demo/recorded-static-protocol.md",
+      "to": "docs/recorded-static-protocol.md"
+    },
+    {
+      "from": "demo/recording-manifest.json",
+      "to": "recording-manifest.json"
+    },
+    {
+      "from": "demo/offline-pack/README.md",
+      "to": "README.md"
+    },
+    {
+      "from": "demo/offline-pack/serve.mjs",
+      "to": "serve.mjs"
     }
   ],
   "forbidden_content_tokens": [
@@ -16,6 +60,7 @@
     "api.github.com",
     "github_pat_",
     "ghp_",
-    "answer-keys/"
+    "answer-keys/",
+    "github.com/shinyay/ghcp-with-gaming-ideation-reference"
   ]
 }

@@ -1,0 +1,56 @@
+name: package-private-release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing annotated vX.Y.Z-demo-reference tag
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: private-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    env:
+      RELEASE_TAG: ${{ inputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ env.RELEASE_TAG }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Verify annotated release tag
+        run: npm exec tsx scripts/verify-release-tag.ts
+      - name: Run combined Phase 8 gate
+        run: npm run gate:phase8
+      - name: Upload temporary workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: star-relay-${{ env.RELEASE_TAG }}
+          path: dist/release/*
+          if-no-files-found: error
+      - name: Create repository-access-controlled draft Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release create "$RELEASE_TAG" --verify-tag --draft \
+              --title "STAR RELAY $RELEASE_TAG" \
+              --notes "Private demo package. Access follows repository access; GitHub Pages is not used."
+          fi
+          gh release upload "$RELEASE_TAG" dist/release/* --clobber

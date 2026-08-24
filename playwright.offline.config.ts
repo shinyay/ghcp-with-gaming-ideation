@@ -11,7 +11,7 @@ export default defineConfig({
     headless: true
   },
   webServer: {
-    command: "npm run serve:offline",
+    command: "npm run serve:offline-release",
     url: "http://127.0.0.1:4173",
     reuseExistingServer: false,
     timeout: 30_000

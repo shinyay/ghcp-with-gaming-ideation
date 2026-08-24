@@ -64,12 +64,23 @@ async function collectFiles(directory: string): Promise<string[]> {
 for (const entry of allowlist.sources) {
   const sourceRoot = resolve(entry.from);
   const sourceInfo = await lstat(sourceRoot);
-  if (!sourceInfo.isDirectory()) {
-    throw new Error(`Allowlisted source is not a directory: ${entry.from}`);
+  if (sourceInfo.isSymbolicLink()) {
+    throw new Error(`Allowlisted source must not be a symlink: ${entry.from}`);
   }
 
-  for (const sourcePath of await collectFiles(sourceRoot)) {
-    const targetPath = resolve(TARGET, entry.to, relative(sourceRoot, sourcePath));
+  const sourcePaths = sourceInfo.isDirectory()
+    ? await collectFiles(sourceRoot)
+    : sourceInfo.isFile()
+      ? [sourceRoot]
+      : [];
+  if (sourcePaths.length === 0) {
+    throw new Error(`Allowlisted source is not a file or directory: ${entry.from}`);
+  }
+
+  for (const sourcePath of sourcePaths) {
+    const targetPath = sourceInfo.isDirectory()
+      ? resolve(TARGET, entry.to, relative(sourceRoot, sourcePath))
+      : resolve(TARGET, entry.to);
     if (!isPathWithin(TARGET, targetPath)) {
       throw new Error(`Package path escapes target: ${targetPath}`);
     }
@@ -80,7 +91,16 @@ for (const entry of allowlist.sources) {
 
 const packagedFiles = await collectFiles(TARGET);
 const manifestFiles: ManifestFile[] = [];
-const textExtensions = new Set([".css", ".html", ".js", ".json", ".map", ".txt"]);
+const textExtensions = new Set([
+  ".css",
+  ".html",
+  ".js",
+  ".json",
+  ".map",
+  ".md",
+  ".mjs",
+  ".txt"
+]);
 
 for (const file of packagedFiles) {
   const content = await readFile(file);

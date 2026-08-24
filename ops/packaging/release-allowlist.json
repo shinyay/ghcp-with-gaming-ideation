@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "release_id": "REL-001",
+  "tag_pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+-demo-reference$",
+  "repository_access_required": "private",
+  "pages_publication": "forbidden",
+  "required_clean_paths": [
+    "."
+  ],
+  "packages": [
+    {
+      "name": "demo-site.zip",
+      "source": "dist/demo-site",
+      "entrypoint": "index.html",
+      "start_anchor": "#museum"
+    },
+    {
+      "name": "star-relay-1998-playable.zip",
+      "source": "dist/demo-site",
+      "entrypoint": "index.html",
+      "start_anchor": "#legacy"
+    },
+    {
+      "name": "second-hand-vertical-slice.zip",
+      "source": "dist/demo-site",
+      "entrypoint": "index.html",
+      "start_anchor": "#second-hand"
+    },
+    {
+      "name": "offline-demo-pack.zip",
+      "source": "dist/offline-demo-pack",
+      "entrypoint": "index.html",
+      "start_anchor": "#museum"
+    }
+  ],
+  "forbidden_content_tokens": [
+    "REFCANARY-",
+    "api.github.com",
+    "github_pat_",
+    "ghp_",
+    "answer-keys/",
+    "github.com/shinyay/ghcp-with-gaming-ideation-reference"
+  ]
+}

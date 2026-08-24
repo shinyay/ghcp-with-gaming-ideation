@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { runLegacyReplay } from "@star-relay/legacy-1998";
 
-test("Chromium matches Node replay and renders the static lineage", async ({
+test("Chromium follows Museum to both playables without external requests", async ({
   page
 }) => {
   const externalRequests: string[] = [];
@@ -14,7 +14,14 @@ test("Chromium matches Node replay and renders the static lineage", async ({
   await page.goto("/");
   await expect(page).toHaveTitle(/STAR RELAY/);
   await expect(page.locator("canvas")).toHaveCount(2);
-  await expect(page.locator("[data-stable-id]")).toHaveCount(11);
+  await expect(page.locator("[data-stable-id]")).toHaveCount(14);
+  await expect(page.locator("[data-archive-id]")).toHaveCount(30);
+  await expect(page.locator("[data-demo-view]")).toHaveCount(5);
+  expect(
+    await page
+      .locator("[data-demo-view]")
+      .evaluateAll((elements) => elements.map((element) => element.id))
+  ).toEqual(["museum", "archive", "lineage", "legacy", "second-hand"]);
   await expect(page.locator("#latency-fixture-rows tr")).toHaveCount(4);
   await expect(page.locator("#handoff-caption")).not.toBeEmpty();
   await expect(page.locator("[data-legacy-step]")).toHaveCount(4);
@@ -26,6 +33,38 @@ test("Chromium matches Node replay and renders the static lineage", async ({
   expect(browserReplay.checkpointHashes).toEqual(nodeReplay.checkpointHashes);
   expect(browserReplay.tick).toBe(1800);
   expect(externalRequests).toEqual([]);
+});
+
+test("Archive and Lineage filters preserve stable offline resolvers", async ({
+  page
+}) => {
+  await page.goto("/");
+
+  await page.locator("#archive-search").fill("DRV-003");
+  await expect(page.locator("[data-archive-id]")).toHaveCount(1);
+  await expect(page.locator("[data-archive-id='DRV-003']")).toContainText(
+    "md:heading/core-loop"
+  );
+  await page.locator("#archive-clear").click();
+  await page.locator("#archive-media").selectOption("source");
+  await expect(page.locator("[data-archive-id]")).toHaveCount(4);
+
+  await page.getByRole("button", { name: "Evidence", exact: true }).click();
+  await expect(page.locator("[data-stable-id]")).toHaveCount(3);
+  await expect(page.locator("[data-stable-id='DRV-001']")).toContainText(
+    "offline:DRV-001"
+  );
+  await page.getByRole("button", { name: "Proposal / delivery" }).click();
+  await expect(page.locator("[data-stable-id='PR-004']")).toBeVisible();
+  await expect(page.locator("[data-stable-id='PR-005']")).toBeVisible();
+  await expect(page.locator("[data-stable-id='BLD-001']")).toContainText(
+    "PR-004 —verified-by→ BLD-001"
+  );
+  await expect(page.locator("[data-stable-id='BET-002']")).toContainText(
+    "offline:DISC-004"
+  );
+  await page.getByRole("button", { name: "All", exact: true }).click();
+  await expect(page.locator("[data-stable-id]")).toHaveCount(14);
 });
 
 test("live regions stay quiet per tick and invalid settings do not reset", async ({

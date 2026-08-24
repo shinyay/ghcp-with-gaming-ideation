@@ -6,10 +6,11 @@ import {
   validateLineageReferences
 } from "@star-relay/lineage-model";
 
-test("thin lineage is complete and every repository path resolves", async () => {
+test("allowlisted lineage is complete and every repository path resolves", async () => {
   assert.deepEqual(validateLineageReferences(thinLineage), []);
-  assert.equal(thinLineage.nodes.length, 11);
-  assert.equal(thinLineage.edges.length, 10);
+  assert.equal(thinLineage.nodes.length, 14);
+  assert.equal(thinLineage.edges.length, 15);
+  assert.equal(thinLineage.browser_network, "forbidden");
 
   for (const node of thinLineage.nodes) {
     await access(node.repository_path);
@@ -27,6 +28,15 @@ test("thin lineage is complete and every repository path resolves", async () => 
     "ADR-001",
     "VS-001",
     "ISSUE-001",
+    "PR-004",
+    "PR-005",
+    "BLD-001",
     "PLAYABLE-001"
   ]);
+  assert.deepEqual(
+    thinLineage.nodes
+      .filter((node) => node.github_object_id !== null)
+      .map((node) => node.github_object_id),
+    ["DISC-004", "PROJECT-001", "ISSUE-001", "PR-004", "PR-005", "BLD-001"]
+  );
 });

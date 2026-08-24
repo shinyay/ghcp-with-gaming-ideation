@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "id": "RESET-001",
+  "destructive": false,
+  "generated_targets": [
+    "dist/demo-site",
+    "dist/offline-demo-pack",
+    "dist/release",
+    "dist/release-staging",
+    "dist/release-smoke",
+    "test-results",
+    "playwright-report"
+  ],
+  "rebuild_commands": [
+    "npm run build",
+    "npm run package:offline"
+  ],
+  "ready_when": [
+    "dist/offline-demo-pack/index.html exists",
+    "dist/offline-demo-pack/build-manifest.json validates",
+    "npm run test:offline exits 0"
+  ]
+}

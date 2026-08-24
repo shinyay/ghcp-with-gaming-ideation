@@ -7,7 +7,7 @@ This private teaching repository demonstrates how GitHub and Copilot can connect
 archive evidence, reviewed interpretation, a human decision, and a playable
 proof without confusing those layers.
 
-The current scope covers Phases 0–7:
+The current scope covers Phases 0–8:
 
 - thirty demo-safe synthetic derived records spanning documents, spreadsheets,
   manuals, QA records, art metadata, audio metadata, C89-style source, and a
@@ -19,7 +19,9 @@ The current scope covers Phases 0–7:
 - one complete stable-ID lineage to `VS-001`;
 - a deterministic 30-second 1998 core-loop proof;
 - a one-screen local two-player handoff proof;
-- a static, offline-safe lineage view;
+- production Museum, Archive Explorer, and Creative Lineage Explorer views;
+- an offline five-stop path from Museum through both playables;
+- deterministic ZIP packaging, a build manifest, and `SHA256SUMS`;
 - seven prompt files and four custom agents that keep evidence, inference,
   proposal, and decision apart; and
 - ten fixed evaluation scenarios scored on structure and citation validity
@@ -33,8 +35,10 @@ design bet, and require an accepted decision record before playable meaning
 changes. Archive Curator and Provenance Auditor are read-only; no agent or
 prompt is granted shell execution.
 
-The [self-guided workshop](demo/self-guided-workshop.md) is a 60-minute solo
+The [self-guided workshop](demo/self-guided-workshop.md) is a 70-minute solo
 path from archive to three distinct design bets and one planned slice.
+The [Phase 8 runbook](demo/runbook.md) provides the 60-minute presenter path;
+the [self-guided demo](demo/self-guided-demo.md) is the 20-minute local path.
 
 Scoring covers structure only: sections present, citations that resolve,
 contradictions left open, decisions left to the human. Expected answers,
@@ -62,7 +66,13 @@ npm ci
 npm test
 npm run build
 npm run package:offline
+npm run package:release
+npm run verify:release
 npm run serve:offline
 ```
 
 Open `http://127.0.0.1:4173`.
+
+`npm run gate:phase8` runs the complete local gate. The Release workflow accepts
+only an existing annotated `vX.Y.Z-demo-reference` tag, uploads allowlisted
+assets to a draft Release in this private repository, and never publishes Pages.
