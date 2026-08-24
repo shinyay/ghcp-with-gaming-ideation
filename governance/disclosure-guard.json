@@ -2,7 +2,7 @@
   "schema_version": 1,
   "purpose_ja": "単一資産が結論を丸ごと露出させないための禁止語彙。Evidenceは横断読解でのみ成立させる。",
   "purpose_en": "Guard list keeping any single fixture from carrying a whole conclusion, and keeping reference content out of the demo repository.",
-  "scanned_roots": ["archive", "research", "design", "canon"],
+  "scanned_roots": ["archive", "research", "design", "canon", "evaluation", ".github"],
   "derived_forbidden_substrings": [
     "5/6",
     "5 / 6",
@@ -42,6 +42,7 @@
     "derived_forbidden_substrings は archive/derived 配下のfixtureのみを対象とする。",
     "taxonomy_forbidden_substrings は archive/evidence-packets 配下を対象とし、問いが期待される分類そのものを列挙することを防ぐ。packetは読む位置だけを示し、答えの形を示さない。",
     "repository_forbidden_substrings は scanned_roots 全体を対象とする。",
+    "scanned_roots は .github と evaluation を含む。prompt file、custom agent、rubricへreference由来のcontentが混ざることを防ぐ。",
     "Evidence packetのconclusion系fieldはschema側で禁止しているため、ここでは扱わない。",
     "この一覧はアクセス制御ではない。分類とrepository分離が正本である。"
   ]

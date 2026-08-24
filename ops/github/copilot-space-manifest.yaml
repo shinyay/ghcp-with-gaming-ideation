@@ -1,12 +1,38 @@
-schema_version: 1
+schema_version: 2
 name: "STAR RELAY / Cleared Archive"
-automation_status: manual_fallback
+
+# automation_status は「このmanifestどおりのSpaceが実在するか」ではなく、
+# 自動作成の可否を表す。作成済みかどうかは verification を見ること。
+automation_status: manual_only
+automation_reason_ja: >-
+  Phase 0のCapability Spikeで、Copilot Spaceの作成・source追加に使えるREST、
+  GraphQL、CLI、MCPのいずれの手段も見つからなかった。再確認の手順は
+  copilot-space-setup.md に記載する。
+automation_reason_en: >-
+  No supported REST, GraphQL, CLI, or MCP surface for creating a Copilot Space
+  or attaching its sources was available during the Phase 0 capability spike.
+
+verification:
+  space_created: false
+  created_at: null
+  created_by: null
+  verified_by: null
+  # 手動作成した場合のみ、実施者が上記を埋める。埋まっていない状態を
+  # 「作成済み」と読み替えないこと。
+  note_ja: このfileは設計意図である。実在するSpaceの記録ではない。
+  note_en: This file states intent. It is not a record of an existing Space.
+
 repositories:
   - shinyay/ghcp-with-gaming-ideation
+
 forbidden_repositories:
+  # Space、workspace、MCP、all-repository searchのいずれへも追加しない。
   - shinyay/ghcp-with-gaming-ideation-reference
+
 allowed_paths:
   - governance/evidence-policy.md
+  - governance/classification-policy.md
+  - governance/copilot-boundaries.md
   - archive/README.md
   - archive/catalog/**
   - archive/derived/**
@@ -14,12 +40,46 @@ allowed_paths:
   - research/claims/**
   - research/conflicts/**
   - research/hypotheses/**
+
 excluded_paths:
+  # 既存の人間の判断。新しい問いの答えとして引用させない。
   - research/findings/**
   - design/**
+  - canon/**
+  # 評価の枠組み。Spaceの回答材料にしない。
+  - evaluation/**
+  # 実装成果物。Archive理解のsourceではない。
+  - packages/**
+  - apps/**
+  - tests/**
+
 requirements:
   classification: demo-safe
   ai_eligible: true
+  origin_kind: synthetic_fixture
+
+representative_issues:
+  # 代表Issueのみを追加する。Issue本文へ回答を書かない。
+  - number: 1
+    reason_ja: VS-001の受入条件と検証方法の実例
+  - number: 2
+    reason_ja: Design Labの議論導線の実例
+
+identity_policy:
+  preferred_ja: >-
+    Demo repositoryだけを閲覧できる別のGitHub identityを使う。
+  fallback_ja: >-
+    別identityが用意できない場合は、Space、local workspace、GitHub MCP、
+    all-repository searchの対象をDemo repositoryへ限定し、リハーサルで
+    reference由来のcitationが出ないことを確認する。
+  canary_check: ops/github/capability-report.md
+
 notes:
-  ja: Space APIが利用できない場合、このmanifestを使って手動設定し、reference repositoryを追加しない。
-  en: When Space automation is unavailable, configure these sources manually and never add the reference repository.
+  ja: >-
+    Space automationが利用できない間は、copilot-space-setup.mdの手動手順を
+    正本とする。reference repositoryを追加しない。allowed_pathsに無いpathを
+    sourceへ足さない。
+  en: >-
+    While Space automation is unavailable, copilot-space-setup.md is the
+    authoritative manual procedure. Never attach the reference repository, and
+    never add a path outside allowed_paths.
