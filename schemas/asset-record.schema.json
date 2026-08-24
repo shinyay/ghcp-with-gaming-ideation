@@ -9,6 +9,7 @@
     "title",
     "classification",
     "origin_kind",
+    "derivation_kind",
     "source_ref",
     "source_created_at",
     "ingested_at",
@@ -31,15 +32,36 @@
     "title": { "type": "string", "minLength": 1 },
     "classification": { "const": "demo-safe" },
     "origin_kind": { "const": "synthetic_fixture" },
+    "derivation_kind": { "const": "directly_authored_fixture" },
     "source_ref": { "type": "string", "pattern": "^SRC-[0-9]{3}$" },
     "source_created_at": { "type": "string", "format": "date" },
     "ingested_at": { "type": "string", "format": "date-time" },
     "media_type": { "type": "string", "minLength": 1 },
     "path": { "type": "string", "pattern": "^archive/derived/" },
-    "src_sha256": { "$ref": "#/definitions/sha256" },
-    "transform_id": { "type": "string", "pattern": "^transform:[a-z0-9-]+$" },
-    "transform_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
-    "transform_config_sha256": { "$ref": "#/definitions/sha256" },
+    "src_sha256": {
+      "oneOf": [
+        { "$ref": "#/definitions/sha256" },
+        { "type": "null" }
+      ]
+    },
+    "transform_id": {
+      "oneOf": [
+        { "type": "string", "pattern": "^transform:[a-z0-9-]+$" },
+        { "type": "null" }
+      ]
+    },
+    "transform_version": {
+      "oneOf": [
+        { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+        { "type": "null" }
+      ]
+    },
+    "transform_config_sha256": {
+      "oneOf": [
+        { "$ref": "#/definitions/sha256" },
+        { "type": "null" }
+      ]
+    },
     "derived_sha256": { "$ref": "#/definitions/sha256" },
     "locator_grammar_version": { "const": "sr-loc/v1" },
     "locators": {
@@ -59,6 +81,23 @@
     "package_allowed": { "type": "boolean" },
     "contains_free_text": { "type": "boolean" }
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "derivation_kind": { "const": "directly_authored_fixture" }
+        }
+      },
+      "then": {
+        "properties": {
+          "src_sha256": { "const": null },
+          "transform_id": { "const": null },
+          "transform_version": { "const": null },
+          "transform_config_sha256": { "const": null }
+        }
+      }
+    }
+  ],
   "definitions": {
     "sha256": {
       "type": "string",

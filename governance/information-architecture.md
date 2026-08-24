@@ -45,8 +45,10 @@ Wiki、Project、Issue、Discussionへ本文を複製しない。会話はDiscus
 ## Phase 2 lineage
 
 ```text
+DRV-001 + DRV-002
+  -> CFL-001 (open)
+
 DRV-001 + DRV-003
-  -> CFL-001
   -> FND-001
   -> PDN-001
   -> BET-002

@@ -28,3 +28,11 @@ prefixを含める。行番号だけをcanonical locatorにしない。
 Findingは最低2つのlocator、review status、review method、review timestampを持つ。
 Phase 2の`FND-001`は構造検証用の唯一のreviewed fixtureで、complete finding setや
 期待回答ではない。
+
+## Directly authored fixtures
+
+Phase 0〜2のDRVは原本変換の成果ではなく、`derivation_kind:
+directly_authored_fixture`である。Reproducible sourceとtransform executableがない間は
+`src_sha256`と全transform execution fieldを`null`にする。存在しない入力や未実行の
+変換へhash/versionを割り当てない。`derived_sha256`だけは実在するfixture fileを検証
+する。

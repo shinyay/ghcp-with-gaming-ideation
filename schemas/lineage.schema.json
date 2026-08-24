@@ -45,7 +45,7 @@
           "to": { "type": "string" },
           "relation": {
             "type": "string",
-            "enum": ["reveals", "reviewed-as", "abstracted-as", "motivates", "approved-by", "implemented-as", "tracked-by", "demonstrated-by"]
+            "enum": ["reveals", "supports", "abstracted-as", "motivates", "approved-by", "implemented-as", "tracked-by", "demonstrated-by"]
           }
         }
       }

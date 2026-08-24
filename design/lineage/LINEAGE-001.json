@@ -12,6 +12,14 @@
       "external_url": null
     },
     {
+      "id": "DRV-002",
+      "kind": "evidence",
+      "label_ja": "1997年 1人用transition notes fixture",
+      "summary_en": "Synthetic notes record a one-player target without a reason.",
+      "repository_path": "archive/derived/documents/DRV-002-solo-transition-notes.md",
+      "external_url": null
+    },
+    {
       "id": "DRV-003",
       "kind": "evidence",
       "label_ja": "1998年 最終gameplay仕様fixture",
@@ -86,8 +94,9 @@
   ],
   "edges": [
     { "from": "DRV-001", "to": "CFL-001", "relation": "reveals" },
-    { "from": "DRV-003", "to": "CFL-001", "relation": "reveals" },
-    { "from": "CFL-001", "to": "FND-001", "relation": "reviewed-as" },
+    { "from": "DRV-002", "to": "CFL-001", "relation": "reveals" },
+    { "from": "DRV-001", "to": "FND-001", "relation": "supports" },
+    { "from": "DRV-003", "to": "FND-001", "relation": "supports" },
     { "from": "FND-001", "to": "PDN-001", "relation": "abstracted-as" },
     { "from": "PDN-001", "to": "BET-002", "relation": "motivates" },
     { "from": "BET-002", "to": "ADR-001", "relation": "approved-by" },
