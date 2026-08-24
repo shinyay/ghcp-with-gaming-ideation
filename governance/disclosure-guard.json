@@ -2,7 +2,7 @@
   "schema_version": 1,
   "purpose_ja": "単一資産が結論を丸ごと露出させないための禁止語彙。Evidenceは横断読解でのみ成立させる。",
   "purpose_en": "Guard list keeping any single fixture from carrying a whole conclusion, and keeping reference content out of the demo repository.",
-  "scanned_roots": ["archive", "research", "design", "canon", "evaluation", ".github"],
+  "scanned_roots": ["archive", "research", "design", "canon", "evaluation", "demo", ".github"],
   "derived_forbidden_substrings": [
     "5/6",
     "5 / 6",

@@ -98,6 +98,15 @@ const REQUIRED_AGENT_STEMS = [
   "provenance-auditor"
 ];
 
+/**
+ * `06-plan-slice` requires a strictly `accepted` decision. ADR-001 records a
+ * scoped acceptance, so a run that used it as a fallback would always stop.
+ * The planning exercise therefore needs its own clearly labelled fixture, and
+ * the fixture must stay distinguishable from a real decision.
+ */
+const PLANNING_FIXTURE = "demo/fixtures/ADR-DEMO-001-playtest-log-export.md";
+const SCOPED_STATUS_DECISION = "design/decisions/ADR-001-thin-proof.md";
+
 const problems: string[] = [];
 
 function require(condition: boolean, message: string): void {
@@ -369,6 +378,62 @@ require(
   "pass_threshold.scenarios_total disagrees with the scenario count."
 );
 
+// --- Planning fallback fixture -----------------------------------------------
+
+function statusLine(content: string): string {
+  const match = /^-\s*Status:\s*(.+)$/m.exec(content);
+  return match?.[1]?.trim() ?? "";
+}
+
+const fixture = await readFile(PLANNING_FIXTURE, "utf8");
+const fixtureStatus = statusLine(fixture);
+
+require(
+  fixtureStatus === "accepted",
+  `${PLANNING_FIXTURE} must record a strictly accepted status; found "${fixtureStatus}".`
+);
+require(
+  /^-\s*Fixture:\s*true$/m.test(fixture),
+  `${PLANNING_FIXTURE} must declare Fixture: true so it is never read as a real decision.`
+);
+require(
+  fixture.includes("訓練用fixture"),
+  `${PLANNING_FIXTURE} must say in its body that it is a training fixture.`
+);
+require(
+  !/^-\s*Decided by:\s*(?!fixture data)\S/m.test(fixture),
+  `${PLANNING_FIXTURE} must not name a real approver.`
+);
+require(
+  !fixture.includes("DRV-"),
+  `${PLANNING_FIXTURE} must not cite archive evidence; it is not an ideation answer.`
+);
+
+/**
+ * If ADR-001 ever became plainly `accepted`, the fixture would no longer be
+ * needed and the workshop's deliberate stop probe would silently pass instead
+ * of stopping. Fail loudly so the material gets revisited rather than drifting.
+ */
+const scopedStatus = statusLine(await readFile(SCOPED_STATUS_DECISION, "utf8"));
+require(
+  scopedStatus !== "accepted",
+  `${SCOPED_STATUS_DECISION} is now plainly accepted; revisit the planning fallback and the stop probe that rely on its scoped status.`
+);
+require(
+  scopedStatus.length > 0,
+  `${SCOPED_STATUS_DECISION} no longer records a status line.`
+);
+
+const workshop = await readFile("demo/self-guided-workshop.md", "utf8");
+require(
+  workshop.includes("ADR-DEMO-001"),
+  "The workshop must name the planning fallback fixture."
+);
+require(
+  !/既存の`ADR-001`で進めて/.test(workshop),
+  "The workshop must not send a reader to ADR-001, whose scoped status always stops the planner."
+);
+
 // --- Space manifest ----------------------------------------------------------
 
 const space = parseYaml(await readFile(SPACE_MANIFEST, "utf8")) as SpaceManifest;
@@ -433,6 +498,7 @@ for (const excluded of [
   "design",
   "canon",
   "evaluation",
+  "demo",
   "packages",
   "apps",
   "tests"
@@ -501,6 +567,8 @@ for (const path of guardedFiles) {
 const linkedFiles = [
   ...guardedFiles,
   "demo/self-guided-workshop.md",
+  "demo/fixtures/README.md",
+  PLANNING_FIXTURE,
   "governance/copilot-boundaries.md",
   "ops/github/copilot-space-setup.md"
 ].filter((path) => path.endsWith(".md"));

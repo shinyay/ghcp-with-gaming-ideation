@@ -171,7 +171,8 @@ BET IDの代わりに使い、工程5でそのIssueへのlinkを渡します。�
    | `Decided at` | 実際の日付 |
 
 4. 受理しない場合は`proposed`のまま残します。それも正しい結果です。工程6は
-   既存の`ADR-001`で進めてください。
+   訓練用fixture`ADR-DEMO-001`で進めてください。`ADR-001`は使えません（`Status`が
+   `Accepted for Phase 2 only`で、`accepted`と厳密一致しないため）。
 5. 検証します。
 
    ```powershell
@@ -185,17 +186,32 @@ BET IDの代わりに使い、工程5でそのIssueへのlinkを渡します。�
 
 **agent:** `slice-planner` / **prompt:** `06-plan-slice`
 
-工程5.5で受理した**あなたのADR ID**を渡します。受理まで進まなかった場合、または
-時間が足りない場合は、既存の`ADR-001`を使ってください。
+渡すADRは次の優先順です。
+
+| 状況 | 渡すADR |
+|---|---|
+| 工程5.5でADRを受理した | あなたのADR ID |
+| 受理しなかった、または時間が足りない | `ADR-DEMO-001`（訓練用fixture） |
+
+`ADR-DEMO-001`は[demo/fixtures/](fixtures/README.md)にある訓練用fixtureです。
+tooling決定であり、ゲーム設計の決定でも、Archiveの問いへの答えでもありません。
+これを使った場合、出力の冒頭に「訓練用fixtureに基づく計画」と明記されるはずです。
+
+**わざと試すこと（2回）:**
+
+1. 存在しないADR IDを渡す。計画を作らずに停止すれば正しい動作です。
+2. `ADR-001`を渡す。**これも停止するのが正解です。** `ADR-001`の`Status`は
+   `Accepted for Phase 2 only`で、`accepted`と厳密一致しません。scope付きのstatusを
+   「実質accepted」と読み替えて計画を作った場合、それは
+   `plans-meaning-change-without-adr`に当たる失敗です。停止時に、確認したstatus
+   文字列が報告に含まれているかも確認してください。
 
 - [ ] 冒頭に由来ADR IDがある
 - [ ] 受入条件が「入力Xのとき観測Yになる」の形
 - [ ] 検証コマンドと合格条件がある
 - [ ] 対象外が書かれている
 - [ ] 実装コードが出ていない
-
-**わざと試すこと:** 存在しないADR IDを渡してください。計画を作らずに停止すれば
-正しい動作です。
+- [ ] fixtureを使った場合、その旨が冒頭に明記されている
 
 ## 7. Learn — playtestを解釈する（5分）
 

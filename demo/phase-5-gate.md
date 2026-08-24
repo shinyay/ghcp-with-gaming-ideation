@@ -17,6 +17,7 @@ Base: `main` at `918758c471e35bba6d2d51e5be9bf712713d53c0`
 | Custom agent | 4 | `.github/agents/` |
 | 固定シナリオ | 10 | `evaluation/scenario-manifest.json` |
 | 構造rubric | 1 | `evaluation/structural-rubric.md` |
+| 訓練用fixture | 1 | `demo/fixtures/` |
 | Run sheetテンプレート | 1 | `evaluation/run-sheet.md`（空欄） |
 | Self-guided workshop | 1 | `demo/self-guided-workshop.md` |
 | Space manifest / 手順 | 2 | `ops/github/copilot-space-*.{yaml,md}` |
@@ -69,9 +70,33 @@ workshopは、Copilotへ渡さない操作を独立した工程として持つ�
 | 5.5 | ADRの受理（`accepted`）と署名 | 「これで行く」と言えるのは人間だけだから |
 
 prompt 04はIDを採番せずfileも書かない。prompt 05は`design/bets/`に実在するBETを
-要求し、無ければ停止する。prompt 06は`Status: accepted`のADRを要求し、無ければ
-停止する。工程4.5と5.5がこの3つを繋ぐ。工程5.5まで進めなかった場合は既存
-`ADR-001`をfallbackとして使う。
+要求し、無ければ停止する。prompt 06は`Status`が厳密に`accepted`のADRを要求し、
+無ければ停止する。工程4.5と5.5がこの3つを繋ぐ。
+
+### 計画工程のfallback fixture
+
+工程5.5で受理**しない**のは正しい結果であり、その場合でも工程6〜8を体験できる
+必要がある。加えて`SCN-009`は固定10シナリオの1つなので、採点者がworkshopを完走
+しなくても同じ条件で実行できなければならない。したがって計画工程には、learnerの
+選択に依存しない安定した入力が要る。
+
+`ADR-001`はこの用途に使えない。`Status: Accepted for Phase 2 only`はscope限定を
+status欄へ書き込んだ形で、`accepted`と厳密一致しない。**一致判定を緩めるのではなく**、
+訓練用fixture`demo/fixtures/ADR-DEMO-001-playtest-log-export.md`を追加した。
+
+| 性質 | 内容 |
+|---|---|
+| 種別 | 訓練用fixture。`Fixture: true`を明記 |
+| 主題 | toolingの決定。ゲームのrule、balance、勝敗条件、操作の意味に触れない |
+| Archive依拠 | なし。DRVを引用しない。ideationの答えではない |
+| 承認者 | `fixture data — 実在の承認者ではない`。実在の人物名を書かない |
+| Space source | 追加しない（`demo`を`excluded_paths`へ追加） |
+
+`ADR-001`を渡すと停止するのは**正しい動作**であり、workshop工程6の「わざと試すこと」
+とrubricの`scoped-status-not-treated-as-accepted`がこれを検査する。validatorは、
+fixtureが厳密に`accepted`かつ正しくlabelされていること、`ADR-001`が平の`accepted`に
+変わっていないこと（変わったらfallbackと停止probeを見直す必要がある）、workshopが
+`ADR-001`へ誘導していないことを検査する。
 
 ## Gate
 
@@ -85,9 +110,11 @@ prompt 04はIDを採番せずfileも書かない。prompt 05は`design/bets/`に
 | Instructionsが規律を強制する | `使ってよい証拠`、`出力の三層分離`、`引用の形式`、`Conflictの扱い`、`昇格の禁止`、`停止条件`の6節をvalidatorが必須にする | Pass |
 | Agentが最小権限である | 読み取り専用2件、`execute`ゼロ、wildcard toolsゼロをvalidatorとtestが検査 | Pass |
 | Promptが選択されたagentを上書きしない | 7 promptすべてがcustom agent slugへbindし、`tools`を宣言しない。シナリオの`recommended_agent`との一致もvalidatorが検査 | Pass |
-| Bet→ADR→Planの鎖が繋がる | workshopに工程4.5（BET採番と保存）と5.5（ADR受理と署名）を追加。prompt 05はBET不在で停止、prompt 06は`accepted`不在で停止 | Pass |
+| Bet→ADR→Planの鎖が繋がる | workshopに工程4.5（BET採番と保存）と5.5（ADR受理と署名）を追加。prompt 05はBET不在で停止、prompt 06は厳密な`accepted`不在で停止 | Pass |
+| 受理しなくても工程6〜8へ進める | 訓練用fixture`ADR-DEMO-001`を追加。`Fixture: true`、DRV非引用、実在承認者なし。`SCN-009`はlearnerの選択に依存せず再現する | Pass |
+| scope付きstatusを`accepted`と読み替えない | 一致判定は厳密なまま。`ADR-001`（`Accepted for Phase 2 only`）は停止させる。rubricの`scoped-status-not-treated-as-accepted`とvalidatorのdrift検査が固定する | Pass |
 | Space sourceが除外treeを取り込まない | `repository_source_allowed: false`、`source_granularity: file_or_folder_only`、10件のfile/folder sourceが実在しかつ除外treeの外にあることをvalidatorが検査 | Pass |
-| 文中linkが切れていない | Copilot surfaceのmarkdown link 32件が実在fileへ解決することをvalidatorとtestが検査 | Pass |
+| 文中linkが切れていない | Copilot surfaceのmarkdown link 35件が実在fileへ解決することをvalidatorとtestが検査 | Pass |
 | 自動検査を振る舞いgateと偽らない | `validate:copilot-metadata`へ改名。README、rubric、boundaries、gateに「検査しない項目」を明記 | Pass |
 | Space作成を偽装しない | `verification.space_created: false`。`created_at`/`created_by`/`verified_by`が`null`でないと不整合としてvalidatorが失敗する | Pass |
 | Reference混入がない | canary非混入チェックを再実行。worktree、pushed branch、code search、issue search、discussionすべて0件 | Pass |
@@ -146,7 +173,7 @@ repository sourceが禁止されたままであることを検査する。
 | Simulation forbidden-API scan | Pass |
 | Content / schema / provenance / locator validation | Pass |
 | Copilot metadata validation | Pass |
-| Node tests | 91 pass（Phase 3の80 + Copilot 11） |
+| Node tests | 94 pass（Phase 3の80 + Copilot 14） |
 | Chromium dev-server smoke | Actions |
 | Vite production build | Actions |
 | Allowlisted package + build-manifest schema | Actions |
@@ -167,7 +194,7 @@ repository sourceが禁止されたままであることを検査する。
 - `structural_checks`と`auto_fail_if`がrubricで定義済みであること
 - 全prompt fileが少なくとも1シナリオで使われること
 - path instructionsが`archive`/`research`/`design`/`packages`/`tests`を覆うこと
-- 文中のrepository内link 32件が実在fileへ解決すること
+- 文中のrepository内link 35件が実在fileへ解決すること
 - Space manifestのrepository source禁止、source実在、除外treeとの非重複、
   verification整合性
 - 開示ガード語彙の不在

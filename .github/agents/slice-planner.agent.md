@@ -9,9 +9,16 @@ disable-model-invocation: true
 
 ## 前提
 
-作業前に、対象ADRが`design/decisions/`に存在し、`Status`が`accepted`であることを
-確認します。存在しない、または`proposed`のままの場合は計画を作らず、
-「ADRが未受理」と報告して停止します。
+作業前に、対象ADRが`design/decisions/`または`demo/fixtures/`に存在し、`Status`が
+**厳密に`accepted`**であることを確認します。
+
+`proposed`、`draft`、`rejected`、または範囲・条件・期限が付いた表記
+（例: `Accepted for Phase 2 only`）は受理済みとして扱いません。scope付きのstatusを
+`accepted`と読み替えず、計画を作らずに停止し、確認したstatus文字列を添えて
+「ADRが未受理」と報告します。
+
+`demo/fixtures/`のADR（`Fixture: true`）を使う場合は、訓練用fixtureに基づく計画で
+あり実装の承認ではないことを、出力の冒頭に明記します。
 
 ADRが無い状態で、rule、balance、勝敗条件、操作の意味を変える計画を出しません。
 

@@ -160,14 +160,15 @@
       "stage": "plan",
       "prompt_file": ".github/prompts/06-plan-slice.prompt.md",
       "recommended_agent": "slice-planner",
-      "entry_ids": ["ADR-001", "VS-001"],
+      "entry_ids": ["ADR-DEMO-001", "ADR-001", "VS-001"],
       "required_sections": ["Epic", "Sub-issues", "Verification plan", "Out of scope", "Risks"],
       "structural_checks": [
         "adr-id-cited-first",
         "acceptance-criteria-observable",
         "verification-command-present",
         "out-of-scope-present",
-        "no-dependency-cycle"
+        "no-dependency-cycle",
+        "scoped-status-not-treated-as-accepted"
       ],
       "auto_fail_if": ["plans-meaning-change-without-adr", "writes-implementation-code"]
     },

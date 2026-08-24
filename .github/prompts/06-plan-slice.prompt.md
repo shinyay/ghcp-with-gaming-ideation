@@ -16,9 +16,25 @@ custom agentを選べないsurfaceでは、
 
 ## 前提の確認（最初に実行）
 
-`design/decisions/`に該当ADRが存在し、`Status`が`accepted`であることを確認して
-ください。存在しない、または`proposed`のままの場合は、**計画を書かずに停止**し、
-「ADRが未受理のためPlayableの意味を変える計画は作れない」と報告してください。
+対象ADRが次のいずれかに存在し、`Status`が**厳密に`accepted`**であることを確認して
+ください。
+
+| 場所 | 用途 |
+|---|---|
+| `design/decisions/` | repositoryの実際の意思決定 |
+| `demo/fixtures/` | 訓練用fixture（`Fixture: true`と明記されたもの） |
+
+`Status`が`proposed`、`draft`、`rejected`、または`accepted`に条件・範囲・期限が
+付いた表記（例: `Accepted for Phase 2 only`）である場合は、**受理済みとして扱わず**
+停止してください。scope付きのstatusを`accepted`と読み替えないでください。範囲が
+限定された決定は、その範囲外の計画を正当化しません。
+
+該当ADRが存在しない、または上記に当たる場合は、**計画を書かずに停止**し、
+「ADRが未受理のためPlayableの意味を変える計画は作れない」と、確認したstatus文字列を
+添えて報告してください。
+
+`demo/fixtures/`のADRを使う場合は、出力の冒頭に「訓練用fixtureに基づく計画であり、
+実装を承認するものではない」と明記してください。
 
 ADRが無い状態で、rule、balance、勝敗条件、操作の意味を変える計画を提案しない
 でください。

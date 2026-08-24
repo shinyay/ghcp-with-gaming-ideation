@@ -228,7 +228,8 @@ export async function collectStableIds(): Promise<ReadonlySet<string>> {
     "research/playtests",
     "design/bets",
     "design/decisions",
-    "design/vertical-slices"
+    "design/vertical-slices",
+    "demo/fixtures"
   ];
 
   for (const root of recordRoots) {

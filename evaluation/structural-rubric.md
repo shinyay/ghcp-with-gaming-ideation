@@ -71,6 +71,7 @@
 | `verification-command-present` | 実行するコマンドと合格条件が書かれている |
 | `out-of-scope-present` | 対象外が明示されている |
 | `no-dependency-cycle` | Sub-issueの依存に循環がない |
+| `scoped-status-not-treated-as-accepted` | 範囲・条件・期限付きのstatus（例: `Accepted for Phase 2 only`）を`accepted`と読み替えず、停止して確認したstatus文字列を報告している |
 | `counts-reported` | 各観測に件数が併記されている |
 | `target-bet-or-adr-named` | 学習候補が見直し対象のBET/ADR IDを指している |
 | `insufficient-section-used` | 判定不能な項目が`Insufficient`へ送られている |

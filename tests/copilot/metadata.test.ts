@@ -124,6 +124,7 @@ test("in-repository links in the Copilot surface resolve", async () => {
     ...(await collectFiles(".github/agents")),
     ...(await collectFiles(".github/instructions")),
     ...(await collectFiles("evaluation")),
+    ...(await collectFiles("demo/fixtures")),
     ".github/copilot-instructions.md",
     "demo/self-guided-workshop.md",
     "governance/copilot-boundaries.md",
@@ -138,6 +139,47 @@ test("in-repository links in the Copilot surface resolve", async () => {
       });
     }
   }
+});
+
+test("the planning fallback fixture is usable and clearly labelled", async () => {
+  const fixture = await readFile(
+    "demo/fixtures/ADR-DEMO-001-playtest-log-export.md",
+    "utf8"
+  );
+
+  assert.match(fixture, /^-\s*Status:\s*accepted$/m);
+  assert.match(fixture, /^-\s*Fixture:\s*true$/m);
+  assert.ok(fixture.includes("訓練用fixture"));
+  assert.ok(
+    !fixture.includes("DRV-"),
+    "the fallback fixture must not cite archive evidence"
+  );
+  assert.ok(
+    !/^-\s*Decided by:\s*(?!fixture data)\S/m.test(fixture),
+    "the fallback fixture must not name a real approver"
+  );
+});
+
+test("ADR-001 stays scoped, so the planner keeps stopping on it", async () => {
+  const adr = await readFile("design/decisions/ADR-001-thin-proof.md", "utf8");
+  const status = /^-\s*Status:\s*(.+)$/m.exec(adr)?.[1]?.trim();
+
+  assert.ok(status, "ADR-001 must record a status");
+  assert.notEqual(
+    status,
+    "accepted",
+    "ADR-001 became plainly accepted; revisit the fallback and the stop probe"
+  );
+});
+
+test("the workshop sends readers to the fixture, not to ADR-001", async () => {
+  const workshop = await readFile("demo/self-guided-workshop.md", "utf8");
+
+  assert.ok(workshop.includes("ADR-DEMO-001"));
+  assert.ok(
+    !/既存の`ADR-001`で進めて/.test(workshop),
+    "the workshop must not fall back to a scoped-status decision"
+  );
 });
 
 test("the Space manifest forbids repository-level sources", async () => {

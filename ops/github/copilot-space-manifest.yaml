@@ -71,6 +71,8 @@ excluded_paths:
   - canon
   # 評価の枠組み。Spaceの回答材料にしない。
   - evaluation
+  # 訓練用fixtureとgate記録。ADRの形をした訓練用fileを実決定と混同させない。
+  - demo
   # 実装成果物。Archive理解のsourceではない。
   - packages
   - apps
