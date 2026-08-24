@@ -1,0 +1,33 @@
+title: "[Archive Lab] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        正典の範囲と未解決点を話し合う場です。Conflictを自動解消せず、推測をFindingへ昇格しません。
+  - type: input
+    id: stable-ids
+    attributes:
+      label: Stable IDs
+      placeholder: EVP-001, DRV-012
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: Open archive question
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: demo-safe、ai_eligibleなDRV IDと宣言済みlocator
+    validations:
+      required: true
+  - type: textarea
+    id: uncertainty
+    attributes:
+      label: Inference and uncertainty
+      description: Evidenceと分け、未確定であることを明記する。
+    validations:
+      required: true

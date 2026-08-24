@@ -1,0 +1,1481 @@
+{
+  "schema_version": 1,
+  "repository": {
+    "stable_id": "REPO-001",
+    "github_id": "R_kgDOUCvfmg",
+    "url": "https://github.com/shinyay/ghcp-with-gaming-ideation",
+    "title": "shinyay/ghcp-with-gaming-ideation",
+    "status": "active",
+    "visibility": "private",
+    "features": [
+      "issues:enabled",
+      "discussions:enabled",
+      "wiki:enabled",
+      "pages:unpublished"
+    ]
+  },
+  "milestones": [
+    {
+      "stable_id": "MILESTONE-001",
+      "github_id": "MI_kwDOUCvfms4BCk8h",
+      "number": 1,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/milestone/1",
+      "title": "Archive understanding",
+      "status": "open"
+    },
+    {
+      "stable_id": "MILESTONE-002",
+      "github_id": "MI_kwDOUCvfms4BCk8j",
+      "number": 2,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/milestone/2",
+      "title": "Twin Span vertical slice",
+      "status": "open"
+    },
+    {
+      "stable_id": "MILESTONE-003",
+      "github_id": "MI_kwDOUCvfms4BCk8k",
+      "number": 3,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/milestone/3",
+      "title": "Learning loop",
+      "status": "open"
+    }
+  ],
+  "issues": [
+    {
+      "stable_id": "ISSUE-001",
+      "github_id": "I_kwDOUCvfms8AAAABOBnToA",
+      "number": 1,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/1",
+      "title": "[ISSUE-001][VS-001] Active receiving thin proofを再検証する",
+      "status": "open",
+      "labels": [
+        "area:gameplay",
+        "demo:seed",
+        "review:copilot-safe",
+        "risk:reproducibility",
+        "type:implementation"
+      ],
+      "milestone": "MILESTONE-002"
+    },
+    {
+      "stable_id": "ISSUE-002",
+      "github_id": "I_kwDOUCvfms8AAAABODKpRA",
+      "number": 7,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/7",
+      "title": "[ISSUE-002][EVP-001] 384pxと320pxの速度関係を説明する",
+      "status": "open",
+      "labels": [
+        "area:archive",
+        "demo:seed",
+        "review:copilot-safe",
+        "review:human-required",
+        "risk:reproducibility",
+        "type:archive-question"
+      ],
+      "milestone": "MILESTONE-001"
+    },
+    {
+      "stable_id": "ISSUE-003",
+      "github_id": "I_kwDOUCvfms8AAAABODKp_g",
+      "number": 8,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/8",
+      "title": "[ISSUE-003][EVP-002] 1996年のPlayer 2がtargetから外れた要因を切り分ける",
+      "status": "open",
+      "labels": [
+        "area:archive",
+        "demo:seed",
+        "review:copilot-safe",
+        "review:human-required",
+        "risk:scope",
+        "type:archive-question"
+      ],
+      "milestone": "MILESTONE-001"
+    },
+    {
+      "stable_id": "ISSUE-004",
+      "github_id": "I_kwDOUCvfms8AAAABODKqug",
+      "number": 9,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/9",
+      "title": "[ISSUE-004][EVP-003] Return Passのaim処理の来歴を検証する",
+      "status": "open",
+      "labels": [
+        "area:archive",
+        "area:gameplay",
+        "demo:seed",
+        "review:copilot-safe",
+        "review:human-required",
+        "type:archive-question"
+      ],
+      "milestone": "MILESTONE-001"
+    },
+    {
+      "stable_id": "ISSUE-005",
+      "github_id": "I_kwDOUCvfms8AAAABODKrUA",
+      "number": 10,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/10",
+      "title": "[ISSUE-005][EVP-007] RETURN音声cueの欠落経路を確認する",
+      "status": "open",
+      "labels": [
+        "area:archive",
+        "area:audio",
+        "demo:seed",
+        "review:copilot-safe",
+        "review:human-required",
+        "type:archive-question"
+      ],
+      "milestone": "MILESTONE-001"
+    },
+    {
+      "stable_id": "ISSUE-006",
+      "github_id": "I_kwDOUCvfms8AAAABODKsZw",
+      "number": 11,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/11",
+      "title": "[ISSUE-006][CFL-004] CHAIN 30/32の不一致を保持して調べる",
+      "status": "open",
+      "labels": [
+        "area:archive",
+        "area:qa",
+        "demo:seed",
+        "review:copilot-safe",
+        "review:human-required",
+        "risk:reproducibility",
+        "type:archive-question"
+      ],
+      "milestone": "MILESTONE-001"
+    },
+    {
+      "stable_id": "ISSUE-007",
+      "github_id": "I_kwDOUCvfms8AAAABODKs_A",
+      "number": 12,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/12",
+      "title": "[ISSUE-007][CFL-003] 6 stageと8 table entriesの境界を確認する",
+      "status": "open",
+      "labels": [
+        "area:archive",
+        "area:qa",
+        "demo:seed",
+        "review:copilot-safe",
+        "review:human-required",
+        "type:archive-question"
+      ],
+      "milestone": "MILESTONE-001"
+    },
+    {
+      "stable_id": "ISSUE-008",
+      "github_id": "I_kwDOUCvfms8AAAABODKtjA",
+      "number": 13,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/13",
+      "title": "[ISSUE-008][HYP-001] 能動的受領が感情的中核かを反証可能にする",
+      "status": "open",
+      "labels": [
+        "area:design",
+        "area:gameplay",
+        "demo:seed",
+        "review:copilot-safe",
+        "review:human-required",
+        "type:hypothesis"
+      ],
+      "milestone": "MILESTONE-002"
+    },
+    {
+      "stable_id": "ISSUE-009",
+      "github_id": "I_kwDOUCvfms8AAAABODKuCw",
+      "number": 14,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/14",
+      "title": "[ISSUE-009][EXP-001] Design direction比較の中立な評価軸を定義する",
+      "status": "open",
+      "labels": [
+        "area:design",
+        "demo:seed",
+        "review:copilot-safe",
+        "review:human-required",
+        "type:experiment"
+      ],
+      "milestone": "MILESTONE-002"
+    },
+    {
+      "stable_id": "ISSUE-010",
+      "github_id": "I_kwDOUCvfms8AAAABODKuiQ",
+      "number": 15,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/15",
+      "title": "[ISSUE-010][VS-001] Twin Span vertical sliceを作業分解する",
+      "status": "open",
+      "labels": [
+        "area:gameplay",
+        "demo:seed",
+        "review:human-required",
+        "risk:scope",
+        "type:epic"
+      ],
+      "milestone": "MILESTONE-002"
+    },
+    {
+      "stable_id": "ISSUE-011",
+      "github_id": "I_kwDOUCvfms8AAAABODKvAw",
+      "number": 16,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/16",
+      "title": "[ISSUE-011][VS-001] Core handoff invariantを検証する",
+      "status": "open",
+      "labels": [
+        "area:gameplay",
+        "demo:seed",
+        "review:copilot-safe",
+        "risk:reproducibility",
+        "type:implementation"
+      ],
+      "milestone": "MILESTONE-002"
+    },
+    {
+      "stable_id": "ISSUE-012",
+      "github_id": "I_kwDOUCvfms8AAAABODKvmg",
+      "number": 17,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/17",
+      "title": "[ISSUE-012][VS-001] Receiver roleの能動性を検証する",
+      "status": "open",
+      "labels": [
+        "area:gameplay",
+        "demo:seed",
+        "review:copilot-safe",
+        "review:human-required",
+        "type:implementation"
+      ],
+      "milestone": "MILESTONE-002"
+    },
+    {
+      "stable_id": "ISSUE-013",
+      "github_id": "I_kwDOUCvfms8AAAABODKwMg",
+      "number": 18,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/18",
+      "title": "[ISSUE-013][VS-001] AI companionの入力境界を固定する",
+      "status": "open",
+      "labels": [
+        "area:gameplay",
+        "demo:seed",
+        "review:human-required",
+        "risk:scope",
+        "type:implementation"
+      ],
+      "milestone": "MILESTONE-002"
+    },
+    {
+      "stable_id": "ISSUE-014",
+      "github_id": "I_kwDOUCvfms8AAAABODKwug",
+      "number": 19,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/19",
+      "title": "[ISSUE-014][VS-001] Latency simulation fixturesを維持する",
+      "status": "open",
+      "labels": [
+        "area:gameplay",
+        "area:platform",
+        "demo:seed",
+        "review:copilot-safe",
+        "risk:reproducibility",
+        "type:implementation"
+      ],
+      "milestone": "MILESTONE-002"
+    },
+    {
+      "stable_id": "ISSUE-015",
+      "github_id": "I_kwDOUCvfms8AAAABODKxZA",
+      "number": 20,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/20",
+      "title": "[ISSUE-015][VS-001] Art readabilityを検証する",
+      "status": "open",
+      "labels": [
+        "area:art",
+        "demo:seed",
+        "review:copilot-safe",
+        "review:human-required",
+        "type:implementation"
+      ],
+      "milestone": "MILESTONE-002"
+    },
+    {
+      "stable_id": "ISSUE-016",
+      "github_id": "I_kwDOUCvfms8AAAABODKyVA",
+      "number": 21,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/21",
+      "title": "[ISSUE-016][VS-001] Audio layersの状態対応を検証する",
+      "status": "open",
+      "labels": [
+        "area:audio",
+        "demo:seed",
+        "review:copilot-safe",
+        "review:human-required",
+        "type:implementation"
+      ],
+      "milestone": "MILESTONE-002"
+    },
+    {
+      "stable_id": "ISSUE-017",
+      "github_id": "I_kwDOUCvfms8AAAABODKzJg",
+      "number": 22,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/22",
+      "title": "[ISSUE-017][VS-001] Accessibility input pathを確認する",
+      "status": "open",
+      "labels": [
+        "area:gameplay",
+        "demo:seed",
+        "review:copilot-safe",
+        "review:human-required",
+        "type:implementation"
+      ],
+      "milestone": "MILESTONE-002"
+    },
+    {
+      "stable_id": "ISSUE-018",
+      "github_id": "I_kwDOUCvfms8AAAABODK0Gw",
+      "number": 23,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/23",
+      "title": "[ISSUE-018][VS-001] Replay equivalence testsを維持する",
+      "status": "open",
+      "labels": [
+        "area:platform",
+        "area:qa",
+        "demo:seed",
+        "review:copilot-safe",
+        "risk:reproducibility",
+        "type:implementation"
+      ],
+      "milestone": "MILESTONE-002"
+    },
+    {
+      "stable_id": "ISSUE-019",
+      "github_id": "I_kwDOUCvfms8AAAABODK06g",
+      "number": 24,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/24",
+      "title": "[ISSUE-019][BLD-001] Offline release packageを検証する",
+      "status": "open",
+      "labels": [
+        "area:platform",
+        "demo:seed",
+        "review:copilot-safe",
+        "risk:reproducibility",
+        "type:implementation"
+      ],
+      "milestone": "MILESTONE-002"
+    },
+    {
+      "stable_id": "ISSUE-020",
+      "github_id": "I_kwDOUCvfms8AAAABODK1pQ",
+      "number": 25,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/25",
+      "title": "[ISSUE-020][LRN-001] 「受け取られた」をenum-only playtestで検証する",
+      "status": "open",
+      "labels": [
+        "area:design",
+        "area:gameplay",
+        "demo:seed",
+        "review:copilot-safe",
+        "review:human-required",
+        "type:learning"
+      ],
+      "milestone": "MILESTONE-003"
+    }
+  ],
+  "discussions": [
+    {
+      "stable_id": "DISC-001",
+      "github_id": "D_kwDOUCvfms4AovNi",
+      "number": 31,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/discussions/31",
+      "title": "[DISC-001] Welcome / STAR RELAYの歩き方",
+      "status": "open",
+      "category": "announcements"
+    },
+    {
+      "stable_id": "DISC-002",
+      "github_id": "D_kwDOUCvfms4AovMX",
+      "number": 26,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/discussions/26",
+      "title": "[DISC-002][Archive Lab] どの資料を正典と呼べるか",
+      "status": "open",
+      "category": "general"
+    },
+    {
+      "stable_id": "DISC-003",
+      "github_id": "D_kwDOUCvfms4AovMb",
+      "number": 27,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/discussions/27",
+      "title": "[DISC-003][Archive Lab] バグ票は仕様資料になり得るか",
+      "status": "open",
+      "category": "general"
+    },
+    {
+      "stable_id": "DISC-004",
+      "github_id": "D_kwDOUCvfms4Aou8c",
+      "number": 2,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/discussions/2",
+      "title": "[DISC-004][Design Lab] 3つのDesign directionを比較する評価軸",
+      "status": "open",
+      "category": "ideas"
+    },
+    {
+      "stable_id": "DISC-005",
+      "github_id": "D_kwDOUCvfms4AovMd",
+      "number": 29,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/discussions/29",
+      "title": "[DISC-005][Playtests] Playtest Guide",
+      "status": "open",
+      "category": "general"
+    },
+    {
+      "stable_id": "DISC-006",
+      "github_id": "D_kwDOUCvfms4AovMe",
+      "number": 30,
+      "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/discussions/30",
+      "title": "[DISC-006][Q&A] EvidenceからPlayableまでの質問",
+      "status": "open",
+      "category": "q-a"
+    }
+  ],
+  "project": {
+    "stable_id": "PROJECT-001",
+    "github_id": "PVT_kwHOAC7i3s4A04H5",
+    "number": 6,
+    "url": "https://github.com/users/shinyay/projects/6",
+    "title": "STAR RELAY — Idea to Playable",
+    "status": "open",
+    "visibility": "private",
+    "fields": [
+      {
+        "github_id": "PVTSSF_lAHOAC7i3s4A04H5zgqcFzw",
+        "title": "Status",
+        "data_type": "SINGLE_SELECT",
+        "options": [
+          "Inbox",
+          "Ready",
+          "In progress",
+          "In review",
+          "Validated",
+          "Done",
+          "Parked"
+        ]
+      },
+      {
+        "github_id": "PVTSSF_lAHOAC7i3s4A04H5zhgR3b4",
+        "title": "Stage",
+        "data_type": "SINGLE_SELECT",
+        "options": [
+          "Archive",
+          "Understand",
+          "Imagine",
+          "Decide",
+          "Plan",
+          "Build",
+          "Learn"
+        ]
+      },
+      {
+        "github_id": "PVTSSF_lAHOAC7i3s4A04H5zhgR3c0",
+        "title": "Discipline",
+        "data_type": "SINGLE_SELECT",
+        "options": [
+          "Design",
+          "Art",
+          "Audio",
+          "Gameplay",
+          "Engine",
+          "QA",
+          "Platform"
+        ]
+      },
+      {
+        "github_id": "PVTSSF_lAHOAC7i3s4A04H5zhgR3c4",
+        "title": "Evidence Confidence",
+        "data_type": "SINGLE_SELECT",
+        "options": [
+          "Candidate",
+          "Reviewed",
+          "Verified"
+        ]
+      },
+      {
+        "github_id": "PVTSSF_lAHOAC7i3s4A04H5zhgR3c8",
+        "title": "Design Bet",
+        "data_type": "SINGLE_SELECT",
+        "options": [
+          "RE-LIGHT",
+          "SECOND HAND",
+          "THE HUSH",
+          "Shared"
+        ]
+      },
+      {
+        "github_id": "PVTSSF_lAHOAC7i3s4A04H5zhgR3dg",
+        "title": "Gate",
+        "data_type": "SINGLE_SELECT",
+        "options": [
+          "Evidence",
+          "Human decision",
+          "Rights review",
+          "Demo-safe"
+        ]
+      },
+      {
+        "github_id": "PVTSSF_lAHOAC7i3s4A04H5zhgR3eQ",
+        "title": "Demo Moment",
+        "data_type": "SINGLE_SELECT",
+        "options": [
+          "Seed",
+          "Live",
+          "Fallback",
+          "Reference"
+        ]
+      },
+      {
+        "github_id": "PVTSSF_lAHOAC7i3s4A04H5zhgR3fM",
+        "title": "Priority",
+        "data_type": "SINGLE_SELECT",
+        "options": [
+          "Urgent",
+          "High",
+          "Medium",
+          "Low"
+        ]
+      },
+      {
+        "github_id": "PVTF_lAHOAC7i3s4A04H5zhgR3fQ",
+        "title": "Estimate",
+        "data_type": "NUMBER",
+        "options": []
+      }
+    ],
+    "views": [
+      {
+        "github_id": "PVTV_lAHOAC7i3s4A04H5zgGDmJM",
+        "title": "Creative Pipeline",
+        "layout": "TABLE_LAYOUT"
+      },
+      {
+        "github_id": "PVTV_lAHOAC7i3s4A04H5zgLag-U",
+        "title": "Evidence Review",
+        "layout": "TABLE_LAYOUT"
+      },
+      {
+        "github_id": "PVTV_lAHOAC7i3s4A04H5zgLag-g",
+        "title": "Design Bet Portfolio",
+        "layout": "BOARD_LAYOUT"
+      },
+      {
+        "github_id": "PVTV_lAHOAC7i3s4A04H5zgLag-k",
+        "title": "Twin Span Vertical Slice",
+        "layout": "TABLE_LAYOUT"
+      },
+      {
+        "github_id": "PVTV_lAHOAC7i3s4A04H5zgLag-s",
+        "title": "Demo Cue",
+        "layout": "TABLE_LAYOUT"
+      },
+      {
+        "github_id": "PVTV_lAHOAC7i3s4A04H5zgLag-w",
+        "title": "Learning Loop",
+        "layout": "TABLE_LAYOUT"
+      }
+    ],
+    "items": [
+      {
+        "stable_id": "PROJECT-ITEM-ISSUE-001",
+        "github_id": "PVTI_lAHOAC7i3s4A04H5zg3y1z0",
+        "number": 1,
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/1",
+        "title": "[ISSUE-001][VS-001] Active receiving thin proofを再検証する",
+        "status": "open",
+        "fields": [
+          {
+            "title": "Status",
+            "status": "Ready"
+          },
+          {
+            "title": "Stage",
+            "status": "Build"
+          },
+          {
+            "title": "Discipline",
+            "status": "Gameplay"
+          },
+          {
+            "title": "Evidence Confidence",
+            "status": "Reviewed"
+          },
+          {
+            "title": "Design Bet",
+            "status": "Shared"
+          },
+          {
+            "title": "Gate",
+            "status": "Demo-safe"
+          },
+          {
+            "title": "Demo Moment",
+            "status": "Seed"
+          },
+          {
+            "title": "Priority",
+            "status": "High"
+          }
+        ]
+      },
+      {
+        "stable_id": "PROJECT-ITEM-ISSUE-002",
+        "github_id": "PVTI_lAHOAC7i3s4A04H5zg30aFE",
+        "number": 7,
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/7",
+        "title": "[ISSUE-002][EVP-001] 384pxと320pxの速度関係を説明する",
+        "status": "open",
+        "fields": [
+          {
+            "title": "Status",
+            "status": "Inbox"
+          },
+          {
+            "title": "Stage",
+            "status": "Understand"
+          },
+          {
+            "title": "Discipline",
+            "status": "Engine"
+          },
+          {
+            "title": "Evidence Confidence",
+            "status": "Candidate"
+          },
+          {
+            "title": "Design Bet",
+            "status": "Shared"
+          },
+          {
+            "title": "Gate",
+            "status": "Evidence"
+          },
+          {
+            "title": "Demo Moment",
+            "status": "Seed"
+          },
+          {
+            "title": "Priority",
+            "status": "High"
+          }
+        ]
+      },
+      {
+        "stable_id": "PROJECT-ITEM-ISSUE-003",
+        "github_id": "PVTI_lAHOAC7i3s4A04H5zg30aKs",
+        "number": 8,
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/8",
+        "title": "[ISSUE-003][EVP-002] 1996年のPlayer 2がtargetから外れた要因を切り分ける",
+        "status": "open",
+        "fields": [
+          {
+            "title": "Status",
+            "status": "Inbox"
+          },
+          {
+            "title": "Stage",
+            "status": "Understand"
+          },
+          {
+            "title": "Discipline",
+            "status": "Design"
+          },
+          {
+            "title": "Evidence Confidence",
+            "status": "Candidate"
+          },
+          {
+            "title": "Design Bet",
+            "status": "Shared"
+          },
+          {
+            "title": "Gate",
+            "status": "Evidence"
+          },
+          {
+            "title": "Demo Moment",
+            "status": "Seed"
+          },
+          {
+            "title": "Priority",
+            "status": "High"
+          }
+        ]
+      },
+      {
+        "stable_id": "PROJECT-ITEM-ISSUE-004",
+        "github_id": "PVTI_lAHOAC7i3s4A04H5zg30aQA",
+        "number": 9,
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/9",
+        "title": "[ISSUE-004][EVP-003] Return Passのaim処理の来歴を検証する",
+        "status": "open",
+        "fields": [
+          {
+            "title": "Status",
+            "status": "Inbox"
+          },
+          {
+            "title": "Stage",
+            "status": "Understand"
+          },
+          {
+            "title": "Discipline",
+            "status": "Engine"
+          },
+          {
+            "title": "Evidence Confidence",
+            "status": "Candidate"
+          },
+          {
+            "title": "Design Bet",
+            "status": "Shared"
+          },
+          {
+            "title": "Gate",
+            "status": "Evidence"
+          },
+          {
+            "title": "Demo Moment",
+            "status": "Seed"
+          },
+          {
+            "title": "Priority",
+            "status": "Medium"
+          }
+        ]
+      },
+      {
+        "stable_id": "PROJECT-ITEM-ISSUE-005",
+        "github_id": "PVTI_lAHOAC7i3s4A04H5zg30aYU",
+        "number": 10,
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/10",
+        "title": "[ISSUE-005][EVP-007] RETURN音声cueの欠落経路を確認する",
+        "status": "open",
+        "fields": [
+          {
+            "title": "Status",
+            "status": "Inbox"
+          },
+          {
+            "title": "Stage",
+            "status": "Understand"
+          },
+          {
+            "title": "Discipline",
+            "status": "Audio"
+          },
+          {
+            "title": "Evidence Confidence",
+            "status": "Candidate"
+          },
+          {
+            "title": "Design Bet",
+            "status": "Shared"
+          },
+          {
+            "title": "Gate",
+            "status": "Evidence"
+          },
+          {
+            "title": "Demo Moment",
+            "status": "Seed"
+          },
+          {
+            "title": "Priority",
+            "status": "Medium"
+          }
+        ]
+      },
+      {
+        "stable_id": "PROJECT-ITEM-ISSUE-006",
+        "github_id": "PVTI_lAHOAC7i3s4A04H5zg30adI",
+        "number": 11,
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/11",
+        "title": "[ISSUE-006][CFL-004] CHAIN 30/32の不一致を保持して調べる",
+        "status": "open",
+        "fields": [
+          {
+            "title": "Status",
+            "status": "Inbox"
+          },
+          {
+            "title": "Stage",
+            "status": "Understand"
+          },
+          {
+            "title": "Discipline",
+            "status": "QA"
+          },
+          {
+            "title": "Evidence Confidence",
+            "status": "Candidate"
+          },
+          {
+            "title": "Design Bet",
+            "status": "Shared"
+          },
+          {
+            "title": "Gate",
+            "status": "Evidence"
+          },
+          {
+            "title": "Demo Moment",
+            "status": "Seed"
+          },
+          {
+            "title": "Priority",
+            "status": "Medium"
+          }
+        ]
+      },
+      {
+        "stable_id": "PROJECT-ITEM-ISSUE-007",
+        "github_id": "PVTI_lAHOAC7i3s4A04H5zg30ahU",
+        "number": 12,
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/12",
+        "title": "[ISSUE-007][CFL-003] 6 stageと8 table entriesの境界を確認する",
+        "status": "open",
+        "fields": [
+          {
+            "title": "Status",
+            "status": "Inbox"
+          },
+          {
+            "title": "Stage",
+            "status": "Understand"
+          },
+          {
+            "title": "Discipline",
+            "status": "QA"
+          },
+          {
+            "title": "Evidence Confidence",
+            "status": "Candidate"
+          },
+          {
+            "title": "Design Bet",
+            "status": "Shared"
+          },
+          {
+            "title": "Gate",
+            "status": "Evidence"
+          },
+          {
+            "title": "Demo Moment",
+            "status": "Seed"
+          },
+          {
+            "title": "Priority",
+            "status": "Medium"
+          }
+        ]
+      },
+      {
+        "stable_id": "PROJECT-ITEM-ISSUE-008",
+        "github_id": "PVTI_lAHOAC7i3s4A04H5zg30alg",
+        "number": 13,
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/13",
+        "title": "[ISSUE-008][HYP-001] 能動的受領が感情的中核かを反証可能にする",
+        "status": "open",
+        "fields": [
+          {
+            "title": "Status",
+            "status": "Ready"
+          },
+          {
+            "title": "Stage",
+            "status": "Imagine"
+          },
+          {
+            "title": "Discipline",
+            "status": "Design"
+          },
+          {
+            "title": "Evidence Confidence",
+            "status": "Candidate"
+          },
+          {
+            "title": "Design Bet",
+            "status": "Shared"
+          },
+          {
+            "title": "Gate",
+            "status": "Human decision"
+          },
+          {
+            "title": "Demo Moment",
+            "status": "Seed"
+          },
+          {
+            "title": "Priority",
+            "status": "High"
+          }
+        ]
+      },
+      {
+        "stable_id": "PROJECT-ITEM-ISSUE-009",
+        "github_id": "PVTI_lAHOAC7i3s4A04H5zg30apw",
+        "number": 14,
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/14",
+        "title": "[ISSUE-009][EXP-001] Design direction比較の中立な評価軸を定義する",
+        "status": "open",
+        "fields": [
+          {
+            "title": "Status",
+            "status": "Ready"
+          },
+          {
+            "title": "Stage",
+            "status": "Imagine"
+          },
+          {
+            "title": "Discipline",
+            "status": "Design"
+          },
+          {
+            "title": "Evidence Confidence",
+            "status": "Candidate"
+          },
+          {
+            "title": "Design Bet",
+            "status": "Shared"
+          },
+          {
+            "title": "Gate",
+            "status": "Human decision"
+          },
+          {
+            "title": "Demo Moment",
+            "status": "Seed"
+          },
+          {
+            "title": "Priority",
+            "status": "High"
+          }
+        ]
+      },
+      {
+        "stable_id": "PROJECT-ITEM-ISSUE-010",
+        "github_id": "PVTI_lAHOAC7i3s4A04H5zg30avU",
+        "number": 15,
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/15",
+        "title": "[ISSUE-010][VS-001] Twin Span vertical sliceを作業分解する",
+        "status": "open",
+        "fields": [
+          {
+            "title": "Status",
+            "status": "Ready"
+          },
+          {
+            "title": "Stage",
+            "status": "Plan"
+          },
+          {
+            "title": "Discipline",
+            "status": "Gameplay"
+          },
+          {
+            "title": "Evidence Confidence",
+            "status": "Reviewed"
+          },
+          {
+            "title": "Design Bet",
+            "status": "SECOND HAND"
+          },
+          {
+            "title": "Gate",
+            "status": "Human decision"
+          },
+          {
+            "title": "Demo Moment",
+            "status": "Seed"
+          },
+          {
+            "title": "Priority",
+            "status": "High"
+          }
+        ]
+      },
+      {
+        "stable_id": "PROJECT-ITEM-ISSUE-011",
+        "github_id": "PVTI_lAHOAC7i3s4A04H5zg30awQ",
+        "number": 16,
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/16",
+        "title": "[ISSUE-011][VS-001] Core handoff invariantを検証する",
+        "status": "open",
+        "fields": [
+          {
+            "title": "Status",
+            "status": "Ready"
+          },
+          {
+            "title": "Stage",
+            "status": "Build"
+          },
+          {
+            "title": "Discipline",
+            "status": "Gameplay"
+          },
+          {
+            "title": "Evidence Confidence",
+            "status": "Reviewed"
+          },
+          {
+            "title": "Design Bet",
+            "status": "SECOND HAND"
+          },
+          {
+            "title": "Gate",
+            "status": "Demo-safe"
+          },
+          {
+            "title": "Demo Moment",
+            "status": "Seed"
+          },
+          {
+            "title": "Priority",
+            "status": "High"
+          }
+        ]
+      },
+      {
+        "stable_id": "PROJECT-ITEM-ISSUE-012",
+        "github_id": "PVTI_lAHOAC7i3s4A04H5zg30awY",
+        "number": 17,
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/17",
+        "title": "[ISSUE-012][VS-001] Receiver roleの能動性を検証する",
+        "status": "open",
+        "fields": [
+          {
+            "title": "Status",
+            "status": "Ready"
+          },
+          {
+            "title": "Stage",
+            "status": "Build"
+          },
+          {
+            "title": "Discipline",
+            "status": "Gameplay"
+          },
+          {
+            "title": "Evidence Confidence",
+            "status": "Reviewed"
+          },
+          {
+            "title": "Design Bet",
+            "status": "SECOND HAND"
+          },
+          {
+            "title": "Gate",
+            "status": "Demo-safe"
+          },
+          {
+            "title": "Demo Moment",
+            "status": "Seed"
+          },
+          {
+            "title": "Priority",
+            "status": "High"
+          }
+        ]
+      },
+      {
+        "stable_id": "PROJECT-ITEM-ISSUE-013",
+        "github_id": "PVTI_lAHOAC7i3s4A04H5zg30awk",
+        "number": 18,
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/18",
+        "title": "[ISSUE-013][VS-001] AI companionの入力境界を固定する",
+        "status": "open",
+        "fields": [
+          {
+            "title": "Status",
+            "status": "Inbox"
+          },
+          {
+            "title": "Stage",
+            "status": "Plan"
+          },
+          {
+            "title": "Discipline",
+            "status": "Gameplay"
+          },
+          {
+            "title": "Evidence Confidence",
+            "status": "Candidate"
+          },
+          {
+            "title": "Design Bet",
+            "status": "SECOND HAND"
+          },
+          {
+            "title": "Gate",
+            "status": "Human decision"
+          },
+          {
+            "title": "Demo Moment",
+            "status": "Seed"
+          },
+          {
+            "title": "Priority",
+            "status": "Low"
+          }
+        ]
+      },
+      {
+        "stable_id": "PROJECT-ITEM-ISSUE-014",
+        "github_id": "PVTI_lAHOAC7i3s4A04H5zg30aws",
+        "number": 19,
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/19",
+        "title": "[ISSUE-014][VS-001] Latency simulation fixturesを維持する",
+        "status": "open",
+        "fields": [
+          {
+            "title": "Status",
+            "status": "Ready"
+          },
+          {
+            "title": "Stage",
+            "status": "Build"
+          },
+          {
+            "title": "Discipline",
+            "status": "Engine"
+          },
+          {
+            "title": "Evidence Confidence",
+            "status": "Reviewed"
+          },
+          {
+            "title": "Design Bet",
+            "status": "SECOND HAND"
+          },
+          {
+            "title": "Gate",
+            "status": "Demo-safe"
+          },
+          {
+            "title": "Demo Moment",
+            "status": "Seed"
+          },
+          {
+            "title": "Priority",
+            "status": "High"
+          }
+        ]
+      },
+      {
+        "stable_id": "PROJECT-ITEM-ISSUE-015",
+        "github_id": "PVTI_lAHOAC7i3s4A04H5zg30axA",
+        "number": 20,
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/20",
+        "title": "[ISSUE-015][VS-001] Art readabilityを検証する",
+        "status": "open",
+        "fields": [
+          {
+            "title": "Status",
+            "status": "Ready"
+          },
+          {
+            "title": "Stage",
+            "status": "Build"
+          },
+          {
+            "title": "Discipline",
+            "status": "Art"
+          },
+          {
+            "title": "Evidence Confidence",
+            "status": "Reviewed"
+          },
+          {
+            "title": "Design Bet",
+            "status": "SECOND HAND"
+          },
+          {
+            "title": "Gate",
+            "status": "Demo-safe"
+          },
+          {
+            "title": "Demo Moment",
+            "status": "Seed"
+          },
+          {
+            "title": "Priority",
+            "status": "Medium"
+          }
+        ]
+      },
+      {
+        "stable_id": "PROJECT-ITEM-ISSUE-016",
+        "github_id": "PVTI_lAHOAC7i3s4A04H5zg30axI",
+        "number": 21,
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/21",
+        "title": "[ISSUE-016][VS-001] Audio layersの状態対応を検証する",
+        "status": "open",
+        "fields": [
+          {
+            "title": "Status",
+            "status": "Inbox"
+          },
+          {
+            "title": "Stage",
+            "status": "Plan"
+          },
+          {
+            "title": "Discipline",
+            "status": "Audio"
+          },
+          {
+            "title": "Evidence Confidence",
+            "status": "Candidate"
+          },
+          {
+            "title": "Design Bet",
+            "status": "SECOND HAND"
+          },
+          {
+            "title": "Gate",
+            "status": "Rights review"
+          },
+          {
+            "title": "Demo Moment",
+            "status": "Seed"
+          },
+          {
+            "title": "Priority",
+            "status": "Medium"
+          }
+        ]
+      },
+      {
+        "stable_id": "PROJECT-ITEM-ISSUE-017",
+        "github_id": "PVTI_lAHOAC7i3s4A04H5zg30axU",
+        "number": 22,
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/22",
+        "title": "[ISSUE-017][VS-001] Accessibility input pathを確認する",
+        "status": "open",
+        "fields": [
+          {
+            "title": "Status",
+            "status": "Ready"
+          },
+          {
+            "title": "Stage",
+            "status": "Build"
+          },
+          {
+            "title": "Discipline",
+            "status": "QA"
+          },
+          {
+            "title": "Evidence Confidence",
+            "status": "Reviewed"
+          },
+          {
+            "title": "Design Bet",
+            "status": "SECOND HAND"
+          },
+          {
+            "title": "Gate",
+            "status": "Demo-safe"
+          },
+          {
+            "title": "Demo Moment",
+            "status": "Seed"
+          },
+          {
+            "title": "Priority",
+            "status": "High"
+          }
+        ]
+      },
+      {
+        "stable_id": "PROJECT-ITEM-ISSUE-018",
+        "github_id": "PVTI_lAHOAC7i3s4A04H5zg30axg",
+        "number": 23,
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/23",
+        "title": "[ISSUE-018][VS-001] Replay equivalence testsを維持する",
+        "status": "open",
+        "fields": [
+          {
+            "title": "Status",
+            "status": "Ready"
+          },
+          {
+            "title": "Stage",
+            "status": "Build"
+          },
+          {
+            "title": "Discipline",
+            "status": "QA"
+          },
+          {
+            "title": "Evidence Confidence",
+            "status": "Verified"
+          },
+          {
+            "title": "Design Bet",
+            "status": "SECOND HAND"
+          },
+          {
+            "title": "Gate",
+            "status": "Demo-safe"
+          },
+          {
+            "title": "Demo Moment",
+            "status": "Seed"
+          },
+          {
+            "title": "Priority",
+            "status": "High"
+          }
+        ]
+      },
+      {
+        "stable_id": "PROJECT-ITEM-ISSUE-019",
+        "github_id": "PVTI_lAHOAC7i3s4A04H5zg30axk",
+        "number": 24,
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/24",
+        "title": "[ISSUE-019][BLD-001] Offline release packageを検証する",
+        "status": "open",
+        "fields": [
+          {
+            "title": "Status",
+            "status": "Ready"
+          },
+          {
+            "title": "Stage",
+            "status": "Build"
+          },
+          {
+            "title": "Discipline",
+            "status": "Platform"
+          },
+          {
+            "title": "Evidence Confidence",
+            "status": "Reviewed"
+          },
+          {
+            "title": "Design Bet",
+            "status": "SECOND HAND"
+          },
+          {
+            "title": "Gate",
+            "status": "Demo-safe"
+          },
+          {
+            "title": "Demo Moment",
+            "status": "Fallback"
+          },
+          {
+            "title": "Priority",
+            "status": "High"
+          }
+        ]
+      },
+      {
+        "stable_id": "PROJECT-ITEM-ISSUE-020",
+        "github_id": "PVTI_lAHOAC7i3s4A04H5zg30bj8",
+        "number": 25,
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/25",
+        "title": "[ISSUE-020][LRN-001] 「受け取られた」をenum-only playtestで検証する",
+        "status": "open",
+        "fields": [
+          {
+            "title": "Status",
+            "status": "Inbox"
+          },
+          {
+            "title": "Stage",
+            "status": "Learn"
+          },
+          {
+            "title": "Discipline",
+            "status": "Design"
+          },
+          {
+            "title": "Evidence Confidence",
+            "status": "Candidate"
+          },
+          {
+            "title": "Design Bet",
+            "status": "Shared"
+          },
+          {
+            "title": "Gate",
+            "status": "Human decision"
+          },
+          {
+            "title": "Demo Moment",
+            "status": "Seed"
+          },
+          {
+            "title": "Priority",
+            "status": "Medium"
+          }
+        ]
+      }
+    ]
+  },
+  "wiki": {
+    "stable_id": "WIKI-ROOT-001",
+    "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/tree/main/ops/github/wiki",
+    "title": "STAR RELAY Museum",
+    "status": "fallback",
+    "pages": [
+      {
+        "stable_id": "WIKI-001",
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/blob/main/ops/github/wiki/Home.md",
+        "title": "Home",
+        "status": "fallback"
+      },
+      {
+        "stable_id": "WIKI-002",
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/blob/main/ops/github/wiki/Museum-Guide.md",
+        "title": "Museum Guide",
+        "status": "fallback"
+      },
+      {
+        "stable_id": "WIKI-003",
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/blob/main/ops/github/wiki/STAR-RELAY-1998-Overview.md",
+        "title": "STAR RELAY 1998 Overview",
+        "status": "fallback"
+      },
+      {
+        "stable_id": "WIKI-004",
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/blob/main/ops/github/wiki/Timeline.md",
+        "title": "Timeline",
+        "status": "fallback"
+      },
+      {
+        "stable_id": "WIKI-005",
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/blob/main/ops/github/wiki/Glossary.md",
+        "title": "Glossary",
+        "status": "fallback"
+      },
+      {
+        "stable_id": "WIKI-006",
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/blob/main/ops/github/wiki/Archive-Tour.md",
+        "title": "Archive Tour",
+        "status": "fallback"
+      },
+      {
+        "stable_id": "WIKI-007",
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/blob/main/ops/github/wiki/How-to-read-the-evidence.md",
+        "title": "How to read the evidence",
+        "status": "fallback"
+      },
+      {
+        "stable_id": "WIKI-008",
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/blob/main/ops/github/wiki/Demo-and-Workshop-Guide.md",
+        "title": "Demo and Workshop Guide",
+        "status": "fallback"
+      },
+      {
+        "stable_id": "WIKI-009",
+        "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/blob/main/ops/github/wiki/FAQ.md",
+        "title": "FAQ",
+        "status": "fallback"
+      }
+    ]
+  }
+}

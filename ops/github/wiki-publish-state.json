@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "stable_id": "WIKI-ROOT-001",
+  "status": "fallback_required",
+  "url": null,
+  "source": "ops/github/wiki",
+  "source_hashes": [
+    {
+      "file": "_Sidebar.md",
+      "sha256": "6137424526d7dedd195102e8ce998e9891e8bc71bd2f099f78512533afbf13cc"
+    },
+    {
+      "file": "Archive-Tour.md",
+      "sha256": "92dcbcef9d8d1a4e8391f74067827404851cab442225f95aa4b8272747e738a7"
+    },
+    {
+      "file": "Demo-and-Workshop-Guide.md",
+      "sha256": "293fe7ecb85a8d184b1918e08e047ce2243048168db82cd38c5ffa3cdd563bd9"
+    },
+    {
+      "file": "FAQ.md",
+      "sha256": "6dbe94f78b22969d94ab16b4519021ae873e0a119d1b07a67b6a5412a3a643bd"
+    },
+    {
+      "file": "Glossary.md",
+      "sha256": "d0eda05c4ddd6895f6ac0753f9f36e9727cc57657e9668ffa3bc143c0f29e774"
+    },
+    {
+      "file": "Home.md",
+      "sha256": "6c5da4a886fdb8416a57eb0a64c48ec55d46f06e3d9f16b08d5fe27cb26dec75"
+    },
+    {
+      "file": "How-to-read-the-evidence.md",
+      "sha256": "ea8c5d11a03654fb78642d5eec2b69d55fafe8ade819930d3cd114adeb4f1e66"
+    },
+    {
+      "file": "Museum-Guide.md",
+      "sha256": "56fcaecb04c7aa065512c47ad44690a37efc7262819565d44fd3e1ab3356c76a"
+    },
+    {
+      "file": "STAR-RELAY-1998-Overview.md",
+      "sha256": "8cb67d468d73397481016a89923bf2953dc9366f286f7cc24154f32b6c6f90c5"
+    },
+    {
+      "file": "Timeline.md",
+      "sha256": "9a9920f28b6be7aef3f8930025c7b1ff1001c7455bb979673a51b1112ecdfccb"
+    }
+  ],
+  "remote_hashes": [],
+  "attempts": [
+    "enable_wiki",
+    "clone",
+    "local_init_if_needed",
+    "push",
+    "fresh_clone_hash_verification"
+  ],
+  "failure": "github_wiki_first_page_initialization_requires_web_ui",
+  "fallback": "Open the repository Wiki UI, create Home once, then rerun ops/github/publish-wiki.ps1."
+}

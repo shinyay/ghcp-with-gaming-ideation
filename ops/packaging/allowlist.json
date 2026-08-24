@@ -5,6 +5,10 @@
     {
       "from": "dist/demo-site",
       "to": "."
+    },
+    {
+      "from": "demo/offline-snapshots",
+      "to": "github-objects"
     }
   ],
   "forbidden_content_tokens": [

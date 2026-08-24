@@ -1,24 +1,36 @@
-name: Thin-slice implementation
-description: Track one demo-safe implementation unit with stable-ID lineage.
-title: "[VS-001] "
+name: Demo-safe implementation
+description: Track one implementation unit without copying canonical design or decision prose.
+title: "[ISSUE-][VS-] "
 body:
   - type: markdown
     attributes:
       value: |
-        日本語を正本にし、reference-only contentや自由記述のplaytest dataを含めないでください。
+        日本語を正本にし、reference-only content、最終回答、自由記述のplaytest dataを含めないでください。
+        Playableの意味を変更する場合は、実装Issueではなく人間が承認するADRが必要です。
   - type: input
-    id: stable-id
+    id: issue-id
     attributes:
-      label: Stable ID
-      description: VS、EXP、またはBLD ID
+      label: Issue stable ID
+      description: GitHub番号とは別のISSUE ID
+      placeholder: ISSUE-021
+    validations:
+      required: true
+  - type: input
+    id: domain-id
+    attributes:
+      label: Domain stable IDs
+      description: VS、EXP、BLDなど。未作成のIDを捏造しない。
       placeholder: VS-001
     validations:
       required: true
   - type: textarea
     id: evidence
     attributes:
-      label: Evidence links
-      description: DRV/FND/ADR IDとlocator。結論だけを書かない。
+      label: Evidence
+      description: demo-safeかつai_eligibleなDRV IDとcatalogで宣言済みのlocator
+      placeholder: |
+        DRV-001 — md:heading/active-receiving
+        DRV-003 — md:heading/catch-and-chain
     validations:
       required: true
   - type: textarea
@@ -35,5 +47,9 @@ body:
       options:
         - label: Demo-safe synthetic content only
           required: true
+        - label: Evidence、Inference、Proposalを分離した
+          required: true
         - label: No PII, free-text playtest data, or browser GitHub token
+          required: true
+        - label: No final Finding, Play DNA, Design Bet, ADR answer key, or reference-only content
           required: true

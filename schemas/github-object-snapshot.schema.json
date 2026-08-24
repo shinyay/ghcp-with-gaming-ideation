@@ -1,0 +1,225 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://star-relay.invalid/schemas/github-object-snapshot.schema.json",
+  "title": "STAR RELAY allowlisted GitHub object snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "repository", "milestones", "issues", "discussions", "project", "wiki"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "repository": { "$ref": "#/$defs/repository" },
+    "milestones": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/milestone" },
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "issues": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/issue" },
+      "minItems": 20,
+      "maxItems": 20
+    },
+    "discussions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/discussion" },
+      "minItems": 6,
+      "maxItems": 6
+    },
+    "project": { "$ref": "#/$defs/project" },
+    "wiki": { "$ref": "#/$defs/wiki" }
+  },
+  "$defs": {
+    "githubId": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_=-]+$"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://github\\.com/"
+    },
+    "milestone": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stable_id", "github_id", "number", "url", "title", "status"],
+      "properties": {
+        "stable_id": { "type": "string", "pattern": "^MILESTONE-[0-9]{3}$" },
+        "github_id": { "$ref": "#/$defs/githubId" },
+        "number": { "type": "integer", "minimum": 1 },
+        "url": { "$ref": "#/$defs/url" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "status": { "enum": ["open", "closed"] }
+      }
+    },
+    "issue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stable_id", "github_id", "number", "url", "title", "status", "labels", "milestone"],
+      "properties": {
+        "stable_id": { "type": "string", "pattern": "^ISSUE-[0-9]{3}$" },
+        "github_id": { "$ref": "#/$defs/githubId" },
+        "number": { "type": "integer", "minimum": 1 },
+        "url": { "$ref": "#/$defs/url" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "status": { "enum": ["open", "closed"] },
+        "labels": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "maxLength": 64 },
+          "uniqueItems": true
+        },
+        "milestone": { "type": "string", "pattern": "^MILESTONE-[0-9]{3}$" }
+      }
+    },
+    "discussion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stable_id", "github_id", "number", "url", "title", "status", "category"],
+      "properties": {
+        "stable_id": { "type": "string", "pattern": "^DISC-[0-9]{3}$" },
+        "github_id": { "$ref": "#/$defs/githubId" },
+        "number": { "type": "integer", "minimum": 1 },
+        "url": { "$ref": "#/$defs/url" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "status": { "enum": ["open", "closed"] },
+        "category": { "enum": ["announcements", "archive-lab", "general", "design-lab", "ideas", "playtests-feedback", "q-a"] }
+      }
+    },
+    "projectField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["github_id", "title", "data_type", "options"],
+      "properties": {
+        "github_id": { "$ref": "#/$defs/githubId" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "data_type": { "enum": ["SINGLE_SELECT", "NUMBER"] },
+        "options": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "maxLength": 80 },
+          "uniqueItems": true
+        }
+      }
+    },
+    "projectView": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["github_id", "title", "layout"],
+      "properties": {
+        "github_id": { "$ref": "#/$defs/githubId" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "layout": { "enum": ["TABLE_LAYOUT", "BOARD_LAYOUT", "ROADMAP_LAYOUT"] }
+      }
+    },
+    "projectItemField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "status"],
+      "properties": {
+        "title": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "status": { "type": "string", "minLength": 1, "maxLength": 80 }
+      }
+    },
+    "projectItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stable_id", "github_id", "number", "url", "title", "status", "fields"],
+      "properties": {
+        "stable_id": { "type": "string", "pattern": "^PROJECT-ITEM-ISSUE-[0-9]{3}$" },
+        "github_id": { "$ref": "#/$defs/githubId" },
+        "number": { "type": "integer", "minimum": 1 },
+        "url": { "$ref": "#/$defs/url" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "status": { "enum": ["open", "closed"] },
+        "fields": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/projectItemField" },
+          "minItems": 8,
+          "maxItems": 8
+        }
+      }
+    },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stable_id", "github_id", "number", "url", "title", "status", "visibility", "fields", "views", "items"],
+      "properties": {
+        "stable_id": { "const": "PROJECT-001" },
+        "github_id": { "$ref": "#/$defs/githubId" },
+        "number": { "const": 6 },
+        "url": { "$ref": "#/$defs/url" },
+        "title": { "const": "STAR RELAY — Idea to Playable" },
+        "status": { "enum": ["open", "closed"] },
+        "visibility": { "const": "private" },
+        "fields": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/projectField" },
+          "minItems": 9,
+          "maxItems": 9
+        },
+        "views": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/projectView" },
+          "minItems": 6,
+          "maxItems": 6
+        },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/projectItem" },
+          "minItems": 20,
+          "maxItems": 20
+        }
+      }
+    },
+    "wikiPage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stable_id", "url", "title", "status"],
+      "properties": {
+        "stable_id": { "type": "string", "pattern": "^WIKI-[0-9]{3}$" },
+        "url": { "$ref": "#/$defs/url" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "status": { "enum": ["published", "fallback"] }
+      }
+    },
+    "wiki": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stable_id", "url", "title", "status", "pages"],
+      "properties": {
+        "stable_id": { "const": "WIKI-ROOT-001" },
+        "url": { "$ref": "#/$defs/url" },
+        "title": { "const": "STAR RELAY Museum" },
+        "status": { "enum": ["published", "fallback"] },
+        "pages": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/wikiPage" },
+          "minItems": 9,
+          "maxItems": 9
+        }
+      }
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stable_id", "github_id", "url", "title", "status", "visibility", "features"],
+      "properties": {
+        "stable_id": { "const": "REPO-001" },
+        "github_id": { "$ref": "#/$defs/githubId" },
+        "url": { "$ref": "#/$defs/url" },
+        "title": { "const": "shinyay/ghcp-with-gaming-ideation" },
+        "status": { "const": "active" },
+        "visibility": { "const": "private" },
+        "features": {
+          "type": "array",
+          "items": {
+            "enum": ["issues:enabled", "discussions:enabled", "wiki:enabled", "pages:unpublished"]
+          },
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

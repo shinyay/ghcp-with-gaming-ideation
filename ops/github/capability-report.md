@@ -66,3 +66,27 @@ The Linux `validate-thin-slice` workflow passed typecheck, simulation API guard,
 schema/provenance checks, Node replay/handoff tests, Chromium hash equivalence,
 production build, allowlisted packaging, and packaged offline smoke:
 <https://github.com/shinyay/ghcp-with-gaming-ideation/actions/runs/32742854205>.
+
+## Phase 4 live follow-up
+
+The Phase 0 rows above are the historical probe ledger. The current allowlisted
+object inventory, including every GitHub node ID and URL, is
+[`demo/offline-snapshots/github-objects.json`](../../demo/offline-snapshots/github-objects.json).
+
+- 25 desired labels and three open milestones are configured.
+- `ISSUE-001` is Issue #1; `ISSUE-002` through `ISSUE-020` are Issues #7 through
+  #25. Issue #15 is the epic and Issues #16 through #24 are its nine sub-issues.
+- Six unresolved seed Discussions exist with zero comments and zero upvotes:
+  #31, #26, #27, #2, #29, and #30 for `DISC-001` through `DISC-006`.
+- Private User Project #6 remains
+  [STAR RELAY — Idea to Playable](https://github.com/users/shinyay/projects/6)
+  (`PVT_kwHOAC7i3s4A04H5`) with nine managed fields, six views, and 20 Issue
+  items.
+- Custom Discussion categories have no public create/update API. Archive Lab,
+  Design Lab, and Playtests & Feedback use the documented General, Ideas, and
+  General fallbacks until a human creates those categories in the UI.
+- Wiki enablement, authenticated clone, local initialization, and push were all
+  attempted. GitHub still requires first-page creation in the Web UI; exact
+  source hashes and the fallback code are in `wiki-publish-state.json`.
+- Pages remains unpublished. Issue Forms become live only after this branch is
+  merged to the default branch.

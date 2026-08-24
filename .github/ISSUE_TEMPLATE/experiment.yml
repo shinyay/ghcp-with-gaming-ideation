@@ -1,0 +1,53 @@
+name: Experiment or learning loop
+description: Define a falsifiable experiment with enum-only observations.
+title: "[ISSUE-][EXP-] "
+labels:
+  - type:experiment
+  - review:human-required
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Design Betを自動採用せず、支持条件と反証条件を両方定義してください。
+  - type: input
+    id: stable-ids
+    attributes:
+      label: Stable IDs
+      placeholder: ISSUE-021 / EXP-002
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: Falsifiable question
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: demo-safe、ai_eligibleなDRV IDと宣言済みlocator
+    validations:
+      required: true
+  - type: textarea
+    id: observations
+    attributes:
+      label: Allowed observations
+      description: 列挙値と数値のみ。自由記述や参加者情報を収集しない。
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance and stopping criteria
+    validations:
+      required: true
+  - type: checkboxes
+    id: guardrails
+    attributes:
+      label: Guardrails
+      options:
+        - label: No PII, device identifiers, free text, fabricated votes, or fabricated participants
+          required: true
+        - label: Human decision remains required before adopting a Design Bet
+          required: true
