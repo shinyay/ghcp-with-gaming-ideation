@@ -78,6 +78,10 @@ Base: `main` at `0f2991b17648e7db80e0e9ba2315f5082c4e096a`
 | Allowlisted package + build-manifest schema | Pass |
 | Packaged offline Chromium smoke | 1 pass |
 
+Linux Actions workflow (`validate-thin-slice`, commit
+`644d5a0806d3003a7245bc1158a73318471b60ef`):
+<https://github.com/shinyay/ghcp-with-gaming-ideation/actions/runs/32750580898>
+
 `npm run validate:content`が追加で検査する項目:
 
 - catalogと`archive/derived`の一対一対応
