@@ -1,14 +1,46 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "seed": 1511506142,
   "total_ticks": 1800,
-  "checkpoint_ticks": [0, 30, 60, 120, 1800],
-  "expected_final_hash": "12374571",
+  "checkpoint_ticks": [0, 120, 228, 301, 332, 359, 449, 493, 673, 1800],
+  "expected_final_hash": "ab4e58a9",
   "expected_checkpoint_hashes": {
-    "0": "4df69e0e",
-    "30": "1f71ab6b",
-    "60": "ff6fc749",
-    "120": "04595200",
-    "1800": "12374571"
+    "0": "72a69975",
+    "120": "f2a085c7",
+    "228": "dcd68475",
+    "301": "b15cd93c",
+    "332": "1690cd60",
+    "359": "40d0f09c",
+    "449": "b5c26610",
+    "493": "fddd4e39",
+    "673": "46af008c",
+    "1800": "ab4e58a9"
+  },
+  "expected_events": [
+    { "tick": 228, "event": 1 },
+    { "tick": 301, "event": 2 },
+    { "tick": 332, "event": 3 },
+    { "tick": 336, "event": 4 },
+    { "tick": 342, "event": 5 },
+    { "tick": 346, "event": 6 },
+    { "tick": 349, "event": 6 },
+    { "tick": 352, "event": 7 },
+    { "tick": 359, "event": 8 },
+    { "tick": 449, "event": 9 },
+    { "tick": 493, "event": 11 }
+  ],
+  "expected_final_state": {
+    "phase": 5,
+    "chain": 5,
+    "charge": 100,
+    "score": 1300,
+    "banked": 1,
+    "hum_cleared": 1,
+    "peal_cleared": 1,
+    "choir_hits": 3,
+    "connected_relay": 1,
+    "perfect_catch": 1,
+    "route_missed": 0,
+    "overray_triggered": 1
   }
 }
