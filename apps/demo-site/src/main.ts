@@ -3,7 +3,10 @@ import {
   runLegacyReplay,
   type LegacyState
 } from "@star-relay/legacy-1998";
-import type { SecondHandState } from "@star-relay/second-hand";
+import type {
+  PlaytestLog,
+  SecondHandState
+} from "@star-relay/second-hand";
 import { renderLineage } from "./lineage-view";
 import { mountLegacyProof } from "./legacy-view";
 import { mountSecondHandProof } from "./second-hand-view";
@@ -17,6 +20,7 @@ interface DemoBridge {
   readonly getLegacyState: () => LegacyState;
   readonly getLegacyMode: () => "attract" | "manual";
   readonly getSecondHandState: () => SecondHandState;
+  readonly getPlaytestLog: () => PlaytestLog;
 }
 
 declare global {
@@ -64,14 +68,8 @@ const legacyController = mountLegacyProof({
   steps: legacySteps
 });
 
-const handoffCanvas = requireElement("#handoff-canvas", HTMLCanvasElement);
-const handoffStatus = requireElement("#handoff-status", HTMLElement);
-const handoffReset = requireElement("#handoff-reset", HTMLButtonElement);
-const getSecondHandState = mountSecondHandProof(
-  handoffCanvas,
-  handoffStatus,
-  handoffReset
-);
+const secondHandRoot = requireElement("#second-hand", HTMLElement);
+const secondHand = mountSecondHandProof(secondHandRoot);
 
 const lineageList = requireElement("#lineage-list", HTMLOListElement);
 renderLineage(lineageList);
@@ -86,5 +84,6 @@ window.__STAR_RELAY_DEMO__ = {
   },
   getLegacyState: legacyController.getState,
   getLegacyMode: legacyController.getMode,
-  getSecondHandState
+  getSecondHandState: secondHand.getState,
+  getPlaytestLog: secondHand.getPlaytestLog
 };
