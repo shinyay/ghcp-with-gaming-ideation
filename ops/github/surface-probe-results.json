@@ -75,5 +75,53 @@
     "demo_repository_code_matches": 0,
     "demo_repository_issue_matches": 0,
     "demo_repository_discussion_matches": 0
+  },
+  "phase_5": {
+    "captured_at": "2026-08-25T02:41:00+09:00",
+    "client": "copilot-cli github-app 1.0.80 on Windows",
+    "observation_scope": "branch state at session start",
+    "repository_instructions": {
+      "status": "discovered_and_applied",
+      "evidence": "instruction body injected into the session verbatim"
+    },
+    "path_instructions": {
+      "status": "discovered_and_applied",
+      "evidence": "session listed each instructions file with its applyTo glob"
+    },
+    "custom_agent": {
+      "status": "discovered_and_selectable",
+      "observed": ["archive-curator"],
+      "unobserved_added_this_session": [
+        "design-facilitator",
+        "slice-planner",
+        "provenance-auditor"
+      ],
+      "evidence": "agent list carried the frontmatter description"
+    },
+    "prompt_file": {
+      "status": "not_surfaced_in_this_client",
+      "observed_path": ".github/prompts/01-reconstruct-shipped-game.prompt.md",
+      "evidence": "present on branch, offered neither as a slash command nor as a tool",
+      "fallback": "paste the prompt body into chat"
+    },
+    "copilot_space": {
+      "status": "manual_only",
+      "space_created": false,
+      "rest_user_spaces": 404,
+      "rest_spaces": 404,
+      "graphql_copilot_space_type": null,
+      "graphql_space_mutations": 0,
+      "gh_extensions": 0
+    },
+    "canary": {
+      "status": "passed_phase_5",
+      "sha256": "f247ccb83de2f6c306b7b781661254617ae10cdf0610aee402d31eb0b72645e5",
+      "local_matches": 0,
+      "packaged_artifact_matches": 0,
+      "exact_remote_branch_matches": 0,
+      "demo_repository_code_matches": 0,
+      "demo_repository_issue_matches": 0,
+      "demo_repository_discussion_matches": 0
+    }
   }
 }
