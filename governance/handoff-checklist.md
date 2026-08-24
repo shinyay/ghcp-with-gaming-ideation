@@ -38,7 +38,7 @@ reviewer、participant、recording、reaction、approvalを作らない。
 - [x] checkpoint 4件がannotated tagでmanifestと一致
 - [x] repositoryはPrivate、Pages endpointは404
 - [x] canary guard prefixのpackage match 0、Issue match 0、Discussion match 0
-- [x] annotated tag `v0.1.0-demo-reference`がfinal `main`
+- [x] annotated tag `v0.1.0-demo-reference`が監査済みソフトウェア基準commit
   `d3ae5d58fcf484dce8a7b93102311bd0c4655d54`を指す
 - [x] release workflow run `32784690666`が成功
 - [x] repository-access-controlled draft Releaseにmanifest、checksums、4 ZIPの
