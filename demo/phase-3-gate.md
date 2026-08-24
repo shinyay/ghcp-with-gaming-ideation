@@ -44,7 +44,7 @@ Base: `main` at `0f2991b17648e7db80e0e9ba2315f5082c4e096a`
 | 完成回答を含まない | Evidence packet schemaが`conclusion`、`answer`、`finding`、`expected_finding`、`expected_response`を禁止。Finding数はPhase 2から不変 | Pass |
 | 来歴を偽装しない | 全30件が`synthetic_fixture` / `directly_authored_fixture`。`src_sha256`と全transform execution fieldは`null` | Pass |
 | 1998年の日付をGit履歴にしない | `timeline.json`の`date_semantics`は`fictional-metadata-only`。commit日時は実時刻のみ | Pass |
-| Thin sliceの決定性を維持する | Phase 2のreplay、handoff、lineage、offline testを変更せずに保持 | Pass |
+| Thin sliceの決定性を維持する | Phase 2のreplay、handoff、lineage、offline testを変更せずに保持。Phase 6 playableのtestも変更していない | Pass |
 | PIIと実在IPを含まない | 氏名、連絡先、端末識別子、来場者の発言と反応を収集しない。role表記と列挙値のみ | Pass |
 
 ## Evidence packet
@@ -72,11 +72,16 @@ Base: `main` at `0f2991b17648e7db80e0e9ba2315f5082c4e096a`
 | TypeScript strict typecheck | Pass |
 | Simulation forbidden-API scan | Pass |
 | Content / schema / provenance / locator validation | Pass |
-| Node tests | 46 pass |
-| Chromium dev-server smoke | 2 pass |
+| Node tests | 52 pass |
+| Chromium dev-server smoke | 5 pass |
 | Vite production build | Pass |
 | Allowlisted package + build-manifest schema | Pass |
 | Packaged offline Chromium smoke | 1 pass |
+
+Phase 6のMirror Corridor playableを取り込んだ後の統合gateも同じ結果である。
+`archive/derived/spreadsheets/DRV-004-relay-master.json`に登録された速度表と
+`packages/legacy-1998`の定数が一致することをtestで固定した。playableの挙動は
+変更していない。
 
 Linux Actions workflow (`validate-thin-slice`, commit
 `644d5a0806d3003a7245bc1158a73318471b60ef`):

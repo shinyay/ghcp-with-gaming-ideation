@@ -2,6 +2,12 @@ import { readdir, readFile } from "node:fs/promises";
 import assert from "node:assert/strict";
 import test from "node:test";
 import { join } from "node:path";
+import {
+  LEGACY_FREE_SPEED,
+  LEGACY_HELD_SPEED,
+  LEGACY_OUTBOUND_VX,
+  LEGACY_RETURN_VX
+} from "@star-relay/legacy-1998";
 import { parse as parseYaml } from "yaml";
 import {
   markdownHeadingSlugs,
@@ -213,6 +219,27 @@ test("the seven planned discoveries each have a packet", async () => {
       "EVP-007"
     ]
   );
+});
+
+test("the 1998 playable uses the speed table registered in the archive", async () => {
+  const registered = JSON.parse(
+    await readFile("archive/derived/spreadsheets/DRV-004-relay-master.json", "utf8")
+  ) as {
+    readonly tables: {
+      readonly core_speed: {
+        readonly holder_units_per_tick: number;
+        readonly non_holder_units_per_tick: number;
+        readonly outbound_units_per_tick: number;
+        readonly return_units_per_tick: number;
+      };
+    };
+  };
+  const speed = registered.tables.core_speed;
+
+  assert.equal(LEGACY_HELD_SPEED, speed.holder_units_per_tick);
+  assert.equal(LEGACY_FREE_SPEED, speed.non_holder_units_per_tick);
+  assert.equal(LEGACY_OUTBOUND_VX, speed.outbound_units_per_tick);
+  assert.equal(Math.abs(LEGACY_RETURN_VX), speed.return_units_per_tick);
 });
 
 test("no fixture states a cross-asset conclusion on its own", async () => {
