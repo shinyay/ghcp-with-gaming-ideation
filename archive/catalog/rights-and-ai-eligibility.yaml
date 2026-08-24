@@ -1,0 +1,9 @@
+schema_version: 1
+default_classification: demo-safe
+records:
+  - ids: [DRV-001, DRV-002, DRV-003, DRV-004, DRV-005, DRV-006]
+    origin_kind: synthetic_fixture
+    rights_basis: internally_authored_fiction
+    ai_eligible: true
+    package_allowed: true
+    redistribution: prohibited_pending_license

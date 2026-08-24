@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://star-relay.invalid/schemas/asset-record.schema.json",
+  "title": "STAR RELAY asset record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "classification",
+    "origin_kind",
+    "source_ref",
+    "source_created_at",
+    "ingested_at",
+    "media_type",
+    "path",
+    "src_sha256",
+    "transform_id",
+    "transform_version",
+    "transform_config_sha256",
+    "derived_sha256",
+    "locator_grammar_version",
+    "locators",
+    "review_status",
+    "ai_eligible",
+    "package_allowed",
+    "contains_free_text"
+  ],
+  "properties": {
+    "id": { "type": "string", "pattern": "^DRV-[0-9]{3}$" },
+    "title": { "type": "string", "minLength": 1 },
+    "classification": { "const": "demo-safe" },
+    "origin_kind": { "const": "synthetic_fixture" },
+    "source_ref": { "type": "string", "pattern": "^SRC-[0-9]{3}$" },
+    "source_created_at": { "type": "string", "format": "date" },
+    "ingested_at": { "type": "string", "format": "date-time" },
+    "media_type": { "type": "string", "minLength": 1 },
+    "path": { "type": "string", "pattern": "^archive/derived/" },
+    "src_sha256": { "$ref": "#/definitions/sha256" },
+    "transform_id": { "type": "string", "pattern": "^transform:[a-z0-9-]+$" },
+    "transform_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "transform_config_sha256": { "$ref": "#/definitions/sha256" },
+    "derived_sha256": { "$ref": "#/definitions/sha256" },
+    "locator_grammar_version": { "const": "sr-loc/v1" },
+    "locators": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(md:heading|json:pointer)/.+$"
+      }
+    },
+    "review_status": {
+      "type": "string",
+      "enum": ["fixture-reviewed", "needs-review"]
+    },
+    "ai_eligible": { "type": "boolean" },
+    "package_allowed": { "type": "boolean" },
+    "contains_free_text": { "type": "boolean" }
+  },
+  "definitions": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

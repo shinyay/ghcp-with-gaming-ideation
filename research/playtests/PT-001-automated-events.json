@@ -1,0 +1,20 @@
+[
+  {
+    "schema_version": 1,
+    "session_id": "demo-8f31a2c4",
+    "slice_id": "VS-001",
+    "event": "handoff-requested",
+    "tick": 5,
+    "sequence": 0,
+    "result": "pending"
+  },
+  {
+    "schema_version": 1,
+    "session_id": "demo-8f31a2c4",
+    "slice_id": "VS-001",
+    "event": "handoff-accepted",
+    "tick": 35,
+    "sequence": 1,
+    "result": "accepted"
+  }
+]

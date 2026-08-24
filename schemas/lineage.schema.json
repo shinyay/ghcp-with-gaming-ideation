@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://star-relay.invalid/schemas/lineage.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "classification", "nodes", "edges"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "id": { "const": "LINEAGE-001" },
+    "classification": { "const": "demo-safe" },
+    "nodes": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "label_ja", "summary_en", "repository_path", "external_url"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[A-Z]+-[0-9]{3}$" },
+          "kind": {
+            "type": "string",
+            "enum": ["evidence", "conflict", "finding", "play-dna", "bet", "decision", "slice", "issue", "playable"]
+          },
+          "label_ja": { "type": "string", "minLength": 1 },
+          "summary_en": { "type": "string", "minLength": 1 },
+          "repository_path": { "type": "string", "minLength": 1 },
+          "external_url": {
+            "oneOf": [
+              { "type": "string", "format": "uri" },
+              { "type": "null" }
+            ]
+          }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "minItems": 7,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["from", "to", "relation"],
+        "properties": {
+          "from": { "type": "string" },
+          "to": { "type": "string" },
+          "relation": {
+            "type": "string",
+            "enum": ["reveals", "reviewed-as", "abstracted-as", "motivates", "approved-by", "implemented-as", "tracked-by", "demonstrated-by"]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,134 @@
+schema_version: 1
+assets:
+  - id: DRV-001
+    title: 1996 Relay Pair planning brief
+    classification: demo-safe
+    origin_kind: synthetic_fixture
+    source_ref: SRC-001
+    source_created_at: 1996-04-18
+    ingested_at: 2026-08-24T23:33:00+09:00
+    media_type: text/markdown
+    path: archive/derived/documents/DRV-001-relay-pair-brief.md
+    src_sha256: dd54373d6258028f142f4762484541ec96b564f797da3c00716d0d87c81468fd
+    transform_id: transform:fixture-normalize
+    transform_version: 1.0.0
+    transform_config_sha256: 2eb71ab00817254f58f7bb8a8300a27259848d10b9e29904f0f2f4fa2daa820b
+    derived_sha256: 1ac1c63495728a349ba0a254a62b451321cab19e94818227df8a362448146f15
+    locator_grammar_version: sr-loc/v1
+    locators:
+      - md:heading/active-receiving
+      - md:heading/two-player-layout
+    review_status: fixture-reviewed
+    ai_eligible: true
+    package_allowed: true
+    contains_free_text: true
+  - id: DRV-002
+    title: 1997 Solo transition notes
+    classification: demo-safe
+    origin_kind: synthetic_fixture
+    source_ref: SRC-002
+    source_created_at: 1997-02-03
+    ingested_at: 2026-08-24T23:33:00+09:00
+    media_type: text/markdown
+    path: archive/derived/documents/DRV-002-solo-transition-notes.md
+    src_sha256: 6d711f1e67e077bc7bbcd9049597e7f32a2cae90c9558c022c462f8316878283
+    transform_id: transform:fixture-normalize
+    transform_version: 1.0.0
+    transform_config_sha256: 2eb71ab00817254f58f7bb8a8300a27259848d10b9e29904f0f2f4fa2daa820b
+    derived_sha256: 2c2bbf9cfea35dcebb6470f8f753a04e3c0d03c59de6590ab9cc2b3e591f5827
+    locator_grammar_version: sr-loc/v1
+    locators:
+      - md:heading/decision-table
+      - md:heading/open-questions
+    review_status: fixture-reviewed
+    ai_eligible: true
+    package_allowed: true
+    contains_free_text: true
+  - id: DRV-003
+    title: 1998 Final gameplay specification excerpt
+    classification: demo-safe
+    origin_kind: synthetic_fixture
+    source_ref: SRC-003
+    source_created_at: 1998-06-12
+    ingested_at: 2026-08-24T23:33:00+09:00
+    media_type: text/markdown
+    path: archive/derived/documents/DRV-003-final-gameplay-spec.md
+    src_sha256: 51eb005cc8af2b45453df612de04d246b4b20fdc5ac744d301701d1846ade53f
+    transform_id: transform:fixture-normalize
+    transform_version: 1.0.0
+    transform_config_sha256: 2eb71ab00817254f58f7bb8a8300a27259848d10b9e29904f0f2f4fa2daa820b
+    derived_sha256: 1863bbf8e229b38802c28b4c06dfa641ed67dd17609e2dc0da8843ca5d11e365
+    locator_grammar_version: sr-loc/v1
+    locators:
+      - md:heading/core-loop
+      - md:heading/catch-and-chain
+    review_status: fixture-reviewed
+    ai_eligible: true
+    package_allowed: true
+    contains_free_text: true
+  - id: DRV-004
+    title: RELAY_MASTER thin table projection
+    classification: demo-safe
+    origin_kind: synthetic_fixture
+    source_ref: SRC-004
+    source_created_at: 1998-06-12
+    ingested_at: 2026-08-24T23:33:00+09:00
+    media_type: application/json
+    path: archive/derived/spreadsheets/DRV-004-relay-master.json
+    src_sha256: c6613e6f0ce58544fb015611da998e2b60cb5a824316120499abf275037c82b4
+    transform_id: transform:fixture-normalize
+    transform_version: 1.0.0
+    transform_config_sha256: 2eb71ab00817254f58f7bb8a8300a27259848d10b9e29904f0f2f4fa2daa820b
+    derived_sha256: 49eb38da3dda07fd3071b815ac7b43f1aef722009814990bcd69c5d4147122be
+    locator_grammar_version: sr-loc/v1
+    locators:
+      - json:pointer//tables/core_speed
+      - json:pointer//tables/score_events
+    review_status: fixture-reviewed
+    ai_eligible: true
+    package_allowed: true
+    contains_free_text: false
+  - id: DRV-005
+    title: Player guide excerpt
+    classification: demo-safe
+    origin_kind: synthetic_fixture
+    source_ref: SRC-005
+    source_created_at: 1998-07-01
+    ingested_at: 2026-08-24T23:33:00+09:00
+    media_type: text/markdown
+    path: archive/derived/manuals/DRV-005-player-guide.md
+    src_sha256: 2d10b33ebd28d898f99cf26f42f0718ce409d0c016534088ae6c24533a6447e5
+    transform_id: transform:fixture-normalize
+    transform_version: 1.0.0
+    transform_config_sha256: 2eb71ab00817254f58f7bb8a8300a27259848d10b9e29904f0f2f4fa2daa820b
+    derived_sha256: 2ec6c7bb6801c4431df52edac9a6fe22bd2c86f8fb3f813f1265412a19e1b12d
+    locator_grammar_version: sr-loc/v1
+    locators:
+      - md:heading/public-promise
+      - md:heading/chain-display
+    review_status: fixture-reviewed
+    ai_eligible: true
+    package_allowed: true
+    contains_free_text: true
+  - id: DRV-006
+    title: Legacy symbol index projection
+    classification: demo-safe
+    origin_kind: synthetic_fixture
+    source_ref: SRC-006
+    source_created_at: 1998-06-20
+    ingested_at: 2026-08-24T23:33:00+09:00
+    media_type: application/json
+    path: archive/derived/source/DRV-006-symbol-index.json
+    src_sha256: 61e87220ebce8577acfbb508f4dcbff4efbcfa6b9fec91d86cfdc00da014a6fb
+    transform_id: transform:fixture-normalize
+    transform_version: 1.0.0
+    transform_config_sha256: 2eb71ab00817254f58f7bb8a8300a27259848d10b9e29904f0f2f4fa2daa820b
+    derived_sha256: 6dac9e4b88dc27bc3ee85f00c0c2977cb8ce8d19beb162491d9a4b08f985ca8f
+    locator_grammar_version: sr-loc/v1
+    locators:
+      - json:pointer//symbols/core_throw_step
+      - json:pointer//symbols/core_return_step
+    review_status: fixture-reviewed
+    ai_eligible: true
+    package_allowed: true
+    contains_free_text: false
