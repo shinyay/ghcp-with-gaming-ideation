@@ -1,0 +1,11 @@
+{
+  "id": "CLM-008",
+  "title": "QA measured a 150.4 second mean over ten final-stage runs",
+  "classification": "demo-safe",
+  "status": "single-source-reading",
+  "asset_id": "DRV-019",
+  "locator": "md:heading/runs",
+  "statement_kind": "literal-value",
+  "statement": "10 試行の合計は 1504.0 秒、平均は 150.4 秒、最短 141.2 秒、最長 158.4 秒と記録されている。",
+  "does_not_establish": "この平均が公開資料へ転記されたかどうか、および転記時の丸め方針。"
+}

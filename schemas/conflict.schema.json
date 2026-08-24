@@ -11,7 +11,15 @@
     "status": { "const": "open" },
     "kind": {
       "type": "string",
-      "enum": ["proposal-versus-target", "numeric-version-difference"]
+      "enum": [
+        "proposal-versus-target",
+        "numeric-version-difference",
+        "public-versus-internal",
+        "narrative-versus-implementation",
+        "table-versus-specification",
+        "plan-versus-allocation",
+        "evaluation-versus-constraint"
+      ]
     },
     "sides": {
       "type": "array",
@@ -23,7 +31,10 @@
         "required": ["asset_id", "locator", "statement"],
         "properties": {
           "asset_id": { "type": "string", "pattern": "^DRV-[0-9]{3}$" },
-          "locator": { "type": "string", "pattern": "^(md:heading|json:pointer)/.+" },
+          "locator": {
+            "type": "string",
+            "pattern": "^(md:heading|json:pointer|csv:row|csv:column|c:symbol|c:define)/.+"
+          },
           "statement": { "type": "string", "minLength": 1 }
         }
       }

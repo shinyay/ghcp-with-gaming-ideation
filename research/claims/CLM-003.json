@@ -1,0 +1,11 @@
+{
+  "id": "CLM-003",
+  "title": "Operator manual records a single control panel",
+  "classification": "demo-safe",
+  "status": "single-source-reading",
+  "asset_id": "DRV-020",
+  "locator": "md:heading/cabinet-configuration",
+  "statement_kind": "literal-value",
+  "statement": "出荷筐体は単体upright 1種、操作パネル1面、player station 1、coin機構1、連結運用なしと記録されている。",
+  "does_not_establish": "この構成が決まった時期、理由、決定者。"
+}

@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - "shinyay-star-relay-thin-slice"
+      - "shinyay-star-relay-full-archive"
   pull_request:
 
 permissions:

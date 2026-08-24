@@ -7,3 +7,42 @@ records:
     ai_eligible: true
     package_allowed: true
     redistribution: prohibited_pending_license
+  - ids:
+      [
+        DRV-007,
+        DRV-008,
+        DRV-009,
+        DRV-010,
+        DRV-011,
+        DRV-012,
+        DRV-013,
+        DRV-014,
+        DRV-015,
+        DRV-016,
+        DRV-017,
+        DRV-018,
+        DRV-019,
+        DRV-020,
+        DRV-021,
+        DRV-022,
+        DRV-023,
+        DRV-024,
+        DRV-025,
+        DRV-026,
+        DRV-027,
+        DRV-028,
+        DRV-029,
+        DRV-030
+      ]
+    origin_kind: synthetic_fixture
+    rights_basis: internally_authored_fiction
+    ai_eligible: true
+    package_allowed: true
+    redistribution: prohibited_pending_license
+notes:
+  - >-
+    No entry references a real company, product, board, cabinet, recording,
+    performer, or third-party asset. Rights status is therefore fully known.
+  - >-
+    If any future asset arrives with an unknown rights status, stop and mark it
+    risk:rights instead of adding it here.

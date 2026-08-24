@@ -1,0 +1,64 @@
+{
+  "id": "DRV-024",
+  "origin_kind": "synthetic_fixture",
+  "classification": "demo-safe",
+  "fictional_source_created_at": "1996-12-05",
+  "artifact_kind": "storyboard_metadata",
+  "note_ja": "架空の絵コンテを想定したscene metadata。画像binaryは保管しない。",
+  "sheets": [
+    {
+      "sheet_id": "SB-01",
+      "revision": "r1",
+      "revision_date": "1996-12-05",
+      "scenes": [
+        {
+          "scene_id": "SC-011",
+          "title_ja": "最初の投擲",
+          "frame_layout": "split_vertical",
+          "annotations_ja": [
+            "左半分に左側station、右半分に右側stationを描く。",
+            "中央の仕切り線は表示上の境界として明示する。"
+          ]
+        },
+        {
+          "scene_id": "SC-014",
+          "title_ja": "受け取りの合図",
+          "frame_layout": "split_vertical",
+          "annotations_ja": [
+            "受け手側の枠だけを明るくし、送り手側は減光する。",
+            "画面幅は384px前提で作図する。"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet_id": "SB-01",
+      "revision": "r4",
+      "revision_date": "1997-12-18",
+      "scenes": [
+        {
+          "scene_id": "SC-011",
+          "title_ja": "最初の投擲",
+          "frame_layout": "single_full",
+          "annotations_ja": [
+            "仕切り線を削除。作図領域を320px前提へ縮小。",
+            "旧稿の右半分に相当する作図は破棄せず、欄外に貼り込んだまま残す。"
+          ]
+        },
+        {
+          "scene_id": "SC-014",
+          "title_ja": "受け取りの合図",
+          "frame_layout": "single_full",
+          "annotations_ja": [
+            "減光演出は残す。対象を相手stationから戻るCoreへ変更。",
+            "変更指示の発行元は本sheetに記載がない。"
+          ]
+        }
+      ]
+    }
+  ],
+  "limits_ja": [
+    "作図領域の変更理由はこの metadata に記録がない。",
+    "欄外に残る旧稿は採用稿ではない。"
+  ]
+}

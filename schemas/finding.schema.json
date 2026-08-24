@@ -28,7 +28,10 @@
         "required": ["asset_id", "locator"],
         "properties": {
           "asset_id": { "type": "string", "pattern": "^DRV-[0-9]{3}$" },
-          "locator": { "type": "string", "pattern": "^(md:heading|json:pointer)/.+" }
+          "locator": {
+            "type": "string",
+            "pattern": "^(md:heading|json:pointer|csv:row|csv:column|c:symbol|c:define)/.+"
+          }
         }
       }
     },

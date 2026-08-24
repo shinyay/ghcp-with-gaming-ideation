@@ -1,0 +1,29 @@
+{
+  "id": "DRV-026",
+  "origin_kind": "synthetic_fixture",
+  "classification": "demo-safe",
+  "fictional_source_created_at": "1998-09-03",
+  "artifact_kind": "audio_rom_map",
+  "note_ja": "架空のsound ROM配置表。音声binaryは保管しない。配置と容量のみを扱う。",
+  "region": "sound_rom",
+  "capacity_bytes": 262144,
+  "entries": [
+    { "sample_id": "BGM_LAYER_A", "allocated": true, "offset": 0, "bytes": 48000 },
+    { "sample_id": "BGM_LAYER_B", "allocated": true, "offset": 48000, "bytes": 48000 },
+    { "sample_id": "BGM_LAYER_C", "allocated": true, "offset": 96000, "bytes": 40960 },
+    { "sample_id": "SE_BANK", "allocated": true, "offset": 136960, "bytes": 61440 },
+    { "sample_id": "VOX_NAVIGATOR", "allocated": true, "offset": 198400, "bytes": 40960 },
+    { "sample_id": "VOX_RETURN_B", "allocated": true, "offset": 239360, "bytes": 18432 },
+    { "sample_id": "VOX_RETURN_A_FRAG", "allocated": true, "offset": 257792, "bytes": 2048 },
+    { "sample_id": "VOX_RETURN_A", "allocated": false, "offset": null, "bytes": 0, "requested_bytes": 19456 }
+  ],
+  "totals": {
+    "allocated_bytes": 259840,
+    "free_bytes": 2304
+  },
+  "observations_ja": [
+    "VOX_RETURN_A_FRAG は 2 個の短い断片で、単体では語として成立しない。",
+    "allocated が false の entry は最終配置に含まれない。",
+    "この表は allocation の可否だけを記録し、判断の経緯を記録しない。"
+  ]
+}

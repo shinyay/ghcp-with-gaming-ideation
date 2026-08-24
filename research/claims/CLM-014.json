@@ -1,0 +1,11 @@
+{
+  "id": "CLM-014",
+  "title": "The instruction card publishes rounded figures without sources",
+  "classification": "demo-safe",
+  "status": "single-source-reading",
+  "asset_id": "DRV-021",
+  "locator": "json:pointer//ocr_lines",
+  "statement_kind": "literal-text",
+  "statement": "公開表記は「光はおよそ0.5秒で画面をわたる」「全6ステージ」「最終ステージ ZERO LAP  めやす150秒」を含む。",
+  "does_not_establish": "各数値が対応する内部値、計測、版。"
+}

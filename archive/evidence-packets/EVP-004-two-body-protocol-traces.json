@@ -1,0 +1,29 @@
+{
+  "id": "EVP-004",
+  "title_ja": "没設定の二体規約とsystem側の規則の対応",
+  "summary_en": "Reading set for comparing the dropped narrative protocol with enemy and ending rules.",
+  "classification": "demo-safe",
+  "status": "open",
+  "question_ja": "物語稿で不採用とされた二体規約は、system側の規則としてどこまで対応関係を持つか。シナリオ稿はsystemを記述せず、data tableと索引は由来を記述しない。",
+  "question_en": "How far does the dropped two-body protocol correspond to shipped system rules? The scenario does not describe systems, and the tables and index do not describe origins.",
+  "sufficiency": "cross-asset",
+  "reading_set": [
+    { "asset_id": "DRV-009", "locator": "md:heading/two-body-protocol", "read_for_ja": "二体規約の内容" },
+    { "asset_id": "DRV-009", "locator": "md:heading/adopted-and-dropped-sections", "read_for_ja": "物語稿での採否と、その採否が及ぶ範囲" },
+    { "asset_id": "DRV-013", "locator": "csv:column/link_group", "read_for_ja": "敵をlink単位で束ねる列" },
+    { "asset_id": "DRV-013", "locator": "csv:row/EN-05", "read_for_ja": "link_groupを共有する個体の値" },
+    { "asset_id": "DRV-029", "locator": "json:pointer//symbols/enemy_paired_bind_update", "read_for_ja": "link_groupを評価する処理の規則" },
+    { "asset_id": "DRV-010", "locator": "md:heading/true-ending-condition", "read_for_ja": "最終tickの接触状態による分岐条件" }
+  ],
+  "single_asset_is_insufficient": true,
+  "falsified_if": [
+    "link_groupを共有する個体が片方だけの貫通で成立する場合",
+    "TRUE END条件が同時接触を要求していない場合",
+    "シナリオ稿の不採用がsystemへの不採用まで明記している場合"
+  ],
+  "out_of_scope": [
+    "対応関係が意図的か偶然かの判定",
+    "台詞の再利用先の特定",
+    "PAIRLESSの扱い"
+  ]
+}

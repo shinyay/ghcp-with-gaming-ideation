@@ -1,0 +1,28 @@
+{
+  "id": "EVP-003",
+  "title_ja": "Return Passが呼び出すaim処理の来歴",
+  "summary_en": "Reading set for tracing the origin of the aim routine that the Return Pass helper calls.",
+  "classification": "demo-safe",
+  "status": "open",
+  "question_ja": "Return Passが呼び出すaim処理は、いつ、どのmoduleで作られたものか。sourceは呼び出し先の来歴を記録せず、索引は呼び出し関係を記録しない。両方とsymbol採番を突き合わせる必要がある。",
+  "question_en": "Where did the aim routine called by the Return Pass helper come from? The source records no origin and the index records no call relation, so both plus the symbol numbering must be read together.",
+  "sufficiency": "cross-asset",
+  "reading_set": [
+    { "asset_id": "DRV-028", "locator": "c:symbol/return_pass_target", "read_for_ja": "Return Pass側の呼び出し元" },
+    { "asset_id": "DRV-028", "locator": "c:symbol/partner_aim", "read_for_ja": "呼び出される外部宣言" },
+    { "asset_id": "DRV-029", "locator": "json:pointer//symbols/partner_aim", "read_for_ja": "symbol採番、初出build、module履歴" },
+    { "asset_id": "DRV-007", "locator": "md:heading/planned-module-list", "read_for_ja": "1996年時点のsymbol採番とmodule割り当て" },
+    { "asset_id": "DRV-008", "locator": "md:heading/module-handling", "read_for_ja": "p2系moduleの扱いとして記録された方針" }
+  ],
+  "single_asset_is_insufficient": true,
+  "falsified_if": [
+    "1996年のmodule一覧と索引でsymbol採番が一致しない場合",
+    "索引のmodule履歴に移動記録がない場合",
+    "Return Pass側が別のaim処理を呼んでいる場合"
+  ],
+  "out_of_scope": [
+    "改名の有無と旧名称の特定",
+    "移動を決めた作業者や理由",
+    "他のp2系symbolが同様に残っているかどうかの一般化"
+  ]
+}

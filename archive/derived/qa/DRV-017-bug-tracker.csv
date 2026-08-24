@@ -1,0 +1,16 @@
+# origin_kind: synthetic_fixture
+# classification: demo-safe
+# tracker: QA_1998 / sheet: BUGS
+# fictional_source_created_at: 1998-08-20
+# 報告者、担当者、氏名は記録しない。reporter_role 列は職能のみを表す。
+bug_id,area,stage_id,severity,status,resolution,reporter_role,summary_ja
+BUG-007,gameplay,ST-02,minor,closed,fixed,qa,Mirror連続反射でCoreが停止する
+BUG-013,art,ST-04,minor,closed,fixed,qa,HUDのChargeゲージが暗所で判読しにくい
+BUG-021,ui,,minor,closed,wont_fix,qa,CHAIN表示が30で頭打ちになる
+BUG-029,gameplay,ST-05,major,closed,fixed,eng,link_group片側のみ貫通で両方が復帰する
+BUG-034,audio,ST-04,minor,closed,fixed,audio,SE抑制区間で環境音が残る
+BUG-041,gameplay,ST-03,major,closed,fixed,eng,分裂敵が画面外で増殖する
+BUG-047,gameplay,ST-06,info,closed,not_a_bug,qa,ZERO LAPに制限時間がないため所要時間が読めない
+BUG-053,art,,minor,closed,wont_fix,art,未使用のP2 sprite bankがROMに残っている
+BUG-063,audio,,major,closed,wont_fix,audio,受領時のRETURNボイスが再生されない
+BUG-071,platform,,minor,closed,fixed,eng,起動時にstage tableの未使用行が読み込まれる

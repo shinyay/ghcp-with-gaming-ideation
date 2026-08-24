@@ -1,0 +1,20 @@
+{
+  "id": "CFL-007",
+  "title": "Planned two-part voice cue versus a single allocated sample",
+  "classification": "demo-safe",
+  "status": "open",
+  "kind": "plan-versus-allocation",
+  "sides": [
+    {
+      "asset_id": "DRV-025",
+      "locator": "md:heading/return-voice-cue",
+      "statement": "指示書はRETURN cueを二声部構成として計画する。"
+    },
+    {
+      "asset_id": "DRV-026",
+      "locator": "json:pointer//entries",
+      "statement": "配置表では第一声部がallocated falseであり、第二声部と断片のみが配置されている。"
+    }
+  ],
+  "needed_evidence": "容量制約を示す予算資料と、cueの採否を記録した処理区分が必要である。"
+}

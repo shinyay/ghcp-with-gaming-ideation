@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://star-relay.invalid/schemas/evidence-packet.schema.json",
+  "title": "STAR RELAY evidence packet",
+  "description": "A cross-asset reading set. A packet states the question and where to read, never the answer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title_ja",
+    "summary_en",
+    "classification",
+    "status",
+    "question_ja",
+    "question_en",
+    "sufficiency",
+    "reading_set",
+    "single_asset_is_insufficient",
+    "falsified_if",
+    "out_of_scope"
+  ],
+  "properties": {
+    "id": { "type": "string", "pattern": "^EVP-[0-9]{3}$" },
+    "title_ja": { "type": "string", "minLength": 1 },
+    "summary_en": { "type": "string", "minLength": 1 },
+    "classification": { "const": "demo-safe" },
+    "status": { "const": "open" },
+    "question_ja": { "type": "string", "minLength": 1 },
+    "question_en": { "type": "string", "minLength": 1 },
+    "sufficiency": { "const": "cross-asset" },
+    "reading_set": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["asset_id", "locator", "read_for_ja"],
+        "properties": {
+          "asset_id": { "type": "string", "pattern": "^DRV-[0-9]{3}$" },
+          "locator": {
+            "type": "string",
+            "pattern": "^(md:heading|json:pointer|csv:row|csv:column|c:symbol|c:define)/.+"
+          },
+          "read_for_ja": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "single_asset_is_insufficient": { "const": true },
+    "falsified_if": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "out_of_scope": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "conclusion": false,
+    "answer": false,
+    "finding": false,
+    "expected_finding": false,
+    "expected_response": false
+  }
+}

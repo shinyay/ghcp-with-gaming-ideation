@@ -1,0 +1,20 @@
+{
+  "id": "CFL-006",
+  "title": "Dropped narrative protocol versus shipped link group rules",
+  "classification": "demo-safe",
+  "status": "open",
+  "kind": "narrative-versus-implementation",
+  "sides": [
+    {
+      "asset_id": "DRV-009",
+      "locator": "md:heading/two-body-protocol",
+      "statement": "二体規約は物語稿で不採用として削除されている。"
+    },
+    {
+      "asset_id": "DRV-013",
+      "locator": "csv:column/link_group",
+      "statement": "敵tableはlink_group単位で個体を束ねる列を持つ。"
+    }
+  ],
+  "needed_evidence": "採否の判断が物語稿のみを対象としたのか、system設計まで及んだのかを示す記録が必要である。"
+}

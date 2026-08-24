@@ -1,0 +1,11 @@
+{
+  "id": "CLM-010",
+  "title": "The stage sheet holds eight rows with three build flags",
+  "classification": "demo-safe",
+  "status": "single-source-reading",
+  "asset_id": "DRV-014",
+  "locator": "csv:column/build_flag",
+  "statement_kind": "literal-value",
+  "statement": "STAGE sheet は 8 行を持ち、build_flag は ship が 6 行、test_only が 1 行、unused が 1 行である。",
+  "does_not_establish": "仕様書が 6 ステージのみを記述する理由。"
+}

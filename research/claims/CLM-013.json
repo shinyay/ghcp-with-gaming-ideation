@@ -1,0 +1,11 @@
+{
+  "id": "CLM-013",
+  "title": "The minutes record no specific reason for dropping two-player",
+  "classification": "demo-safe",
+  "status": "single-source-reading",
+  "asset_id": "DRV-008",
+  "locator": "md:heading/recorded-decisions",
+  "statement_kind": "absence-of-record",
+  "statement": "同一画面2人が target 外とされた理由は本文に記録なしと明記され、出荷 target player の理由は添付3件の制約によるとだけ記録されている。",
+  "does_not_establish": "添付3件の内容、および理由が体験評価に属するか制約に属するか。"
+}

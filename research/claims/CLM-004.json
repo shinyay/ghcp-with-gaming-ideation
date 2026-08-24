@@ -1,0 +1,11 @@
+{
+  "id": "CLM-004",
+  "title": "Location test receive ratings are higher for the 2P configuration",
+  "classification": "demo-safe",
+  "status": "single-source-reading",
+  "asset_id": "DRV-016",
+  "locator": "md:heading/rating-aggregate",
+  "statement_kind": "literal-value",
+  "statement": "receive_rating の平均は 2P 構成が 4.6、1P 構成が 2.8 と集計されている。",
+  "does_not_establish": "この集計が構成の採否判断に用いられたかどうか。"
+}

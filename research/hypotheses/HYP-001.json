@@ -1,0 +1,31 @@
+{
+  "id": "HYP-001",
+  "title": "Deliberate reception by a second party is the emotional core",
+  "classification": "demo-safe",
+  "status": "open",
+  "statement": "STAR RELAYの感情的中核は投擲ではなく、二人目が能動的に受け取る瞬間にあるという仮説。",
+  "falsified_if": [
+    "受領を自動化しても体験評価が下がらないことが実測で示された場合",
+    "資料上、受領が単なる移動判定として扱われている場合",
+    "受領表現が版を通じて一貫していないことが示された場合"
+  ],
+  "candidate_evidence": [
+    {
+      "asset_id": "DRV-001",
+      "locator": "md:heading/active-receiving"
+    },
+    {
+      "asset_id": "DRV-003",
+      "locator": "md:heading/catch-and-chain"
+    },
+    {
+      "asset_id": "DRV-016",
+      "locator": "md:heading/rating-aggregate"
+    },
+    {
+      "asset_id": "DRV-025",
+      "locator": "md:heading/return-voice-cue"
+    }
+  ],
+  "not_established": "現代版で同じ中核が成立するかどうか。Design Betの採否はこの仮説では決めない。"
+}

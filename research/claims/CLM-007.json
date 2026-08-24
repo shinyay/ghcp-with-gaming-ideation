@@ -1,0 +1,11 @@
+{
+  "id": "CLM-007",
+  "title": "The specification records no time limit for the final stage",
+  "classification": "demo-safe",
+  "status": "single-source-reading",
+  "asset_id": "DRV-010",
+  "locator": "md:heading/zero-lap-conditions",
+  "statement_kind": "literal-text",
+  "statement": "ZERO LAP に制限時間を設けないと記述され、想定所要時間は章に記載しないと明記されている。",
+  "does_not_establish": "公開資料に現れる秒数の由来。"
+}

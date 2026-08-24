@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://star-relay.invalid/schemas/hypothesis.schema.json",
+  "title": "STAR RELAY hypothesis",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "classification",
+    "status",
+    "statement",
+    "falsified_if",
+    "candidate_evidence",
+    "not_established"
+  ],
+  "properties": {
+    "id": { "type": "string", "pattern": "^HYP-[0-9]{3}$" },
+    "title": { "type": "string", "minLength": 1 },
+    "classification": { "const": "demo-safe" },
+    "status": { "const": "open" },
+    "statement": { "type": "string", "minLength": 1 },
+    "falsified_if": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "candidate_evidence": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["asset_id", "locator"],
+        "properties": {
+          "asset_id": { "type": "string", "pattern": "^DRV-[0-9]{3}$" },
+          "locator": {
+            "type": "string",
+            "pattern": "^(md:heading|json:pointer|csv:row|csv:column|c:symbol|c:define)/.+"
+          }
+        }
+      }
+    },
+    "not_established": { "type": "string", "minLength": 1 }
+  }
+}

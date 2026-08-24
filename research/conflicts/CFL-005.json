@@ -1,0 +1,20 @@
+{
+  "id": "CFL-005",
+  "title": "Sheet speed values versus implementation speed constants",
+  "classification": "demo-safe",
+  "status": "open",
+  "kind": "numeric-version-difference",
+  "sides": [
+    {
+      "asset_id": "DRV-012",
+      "locator": "json:pointer//core_speed",
+      "statement": "OLD_2P sheetはoutbound速度を216 units/tickと記録する。"
+    },
+    {
+      "asset_id": "DRV-027",
+      "locator": "c:define/CORE_OUTBOUND_STEP",
+      "statement": "実装はCORE_OUTBOUND_STEPを180と定義する。"
+    }
+  ],
+  "needed_evidence": "両者が前提とする画面幅とunit換算を突き合わせないと、差が版差か設計変更かを判定できない。"
+}

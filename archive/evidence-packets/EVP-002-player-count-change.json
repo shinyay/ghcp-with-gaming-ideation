@@ -1,0 +1,30 @@
+{
+  "id": "EVP-002",
+  "title_ja": "2人同時プレイが出荷targetから外れた要因の切り分け",
+  "summary_en": "Reading set for separating experience-based reasons from constraint-based reasons for the player-count change.",
+  "classification": "demo-safe",
+  "status": "open",
+  "question_ja": "2人同時プレイがtargetから外れた要因は、体験評価に属するものか、それ以外の制約に属するものか。議事録本文だけでは判定できないため、添付相当の資料を突き合わせる必要がある。",
+  "question_en": "Was the player-count change driven by experience evaluation or by other constraints? The minutes alone cannot decide it, so the referenced attachments must be read.",
+  "sufficiency": "cross-asset",
+  "reading_set": [
+    { "asset_id": "DRV-008", "locator": "md:heading/recorded-decisions", "read_for_ja": "記録された決定と、記録されなかった理由の範囲" },
+    { "asset_id": "DRV-008", "locator": "md:heading/attachments-referenced", "read_for_ja": "本文へ転記されなかった添付の表題" },
+    { "asset_id": "DRV-016", "locator": "md:heading/rating-aggregate", "read_for_ja": "2P構成と1P構成の受領評価の列挙値集計" },
+    { "asset_id": "DRV-016", "locator": "md:heading/operation-notes", "read_for_ja": "設置運用側の観察memo" },
+    { "asset_id": "DRV-020", "locator": "md:heading/cabinet-configuration", "read_for_ja": "出荷筐体のpanel数、coin機構、表示幅" },
+    { "asset_id": "DRV-011", "locator": "md:heading/field-layout-impact", "read_for_ja": "表示幅変更が画面分割へ与える影響" },
+    { "asset_id": "DRV-024", "locator": "json:pointer//sheets", "read_for_ja": "分割作図から単画面作図へ改稿された履歴" }
+  ],
+  "single_asset_is_insufficient": true,
+  "falsified_if": [
+    "ロケテスト集計で2P構成の受領評価が1P構成より低い場合",
+    "出荷筐体の部品表に2面panelが存在する場合",
+    "議事録本文に体験評価を理由として明記した記述がある場合"
+  ],
+  "out_of_scope": [
+    "決定者、決定日、決裁経路の特定",
+    "添付資料の完全な原文",
+    "2人用が出荷されていたと仮定した場合の評価"
+  ]
+}

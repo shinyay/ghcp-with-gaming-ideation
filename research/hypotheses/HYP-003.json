@@ -1,0 +1,31 @@
+{
+  "id": "HYP-003",
+  "title": "Removed elements were repurposed rather than deleted",
+  "classification": "demo-safe",
+  "status": "open",
+  "statement": "削除された要素は完全に失われず、別の役割へ転用されて残っているという仮説。",
+  "falsified_if": [
+    "削除対象のsymbol、sprite、sampleがいずれも残存していない場合",
+    "残存物がbuildから一切参照されていないことが示された場合",
+    "残存が偶然の未削除に過ぎないと示す記録が見つかった場合"
+  ],
+  "candidate_evidence": [
+    {
+      "asset_id": "DRV-029",
+      "locator": "json:pointer//symbols/partner_aim"
+    },
+    {
+      "asset_id": "DRV-023",
+      "locator": "json:pointer//banks"
+    },
+    {
+      "asset_id": "DRV-026",
+      "locator": "json:pointer//entries"
+    },
+    {
+      "asset_id": "DRV-013",
+      "locator": "csv:column/link_group"
+    }
+  ],
+  "not_established": "転用が意図的であったかどうか、および転用先の設計意図。"
+}

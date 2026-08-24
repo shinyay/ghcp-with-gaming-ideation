@@ -1,16 +1,18 @@
 # STAR RELAY Archive-to-Playable
 
-> **日本語が正本です。** English summary: This private demo repository follows one
-> synthetic evidence trail from a fictional 1998 arcade game archive to two
-> deliberately small Canvas 2D proofs. It contains no answer keys or real
-> historical material.
+> **日本語が正本です。** English summary: This private demo repository follows
+> synthetic evidence trails from a fictional 1998 arcade game archive to two
+> deliberately small Canvas 2D proofs. Thirty directly authored fixtures and
+> seven cross-asset reading sets require you to combine sources; no single
+> fixture carries a conclusion. It contains no answer keys, no expected
+> responses, and no real historical material.
 
 ## このリポジトリについて
 
 『STAR RELAY』は、1998年に稼働したという設定の**架空の**アーケードゲームです。
 このリポジトリは、異種資料をGitHubで管理し、証拠・解釈・意思決定・実装をstable
-IDで接続するデモの開始点です。現在の実装範囲はPhase 0〜2のthin vertical proofに
-限定されています。
+IDで接続するデモの開始点です。現在の実装範囲はPhase 0〜3で、変換済み旧資産の
+完全コーパスとその横断読解索引までを含みます。
 
 ```text
 Archive -> Understand -> Imagine -> Decide -> Plan -> Build -> Learn
@@ -18,11 +20,17 @@ Archive -> Understand -> Imagine -> Decide -> Plan -> Build -> Learn
 
 ### いま試せるもの
 
-- 6件の`synthetic_fixture` DRVと、2件の未解決Conflict
+- 30件の`synthetic_fixture` DRV（文書、表、manual、QA、アート、音響、source、replay）
+- 14件のClaim、8件の未解決Conflict、3件のHypothesis
+- 7件のEvidence packet。各packetは3資産以上の横断読解を要求します
 - 1件の人間レビュー済みFindingから`VS-001`までのCreative Lineage
 - 60 Hz・整数state・固定replayで動く30秒の1998 core-loop proof
 - 1画面・ローカル2人のCore handoff proof
 - GitHub APIを呼ばない静的Lineage表示とoffline package
+
+Archiveの読み方は[archive/README.md](archive/README.md)と
+[archive/evidence-packets/README.md](archive/evidence-packets/README.md)を参照して
+ください。
 
 ## クイックスタート
 

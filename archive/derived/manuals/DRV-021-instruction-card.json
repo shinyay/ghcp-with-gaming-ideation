@@ -1,0 +1,41 @@
+{
+  "id": "DRV-021",
+  "origin_kind": "synthetic_fixture",
+  "classification": "demo-safe",
+  "fictional_source_created_at": "1998-07-20",
+  "artifact_kind": "instruction_card",
+  "capture_note_ja": "架空のインストカードを想定したtext projection。画像binaryは保管しない。",
+  "ocr_lines": [
+    { "line_id": "OCR-01", "region": "header", "text": "STAR RELAY  操作説明" },
+    { "line_id": "OCR-02", "region": "controls", "text": "レバー: 移動" },
+    { "line_id": "OCR-03", "region": "controls", "text": "ボタンA: 長押しで狙う / はなすと投げる" },
+    { "line_id": "OCR-04", "region": "controls", "text": "ボタンA: 戻る光にふれた瞬間に押すと PERFECT CATCH" },
+    { "line_id": "OCR-05", "region": "controls", "text": "ボタンB: CHARGE 100 で RELEASE" },
+    { "line_id": "OCR-06", "region": "tips", "text": "光はおよそ0.5秒で画面をわたる" },
+    { "line_id": "OCR-07", "region": "tips", "text": "つなぐほど CHAIN がのびる" },
+    { "line_id": "OCR-08", "region": "stages", "text": "全6ステージ" },
+    { "line_id": "OCR-09", "region": "stages", "text": "最終ステージ ZERO LAP  めやす150秒" },
+    { "line_id": "OCR-10", "region": "footer", "text": "1人でプレイできます" }
+  ],
+  "visual_annotations": [
+    {
+      "annotation_id": "VA-01",
+      "region": "layout",
+      "observation_ja": "操作図は中央1人分のみ。左右対称の2人配置は描かれていない。"
+    },
+    {
+      "annotation_id": "VA-02",
+      "region": "layout",
+      "observation_ja": "版面の右端に、塗りつぶされた矩形の刷り残しがある。内容は判読できない。"
+    },
+    {
+      "annotation_id": "VA-03",
+      "region": "tips",
+      "observation_ja": "秒数はいずれも整数または小数第1位までで、根拠の記載はない。"
+    }
+  ],
+  "limits_ja": [
+    "公開表記の数値がどの計測、どの版、どの内部値に対応するかはこのcardからは判断できない。",
+    "刷り残しの由来はこのcardからは判断できない。"
+  ]
+}
