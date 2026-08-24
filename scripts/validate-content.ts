@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { readdir, readFile, stat } from "node:fs/promises";
 import { join, relative } from "node:path";
 import Ajv, {
@@ -8,6 +7,10 @@ import Ajv, {
 } from "ajv";
 import addFormats from "ajv-formats";
 import { parse as parseYaml } from "yaml";
+import {
+  DERIVED_HASH_PROJECTION,
+  hashFixtureText
+} from "./lib/text-projection";
 
 interface AssetRecord {
   readonly id: string;
@@ -19,6 +22,7 @@ interface AssetRecord {
   readonly transform_id: string | null;
   readonly transform_version: string | null;
   readonly transform_config_sha256: string | null;
+  readonly derived_hash_projection: string;
   readonly derived_sha256: string;
   readonly ai_eligible: boolean;
   readonly package_allowed: boolean;
@@ -37,11 +41,6 @@ function formatErrors(errors: ErrorObject[] | null | undefined): string {
 
 async function readJson(path: string): Promise<unknown> {
   return JSON.parse(await readFile(path, "utf8")) as unknown;
-}
-
-async function sha256(path: string): Promise<string> {
-  const content = await readFile(path);
-  return createHash("sha256").update(content).digest("hex");
 }
 
 async function collectFiles(directory: string): Promise<string[]> {
@@ -124,7 +123,13 @@ for (const asset of catalog.assets) {
   if (!fileStat.isFile()) {
     throw new Error(`${asset.id} path is not a file: ${asset.path}`);
   }
-  if ((await sha256(asset.path)) !== asset.derived_sha256) {
+  if (asset.derived_hash_projection !== DERIVED_HASH_PROJECTION) {
+    throw new Error(`${asset.id} uses an unsupported derived hash projection.`);
+  }
+  if (
+    hashFixtureText(await readFile(asset.path, "utf8")) !==
+    asset.derived_sha256
+  ) {
     throw new Error(`${asset.id} derived_sha256 does not match its file.`);
   }
   if (

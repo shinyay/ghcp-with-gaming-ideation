@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "stable_id": "ISSUE-001",
+  "domain_id": "VS-001",
+  "status": "live",
+  "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/1",
+  "acceptance_refs": [
+    "tests/legacy-replay/replay.test.ts",
+    "tests/second-hand/handoff.test.ts",
+    "tests/smoke/demo.spec.ts"
+  ],
+  "body_included": false,
+  "author_included": false,
+  "reactions_included": false
+}

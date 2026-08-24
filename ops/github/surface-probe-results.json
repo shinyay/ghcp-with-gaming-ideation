@@ -11,24 +11,51 @@
     "fallback": "ops/github/ruleset-guidance.md"
   },
   "issue": {
-    "status": "pending",
-    "url": null
+    "status": "created",
+    "stable_id": "ISSUE-001",
+    "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/1"
   },
   "discussion": {
-    "status": "pending",
-    "url": null
+    "status": "created",
+    "stable_id": "DISC-001",
+    "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/discussions/2",
+    "poll_created": false,
+    "reactions_seeded": false
   },
   "project": {
-    "status": "pending",
+    "status": "reused_and_renamed",
+    "title": "STAR RELAY — Idea to Playable",
+    "private": true,
+    "item_count": 1,
+    "stable_id": "PROJECT-ITEM-001",
     "url": "https://github.com/users/shinyay/projects/6"
   },
   "wiki": {
-    "status": "pending",
-    "url": null
+    "status": "unsupported_uninitialized_git_remote",
+    "url": null,
+    "probe_error": "Repository not found while cloning the enabled but uninitialized .wiki.git remote",
+    "fallback": "ops/github/wiki/Home.md"
   },
   "release": {
-    "status": "pending",
-    "url": null
+    "status": "created_draft",
+    "tag": "capability-spike-v0.0.0",
+    "repository_private": true,
+    "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/releases/tag/untagged-c9e3b04896773fa57cd0"
+  },
+  "custom_agent": {
+    "status": "branch_file_verified_runtime_activation_unavailable_in_cli",
+    "path": ".github/agents/archive-curator.agent.md",
+    "fallback": "Use the file as explicit chat instructions"
+  },
+  "prompt_file": {
+    "status": "branch_file_verified_runtime_activation_unavailable_in_cli",
+    "path": ".github/prompts/01-reconstruct-shipped-game.prompt.md",
+    "fallback": "Paste the prompt with its allowed paths"
+  },
+  "issue_form": {
+    "status": "branch_file_verified_not_active_until_default_branch",
+    "path": ".github/ISSUE_TEMPLATE/implementation.yml",
+    "fallback_issue_url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/1"
   },
   "copilot_space": {
     "status": "manual_fallback",

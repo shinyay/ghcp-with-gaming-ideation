@@ -57,7 +57,7 @@
       "label_ja": "SECOND HAND thin stub",
       "summary_en": "Reframe receiving as a local co-op role.",
       "repository_path": "design/bets/BET-002-second-hand.md",
-      "external_url": null
+      "external_url": "https://github.com/shinyay/ghcp-with-gaming-ideation/discussions/2"
     },
     {
       "id": "ADR-001",
@@ -73,15 +73,15 @@
       "label_ja": "Active receiving thin proof",
       "summary_en": "Acceptance contract for the Phase 2 gate.",
       "repository_path": "design/vertical-slices/VS-001-thin-proof.md",
-      "external_url": null
+      "external_url": "https://github.com/users/shinyay/projects/6"
     },
     {
       "id": "ISSUE-001",
       "kind": "issue",
       "label_ja": "Thin proof implementation issue",
       "summary_en": "Live GitHub work item with an offline resolver.",
-      "repository_path": "ops/github/surface-probe-results.json",
-      "external_url": null
+      "repository_path": "ops/github/offline-objects/issue.json",
+      "external_url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/1"
     },
     {
       "id": "PLAYABLE-001",

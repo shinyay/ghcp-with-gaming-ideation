@@ -9,6 +9,7 @@ import {
   writeFile
 } from "node:fs/promises";
 import { dirname, join, relative, resolve } from "node:path";
+import Ajv from "ajv";
 
 interface AllowlistEntry {
   readonly from: string;
@@ -109,6 +110,18 @@ const manifest = {
   entrypoint: "index.html",
   files: manifestFiles
 };
+
+const buildManifestSchema = JSON.parse(
+  await readFile("schemas/build-manifest.schema.json", "utf8")
+) as object;
+const validateManifest = new Ajv({ allErrors: true, strict: true }).compile(
+  buildManifestSchema
+);
+if (!validateManifest(manifest)) {
+  throw new Error(
+    `Build manifest failed schema validation: ${JSON.stringify(validateManifest.errors)}`
+  );
+}
 
 await writeFile(
   join(TARGET, "build-manifest.json"),

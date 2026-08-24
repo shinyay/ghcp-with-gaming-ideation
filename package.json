@@ -17,6 +17,7 @@
     "validate:content": "tsx scripts/validate-content.ts",
     "test:node": "tsx --test tests/content/content.test.ts tests/lineage/lineage.test.ts tests/legacy-replay/replay.test.ts tests/second-hand/handoff.test.ts",
     "test:browser": "playwright test",
+    "test:offline": "playwright test --config playwright.offline.config.ts",
     "test": "npm run check:sim-apis && npm run validate:content && npm run test:node && npm run test:browser",
     "build": "vite build --config vite.config.ts",
     "package:offline": "tsx scripts/package-offline.ts",

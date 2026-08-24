@@ -34,5 +34,6 @@ Phase 2の`FND-001`は構造検証用の唯一のreviewed fixtureで、complete 
 Phase 0〜2のDRVは原本変換の成果ではなく、`derivation_kind:
 directly_authored_fixture`である。Reproducible sourceとtransform executableがない間は
 `src_sha256`と全transform execution fieldを`null`にする。存在しない入力や未実行の
-変換へhash/versionを割り当てない。`derived_sha256`だけは実在するfixture fileを検証
-する。
+変換へhash/versionを割り当てない。`derived_sha256`だけは実在するfixture fileの
+`utf8-nfc-lf-v1` projection（Unicode NFC、LF改行）を検証する。Checkout時のCRLF/LF
+差をprovenance差として扱わない。

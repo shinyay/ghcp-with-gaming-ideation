@@ -20,13 +20,21 @@ Client: GitHub CLI `2.96.0`, Node.js `22.16.0`
 
 ## Surface probe ledger
 
-Live object URLs and final outcomes are recorded in
-`ops/github/surface-probe-results.json` after the feature branch is pushed.
-Static fallbacks are defined in [manual-fallbacks.md](manual-fallbacks.md).
+| Surface | Live result | URL or fallback |
+|---|---|---|
+| Issue | Created for `ISSUE-001` / `VS-001` | <https://github.com/shinyay/ghcp-with-gaming-ideation/issues/1> |
+| Discussion | Created without poll, seeded reaction, or fictional user | <https://github.com/shinyay/ghcp-with-gaming-ideation/discussions/2> |
+| Project | Existing empty private Project #6 renamed and one Issue added | <https://github.com/users/shinyay/projects/6> |
+| Wiki | Enabled setting, but `.wiki.git` clone returned `Repository not found` before first-page initialization | `ops/github/wiki/Home.md` |
+| Draft Release | Created against an annotated capability tag in the private repository | <https://github.com/shinyay/ghcp-with-gaming-ideation/releases/tag/untagged-c9e3b04896773fa57cd0> |
+| Custom agent | Branch file SHA verified; runtime activation has no CLI/API probe | `.github/agents/archive-curator.agent.md` |
+| Prompt file | Branch file SHA verified; runtime picker has no CLI/API probe | `.github/prompts/01-reconstruct-shipped-game.prompt.md` |
+| Issue Form | Branch file SHA verified; not active until present on default branch | structured live Issue fallback above |
+| Copilot Space | No supported creation API/tool was available | `copilot-space-manifest.yaml` |
 
-The repository does not claim a custom agent, prompt, Issue Form, Discussion,
-Project, Wiki, Release, or Copilot Space is active until a live probe succeeds.
-No Pages site will be created during the spike.
+Exact machine-readable outcomes are in `surface-probe-results.json`. A setting or
+branch-hosted file is not reported as an activated UI surface. No Pages site was
+created.
 
 ## Guardrail decision
 

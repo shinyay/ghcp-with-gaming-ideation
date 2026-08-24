@@ -19,6 +19,7 @@
     "transform_id",
     "transform_version",
     "transform_config_sha256",
+    "derived_hash_projection",
     "derived_sha256",
     "locator_grammar_version",
     "locators",
@@ -62,6 +63,7 @@
         { "type": "null" }
       ]
     },
+    "derived_hash_projection": { "const": "utf8-nfc-lf-v1" },
     "derived_sha256": { "$ref": "#/definitions/sha256" },
     "locator_grammar_version": { "const": "sr-loc/v1" },
     "locators": {

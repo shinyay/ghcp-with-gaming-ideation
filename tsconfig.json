@@ -9,6 +9,7 @@
     "scripts/**/*.ts",
     "tests/**/*.ts",
     "vite.config.ts",
-    "playwright.config.ts"
+    "playwright.config.ts",
+    "playwright.offline.config.ts"
   ]
 }

@@ -6,6 +6,10 @@ import {
   serializeIntegerState
 } from "@star-relay/game-core";
 import { parse as parseYaml } from "yaml";
+import {
+  DERIVED_HASH_PROJECTION,
+  hashFixtureText
+} from "../../scripts/lib/text-projection";
 
 test("canonical integer serializer fixes field order and rejects floats", () => {
   const serialized = serializeIntegerState(1, [
@@ -48,6 +52,7 @@ test("directly authored fixtures never claim source or transform execution", asy
       readonly transform_id: string | null;
       readonly transform_version: string | null;
       readonly transform_config_sha256: string | null;
+      readonly derived_hash_projection: string;
     }[];
   };
 
@@ -58,5 +63,12 @@ test("directly authored fixtures never claim source or transform execution", asy
     assert.equal(asset.transform_id, null);
     assert.equal(asset.transform_version, null);
     assert.equal(asset.transform_config_sha256, null);
+    assert.equal(asset.derived_hash_projection, DERIVED_HASH_PROJECTION);
   }
+});
+
+test("fixture hash projection is identical for LF and CRLF checkouts", () => {
+  const lf = "STAR RELAY\n受領\n";
+  const crlf = "STAR RELAY\r\n受領\r\n";
+  assert.equal(hashFixtureText(lf), hashFixtureText(crlf));
 });

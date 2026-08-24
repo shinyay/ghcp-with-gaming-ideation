@@ -2,8 +2,7 @@ import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./tests/smoke",
-  testIgnore: "offline.spec.ts",
-  fullyParallel: false,
+  testMatch: "offline.spec.ts",
   workers: 1,
   reporter: "line",
   use: {
@@ -12,9 +11,9 @@ export default defineConfig({
     headless: true
   },
   webServer: {
-    command: "npm run dev",
+    command: "npm run serve:offline",
     url: "http://127.0.0.1:4173",
     reuseExistingServer: false,
-    timeout: 120_000
+    timeout: 30_000
   }
 });
