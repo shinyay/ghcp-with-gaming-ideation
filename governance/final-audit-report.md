@@ -5,12 +5,14 @@
 > One offline-server crash defect was fixed and covered by a regression test.
 > Final human acceptance remains pending: no external five-person usability
 > study, scored Copilot run, initialized Wiki, Copilot Space, approved recording,
-> final release tag, or final Release is claimed here.
+> or published Release is claimed here. An annotated release tag and a
+> repository-access-controlled draft Release now exist.
 
 - 監査日: `2026-08-25` (`+09:00`)
 - 対象repository: `shinyay/ghcp-with-gaming-ideation`
 - 基準commit: `77c9b602bd8751bf3fe64bf25a297bbb61c53de5`
 - 監査済み実装commit: `cc789032dfe8b209baf06ec247fb42b1bbf74b8d`
+- PR #36 merge commit: `d3ae5d58fcf484dce8a7b93102311bd0c4655d54`
 - 参照ADR: なし。配信境界のbug fixであり、rule、balance、勝敗条件、操作の意味を
   変更していない。
 - 結論: **自動化された技術・content・package gateは合格。Final Completionは
@@ -113,7 +115,8 @@ guard文字列そのものは`governance/disclosure-guard.json`、package allowl
 | Discussions | 6、comment 0、upvote 0 |
 | Private Project #6 | 20 items、6 views、21 fields（built-inを含む） |
 | Wiki repository | `.wiki.git`は`Repository not found`。first page未初期化 |
-| Latest `main` validation | Actions run `32778739705`、SHA `77c9b60`、success |
+| Audit PR | #36、merge commit `d3ae5d5`、2 checks success |
+| Release workflow | run `32784690666`、SHA `d3ae5d5`、success |
 
 rulesetとbranch protectionは未設定である。owner-safe fallbackは文書化されているが、
 GitHub上の強制保護と同等ではない。
@@ -123,10 +126,19 @@ GitHub上の強制保護と同等ではない。
 - `checkpoint/archive`、`checkpoint/understand`、`checkpoint/decide`、
   `checkpoint/build`はlocal/remoteともannotated tagであり、
   `demo/checkpoints/manifest.json`のtag objectとcommitに一致した。
-- `vX.Y.Z-demo-reference`形式のrelease tagは存在しない。
-- `package-private-release` workflowのrun履歴は0件である。
-- live Releaseは既存のcapability spike用draft
-  `capability-spike-v0.0.0`だけであり、final Releaseではない。
+- annotated tag `v0.1.0-demo-reference`（tag object
+  `0aa2b1db5cc8fc411df9770a3eea5535ce18504a`）はfinal `main`
+  `d3ae5d58fcf484dce8a7b93102311bd0c4655d54`を指す。
+- `package-private-release` workflow run
+  [`32784690666`](https://github.com/shinyay/ghcp-with-gaming-ideation/actions/runs/32784690666)
+  は`workflow_dispatch`で実行され、annotated tag検証、Phase 8 gate、一時artifact、
+  draft Release作成の全stepが成功した。
+- repository-access-controlled draft Release
+  `STAR RELAY v0.1.0-demo-reference`は存在する。`isDraft: true`、
+  `isPrerelease: false`、`publishedAt: null`であり、公開済みReleaseではない。
+- draft Releaseは`build-manifest.json`、`demo-site.zip`、
+  `offline-demo-pack.zip`、`second-hand-vertical-slice.zip`、`SHA256SUMS`、
+  `star-relay-1998-playable.zip`の6 assetを持つ。
 - local `REL-001` manifestは`repository_access_required: private`、
   `pages_published: false`で、次の4 artifactを検証した。
 
@@ -137,7 +149,12 @@ GitHub上の強制保護と同等ではない。
 | `second-hand-vertical-slice.zip` | 337403 | `e498b756731655c536e857ce99bc2a8f70e41e9f9e9c24401089a6b4a694c0e6` |
 | `offline-demo-pack.zip` | 426186 | `d245e1bf569455f2415900b9b809436a458f7f13e1109e0f6a454b0a676d8f86` |
 
-これらはlocal buildであり、GitHub Releaseへ公開したとは扱わない。
+4つのZIPは同じSHA-256でdraft Releaseへupload済みである。追加の
+`build-manifest.json`は1251 bytes / SHA-256
+`270fd188fc354c9d02c92e0b73ffcb2f242684be0d09bbc3f63f8fe1fe3cd5c4`、
+`SHA256SUMS`は446 bytes / SHA-256
+`3726df7d80b47c22e28728045dadec9ce6bcb95fa8e0e91fe8586a43acab4346`。
+Release作成後もrepositoryは`PRIVATE`、Pages endpointは404である。
 
 ### Copilot surface記録
 
@@ -160,12 +177,12 @@ GitHub上の強制保護と同等ではない。
   反証される。不足している証拠は別OSでの今回commitのCI結果である。
 - Inference: 現在の配布境界はprivate/local利用に限れば維持されていると考えられる。
   確信度は高い。根拠はrepository `PRIVATE`、Pages 404、package allowlist、
-  `NOTICE.md`、外部request 0。visibility、Pages、license、Release設定のいずれかが
-  変更された場合に反証される。
+  `NOTICE.md`、外部request 0、repository-access-controlled draft Release。
+  visibility、Pages、license、Release設定のいずれかが変更された場合に反証される。
 - Inference: Phase 9のFinal Completionはまだ宣言できない。確信度は高い。
   外部5名の観測、固定10 Copilot scenarioのhuman score、Wiki初期化、Space作成、
-  recording、final release/tagの実在証拠が不足している。署名済みrun sheet、実在URL、
-  file hash、workflow runが提示された場合に更新できる。
+  recordingの実在証拠が不足し、Releaseもdraftのままである。署名済みrun sheet、
+  実在URL、file hash、human approvalが提示された場合に更新できる。
 - Inference: canaryのrepository/package非混入は維持されている可能性が高い。
   確信度は中。過去のfingerprint checkと今回のrepository-scoped scanに依拠するが、
   Spaceが存在しないためlive Spaceからのcitation非混入は判定できない。Space作成後の
@@ -181,8 +198,8 @@ GitHub上の強制保護と同等ではない。
   再実行し、source hash一致を確認する。実施しない場合はrepository内fallbackを維持する。
 - Proposal: Copilot Spaceを手動作成する場合はfile/folder allowlistだけを登録し、
   repository sourceとreference repositoryを追加しない。
-- Proposal: final Releaseを承認する場合だけ、現時点のcommitを指すannotated
-  `vX.Y.Z-demo-reference` tagを人間が作成し、manual workflowを実行する。
+- Proposal: draft Releaseの公開またはFinal Completion扱いは、manual acceptanceと
+  human sign-offが揃うまで行わない。
 - Proposal: recordingは実在file、rights review、checksumが揃った場合だけ登録する。
 - Proposal: Office/Cowork原本、ingestion Actions、semantic diffはDeferred Phaseとして
   維持する。

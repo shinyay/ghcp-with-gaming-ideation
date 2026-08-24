@@ -2,8 +2,8 @@
 
 > **日本語が正本です。** English summary: Automated checks are complete, but
 > every unchecked item below requires real human or GitHub evidence. Do not mark
-> Wiki, Space, recordings, external usability, Copilot scoring, a release tag, or
-> the final Release complete without that evidence.
+> Wiki, Space, recordings, external usability, Copilot scoring, or the draft
+> Release as published/final without that evidence.
 
 正本の監査結果は[最終監査報告](final-audit-report.md)を参照する。checkを付けるときは、
 実在するURL、run sheet、commit、workflow run、file hashのいずれかを併記する。
@@ -38,7 +38,12 @@ reviewer、participant、recording、reaction、approvalを作らない。
 - [x] checkpoint 4件がannotated tagでmanifestと一致
 - [x] repositoryはPrivate、Pages endpointは404
 - [x] canary guard prefixのpackage match 0、Issue match 0、Discussion match 0
-- [x] final release tagとfinal Releaseを作成していない
+- [x] annotated tag `v0.1.0-demo-reference`がfinal `main`
+  `d3ae5d58fcf484dce8a7b93102311bd0c4655d54`を指す
+- [x] release workflow run `32784690666`が成功
+- [x] repository-access-controlled draft Releaseにmanifest、checksums、4 ZIPの
+  計6 assetが存在
+- [x] draft Release作成後もrepositoryはPrivate、Pages endpointは404
 
 ### Manual acceptance
 
@@ -74,11 +79,13 @@ reviewer、participant、recording、reaction、approvalを作らない。
   duration、capture date、SHA-256、approval referenceを記録する。
 - [ ] recordingを用意しない場合、`not-recorded`表示とstatic fallbackを維持する。
 - [ ] 再配布または公開展示の前にlicense判断を行う。現状の`NOTICE.md`では許諾されない。
-- [ ] final Releaseを作る場合だけ、対象commitを確認してannotated
-  `vX.Y.Z-demo-reference` tagを作成する。
-- [ ] `package-private-release`をmanual dispatchし、同じtag、successful run、
-  private draft Release、4 asset、checksumを確認する。
-- [ ] release後にrepository visibilityがPrivate、Pagesが未公開であることを再確認する。
+- [x] 対象commitを確認し、annotated `v0.1.0-demo-reference` tagを作成した。
+- [x] `package-private-release`をmanual dispatchし、同じtag、successful run、
+  private draft Release、manifest、checksum、4 ZIPを確認した。
+- [x] draft Release作成後にrepository visibilityがPrivate、Pagesが未公開であることを
+  再確認した。
+- [ ] manual acceptanceとhuman sign-off後に、draft Releaseを公開するかdraftのまま
+  維持するかを決定する。
 
 ### Deferred Phase
 
