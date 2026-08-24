@@ -266,6 +266,12 @@ select {
   font-family: Consolas, "Courier New", Courier, monospace;
 }
 
+.remap-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
 canvas {
   display: block;
   width: 100%;

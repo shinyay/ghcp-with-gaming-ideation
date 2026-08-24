@@ -4,6 +4,7 @@
 > captions, reduced flash, color-independent symbols, and an AI companion.
 
 - Keyboard操作を実行中にremapできる
+- `Tab`などのfocus移動キーはremap対象外とし、`Esc`で中止、buttonで既定値へ戻せる
 - Catch assistは受領域とcatch windowを拡張する
 - P1はtriangle、P2はsquare、Coreはring、Relay Pointはnumberで識別する
 - ownerとroleをshape内のdot、label、status textで重ねて示す

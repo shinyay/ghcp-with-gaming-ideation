@@ -218,8 +218,12 @@
           <summary>Keyboard remapping</summary>
           <p>
             ボタンを選び、次のキーを押してください。重複キーは元の割当と交換します。
+            <kbd>Esc</kbd>で中止、<kbd>Tab</kbd>は常にfocus移動として予約します。
           </p>
           <div class="binding-grid" id="input-map"></div>
+          <div class="remap-actions">
+            <button id="reset-bindings" type="button">既定キーに戻す</button>
+          </div>
         </details>
 
         <canvas

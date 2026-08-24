@@ -23,6 +23,13 @@ import {
 const STEP_MS = 1000 / 60;
 const MAX_FRAME_MS = 250;
 const CAPTION_HOLD_TICKS = 45;
+const FOCUS_NAVIGATION_CODES = new Set([
+  "Tab",
+  "F6",
+  "BrowserBack",
+  "BrowserForward",
+  "ContextMenu"
+]);
 const FIELD_WIDTH = 12_800;
 const FIELD_HEIGHT = 7200;
 const PLAYER_X = {
@@ -524,6 +531,11 @@ export function mountSecondHandProof(
     HTMLInputElement
   );
   const inputMap = requireWithin(root, "#input-map", HTMLElement);
+  const resetBindingsButton = requireWithin(
+    root,
+    "#reset-bindings",
+    HTMLButtonElement
+  );
   const exportButton = requireWithin(
     root,
     "#export-playtest",
@@ -583,10 +595,18 @@ export function mountSecondHandProof(
     }
   };
 
+  const cancelPendingBinding = (): void => {
+    if (pendingBinding !== undefined) {
+      pendingBinding = undefined;
+      updateBindingButtons();
+    }
+  };
+
   for (const spec of BINDING_SPECS) {
     const label = document.createElement("span");
     label.textContent = spec.label;
     const button = document.createElement("button");
+    button.id = `binding-${spec.action}`;
     button.type = "button";
     button.className = "binding-button";
     button.dataset["bindingLabel"] = spec.label;
@@ -806,6 +826,15 @@ export function mountSecondHandProof(
       return;
     }
     if (pendingBinding !== undefined) {
+      if (event.code === "Escape") {
+        event.preventDefault();
+        cancelPendingBinding();
+        return;
+      }
+      if (FOCUS_NAVIGATION_CODES.has(event.code)) {
+        cancelPendingBinding();
+        return;
+      }
       event.preventDefault();
       const oldCode = bindings[pendingBinding];
       const conflict = BINDING_SPECS.find(
@@ -825,6 +854,9 @@ export function mountSecondHandProof(
     if (document.activeElement !== canvas) {
       return;
     }
+    if (event.code === "Escape" || FOCUS_NAVIGATION_CODES.has(event.code)) {
+      return;
+    }
     if (!Object.values(bindings).includes(event.code)) {
       return;
     }
@@ -839,6 +871,13 @@ export function mountSecondHandProof(
         event.preventDefault();
       }
     }
+  });
+
+  resetBindingsButton.addEventListener("click", () => {
+    bindings = createDefaultBindings();
+    cancelPendingBinding();
+    heldKeys.clear();
+    updateBindingButtons();
   });
 
   for (const button of modeButtons) {

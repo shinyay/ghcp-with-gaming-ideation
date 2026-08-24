@@ -100,6 +100,52 @@ test("live regions stay quiet per tick and invalid settings do not reset", async
   expect(pageErrors).toEqual([]);
 });
 
+test("remapping reserves focus keys and the Canvas never traps Tab", async ({
+  page
+}) => {
+  await page.goto("/");
+  await page.getByText("Keyboard remapping", { exact: true }).click();
+  const upBinding = page.getByRole("button", {
+    name: "P1 上へ移動: W",
+    exact: true
+  });
+
+  await upBinding.click();
+  await page.keyboard.press("Tab");
+  await expect(upBinding).toHaveAccessibleName("P1 上へ移動: W");
+  await expect(upBinding).toHaveAttribute("aria-pressed", "false");
+  expect(await page.evaluate(() => document.activeElement?.id)).not.toBe(
+    "handoff-canvas"
+  );
+
+  await upBinding.click();
+  await page.keyboard.press("Escape");
+  await expect(upBinding).toHaveAccessibleName("P1 上へ移動: W");
+  await expect(upBinding).toBeFocused();
+
+  await upBinding.click();
+  await page.keyboard.press("g");
+  const remappedBinding = page.getByRole("button", {
+    name: "P1 上へ移動: G",
+    exact: true
+  });
+  await expect(remappedBinding).toBeVisible();
+  await expect(page.locator("#handoff-canvas")).toBeFocused();
+
+  await page.keyboard.press("Tab");
+  expect(await page.evaluate(() => document.activeElement?.id)).toBe(
+    "export-playtest"
+  );
+  await page.locator("#handoff-canvas").focus();
+  await page.keyboard.press("Shift+Tab");
+  expect(await page.evaluate(() => document.activeElement?.id)).toBe(
+    "reset-bindings"
+  );
+
+  await page.getByRole("button", { name: "既定キーに戻す" }).click();
+  await expect(upBinding).toHaveAccessibleName("P1 上へ移動: W");
+});
+
 test("keyboard controls drive the live Mirror Corridor simulation", async ({
   page
 }) => {
