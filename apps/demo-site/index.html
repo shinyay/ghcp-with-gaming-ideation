@@ -5,44 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="STAR RELAY synthetic archive-to-playable thin proof"
+      content="STAR RELAY 1998 Mirror Corridor deterministic representative playable"
     />
-    <title>STAR RELAY — Thin Vertical Proof</title>
+    <title>STAR RELAY — Mirror Corridor</title>
   </head>
   <body>
     <header class="hero">
-      <div class="eyebrow">PHASE 0–2 / DEMO-SAFE SYNTHETIC FIXTURE</div>
+      <div class="eyebrow">PHASE 6 / DEMO-SAFE SYNTHETIC FIXTURE</div>
       <h1>STAR RELAY</h1>
       <p class="hero-copy">
-        証拠から受領のPlay DNAへ、そして2つの最小Playableへ。
-        <span lang="en">One synthetic lineage, two deterministic proofs.</span>
+        証拠から受領のPlay DNAへ、そして決定論的な代表区間へ。
+        <span lang="en">From cleared evidence to a deterministic playable.</span>
       </p>
       <nav aria-label="Page sections">
-        <a href="#legacy">1998 Core Loop</a>
+        <a href="#legacy">1998 Mirror Corridor</a>
         <a href="#second-hand">SECOND HAND</a>
         <a href="#lineage">Creative Lineage</a>
       </nav>
     </header>
 
     <main>
-      <section class="panel" id="legacy">
+      <section class="panel legacy-panel" id="legacy">
         <div class="panel-heading">
           <div>
-            <p class="kicker">PLAYABLE-001 / LEGACY</p>
-            <h2>1998 core-loop replay</h2>
+            <p class="kicker">PLAYABLE-001 / 60 HZ INTEGER SIMULATION</p>
+            <h2>Mirror Corridor</h2>
           </div>
-          <button id="legacy-restart" type="button">30秒replayを再開</button>
+          <div class="legacy-toolbar" aria-label="Mirror Corridor display controls">
+            <button id="legacy-mode" type="button" aria-pressed="false">
+              自分でプレイ
+            </button>
+            <button id="legacy-restart" type="button">最初から</button>
+            <button id="legacy-crt" type="button" aria-pressed="false">
+              CRT: OFF
+            </button>
+            <button id="legacy-flash" type="button" aria-pressed="false">
+              低フラッシュ: OFF
+            </button>
+          </div>
         </div>
-        <p>
-          60 Hz固定tick、整数state、固定seed。Aim → Bank → Pierce → Relay →
-          PERFECT CATCH → OVERRAYを自動再生します。
+        <p class="legacy-intro">
+          光のCoreを持つと遅く、放すと速い。<strong>Aを長押し</strong>して鏡越しの経路を読み、
+          敵を貫き、Relayから戻る光を受け取ってください。
+          <span lang="en">Hold the light. Read the bank. Receive the return.</span>
         </p>
-        <canvas
-          id="legacy-canvas"
-          width="640"
-          height="360"
-          aria-label="STAR RELAY 1998 deterministic core loop"
-        ></canvas>
+
+        <div class="legacy-layout">
+          <div class="legacy-playfield">
+            <div
+              class="legacy-screen"
+              id="legacy-screen"
+              data-crt="false"
+              data-reduced-flash="false"
+            >
+              <canvas
+                id="legacy-canvas"
+                width="960"
+                height="540"
+                tabindex="0"
+                aria-label="STAR RELAY 1998 Mirror Corridor playable"
+                aria-describedby="legacy-help legacy-caption"
+              ></canvas>
+            </div>
+            <div class="legacy-caption" id="legacy-caption" aria-live="polite">
+              <span class="caption-mark" aria-hidden="true">CC</span>
+              <span id="legacy-caption-copy">〔Coreの低い共鳴音〕</span>
+            </div>
+            <p class="legacy-help" id="legacy-help">
+              <kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd> 移動 /
+              <kbd>A</kbd> 長押しで経路・離して投射・Return中に受領 /
+              Gamepadは左スティックまたは十字キー + A
+            </p>
+          </div>
+
+          <aside class="mission-rail" aria-label="Mirror Corridor objectives">
+            <div class="mission-heading">
+              <span>30 SEC ROUTE</span>
+              <strong id="legacy-mode-label">ATTRACT</strong>
+            </div>
+            <ol>
+              <li data-legacy-step="held">
+                <span class="step-glyph" aria-hidden="true">◆</span>
+                <div><strong>HOLD</strong><span>Core保持中は低速</span></div>
+              </li>
+              <li data-legacy-step="bank">
+                <span class="step-glyph" aria-hidden="true">⌁</span>
+                <div><strong>BANK</strong><span>A長押しで鏡経路</span></div>
+              </li>
+              <li data-legacy-step="relay">
+                <span class="step-glyph" aria-hidden="true">▣</span>
+                <div><strong>RELAY</strong><span>経路そのものが攻撃</span></div>
+              </li>
+              <li data-legacy-step="catch">
+                <span class="step-glyph" aria-hidden="true">◇</span>
+                <div><strong>RETURN</strong><span>枠内で受け取る</span></div>
+              </li>
+            </ol>
+            <div class="mission-legend">
+              <span><i class="shape-sample hum"></i>HUM</span>
+              <span><i class="shape-sample peal"></i>PEAL</span>
+              <span><i class="shape-sample choir"></i>CHOIR</span>
+            </div>
+          </aside>
+        </div>
         <div class="status-row" id="legacy-status" aria-live="polite"></div>
       </section>
 
