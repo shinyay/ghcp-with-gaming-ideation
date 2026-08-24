@@ -127,8 +127,9 @@ GitHub上の強制保護と同等ではない。
   `checkpoint/build`はlocal/remoteともannotated tagであり、
   `demo/checkpoints/manifest.json`のtag objectとcommitに一致した。
 - annotated tag `v0.1.0-demo-reference`（tag object
-  `0aa2b1db5cc8fc411df9770a3eea5535ce18504a`）はfinal `main`
-  `d3ae5d58fcf484dce8a7b93102311bd0c4655d54`を指す。
+  `0aa2b1db5cc8fc411df9770a3eea5535ce18504a`）は監査済みソフトウェア基準commit
+  `d3ae5d58fcf484dce8a7b93102311bd0c4655d54`を指す。監査証跡文書の追加により、
+  現在の`main`はこのcommitより後に進んでいる。
 - `package-private-release` workflow run
   [`32784690666`](https://github.com/shinyay/ghcp-with-gaming-ideation/actions/runs/32784690666)
   は`workflow_dispatch`で実行され、annotated tag検証、Phase 8 gate、一時artifact、
