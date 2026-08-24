@@ -86,3 +86,10 @@ test("package containment accepts children and rejects sibling prefixes", () => 
     false
   );
 });
+
+test("CFL-001 compares a proposal with a target, not shipped evidence", async () => {
+  const conflict = JSON.parse(
+    await readFile("research/conflicts/CFL-001.json", "utf8")
+  ) as { readonly kind: string };
+  assert.equal(conflict.kind, "proposal-versus-target");
+});

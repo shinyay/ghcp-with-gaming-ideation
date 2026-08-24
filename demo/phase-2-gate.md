@@ -35,10 +35,10 @@ fictional user, or fabricated historical commit was created.
 | Requirement | Evidence | Result |
 |---|---|---|
 | 6 DRV | `archive/catalog/assets.yaml`; schema/content validation | Pass |
-| 2 Conflict | `CFL-001`, `CFL-002`, both `open` | Pass |
+| 2 Conflict | `CFL-001` is proposal-versus-target; `CFL-002` is numeric-version-difference; both `open` | Pass |
 | 1 reviewed Finding | `FND-001`, two independent evidence locators, explicit limits | Pass |
 | Full thin lineage | `LINEAGE-001`, 11 nodes/10 edges; conflict and finding evidence branches are independent | Pass |
-| 30-second 1998 proof | 1800 fixed ticks at 60 Hz; Bank, Pierce, Relay, PERFECT CATCH, OVERRAY flags | Pass |
+| 30-second 1998 proof | 1800 fixed ticks at 60 Hz; Bank changes route with no direct reward; Pierce, Relay, PERFECT CATCH, OVERRAY flags | Pass |
 | Node/Chromium equivalence | Final hash `12374571`; checkpoints below; browser smoke equals Node | Pass |
 | Local two-player handoff | Two accepted transfers; final owner `1`, sequence `2`; one-owner invariant every tick | Pass |
 | Live GitHub surfaces | Issue, Discussion, private Project item, draft private-repository Release | Pass |
@@ -59,7 +59,7 @@ fictional user, or fabricated historical commit was created.
 - TypeScript strict typecheck: pass
 - Simulation forbidden-API scan: pass
 - Content/schema/provenance validation: pass
-- Node tests: 9 pass
+- Node tests: 11 pass
 - Chromium dev-server smoke: 2 pass
 - Vite production build: pass
 - Allowlisted package plus build-manifest schema: pass

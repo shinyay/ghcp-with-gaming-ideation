@@ -11,7 +11,7 @@
     "status": { "const": "open" },
     "kind": {
       "type": "string",
-      "enum": ["proposal-versus-shipped", "numeric-version-difference"]
+      "enum": ["proposal-versus-target", "numeric-version-difference"]
     },
     "sides": {
       "type": "array",

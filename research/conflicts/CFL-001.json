@@ -3,7 +3,7 @@
   "title": "Two-player proposal versus one-player target",
   "classification": "demo-safe",
   "status": "open",
-  "kind": "proposal-versus-shipped",
+  "kind": "proposal-versus-target",
   "sides": [
     {
       "asset_id": "DRV-001",

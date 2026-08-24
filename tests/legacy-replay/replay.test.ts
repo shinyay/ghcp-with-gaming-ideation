@@ -3,7 +3,10 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   LEGACY_REPLAY,
-  runLegacyReplay
+  createLegacyState,
+  legacyInputAtTick,
+  runLegacyReplay,
+  stepLegacy
 } from "@star-relay/legacy-1998";
 
 test("fixed 1800-tick replay reaches every core-loop event", () => {
@@ -24,4 +27,21 @@ test("fixed 1800-tick replay reaches every core-loop event", () => {
   assert.deepEqual(first.checkpointHashes, fixture.expected_checkpoint_hashes);
   assert.equal(second.finalHash, first.finalHash);
   assert.deepEqual(second.checkpointHashes, first.checkpointHashes);
+});
+
+test("Bank changes the route without directly rewarding score or charge", () => {
+  let state = createLegacyState(LEGACY_REPLAY.seed);
+
+  while (state.banked === 0 && state.tick < 100) {
+    state = stepLegacy(
+      state,
+      legacyInputAtTick(LEGACY_REPLAY, state.tick)
+    );
+  }
+
+  assert.equal(state.banked, 1);
+  assert.equal(state.piercedEnemy, 0);
+  assert.equal(state.score, 0);
+  assert.equal(state.chain, 0);
+  assert.equal(state.charge, 0);
 });
