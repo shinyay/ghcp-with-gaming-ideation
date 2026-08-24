@@ -1,11 +1,10 @@
-name: validate-thin-slice
+name: validate-playable-slices
 
 on:
   push:
     branches:
       - main
-      - "shinyay-star-relay-thin-slice"
-      - "shinyay-star-relay-full-archive"
+      - "shinyay-*"
   pull_request:
 
 permissions:

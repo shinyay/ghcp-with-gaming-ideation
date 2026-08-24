@@ -79,13 +79,14 @@ CSV列名、C macroをすべて引用することをvalidatorが要求する。
 | TypeScript strict typecheck | Pass |
 | Simulation forbidden-API scan | Pass |
 | Content / schema / provenance / locator validation | Pass |
-| Node tests | 63 pass |
-| Chromium dev-server smoke | 6 pass |
+| Node tests | 80 pass |
+| Chromium dev-server smoke | 9 pass |
 | Vite production build | Pass |
 | Allowlisted package + build-manifest schema | Pass |
 | Packaged offline Chromium smoke | 1 pass |
 
-Phase 6のMirror Corridor playableを取り込んだ後の統合gateも同じ結果である。
+Phase 6のMirror Corridor playableとPhase 7のSECOND HAND Twin Span sliceを
+取り込んだ後の統合gateも同じ結果である。
 `archive/derived/spreadsheets/DRV-004-relay-master.json`に登録された速度表と
 `packages/legacy-1998`の定数が一致することをtestで固定した。
 
