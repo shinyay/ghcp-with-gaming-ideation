@@ -83,9 +83,12 @@ Phase 6のMirror Corridor playableを取り込んだ後の統合gateも同じ結
 `packages/legacy-1998`の定数が一致することをtestで固定した。playableの挙動は
 変更していない。
 
-Linux Actions workflow (`validate-thin-slice`, commit
-`644d5a0806d3003a7245bc1158a73318471b60ef`):
-<https://github.com/shinyay/ghcp-with-gaming-ideation/actions/runs/32750580898>
+Linux Actions workflow (`validate-thin-slice`):
+
+| Commit | 内容 | Run |
+|---|---|---|
+| `644d5a0806d3003a7245bc1158a73318471b60ef` | Full corpus | <https://github.com/shinyay/ghcp-with-gaming-ideation/actions/runs/32750580898> |
+| `b37b21715bfb3ebedf822877b83eeae4d596eb41` | Corpus + Phase 6 playable統合後 | <https://github.com/shinyay/ghcp-with-gaming-ideation/actions/runs/32751428416> |
 
 `npm run validate:content`が追加で検査する項目:
 
