@@ -46,9 +46,147 @@ function Invoke-GhGraphQl {
     return Invoke-Gh -Arguments @("api", "graphql", "--input", "-") -InputObject $payload
 }
 
+function Get-GhRestCollection {
+    param(
+        [Parameter(Mandatory)]
+        [string] $Endpoint,
+        [scriptblock] $Invoker
+    )
+
+    if (-not $Invoker) {
+        $Invoker = {
+            param([string[]] $Arguments)
+            Invoke-Gh -Arguments $Arguments
+        }
+    }
+
+    $response = & $Invoker @("api", "--paginate", "--slurp", $Endpoint)
+    $items = [System.Collections.Generic.List[object]]::new()
+    foreach ($page in @($response)) {
+        if ($page -is [System.Collections.IEnumerable] -and
+            $page -isnot [string] -and
+            $page -isnot [System.Collections.IDictionary] -and
+            $page -isnot [pscustomobject]) {
+            foreach ($item in $page) {
+                $items.Add($item)
+            }
+        }
+        else {
+            $items.Add($page)
+        }
+    }
+    return $items.ToArray()
+}
+
+function Get-GhGraphQlConnectionNodes {
+    param(
+        [Parameter(Mandatory)]
+        [string] $Query,
+        [Parameter(Mandatory)]
+        [hashtable] $Variables,
+        [Parameter(Mandatory)]
+        [string] $ConnectionPath,
+        [scriptblock] $Invoker
+    )
+
+    if (-not $Invoker) {
+        $Invoker = {
+            param([string] $QueryText, [hashtable] $PageVariables)
+            Invoke-GhGraphQl -Query $QueryText -Variables $PageVariables
+        }
+    }
+
+    $nodes = [System.Collections.Generic.List[object]]::new()
+    $cursor = $null
+    do {
+        $pageVariables = @{}
+        foreach ($entry in $Variables.GetEnumerator()) {
+            $pageVariables[$entry.Key] = $entry.Value
+        }
+        $pageVariables.cursor = $cursor
+        $result = & $Invoker $Query $pageVariables
+        $connection = $result.data
+        foreach ($segment in $ConnectionPath.Split(".")) {
+            $connection = $connection.$segment
+        }
+        if (-not $connection) {
+            throw "GraphQL connection '$ConnectionPath' was not returned."
+        }
+        foreach ($node in @($connection.nodes)) {
+            $nodes.Add($node)
+        }
+        $hasNextPage = [bool]$connection.pageInfo.hasNextPage
+        $cursor = $connection.pageInfo.endCursor
+        if ($hasNextPage -and [string]::IsNullOrWhiteSpace([string]$cursor)) {
+            throw "GraphQL connection '$ConnectionPath' has a next page without an end cursor."
+        }
+    } while ($hasNextPage)
+
+    return $nodes.ToArray()
+}
+
+function Assert-ResetAuthorized {
+    param(
+        [switch] $Reset,
+        [switch] $ConfirmReset
+    )
+
+    if ($Reset -and -not $ConfirmReset) {
+        throw "Reset is destructive. Pass both -Reset and -ConfirmReset."
+    }
+    if ($ConfirmReset -and -not $Reset) {
+        throw "-ConfirmReset is valid only with -Reset."
+    }
+}
+
+function Get-ReconciliationAction {
+    param(
+        [AllowNull()]
+        [object] $Existing,
+        [switch] $Reset
+    )
+
+    if ($null -eq $Existing) {
+        return "create"
+    }
+    if ($Reset) {
+        return "reset"
+    }
+    return "preserve"
+}
+
+function Get-UniqueNamedObject {
+    param(
+        [Parameter(Mandatory)]
+        [object[]] $Items,
+        [Parameter(Mandatory)]
+        [string] $Name,
+        [string] $Kind = "object"
+    )
+
+    $matches = @($Items | Where-Object { $_.name -eq $Name })
+    if ($matches.Count -gt 1) {
+        $ids = $matches | ForEach-Object { $_.id }
+        throw "Expected at most one $Kind named '$Name'; found $($matches.Count): $($ids -join ', ')."
+    }
+    if ($matches.Count -eq 0) {
+        return $null
+    }
+    return $matches[0]
+}
+
 function Get-SurfacesManifest {
     param([Parameter(Mandatory)][string] $ScriptRoot)
     $path = Join-Path $ScriptRoot "surfaces.json"
+    return Get-Content -LiteralPath $path -Raw -Encoding utf8 | ConvertFrom-Json -Depth 100
+}
+
+function Get-ObjectSnapshot {
+    param([Parameter(Mandatory)][string] $ScriptRoot)
+    $path = Join-Path $ScriptRoot "..\..\demo\offline-snapshots\github-objects.json"
+    if (-not (Test-Path -LiteralPath $path)) {
+        return $null
+    }
     return Get-Content -LiteralPath $path -Raw -Encoding utf8 | ConvertFrom-Json -Depth 100
 }
 

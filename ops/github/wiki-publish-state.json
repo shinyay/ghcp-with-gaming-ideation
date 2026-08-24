@@ -4,46 +4,47 @@
   "status": "fallback_required",
   "url": null,
   "source": "ops/github/wiki",
+  "hash_projection": "utf8-lf-sha256-v1",
   "source_hashes": [
     {
       "file": "_Sidebar.md",
-      "sha256": "6137424526d7dedd195102e8ce998e9891e8bc71bd2f099f78512533afbf13cc"
+      "sha256": "5465edece8a7b55246e6d92da0af33325c974a971ccd1a985af651d93b3bfd29"
     },
     {
       "file": "Archive-Tour.md",
-      "sha256": "92dcbcef9d8d1a4e8391f74067827404851cab442225f95aa4b8272747e738a7"
+      "sha256": "d68f44a46a7a9c2edede5d921338c1fdb5fb7e48233940ea7a1e8866712266ae"
     },
     {
       "file": "Demo-and-Workshop-Guide.md",
-      "sha256": "293fe7ecb85a8d184b1918e08e047ce2243048168db82cd38c5ffa3cdd563bd9"
+      "sha256": "d4a95480c54b005584728a6255fe9db52e06c1059ce7b973f41dd6c643a006e5"
     },
     {
       "file": "FAQ.md",
-      "sha256": "6dbe94f78b22969d94ab16b4519021ae873e0a119d1b07a67b6a5412a3a643bd"
+      "sha256": "e93fa7af01719e243ce0c5bdef1a9033938f7c3e4b93f9ce7261feab63ff792d"
     },
     {
       "file": "Glossary.md",
-      "sha256": "d0eda05c4ddd6895f6ac0753f9f36e9727cc57657e9668ffa3bc143c0f29e774"
+      "sha256": "b47477250669eabeaee69ecb0913f28041c9925cbac8d10947dbafbc4813fffb"
     },
     {
       "file": "Home.md",
-      "sha256": "6c5da4a886fdb8416a57eb0a64c48ec55d46f06e3d9f16b08d5fe27cb26dec75"
+      "sha256": "1d4cbaf13edc3d0c4ebdd21a451e59f9c694376bf42452c478ee408c04e24e95"
     },
     {
       "file": "How-to-read-the-evidence.md",
-      "sha256": "ea8c5d11a03654fb78642d5eec2b69d55fafe8ade819930d3cd114adeb4f1e66"
+      "sha256": "99a762c7c231fc80a085d179c4c6b5be2e9af4b208dec928ab1a04a222399de6"
     },
     {
       "file": "Museum-Guide.md",
-      "sha256": "56fcaecb04c7aa065512c47ad44690a37efc7262819565d44fd3e1ab3356c76a"
+      "sha256": "b2eb9e37c3688a66d8a701b976ddb81489e9fb8edfd29734a22ce524ed560bd6"
     },
     {
       "file": "STAR-RELAY-1998-Overview.md",
-      "sha256": "8cb67d468d73397481016a89923bf2953dc9366f286f7cc24154f32b6c6f90c5"
+      "sha256": "f94c9be9ad68cde8bfa680cd43093f933ad7e3bb160c648432cda37e8783a1a1"
     },
     {
       "file": "Timeline.md",
-      "sha256": "9a9920f28b6be7aef3f8930025c7b1ff1001c7455bb979673a51b1112ecdfccb"
+      "sha256": "8f6bb7028758c7bd141336f4ce750b822d57d263143a0a4245f712ed8bc561cb"
     }
   ],
   "remote_hashes": [],
@@ -51,8 +52,9 @@
     "enable_wiki",
     "clone",
     "local_init_if_needed",
+    "replace_complete_tree",
     "push",
-    "fresh_clone_hash_verification"
+    "fresh_clone_tree_and_hash_verification"
   ],
   "failure": "github_wiki_first_page_initialization_requires_web_ui",
   "fallback": "Open the repository Wiki UI, create Home once, then rerun ops/github/publish-wiki.ps1."

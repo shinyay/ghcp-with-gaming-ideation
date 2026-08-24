@@ -33,8 +33,21 @@
 ./ops/github/run-phase4.ps1
 ```
 
-各scriptはtitleまたはstable ID markerで既存objectを解決し、重複を作らず更新します。
-`seed-issues.ps1`はIssue #15を親としてIssue #16～#24をsub-issueへ接続します。
+通常実行は**create missing / preserve existing**です。snapshotのGitHub ID／numberを優先して
+既存objectを解決し、Issue本文・labels・milestone・state、Discussion本文・category・
+vote、Project field option／item value／view設定を上書きしません。全REST collectionと
+GraphQL connectionはpaginationします。`seed-issues.ps1`は不足するsub-issue relation
+だけを追加します。
+
+desired stateへ破壊的に戻す必要があるmigrationだけ、次の二重明示を使います。
+
+```powershell
+./ops/github/run-phase4.ps1 -Reset -ConfirmReset
+```
+
+`-Reset`だけ、または`-ConfirmReset`だけでは停止します。resetはIssueをopenへ戻し、
+Issue／Discussion本文、labels、milestone、Project metadata／field options／item values／
+view filtersをdesired stateへ戻すため、通常運用では使用しません。
 
 ## Source of Truth
 
@@ -71,7 +84,9 @@ categoryを作り、`./ops/github/seed-discussions.ps1`を再実行します。s
 1. repository設定でWikiをenableにする
 2. `shinyay/ghcp-with-gaming-ideation.wiki.git`をcloneする
 3. cloneできない場合はlocal Wiki repositoryを初期化して`master`をpushする
-4. push後にfresh cloneし、全Markdownのfilename＋SHA-256をsourceと比較する
+4. remote working treeを再帰的にsource treeへ置き換え、unmanaged pathを削除する
+5. `core.autocrlf=false`とLF出力を固定してpushする
+6. fresh clone後、再帰的な全pathと`utf8-lf-sha256-v1` hashをsourceと比較する
 
 GitHubが最初のWiki pageをWeb UIで作るまで`.wiki.git`を公開しない場合、scriptは
 `wiki-publish-state.json`へ

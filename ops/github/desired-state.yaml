@@ -32,6 +32,10 @@ ruleset:
     deletion: blocked
 collaboration:
   automation_manifest: ops/github/surfaces.json
+  reconciliation:
+    default: create_missing_preserve_existing
+    destructive_reset: requires_Reset_and_ConfirmReset
+    pagination: required
   labels_script: ops/github/seed-labels.ps1
   issues_script: ops/github/seed-issues.ps1
   discussions_script: ops/github/seed-discussions.ps1
@@ -54,7 +58,8 @@ project:
 wiki:
   source: ops/github/wiki
   mode: output_only
-  verification: sha256_filename_map
+  verification: recursive_tree_and_utf8_lf_sha256
+  unmanaged_remote_paths: removed_before_publish
 snapshot:
   output: demo/offline-snapshots/github-objects.json
   allowlist: ops/github/snapshot-allowlist.json

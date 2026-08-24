@@ -3,6 +3,7 @@ param(
 )
 
 . (Join-Path $PSScriptRoot "lib\github.ps1")
+. (Join-Path $PSScriptRoot "lib\wiki.ps1")
 $manifest = Get-SurfacesManifest -ScriptRoot $PSScriptRoot
 if (-not $Repository) {
     $Repository = $manifest.repository
@@ -13,25 +14,7 @@ $statePath = Join-Path $PSScriptRoot "wiki-publish-state.json"
 $remote = "https://github.com/$Repository.wiki.git"
 $wikiUrl = "https://github.com/$Repository/wiki"
 $expectedFiles = @($manifest.wiki.pages.file) + "_Sidebar.md"
-$actualFiles = @(Get-ChildItem -LiteralPath $sourceDirectory -File -Filter "*.md" | Select-Object -ExpandProperty Name | Sort-Object)
-
-if ([string]::Join("|", @($expectedFiles | Sort-Object)) -ne [string]::Join("|", $actualFiles)) {
-    throw "Wiki source files do not match surfaces.json."
-}
-
-function Get-HashMap {
-    param([Parameter(Mandatory)][string] $Directory)
-    return @(
-        Get-ChildItem -LiteralPath $Directory -File -Filter "*.md" |
-            Sort-Object Name |
-            ForEach-Object {
-                [pscustomobject]@{
-                    file = $_.Name
-                    sha256 = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
-                }
-            }
-    )
-}
+Assert-WikiTree -Directory $sourceDirectory -ExpectedFiles $expectedFiles
 
 function Save-State {
     param(
@@ -49,9 +32,10 @@ function Save-State {
         status = $Status
         url = if ($Status -eq "published_verified") { $wikiUrl } else { $null }
         source = "ops/github/wiki"
-        source_hashes = @(Get-HashMap -Directory $sourceDirectory)
+        hash_projection = "utf8-lf-sha256-v1"
+        source_hashes = @(Get-WikiHashMap -Directory $sourceDirectory)
         remote_hashes = $remoteHashList
-        attempts = @("enable_wiki", "clone", "local_init_if_needed", "push", "fresh_clone_hash_verification")
+        attempts = @("enable_wiki", "clone", "local_init_if_needed", "replace_complete_tree", "push", "fresh_clone_tree_and_hash_verification")
         failure = $Failure
         fallback = if ($Status -eq "published_verified") { $null } else { "Open the repository Wiki UI, create Home once, then rerun ops/github/publish-wiki.ps1." }
     }
@@ -66,7 +50,7 @@ $verify = Join-Path ([System.IO.Path]::GetTempPath()) ("star-relay-wiki-verify-"
 $initializedLocally = $false
 
 try {
-    $cloneOutput = & git clone --quiet $remote $work 2>&1
+    $cloneOutput = & git -c core.autocrlf=false clone --quiet $remote $work 2>&1
     if ($LASTEXITCODE -ne 0) {
         New-Item -ItemType Directory -Path $work -Force | Out-Null
         & git -C $work init --quiet --initial-branch=master
@@ -79,10 +63,12 @@ try {
         }
         $initializedLocally = $true
     }
+    & git -C $work config core.autocrlf false
+    & git -C $work config core.eol lf
 
-    Get-ChildItem -LiteralPath $work -File -Filter "*.md" | Remove-Item -Force
-    Copy-Item -Path (Join-Path $sourceDirectory "*.md") -Destination $work -Force
-    & git -C $work add -- "*.md"
+    Copy-WikiTree -Source $sourceDirectory -Destination $work
+    Assert-WikiTree -Directory $work -ExpectedFiles $expectedFiles
+    & git -C $work add --all -- .
     if ($LASTEXITCODE -ne 0) {
         throw "wiki_git_add_failed"
     }
@@ -117,12 +103,15 @@ try {
         return
     }
 
-    $verifyOutput = & git clone --quiet $remote $verify 2>&1
+    $verifyOutput = & git -c core.autocrlf=false clone --quiet $remote $verify 2>&1
     if ($LASTEXITCODE -ne 0) {
         throw "wiki_verification_clone_failed"
     }
-    $sourceHashes = Get-HashMap -Directory $sourceDirectory
-    $remoteHashes = Get-HashMap -Directory $verify
+    & git -C $verify config core.autocrlf false
+    & git -C $verify config core.eol lf
+    Assert-WikiTree -Directory $verify -ExpectedFiles $expectedFiles
+    $sourceHashes = @(Get-WikiHashMap -Directory $sourceDirectory)
+    $remoteHashes = @(Get-WikiHashMap -Directory $verify)
     if (($sourceHashes | ConvertTo-Json -Depth 5 -Compress) -ne ($remoteHashes | ConvertTo-Json -Depth 5 -Compress)) {
         throw "wiki_source_hash_mismatch"
     }

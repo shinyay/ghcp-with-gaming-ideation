@@ -6,6 +6,7 @@ param(
 . (Join-Path $PSScriptRoot "lib\github.ps1")
 $manifest = Get-SurfacesManifest -ScriptRoot $PSScriptRoot
 $allowlist = Get-Content -LiteralPath (Join-Path $PSScriptRoot "snapshot-allowlist.json") -Raw -Encoding utf8 | ConvertFrom-Json -Depth 100
+$previousSnapshot = Get-ObjectSnapshot -ScriptRoot $PSScriptRoot
 if (-not $Repository) {
     $Repository = $manifest.repository
 }
@@ -19,37 +20,66 @@ $repositoryState = Invoke-Gh -Arguments @(
     "repo", "view", $Repository,
     "--json", "id,nameWithOwner,url,visibility,hasIssuesEnabled,hasDiscussionsEnabled,hasWikiEnabled"
 )
-$milestoneState = @(Invoke-Gh -Arguments @("api", "repos/$Repository/milestones?state=all&per_page=100"))
-$issueState = @(Invoke-Gh -Arguments @("api", "repos/$Repository/issues?state=all&per_page=100"))
+$milestoneState = @(Get-GhRestCollection -Endpoint "repos/$Repository/milestones?state=all&per_page=100")
+$issueState = @(Get-GhRestCollection -Endpoint "repos/$Repository/issues?state=all&per_page=100")
 
 $discussionQuery = @'
-query($owner: String!, $name: String!) {
+query($owner: String!, $name: String!, $cursor: String) {
   repository(owner: $owner, name: $name) {
-    discussions(first: 100) {
+    discussions(first: 100, after: $cursor) {
       nodes { id number title url body closed category { slug } }
+      pageInfo { hasNextPage endCursor }
     }
   }
 }
 '@
-$discussionState = (Invoke-GhGraphQl -Query $discussionQuery -Variables @{
+$discussionState = @(Get-GhGraphQlConnectionNodes -Query $discussionQuery -Variables @{
     owner = $parts.Owner
     name = $parts.Name
-}).data.repository.discussions.nodes
+} -ConnectionPath "repository.discussions")
 
-$projectQuery = @'
+$projectBaseQuery = @'
 query($owner: String!, $number: Int!) {
   user(login: $owner) {
     projectV2(number: $number) {
       id number title url public closed
-      fields(first: 100) {
+    }
+  }
+}
+'@
+$projectFieldQuery = @'
+query($owner: String!, $number: Int!, $cursor: String) {
+  user(login: $owner) {
+    projectV2(number: $number) {
+      fields(first: 100, after: $cursor) {
         nodes {
           __typename
           ... on ProjectV2FieldCommon { id name dataType }
           ... on ProjectV2SingleSelectField { options { id name } }
         }
+        pageInfo { hasNextPage endCursor }
       }
-      views(first: 100) { nodes { id name layout } }
-      items(first: 100) {
+    }
+  }
+}
+'@
+$projectViewQuery = @'
+query($owner: String!, $number: Int!, $cursor: String) {
+  user(login: $owner) {
+    projectV2(number: $number) {
+      views(first: 100, after: $cursor) {
+        nodes { id name layout filter }
+        pageInfo { hasNextPage endCursor }
+      }
+    }
+  }
+}
+'@
+$projectItemQuery = @'
+query($owner: String!, $number: Int!, $cursor: String) {
+  user(login: $owner) {
+    projectV2(number: $number) {
+      items(first: 100, after: $cursor) {
         nodes {
           id
           content {
@@ -65,18 +95,26 @@ query($owner: String!, $number: Int!) {
             }
           }
         }
+        pageInfo { hasNextPage endCursor }
       }
     }
   }
 }
 '@
-$project = (Invoke-GhGraphQl -Query $projectQuery -Variables @{
+$projectVariables = @{
     owner = $manifest.project.owner
     number = [int]$manifest.project.number
-}).data.user.projectV2
+}
+$project = (Invoke-GhGraphQl -Query $projectBaseQuery -Variables $projectVariables).data.user.projectV2
 if (-not $project) {
     throw "Project #$($manifest.project.number) was not found."
 }
+$projectFields = @(Get-GhGraphQlConnectionNodes -Query $projectFieldQuery -Variables $projectVariables -ConnectionPath "user.projectV2.fields")
+$projectViews = @(Get-GhGraphQlConnectionNodes -Query $projectViewQuery -Variables $projectVariables -ConnectionPath "user.projectV2.views")
+$projectItems = @(Get-GhGraphQlConnectionNodes -Query $projectItemQuery -Variables $projectVariables -ConnectionPath "user.projectV2.items")
+$project | Add-Member -NotePropertyName fields -NotePropertyValue ([pscustomobject]@{ nodes = $projectFields }) -Force
+$project | Add-Member -NotePropertyName views -NotePropertyValue ([pscustomobject]@{ nodes = $projectViews }) -Force
+$project | Add-Member -NotePropertyName items -NotePropertyValue ([pscustomobject]@{ nodes = $projectItems }) -Force
 
 $milestoneByStableId = @{}
 $milestoneEntries = @(
@@ -84,9 +122,26 @@ $milestoneEntries = @(
         if ($allowlist.milestones -notcontains $desired.stable_id) {
             throw "Milestone $($desired.stable_id) is not allowlisted."
         }
-        $live = $milestoneState | Where-Object { $_.title -eq $desired.title } | Select-Object -First 1
-        if (-not $live) {
-            throw "Missing milestone $($desired.title)."
+        $previous = if ($previousSnapshot) {
+            $previousSnapshot.milestones | Where-Object { $_.stable_id -eq $desired.stable_id } | Select-Object -First 1
+        }
+        else {
+            $null
+        }
+        $matches = if ($previous) {
+            @($milestoneState | Where-Object {
+                $_.node_id -eq $previous.github_id -or $_.number -eq $previous.number
+            })
+        }
+        else {
+            @($milestoneState | Where-Object { $_.title -eq $desired.title })
+        }
+        if ($matches.Count -ne 1) {
+            throw "Expected one milestone for $($desired.stable_id); found $($matches.Count)."
+        }
+        $live = $matches[0]
+        if ($live.title -ne $desired.title) {
+            throw "Milestone title drift for $($desired.stable_id)."
         }
         $milestoneByStableId[$desired.stable_id] = $live
         [ordered]@{
@@ -100,23 +155,39 @@ $milestoneEntries = @(
     }
 )
 
+$liveIssueByStableId = @{}
 $issueEntries = @(
     foreach ($desired in $manifest.issues) {
         if ($allowlist.issues -notcontains $desired.stable_id) {
             throw "Issue $($desired.stable_id) is not allowlisted."
         }
-        $marker = "stable-id: $($desired.stable_id)"
-        $matches = @($issueState | Where-Object {
-            -not ($_.PSObject.Properties.Name -contains "pull_request") -and
-            (
-                ($_.body -and $_.body.Contains($marker)) -or
-                ($desired.PSObject.Properties.Name -contains "existing_number" -and $_.number -eq $desired.existing_number)
-            )
-        })
+        $previous = if ($previousSnapshot) {
+            $previousSnapshot.issues | Where-Object { $_.stable_id -eq $desired.stable_id } | Select-Object -First 1
+        }
+        else {
+            $null
+        }
+        if ($previous) {
+            $matches = @($issueState | Where-Object {
+                -not ($_.PSObject.Properties.Name -contains "pull_request") -and
+                ($_.node_id -eq $previous.github_id -or $_.number -eq $previous.number)
+            })
+        }
+        else {
+            $marker = "stable-id: $($desired.stable_id)"
+            $matches = @($issueState | Where-Object {
+                -not ($_.PSObject.Properties.Name -contains "pull_request") -and
+                (
+                    ($_.body -and $_.body.Contains($marker)) -or
+                    ($desired.PSObject.Properties.Name -contains "existing_number" -and $_.number -eq $desired.existing_number)
+                )
+            })
+        }
         if ($matches.Count -ne 1) {
             throw "Expected one live issue for $($desired.stable_id); found $($matches.Count)."
         }
         $live = $matches[0]
+        $liveIssueByStableId[$desired.stable_id] = $live
         if ($live.title -ne $desired.title) {
             throw "Issue title drift for $($desired.stable_id)."
         }
@@ -147,11 +218,24 @@ $discussionEntries = @(
         if ($allowlist.discussions -notcontains $desired.stable_id) {
             throw "Discussion $($desired.stable_id) is not allowlisted."
         }
-        $marker = "stable-id: $($desired.stable_id)"
-        $matches = @($discussionState | Where-Object {
-            ($_.body -and $_.body.Contains($marker)) -or
-            ($desired.PSObject.Properties.Name -contains "existing_number" -and $_.number -eq $desired.existing_number)
-        })
+        $previous = if ($previousSnapshot) {
+            $previousSnapshot.discussions | Where-Object { $_.stable_id -eq $desired.stable_id } | Select-Object -First 1
+        }
+        else {
+            $null
+        }
+        if ($previous) {
+            $matches = @($discussionState | Where-Object {
+                $_.id -eq $previous.github_id -or $_.number -eq $previous.number
+            })
+        }
+        else {
+            $marker = "stable-id: $($desired.stable_id)"
+            $matches = @($discussionState | Where-Object {
+                ($_.body -and $_.body.Contains($marker)) -or
+                ($desired.PSObject.Properties.Name -contains "existing_number" -and $_.number -eq $desired.existing_number)
+            })
+        }
         if ($matches.Count -ne 1) {
             throw "Expected one live discussion for $($desired.stable_id); found $($matches.Count)."
         }
@@ -184,7 +268,11 @@ if ($project.title -ne $manifest.project.title -or $project.public) {
 
 $projectFieldEntries = @(
     foreach ($desired in $manifest.project.fields) {
-        $live = $project.fields.nodes | Where-Object { $_.name -eq $desired.name } | Select-Object -First 1
+        $matches = @($project.fields.nodes | Where-Object { $_.name -eq $desired.name })
+        if ($matches.Count -ne 1) {
+            throw "Expected one Project field '$($desired.name)'; found $($matches.Count)."
+        }
+        $live = $matches[0]
         if (-not $live) {
             throw "Missing Project field $($desired.name)."
         }
@@ -207,12 +295,16 @@ $projectFieldEntries = @(
 
 $projectViewEntries = @(
     foreach ($desired in $manifest.project.views) {
-        $live = $project.views.nodes | Where-Object { $_.name -eq $desired.name } | Select-Object -First 1
-        if (-not $live) {
-            throw "Missing Project view $($desired.name)."
+        $matches = @($project.views.nodes | Where-Object { $_.name -eq $desired.name })
+        if ($matches.Count -ne 1) {
+            throw "Expected one Project view '$($desired.name)'; found $($matches.Count)."
         }
+        $live = $matches[0]
         if ($live.layout -ne $desired.layout) {
             throw "Project view layout drift for $($desired.name)."
+        }
+        if ([string]$live.filter -ne [string]$desired.filter) {
+            throw "Project view filter drift for $($desired.name)."
         }
         [ordered]@{
             github_id = $live.id
@@ -224,10 +316,11 @@ $projectViewEntries = @(
 
 $projectItemEntries = @(
     foreach ($desired in $manifest.issues) {
+        $liveIssue = $liveIssueByStableId[$desired.stable_id]
         $matches = @($project.items.nodes | Where-Object {
             $_.content -and
             $_.content.repository.nameWithOwner -eq $Repository -and
-            $_.content.title -eq $desired.title
+            $_.content.id -eq $liveIssue.node_id
         })
         if ($matches.Count -ne 1) {
             throw "Expected one Project item for $($desired.stable_id); found $($matches.Count)."

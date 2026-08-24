@@ -58,6 +58,24 @@ interface SnapshotAllowlist {
 const readJson = async <T>(path: string): Promise<T> =>
   JSON.parse(await readFile(path, "utf8")) as T;
 
+const collectRelativeFiles = async (
+  directory: string,
+  prefix = ""
+): Promise<string[]> => {
+  const files: string[] = [];
+  for (const entry of await readdir(directory, { withFileTypes: true })) {
+    const relativePath = prefix ? `${prefix}/${entry.name}` : entry.name;
+    if (entry.isDirectory()) {
+      files.push(
+        ...(await collectRelativeFiles(`${directory}/${entry.name}`, relativePath))
+      );
+    } else if (entry.isFile()) {
+      files.push(relativePath);
+    }
+  }
+  return files;
+};
+
 const surfaces = await readJson<SurfacesManifest>("ops/github/surfaces.json");
 const allowlist = await readJson<SnapshotAllowlist>(
   "ops/github/snapshot-allowlist.json"
@@ -215,9 +233,7 @@ test("snapshot titles come only from approved desired state", () => {
 
 test("Wiki source is complete and remains navigation-only", async () => {
   const expected = [...surfaces.wiki.pages.map(({ file }) => file), "_Sidebar.md"].sort();
-  const actual = (await readdir("ops/github/wiki"))
-    .filter((file) => file.endsWith(".md"))
-    .sort();
+  const actual = (await collectRelativeFiles("ops/github/wiki")).sort();
   assert.deepEqual(actual, expected);
 
   const contents = await Promise.all(

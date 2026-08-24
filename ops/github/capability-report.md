@@ -90,3 +90,22 @@ object inventory, including every GitHub node ID and URL, is
   source hashes and the fallback code are in `wiki-publish-state.json`.
 - Pages remains unpublished. Issue Forms become live only after this branch is
   merged to the default branch.
+
+## Rerun safety follow-up
+
+Default automation now creates only missing objects and preserves existing
+GitHub-owned content and workflow state. Destructive reconciliation requires
+both `-Reset` and `-ConfirmReset`. REST collections and GraphQL connections are
+fully paginated, and committed node IDs are preferred over mutable titles or
+bodies when resolving existing objects.
+
+Project #6 was re-inspected after the safety change: it has exactly six views,
+one `Creative Pipeline`, and every view has the expected layout and filter. No
+duplicate view existed, so no live Project view was deleted. A default rerun
+reported 25/25 labels, 3/3 milestones, 20/20 Issues, and 6/6 Discussions as
+preserved; before/after live state was identical.
+
+Wiki verification now compares the complete recursive tree, removes unmanaged
+remote paths before publishing, forces `core.autocrlf=false`, writes LF, and
+uses `utf8-lf-sha256-v1` hashes. The first-page initialization fallback remains
+the only Wiki blocker.
