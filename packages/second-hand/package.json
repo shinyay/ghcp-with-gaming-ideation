@@ -1,0 +1,11 @@
+{
+  "name": "@star-relay/second-hand",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@star-relay/game-core": "0.0.0"
+  }
+}
