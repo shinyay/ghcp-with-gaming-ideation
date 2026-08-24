@@ -266,4 +266,8 @@ test("demo reset rebuilds the Release ZIP required by offline smoke", async () =
     assert.match(packageJson.scripts["demo:reset"] ?? "", /verify:release/);
     assert.match(packageJson.scripts["package:release"] ?? "", /npm run build/);
     assert.match(packageJson.scripts["package:release"] ?? "", /package:offline/);
+    assert.match(
+      await readFile("scripts/serve-offline.mjs", "utf8"),
+      /dist\/offline-demo-pack\/serve\.mjs/
+    );
 });
