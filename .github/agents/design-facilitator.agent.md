@@ -1,5 +1,5 @@
 ---
-name: Design Facilitator
+name: design-facilitator
 description: Generates genuinely distinct, evidence-backed Design Bet options and decision drafts for STAR RELAY, and never selects one.
 tools: ["read", "search", "edit"]
 disable-model-invocation: true

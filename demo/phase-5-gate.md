@@ -34,13 +34,44 @@ Base: `main` at `918758c471e35bba6d2d51e5be9bf712713d53c0`
 
 | Agent | tools | 書き込み先 |
 |---|---|---|
-| Archive Curator | `read`, `search` | なし（読み取り専用） |
-| Provenance Auditor | `read`, `search` | なし（読み取り専用） |
-| Design Facilitator | `read`, `search`, `edit` | `design/bets/`, `design/decisions/`の新規fileのみ |
-| Slice Planner | `read`, `search`, `edit` | `design/vertical-slices/`の新規fileのみ |
+| `archive-curator` | `read`, `search` | なし（読み取り専用） |
+| `provenance-auditor` | `read`, `search` | なし（読み取り専用） |
+| `design-facilitator` | `read`, `search`, `edit` | `design/bets/`, `design/decisions/`の新規fileのみ |
+| `slice-planner` | `read`, `search`, `edit` | `design/vertical-slices/`の新規fileのみ |
 
-`execute`はどのagent、どのpromptにも与えていない。全agentが
-`disable-model-invocation: true`で、明示選択でのみ起動する。
+`execute`はどのagentにも与えていない。全agentが`disable-model-invocation: true`で、
+明示選択でのみ起動する。`name`はfile slugと一致させ、prompt側の`agent`がslugで
+解決できるようにしている。
+
+### Prompt fileのagent binding
+
+7 promptすべてが`agent:`に**custom agent slug**をbindし、`tools`を宣言しない。
+汎用値（`ask` / `agent` / `plan`）は、利用者が選んだcustom agentを上書きして
+agent側のtool scopeと禁止事項を捨てるため使わない。scopeの正本はagent側の1箇所に
+なる。
+
+| Prompt | bind先 |
+|---|---|
+| 01, 02 | `archive-curator` |
+| 03, 04, 05 | `design-facilitator` |
+| 06, 07 | `slice-planner` |
+
+validatorは、bind先が4 agentのいずれかであること、`tools`が宣言されていないこと、
+シナリオの`recommended_agent`と一致することを検査する。
+
+### 人間しかできない工程
+
+workshopは、Copilotへ渡さない操作を独立した工程として持つ。
+
+| 工程 | 操作 | なぜagentにやらせないか |
+|---|---|---|
+| 4.5 | BET IDの採番と`design/bets/`への保存 | 選択肢を記録へ格上げする宣言だから |
+| 5.5 | ADRの受理（`accepted`）と署名 | 「これで行く」と言えるのは人間だけだから |
+
+prompt 04はIDを採番せずfileも書かない。prompt 05は`design/bets/`に実在するBETを
+要求し、無ければ停止する。prompt 06は`Status: accepted`のADRを要求し、無ければ
+停止する。工程4.5と5.5がこの3つを繋ぐ。工程5.5まで進めなかった場合は既存
+`ADR-001`をfallbackとして使う。
 
 ## Gate
 
@@ -53,6 +84,11 @@ Base: `main` at `918758c471e35bba6d2d51e5be9bf712713d53c0`
 | 期待回答・期待分類を含まない | 開示ガードを`.github`と`evaluation`へ拡張。`taxonomy_forbidden_substrings`と`repository_forbidden_substrings`をprompt、agent、instructions、rubric、manifestに対して検査 | Pass |
 | Instructionsが規律を強制する | `使ってよい証拠`、`出力の三層分離`、`引用の形式`、`Conflictの扱い`、`昇格の禁止`、`停止条件`の6節をvalidatorが必須にする | Pass |
 | Agentが最小権限である | 読み取り専用2件、`execute`ゼロ、wildcard toolsゼロをvalidatorとtestが検査 | Pass |
+| Promptが選択されたagentを上書きしない | 7 promptすべてがcustom agent slugへbindし、`tools`を宣言しない。シナリオの`recommended_agent`との一致もvalidatorが検査 | Pass |
+| Bet→ADR→Planの鎖が繋がる | workshopに工程4.5（BET採番と保存）と5.5（ADR受理と署名）を追加。prompt 05はBET不在で停止、prompt 06は`accepted`不在で停止 | Pass |
+| Space sourceが除外treeを取り込まない | `repository_source_allowed: false`、`source_granularity: file_or_folder_only`、10件のfile/folder sourceが実在しかつ除外treeの外にあることをvalidatorが検査 | Pass |
+| 文中linkが切れていない | Copilot surfaceのmarkdown link 32件が実在fileへ解決することをvalidatorとtestが検査 | Pass |
+| 自動検査を振る舞いgateと偽らない | `validate:copilot-metadata`へ改名。README、rubric、boundaries、gateに「検査しない項目」を明記 | Pass |
 | Space作成を偽装しない | `verification.space_created: false`。`created_at`/`created_by`/`verified_by`が`null`でないと不整合としてvalidatorが失敗する | Pass |
 | Reference混入がない | canary非混入チェックを再実行。worktree、pushed branch、code search、issue search、discussionすべて0件 | Pass |
 
@@ -76,7 +112,8 @@ Prompt fileの非対応はfallback（本文をchatへ貼り付け）で回避で
 
 ## Copilot Space
 
-作成用の対応手段が存在しないことを再確認した。
+作成用の対応手段が存在しないことを再確認した。疎通確認ではなく、対象APIそのものを
+叩いている。
 
 | 確認 | 結果 |
 |---|---|
@@ -89,6 +126,18 @@ Prompt fileの非対応はfallback（本文をchatへ貼り付け）で回避で
 `automation_status: manual_only`とし、Spaceは**作成していない**。手順は
 `ops/github/copilot-space-setup.md`。
 
+### Source granularity
+
+Copilot Spaceは**path allowlistを強制しない**。repository sourceを1件でも追加すると
+repository全体が回答材料になり、`research/findings/`、`design/`、`canon/`、
+`evaluation/`が新しい問いの答えとして引用されてしまう。
+
+manifestは`repository_source_allowed: false`、`source_granularity:
+file_or_folder_only`とし、`allowed_sources`に10件のfile / folderを列挙する。
+`excluded_paths`は「除外設定として登録するもの」ではなく「追加しないもの」の一覧で
+ある。validatorは、各sourceが実在すること、`excluded_paths`の内側に無いこと、
+repository sourceが禁止されたままであることを検査する。
+
 ## 自動検査
 
 | Check | Result |
@@ -96,26 +145,43 @@ Prompt fileの非対応はfallback（本文をchatへ貼り付け）で回避で
 | TypeScript strict typecheck | Pass |
 | Simulation forbidden-API scan | Pass |
 | Content / schema / provenance / locator validation | Pass |
-| Copilot experience validation | Pass |
-| Node tests | 87 pass（Phase 3の80 + Copilot 7） |
+| Copilot metadata validation | Pass |
+| Node tests | 91 pass（Phase 3の80 + Copilot 11） |
 | Chromium dev-server smoke | Actions |
 | Vite production build | Actions |
 | Allowlisted package + build-manifest schema | Actions |
 | Packaged offline Chromium smoke | Actions |
 
-`npm run validate:copilot`が検査する項目:
+`npm run validate:copilot-metadata`は**設定のmetadata検査**である。モデル出力を
+一切読まない。検査する項目:
 
 - シナリオ10件、ID連番、重複なし
 - 各`prompt_file`と`recommended_agent`の実在
-- prompt frontmatterの`agent`値、tool scope、退役key（`mode`）の不使用
-- agent frontmatterの必須`description`、退役key（`infer`）の不使用、wildcard tools禁止
+- prompt frontmatterのbind先が4 agentのいずれかであること、`tools`未宣言、
+  退役key（`mode`）の不使用
+- prompt fileのbind先とシナリオの`recommended_agent`の一致
+- agent frontmatterの必須`description`、`name`とfile slugの一致、退役key（`infer`）の
+  不使用、wildcard tools禁止
 - 読み取り専用agentが`read`/`search`のみを持つこと
 - 全`entry_ids`が実在stable IDへ解決すること
 - `structural_checks`と`auto_fail_if`がrubricで定義済みであること
 - 全prompt fileが少なくとも1シナリオで使われること
 - path instructionsが`archive`/`research`/`design`/`packages`/`tests`を覆うこと
-- Space manifestのrepository、除外path、verification整合性
+- 文中のrepository内link 32件が実在fileへ解決すること
+- Space manifestのrepository source禁止、source実在、除外treeとの非重複、
+  verification整合性
 - 開示ガード語彙の不在
+
+**検査しない項目**（人間がrubricで採点する）:
+
+- モデルが何と答えたか
+- 引用されたIDが実在したか
+- 層が分離されていたか
+- Conflictを裁定しなかったか
+- 勝手に採用しなかったか
+- Betが3資産へ遡れたか
+
+CIは振る舞いのgateではない。Gate G1〜G4の判定者は人間である。
 
 ## Reference側
 

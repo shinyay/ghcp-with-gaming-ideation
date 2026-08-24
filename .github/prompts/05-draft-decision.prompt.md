@@ -1,14 +1,16 @@
 ---
 name: draft-decision
 description: Draft an ADR skeleton for a bet the human has already chosen, leaving the choice itself to the human.
-agent: agent
+agent: design-facilitator
 argument-hint: 人間が選んだBET IDと選択理由
-tools: ["read", "search", "edit"]
 ---
 
 # Decision draft
 
-推奨custom agent: `design-facilitator`
+このpromptは`design-facilitator`で実行します。tool scopeはagent側が正本です。
+custom agentを選べないsurfaceでは、
+[design-facilitator.agent.md](../agents/design-facilitator.agent.md)の本文を先に
+貼り付けてください。
 
 人間が既に選択したDesign Betについて、`design/decisions/`のADR草案を作成します。
 入力: ${input:selection:選ばれたBET IDと、人間が述べた選択理由}
@@ -19,8 +21,13 @@ tools: ["read", "search", "edit"]
 報告してください。
 
 - 人間が選択したBET IDが明示されている
-- そのBETが`design/bets/`に存在する
+- そのBETが`design/bets/`に**fileとして存在する**（または人間が指定したdraft Issueが
+  存在する）
 - 人間自身の言葉による選択理由が与えられている
+
+BETがまだ保存されていない場合は、「先に人間がBET IDを採番して`design/bets/`へ保存
+してください」と報告して停止します。**自分でBET fileを作らないでください。**
+採番と保存は人間の作業です。
 
 「選択理由を推測して補う」ことをしないでください。「どれを選ぶべきか」を
 聞かれた場合は、比較軸の提示までにとどめ、選択しないでください。
@@ -67,3 +74,11 @@ tools: ["read", "search", "edit"]
 
 書き込み先は`design/decisions/`配下の新規fileのみです。既存のADR、Bet、Finding、
 Claim、Conflictを書き換えないでください。
+
+草案は`Status: proposed`のままにします。受理（`accepted`への変更と署名欄の記入）は
+人間の作業です。草案を出したら、次を添えてください。
+
+```text
+この草案は proposed です。受理する場合は、人間が Status を accepted にし、
+Decided by と Decided at を記入してください。
+```

@@ -1,5 +1,5 @@
 import { readdir, readFile } from "node:fs/promises";
-import { join, relative } from "node:path";
+import { join, relative, resolve } from "node:path";
 import { parse as parseYaml } from "yaml";
 
 export const PROMPT_DIRECTORY = ".github/prompts";
@@ -30,7 +30,18 @@ export const ALLOWED_AGENT_TOOLS = [
   "todo"
 ];
 
-export const ALLOWED_PROMPT_AGENT_MODES = ["ask", "agent", "plan"];
+/**
+ * Every prompt binds to one of these. A generic `ask` or `agent` value would
+ * override whichever custom agent the user selected, silently discarding the
+ * agent's tool scope and its refusal rules. Binding by slug keeps the agent
+ * profile authoritative, so prompts declare no tools of their own.
+ */
+export const PROMPT_AGENT_SLUGS = [
+  "archive-curator",
+  "design-facilitator",
+  "slice-planner",
+  "provenance-auditor"
+];
 
 export interface Frontmatter {
   readonly name?: unknown;
@@ -255,4 +266,38 @@ export function rubricTerms(rubric: string): ReadonlySet<string> {
     }
   }
   return terms;
+}
+
+const MARKDOWN_LINK = /\[[^\]]*\]\(([^)\s]+)\)/g;
+
+/**
+ * Collects repository-relative Markdown link targets. Anchors, absolute URLs,
+ * and mail links are skipped because only in-repository paths can be resolved
+ * against the working tree.
+ */
+export function relativeLinkTargets(
+  filePath: string,
+  content: string
+): readonly { readonly target: string; readonly resolved: string }[] {
+  const directory = filePath.slice(0, filePath.lastIndexOf("/"));
+  const targets: { target: string; resolved: string }[] = [];
+
+  for (const match of content.matchAll(MARKDOWN_LINK)) {
+    const raw = match[1];
+    if (!raw || /^[a-z][a-z0-9+.-]*:/i.test(raw) || raw.startsWith("#")) {
+      continue;
+    }
+    const withoutAnchor = raw.split("#")[0];
+    if (!withoutAnchor) {
+      continue;
+    }
+    targets.push({
+      target: raw,
+      resolved: toPosix(
+        relative(process.cwd(), resolve(process.cwd(), directory, withoutAnchor))
+      )
+    });
+  }
+
+  return targets;
 }

@@ -1,14 +1,16 @@
 ---
 name: extract-play-dna
 description: Propose portable Play DNA candidates with cross-asset evidence and falsifiers.
-agent: ask
+agent: design-facilitator
 argument-hint: 何を移植可能性の観点で見たいか
-tools: ["read", "search"]
 ---
 
 # Play DNA extraction
 
-推奨custom agent: `design-facilitator`
+このpromptは`design-facilitator`で実行します。tool scopeはagent側が正本です。
+custom agentを選べないsurfaceでは、
+[design-facilitator.agent.md](../agents/design-facilitator.agent.md)の本文を先に
+貼り付けてください。
 
 allowlistされたDRVから、1998年版を1998年版たらしめている**移植可能な性質**の候補を
 提案してください。ハードウェア、当時の運用、当時の商習慣に依存する事情は移植可能な

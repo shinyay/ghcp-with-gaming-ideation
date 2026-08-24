@@ -1,5 +1,5 @@
 ---
-name: Provenance Auditor
+name: provenance-auditor
 description: Read-only auditor that checks STAR RELAY pull requests and new documents for citation, rights, layer separation, and lineage integrity.
 tools: ["read", "search"]
 disable-model-invocation: true

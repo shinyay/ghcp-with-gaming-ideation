@@ -1,14 +1,16 @@
 ---
 name: find-conflicts
 description: Surface contradictions between archive fixtures without resolving them.
-agent: ask
+agent: archive-curator
 argument-hint: 対象テーマ（例：速度定数、プレイ人数、音声cue）
-tools: ["read", "search"]
 ---
 
 # Conflict survey
 
-推奨custom agent: `archive-curator`
+このpromptは`archive-curator`で実行します。tool scopeはagent側（`read`、`search`）が
+正本です。custom agentを選べないsurfaceでは、
+[archive-curator.agent.md](../agents/archive-curator.agent.md)の本文を先に貼り付けて
+ください。
 
 `archive/catalog/assets.yaml`でallowlistされたDRVだけを読み、${input:theme:調べたい
 テーマ}に関する資料間の不一致を洗い出してください。

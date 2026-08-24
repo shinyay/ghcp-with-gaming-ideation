@@ -1,17 +1,22 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { readFile } from "node:fs/promises";
+import { readFile, stat } from "node:fs/promises";
+import { parse as parseYaml } from "yaml";
 import {
   EXPECTED_AGENT_COUNT,
   EXPECTED_PROMPT_COUNT,
+  PROMPT_AGENT_SLUGS,
   READ_ONLY_AGENTS,
   SCENARIO_MANIFEST,
+  SPACE_MANIFEST,
   STRUCTURAL_RUBRIC,
+  collectFiles,
   collectStableIds,
   loadAgentFiles,
   loadInstructionFiles,
   loadPromptFiles,
   normalizeTools,
+  relativeLinkTargets,
   rubricTerms
 } from "../../scripts/lib/copilot-assets";
 
@@ -64,16 +69,96 @@ test("curator and auditor cannot edit or execute", async () => {
   }
 });
 
-test("no prompt file grants shell execution", async () => {
+test("no prompt declares its own tool scope or a generic agent", async () => {
   const prompts = await loadPromptFiles();
 
   for (const prompt of prompts) {
-    const tools = normalizeTools(prompt.path, prompt.frontmatter.tools);
-    assert.ok(!tools.includes("execute"), `${prompt.path} grants execute`);
+    assert.ok(
+      !("tools" in prompt.frontmatter),
+      `${prompt.path} declares tools; the bound agent owns the scope`
+    );
     assert.ok(
       !("mode" in prompt.frontmatter),
       `${prompt.path} uses the retired mode key`
     );
+    assert.ok(
+      PROMPT_AGENT_SLUGS.includes(prompt.frontmatter.agent as string),
+      `${prompt.path} does not bind a repository custom agent`
+    );
+  }
+});
+
+test("each prompt binds the agent its scenario recommends", async () => {
+  const [prompts, scenarios] = await Promise.all([
+    loadPromptFiles(),
+    readScenarios()
+  ]);
+  const byPath = new Map(prompts.map((prompt) => [prompt.path, prompt]));
+
+  for (const scenario of scenarios) {
+    const prompt = byPath.get(scenario.prompt_file);
+    assert.ok(prompt, `${scenario.prompt_file} is missing`);
+    assert.equal(
+      prompt.frontmatter.agent,
+      scenario.recommended_agent,
+      `${scenario.scenario_id} and ${scenario.prompt_file} disagree on the agent`
+    );
+  }
+});
+
+test("agent display names match their file slugs", async () => {
+  const agents = await loadAgentFiles();
+
+  for (const agent of agents) {
+    assert.equal(
+      agent.frontmatter.name,
+      agent.slug,
+      `${agent.path} name must equal its slug for prompt binding`
+    );
+  }
+});
+
+test("in-repository links in the Copilot surface resolve", async () => {
+  const files = [
+    ...(await collectFiles(".github/prompts")),
+    ...(await collectFiles(".github/agents")),
+    ...(await collectFiles(".github/instructions")),
+    ...(await collectFiles("evaluation")),
+    ".github/copilot-instructions.md",
+    "demo/self-guided-workshop.md",
+    "governance/copilot-boundaries.md",
+    "ops/github/copilot-space-setup.md"
+  ].filter((path) => path.endsWith(".md"));
+
+  for (const path of files) {
+    const content = await readFile(path, "utf8");
+    for (const link of relativeLinkTargets(path, content)) {
+      await stat(link.resolved).catch(() => {
+        assert.fail(`${path} links to ${link.target}, which does not resolve`);
+      });
+    }
+  }
+});
+
+test("the Space manifest forbids repository-level sources", async () => {
+  const space = parseYaml(await readFile(SPACE_MANIFEST, "utf8")) as {
+    readonly source_granularity: string;
+    readonly repository_source_allowed: boolean;
+    readonly allowed_sources: readonly { readonly path: string }[];
+    readonly excluded_paths: readonly string[];
+  };
+
+  assert.equal(space.source_granularity, "file_or_folder_only");
+  assert.equal(space.repository_source_allowed, false);
+  assert.ok(space.allowed_sources.length > 0);
+
+  for (const source of space.allowed_sources) {
+    for (const excluded of space.excluded_paths) {
+      assert.ok(
+        source.path !== excluded && !source.path.startsWith(`${excluded}/`),
+        `${source.path} sits inside excluded ${excluded}`
+      );
+    }
   }
 });
 

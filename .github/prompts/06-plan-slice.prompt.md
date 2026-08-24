@@ -1,14 +1,16 @@
 ---
 name: plan-slice
 description: Turn an accepted ADR into a vertical slice plan with observable acceptance criteria.
-agent: agent
+agent: slice-planner
 argument-hint: 対象のADR IDと、スライスに割ける時間
-tools: ["read", "search", "edit"]
 ---
 
 # Vertical slice plan
 
-推奨custom agent: `slice-planner`
+このpromptは`slice-planner`で実行します。tool scopeはagent側が正本です。
+custom agentを選べないsurfaceでは、
+[slice-planner.agent.md](../agents/slice-planner.agent.md)の本文を先に貼り付けて
+ください。
 
 受理済みADR ${input:adr:ADR ID}を、Epic、Sub-issue、受入条件へ変換します。
 
@@ -54,7 +56,7 @@ ADRが無い状態で、rule、balance、勝敗条件、操作の意味を変え
 - 各Sub-issueは1つのSub-issueだけで検証可能にする。相互依存の輪を作らない。
 - 決定論方針（60 Hz固定tick、整数state、runtime乱数・時計・三角関数の禁止）に
   反する計画を出さない。制約は
-  [.github/instructions/playable.instructions.md](instructions/playable.instructions.md)。
+  [.github/instructions/playable.instructions.md](../instructions/playable.instructions.md)。
 - 実装コードをこのプロンプトで書かない。計画とacceptance criteriaまで。
 - 見積り時間を確定値として書かない。時間はレンジと前提で書く。
 - ADRに無い意思決定を計画に紛れ込ませない。必要になった場合は

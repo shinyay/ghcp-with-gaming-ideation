@@ -1,14 +1,16 @@
 ---
 name: create-design-bets
 description: Produce three genuinely distinct Design Bets, each traceable to at least three archive assets.
-agent: ask
+agent: design-facilitator
 argument-hint: 制約条件（例：ローカル2人、5〜10分、Canvas 2D）
-tools: ["read", "search"]
 ---
 
 # Design Bet generation
 
-推奨custom agent: `design-facilitator`
+このpromptは`design-facilitator`で実行します。tool scopeはagent側が正本です。
+custom agentを選べないsurfaceでは、
+[design-facilitator.agent.md](../agents/design-facilitator.agent.md)の本文を先に
+貼り付けてください。
 
 制約${input:constraints:与える制約}のもとで、現代版の方向性としての**Design Bet**を
 ちょうど3つ作ってください。3つは互いに本質的に異なる賭けでなければなりません。
@@ -55,3 +57,10 @@ tools: ["read", "search"]
 
 3軸それぞれについて、3つのBetがどう異なるかを表で示してください。1軸でも同じ値が
 並んだ場合は、その旨を明記してください。
+
+最後に次の1行を添えてください。
+
+```text
+次の工程へ進むには、人間が1つを選び、BET IDを採番して design/bets/ へ保存する必要が
+あります。この採番と保存は人間の作業です。
+```

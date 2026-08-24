@@ -1,16 +1,16 @@
-schema_version: 2
+schema_version: 3
 name: "STAR RELAY / Cleared Archive"
 
 # automation_status は「このmanifestどおりのSpaceが実在するか」ではなく、
 # 自動作成の可否を表す。作成済みかどうかは verification を見ること。
 automation_status: manual_only
 automation_reason_ja: >-
-  Phase 0のCapability Spikeで、Copilot Spaceの作成・source追加に使えるREST、
-  GraphQL、CLI、MCPのいずれの手段も見つからなかった。再確認の手順は
+  Phase 0とPhase 5の再確認で、Copilot Spaceの作成・source追加に使えるREST、
+  GraphQL、CLI、MCPのいずれの手段も見つからなかった。実行したprobeと結果は
   copilot-space-setup.md に記載する。
 automation_reason_en: >-
   No supported REST, GraphQL, CLI, or MCP surface for creating a Copilot Space
-  or attaching its sources was available during the Phase 0 capability spike.
+  or attaching its sources was available in the Phase 0 or Phase 5 probes.
 
 verification:
   space_created: false
@@ -22,36 +22,59 @@ verification:
   note_ja: このfileは設計意図である。実在するSpaceの記録ではない。
   note_en: This file states intent. It is not a record of an existing Space.
 
-repositories:
-  - shinyay/ghcp-with-gaming-ideation
+# Space側にpath allowlistを強制する仕組みは無い。repository sourceを1件でも
+# 追加すると、下の excluded_paths を含む全体が検索対象になる。したがって
+# repository sourceは使わず、allowed_sources を1件ずつ個別に追加する。
+source_granularity: file_or_folder_only
+repository_source_allowed: false
+repository_source_reason_ja: >-
+  repository sourceはrepository全体を検索対象にする。allowed_paths相当の絞り込みを
+  Spaceが強制しないため、research/findings や design が回答材料に混ざる。
+repository_source_reason_en: >-
+  A repository source searches the whole repository. Spaces do not enforce a
+  path allowlist, so excluded trees would become answerable context.
+
+context_repository: shinyay/ghcp-with-gaming-ideation
 
 forbidden_repositories:
   # Space、workspace、MCP、all-repository searchのいずれへも追加しない。
   - shinyay/ghcp-with-gaming-ideation-reference
 
-allowed_paths:
-  - governance/evidence-policy.md
-  - governance/classification-policy.md
-  - governance/copilot-boundaries.md
-  - archive/README.md
-  - archive/catalog/**
-  - archive/derived/**
-  - archive/evidence-packets/**
-  - research/claims/**
-  - research/conflicts/**
-  - research/hypotheses/**
+# 1件ずつ file / folder source として追加する対象。
+allowed_sources:
+  - kind: file
+    path: governance/evidence-policy.md
+  - kind: file
+    path: governance/classification-policy.md
+  - kind: file
+    path: governance/copilot-boundaries.md
+  - kind: file
+    path: archive/README.md
+  - kind: folder
+    path: archive/catalog
+  - kind: folder
+    path: archive/derived
+  - kind: folder
+    path: archive/evidence-packets
+  - kind: folder
+    path: research/claims
+  - kind: folder
+    path: research/conflicts
+  - kind: folder
+    path: research/hypotheses
 
+# source として追加しないtree。repository sourceを避ける理由そのもの。
 excluded_paths:
   # 既存の人間の判断。新しい問いの答えとして引用させない。
-  - research/findings/**
-  - design/**
-  - canon/**
+  - research/findings
+  - design
+  - canon
   # 評価の枠組み。Spaceの回答材料にしない。
-  - evaluation/**
+  - evaluation
   # 実装成果物。Archive理解のsourceではない。
-  - packages/**
-  - apps/**
-  - tests/**
+  - packages
+  - apps
+  - tests
 
 requirements:
   classification: demo-safe
@@ -77,9 +100,9 @@ identity_policy:
 notes:
   ja: >-
     Space automationが利用できない間は、copilot-space-setup.mdの手動手順を
-    正本とする。reference repositoryを追加しない。allowed_pathsに無いpathを
-    sourceへ足さない。
+    正本とする。repository sourceを追加しない。allowed_sourcesに無いpathを
+    追加しない。reference repositoryを追加しない。
   en: >-
     While Space automation is unavailable, copilot-space-setup.md is the
-    authoritative manual procedure. Never attach the reference repository, and
-    never add a path outside allowed_paths.
+    authoritative manual procedure. Never add a repository source, never add a
+    path outside allowed_sources, and never attach the reference repository.

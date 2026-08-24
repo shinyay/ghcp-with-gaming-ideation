@@ -107,6 +107,9 @@ reference repositoryです。デモ中は
 
 ## 自動検査との関係
 
-`npm run validate:copilot`は、rubricそのものの構造（10シナリオ、参照するprompt file
-とagentの実在、`entry_ids`の実在、checkとauto-failの定義漏れ）を検査します。
-**モデル出力の採点は人間が行います。** 自動検査は採点者ではありません。
+`npm run validate:copilot-metadata`は**設定のmetadata検査**です。rubricそのものの
+構造（10シナリオ、参照するprompt fileとagentの実在、bind先の一致、`entry_ids`の実在、
+checkとauto-failの定義漏れ、文中linkの解決）だけを読みます。
+
+**モデル出力は一切読みません。** 引用の実在、層の分離、勝手な決定の有無は、この
+表に従って**人間が採点します**。CIは振る舞いのgateではありません。

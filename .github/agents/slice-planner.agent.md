@@ -1,5 +1,5 @@
 ---
-name: Slice Planner
+name: slice-planner
 description: Converts an accepted STAR RELAY ADR into epics, sub-issues, and observable acceptance criteria without inventing decisions.
 tools: ["read", "search", "edit"]
 disable-model-invocation: true

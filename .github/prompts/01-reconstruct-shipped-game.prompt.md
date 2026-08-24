@@ -1,14 +1,16 @@
 ---
 name: reconstruct-shipped-game
 description: Reconstruct what the 1998 build actually shipped, strictly from allowlisted fixtures.
-agent: ask
+agent: archive-curator
 argument-hint: 対象範囲（例：core loop、スコア、敵、音響）
-tools: ["read", "search"]
 ---
 
 # Shipped-game reconstruction
 
-推奨custom agent: `archive-curator`
+このpromptは`archive-curator`で実行します。tool scopeはagent側（`read`、`search`）が
+正本です。custom agentを選べないsurfaceでは、
+[archive-curator.agent.md](../agents/archive-curator.agent.md)の本文を先に貼り付けて
+ください。
 
 `archive/catalog/assets.yaml`でallowlistされたDRVだけを読み、出荷された1998年版に
 ついて${input:scope:調べたい範囲}で読み取れることを整理してください。

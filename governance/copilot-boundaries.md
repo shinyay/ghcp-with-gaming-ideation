@@ -39,13 +39,23 @@
 
 | Agent | 役割 | tools |
 |---|---|---|
-| Archive Curator | 資産、Claim、Conflictを整理する。決定しない | `read`, `search` |
-| Design Facilitator | 根拠付きで異なるDesign Betを作る。選択しない | `read`, `search`, `edit` |
-| Slice Planner | ADRをEpic/Sub-issues/acceptance criteriaへ変換する | `read`, `search`, `edit` |
-| Provenance Auditor | PRと新文書の根拠・権利・lineageを検査する | `read`, `search` |
+| `archive-curator` | 資産、Claim、Conflictを整理する。決定しない | `read`, `search` |
+| `design-facilitator` | 根拠付きで異なるDesign Betを作る。選択しない | `read`, `search`, `edit` |
+| `slice-planner` | ADRをEpic/Sub-issues/acceptance criteriaへ変換する | `read`, `search`, `edit` |
+| `provenance-auditor` | PRと新文書の根拠・権利・lineageを検査する | `read`, `search` |
 
-`execute`はどのagent、どのpromptにも与えていない。書き込み可能な2 agentは
-`design/`配下の新規fileだけを対象にする。
+`execute`はどのagentにも与えていない。書き込み可能な2 agentは`design/`配下の
+新規fileだけを対象にする。prompt fileはtool scopeを宣言せず、bindしたcustom agent
+側のscopeが正本である。
+
+## 人間しかできない操作
+
+| 操作 | 理由 |
+|---|---|
+| BET IDの採番と`design/bets/`への保存 | 選択肢を記録へ格上げする宣言だから |
+| ADRの受理（`accepted`）と署名欄の記入 | 「これで行く」と言えるのは人間だけだから |
+| Conflictの裁定 | どちらを採るかは証拠ではなく判断だから |
+| 評価の採点 | 出力を読んで合否を決めるのは人間だから |
 
 規律が守られているかは[evaluation/](../evaluation/README.md)の固定10シナリオと
 構造rubricで確認する。rubricは構造と引用の実在だけを見る。回答本文は採点しない。
@@ -53,15 +63,21 @@
 ## 検証
 
 ```powershell
-npm run validate:copilot
+npm run validate:copilot-metadata
 ```
+
+これは**設定のmetadata検査**であり、モデル出力を読まない。振る舞いの採点は人間が
+rubricで行う。CIは振る舞いのgateではない。
 
 ## Space
 
 Copilot Space automationが使えないため
 `ops/github/copilot-space-manifest.yaml`と
 [手動手順](../ops/github/copilot-space-setup.md)を正本とする。Spaceは未作成である。
-reference repositoryをSpace、workspace、MCP、all-repository searchへ追加しない。
+
+Spaceはpath allowlistを強制しない。したがって**repository sourceを追加しない**。
+manifestの`allowed_sources`をfile / folderとして1件ずつ追加する。reference
+repositoryをSpace、workspace、MCP、all-repository searchへ追加しない。
 
 これらの指示はアクセス制御ではない。境界の正本は
 [classification-policy.md](classification-policy.md)とrepository分離である。

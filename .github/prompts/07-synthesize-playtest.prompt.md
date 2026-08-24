@@ -1,14 +1,16 @@
 ---
 name: synthesize-playtest
 description: Turn anonymous enum-only playtest events into falsifiable learning candidates.
-agent: ask
+agent: slice-planner
 argument-hint: 対象のPT IDと、検証したかった賭け
-tools: ["read", "search"]
 ---
 
 # Playtest synthesis
 
-推奨custom agent: `slice-planner`
+このpromptは`slice-planner`で実行します。tool scopeはagent側が正本です。
+custom agentを選べないsurfaceでは、
+[slice-planner.agent.md](../agents/slice-planner.agent.md)の本文を先に貼り付けて
+ください。
 
 `research/playtests/`の匿名イベントログ ${input:pt:PT ID}から、学習候補を作成します。
 ログはrandom session IDと列挙値・数値だけを持ちます。

@@ -1,5 +1,5 @@
 ---
-name: Archive Curator
+name: archive-curator
 description: Read-only curator that organizes demo-safe STAR RELAY fixtures, claims, and conflicts with stable IDs and locators, and never decides.
 tools: ["read", "search"]
 disable-model-invocation: true

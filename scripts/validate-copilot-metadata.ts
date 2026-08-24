@@ -1,12 +1,12 @@
-import { readFile } from "node:fs/promises";
+import { readFile, stat } from "node:fs/promises";
 import Ajv, { type AnySchema, type ErrorObject } from "ajv";
 import addFormats from "ajv-formats";
 import { parse as parseYaml } from "yaml";
 import {
   ALLOWED_AGENT_TOOLS,
-  ALLOWED_PROMPT_AGENT_MODES,
   EXPECTED_AGENT_COUNT,
   EXPECTED_PROMPT_COUNT,
+  PROMPT_AGENT_SLUGS,
   READ_ONLY_AGENTS,
   REPOSITORY_INSTRUCTIONS,
   SCENARIO_MANIFEST,
@@ -18,6 +18,7 @@ import {
   loadInstructionFiles,
   loadPromptFiles,
   normalizeTools,
+  relativeLinkTargets,
   rubricTerms
 } from "./lib/copilot-assets";
 
@@ -44,9 +45,14 @@ interface ScenarioManifest {
 
 interface SpaceManifest {
   readonly automation_status: string;
-  readonly repositories: readonly string[];
+  readonly source_granularity: string;
+  readonly repository_source_allowed: boolean;
+  readonly context_repository: string;
   readonly forbidden_repositories: readonly string[];
-  readonly allowed_paths: readonly string[];
+  readonly allowed_sources: readonly {
+    readonly kind: string;
+    readonly path: string;
+  }[];
   readonly excluded_paths: readonly string[];
   readonly verification: {
     readonly space_created: boolean;
@@ -203,32 +209,20 @@ for (const prompt of prompts) {
     `${path} uses the retired "mode" key; use "agent" instead.`
   );
 
-  const agentMode = frontmatter.agent;
+  const boundAgent = frontmatter.agent;
   require(
-    typeof agentMode === "string" &&
-      (ALLOWED_PROMPT_AGENT_MODES.includes(agentMode) ||
-        REQUIRED_AGENT_STEMS.includes(agentMode)),
-    `${path} declares an unsupported agent value.`
+    typeof boundAgent === "string" && PROMPT_AGENT_SLUGS.includes(boundAgent),
+    `${path} must bind agent to one of the repository custom agents; a generic ask/agent value would override the selected profile.`
   );
 
-  const tools = normalizeTools(path, frontmatter.tools);
-  require(tools.length > 0, `${path} must scope tools explicitly.`);
-  for (const tool of tools) {
-    require(
-      ALLOWED_AGENT_TOOLS.includes(tool),
-      `${path} requests an unknown tool alias "${tool}".`
-    );
-  }
+  /**
+   * Tool scope lives on the bound agent. A prompt that also declared tools
+   * would create a second, competing scope that is easy to widen by accident.
+   */
   require(
-    !tools.includes("execute"),
-    `${path} must not grant shell execution to a demo prompt.`
+    !("tools" in frontmatter),
+    `${path} must not declare tools; the bound custom agent owns the tool scope.`
   );
-  if (agentMode === "ask") {
-    require(
-      !tools.includes("edit"),
-      `${path} is an analysis prompt and must not grant edit.`
-    );
-  }
 }
 
 // --- Custom agents -----------------------------------------------------------
@@ -251,8 +245,8 @@ for (const agent of agents) {
     `${path} must declare a description; it is the only required property.`
   );
   require(
-    typeof frontmatter.name === "string" && frontmatter.name.length > 0,
-    `${path} must declare a display name.`
+    typeof frontmatter.name === "string" && frontmatter.name === slug,
+    `${path} must set name to its file slug "${slug}" so a prompt can bind to it unambiguously.`
   );
   require(
     !("infer" in frontmatter),
@@ -323,6 +317,16 @@ for (const [index, scenario] of manifest.scenarios.entries()) {
     `${scenario.scenario_id} points at a missing agent ${scenario.recommended_agent}.`
   );
 
+  /**
+   * The scenario's agent and the prompt's bound agent must agree, otherwise the
+   * run sheet records one profile while the prompt silently switches to another.
+   */
+  const boundAgent = promptBySlug.get(promptSlug)?.frontmatter.agent;
+  require(
+    boundAgent === scenario.recommended_agent,
+    `${scenario.scenario_id} recommends ${scenario.recommended_agent} but ${scenario.prompt_file} binds ${String(boundAgent)}.`
+  );
+
   for (const id of scenario.entry_ids) {
     require(
       stableIds.has(id),
@@ -375,29 +379,67 @@ require(
   ),
   `${SPACE_MANIFEST} declares an unknown automation_status.`
 );
+
+/**
+ * Spaces do not enforce a path allowlist. Attaching the repository as a source
+ * would make every excluded tree answerable, so the manifest must forbid a
+ * repository-level source and enumerate file or folder sources instead.
+ */
 require(
-  space.repositories.length === 1 &&
-    space.repositories[0] === "shinyay/ghcp-with-gaming-ideation",
-  `${SPACE_MANIFEST} must attach the demo repository only.`
+  space.source_granularity === "file_or_folder_only",
+  `${SPACE_MANIFEST} must restrict sources to files and folders.`
+);
+require(
+  space.repository_source_allowed === false,
+  `${SPACE_MANIFEST} must forbid repository-level sources; a Space does not enforce a path allowlist.`
+);
+require(
+  space.context_repository === "shinyay/ghcp-with-gaming-ideation",
+  `${SPACE_MANIFEST} names the wrong context repository.`
 );
 require(
   space.forbidden_repositories.some((entry) => entry.endsWith("-reference")),
   `${SPACE_MANIFEST} must keep the reference repository on the forbidden list.`
 );
-for (const forbidden of space.forbidden_repositories) {
+require(
+  space.allowed_sources.length > 0,
+  `${SPACE_MANIFEST} must enumerate the individual sources to attach.`
+);
+
+for (const source of space.allowed_sources) {
   require(
-    !space.repositories.includes(forbidden),
-    `${SPACE_MANIFEST} attaches a forbidden repository: ${forbidden}.`
+    source.kind === "file" || source.kind === "folder",
+    `${SPACE_MANIFEST} source ${source.path} must be a file or a folder.`
   );
+  try {
+    const info = await stat(source.path);
+    require(
+      source.kind === "file" ? info.isFile() : info.isDirectory(),
+      `${SPACE_MANIFEST} source ${source.path} is not a ${source.kind}.`
+    );
+  } catch {
+    problems.push(`${SPACE_MANIFEST} source does not exist: ${source.path}`);
+  }
+  for (const excluded of space.excluded_paths) {
+    require(
+      source.path !== excluded && !source.path.startsWith(`${excluded}/`),
+      `${SPACE_MANIFEST} attaches ${source.path}, which sits inside excluded ${excluded}.`
+    );
+  }
 }
-for (const excluded of ["research/findings/**", "design/**", "evaluation/**"]) {
+
+for (const excluded of [
+  "research/findings",
+  "design",
+  "canon",
+  "evaluation",
+  "packages",
+  "apps",
+  "tests"
+]) {
   require(
     space.excluded_paths.includes(excluded),
-    `${SPACE_MANIFEST} must exclude ${excluded} from Space sources.`
-  );
-  require(
-    !space.allowed_paths.includes(excluded),
-    `${SPACE_MANIFEST} both allows and excludes ${excluded}.`
+    `${SPACE_MANIFEST} must list ${excluded} among the trees that are never attached.`
   );
 }
 
@@ -450,6 +492,34 @@ for (const path of guardedFiles) {
   }
 }
 
+// --- Link integrity ----------------------------------------------------------
+
+/**
+ * A broken cross-reference silently drops a rule from the reader's path, so
+ * every in-repository Markdown link in the Copilot surface is resolved.
+ */
+const linkedFiles = [
+  ...guardedFiles,
+  "demo/self-guided-workshop.md",
+  "governance/copilot-boundaries.md",
+  "ops/github/copilot-space-setup.md"
+].filter((path) => path.endsWith(".md"));
+
+let checkedLinks = 0;
+for (const path of linkedFiles) {
+  const content = await readFile(path, "utf8");
+  for (const link of relativeLinkTargets(path, content)) {
+    checkedLinks += 1;
+    try {
+      await stat(link.resolved);
+    } catch {
+      problems.push(
+        `${path} links to ${link.target}, which does not resolve to ${link.resolved}.`
+      );
+    }
+  }
+}
+
 // --- Report ------------------------------------------------------------------
 
 if (problems.length > 0) {
@@ -457,18 +527,22 @@ if (problems.length > 0) {
     console.error(`- ${problem}`);
   }
   throw new Error(
-    `${problems.length} Copilot experience problem(s) found.`
+    `${problems.length} Copilot metadata problem(s) found.`
   );
 }
 
 console.log(
   [
-    `Validated ${prompts.length} prompt files`,
+    `Validated Copilot asset metadata: ${prompts.length} prompt files`,
     `${agents.length} custom agents (${READ_ONLY_AGENTS.length} read-only)`,
     `${instructions.length} path instruction files`,
     `${manifest.scenarios.length} fixed scenarios`,
     `${terms.size} rubric terms`,
     `${stableIds.size} resolvable stable IDs`,
-    `Space automation ${space.automation_status}, created=${space.verification.space_created}`
+    `${checkedLinks} in-repository links`,
+    `Space automation ${space.automation_status}, sources ${space.allowed_sources.length}, created=${space.verification.space_created}`
   ].join(", ") + "."
+);
+console.log(
+  "This check reads configuration only. It never reads or scores a model response."
 );
