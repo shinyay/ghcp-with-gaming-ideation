@@ -22,6 +22,7 @@
     "test:node": "tsx --test tests/content/content.test.ts tests/content/corpus.test.ts tests/content/evidence-chains.test.ts tests/copilot/metadata.test.ts tests/github/surfaces.test.ts tests/lineage/lineage.test.ts tests/packaging/phase8.test.ts tests/legacy-replay/replay.test.ts tests/legacy-replay/route-preview.test.ts tests/second-hand/handoff.test.ts tests/second-hand/latency.test.ts tests/second-hand/playtest-events.test.ts",
     "test:browser": "playwright test",
     "test:offline": "playwright test --config playwright.offline.config.ts",
+    "test:offline-source": "playwright test --config playwright.offline-source.config.ts",
     "test": "npm run check:sim-apis && npm run validate:content && npm run validate:demo-snapshots && npm run validate:copilot-metadata && npm run test:github-powershell && npm run test:node && npm run test:browser",
     "build": "vite build --config vite.config.ts",
     "demo:reset": "tsx scripts/reset-demo.ts && npm run package:release && npm run verify:release",
@@ -30,7 +31,7 @@
     "prepare:offline-release": "tsx scripts/extract-release-offline.ts",
     "verify:release": "tsx scripts/verify-release.ts",
     "verify:release-tag": "tsx scripts/verify-release-tag.ts",
-    "gate:phase8": "npm run typecheck && npm test && npm run package:release && npm run verify:release && npm run test:offline",
+    "gate:phase8": "npm run typecheck && npm test && npm run package:release && npm run verify:release && npm run test:offline-source && npm run test:offline",
     "serve:offline": "node scripts/serve-offline.mjs",
     "serve:offline-release": "npm run prepare:offline-release && node dist/release-smoke/offline-demo-pack/serve.mjs"
   },
