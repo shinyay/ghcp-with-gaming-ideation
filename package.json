@@ -15,10 +15,11 @@
     "typecheck": "tsc --project tsconfig.json --noEmit",
     "check:sim-apis": "tsx scripts/check-simulation-apis.ts",
     "validate:content": "tsx scripts/validate-content.ts",
-    "test:node": "tsx --test tests/content/content.test.ts tests/content/corpus.test.ts tests/content/evidence-chains.test.ts tests/lineage/lineage.test.ts tests/legacy-replay/replay.test.ts tests/legacy-replay/route-preview.test.ts tests/second-hand/handoff.test.ts tests/second-hand/latency.test.ts tests/second-hand/playtest-events.test.ts",
+    "validate:copilot-metadata": "tsx scripts/validate-copilot-metadata.ts",
+    "test:node": "tsx --test tests/content/content.test.ts tests/content/corpus.test.ts tests/content/evidence-chains.test.ts tests/copilot/metadata.test.ts tests/lineage/lineage.test.ts tests/legacy-replay/replay.test.ts tests/legacy-replay/route-preview.test.ts tests/second-hand/handoff.test.ts tests/second-hand/latency.test.ts tests/second-hand/playtest-events.test.ts",
     "test:browser": "playwright test",
     "test:offline": "playwright test --config playwright.offline.config.ts",
-    "test": "npm run check:sim-apis && npm run validate:content && npm run test:node && npm run test:browser",
+    "test": "npm run check:sim-apis && npm run validate:content && npm run validate:copilot-metadata && npm run test:node && npm run test:browser",
     "build": "vite build --config vite.config.ts",
     "package:offline": "tsx scripts/package-offline.ts",
     "serve:offline": "node scripts/serve-offline.mjs"

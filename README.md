@@ -27,6 +27,9 @@ Archive -> Understand -> Imagine -> Decide -> Plan -> Build -> Learn
 - 60 Hz・整数state・固定replayで動く30秒の1998 core-loop proof
 - 1画面・ローカル2人のCore handoff proof
 - GitHub APIを呼ばない静的Lineage表示とoffline package
+- 4つのcustom agentと7つのprompt fileを使う60分の
+  [self-guided workshop](demo/self-guided-workshop.md)
+- 構造と引用だけを見る[固定10シナリオの評価](evaluation/README.md)
 
 Archiveの読み方は[archive/README.md](archive/README.md)と
 [archive/evidence-packets/README.md](archive/evidence-packets/README.md)を参照して
@@ -58,6 +61,7 @@ APIを必要としません。
 
 詳細は[情報アーキテクチャ](governance/information-architecture.md)、
 [証拠ポリシー](governance/evidence-policy.md)、
+[Copilotの境界](governance/copilot-boundaries.md)、
 [Capability report](ops/github/capability-report.md)を参照してください。
 
 English guide: [README.en.md](README.en.md)
