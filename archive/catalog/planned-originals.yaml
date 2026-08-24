@@ -1,0 +1,21 @@
+schema_version: 1
+notice: These are fictional future source slots, not existing Office originals.
+sources:
+  - id: SRC-001
+    planned_media_type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
+    fictional_source_created_at: 1996-04-18
+  - id: SRC-002
+    planned_media_type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
+    fictional_source_created_at: 1997-02-03
+  - id: SRC-003
+    planned_media_type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
+    fictional_source_created_at: 1998-06-12
+  - id: SRC-004
+    planned_media_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    fictional_source_created_at: 1998-06-12
+  - id: SRC-005
+    planned_media_type: application/pdf
+    fictional_source_created_at: 1998-07-01
+  - id: SRC-006
+    planned_media_type: text/x-c
+    fictional_source_created_at: 1998-06-20

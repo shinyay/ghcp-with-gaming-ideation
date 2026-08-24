@@ -1,0 +1,146 @@
+schema_version: 1
+assets:
+  - id: DRV-001
+    title: 1996 Relay Pair planning brief
+    classification: demo-safe
+    origin_kind: synthetic_fixture
+    derivation_kind: directly_authored_fixture
+    source_ref: SRC-001
+    source_created_at: 1996-04-18
+    ingested_at: 2026-08-24T23:33:00+09:00
+    media_type: text/markdown
+    path: archive/derived/documents/DRV-001-relay-pair-brief.md
+    src_sha256: null
+    transform_id: null
+    transform_version: null
+    transform_config_sha256: null
+    derived_hash_projection: utf8-nfc-lf-v1
+    derived_sha256: 04bc91f7de0ac0163abc9a475d2086009470a6c61957309a27860e86efee1826
+    locator_grammar_version: sr-loc/v1
+    locators:
+      - md:heading/active-receiving
+      - md:heading/two-player-layout
+    review_status: fixture-reviewed
+    ai_eligible: true
+    package_allowed: true
+    contains_free_text: true
+  - id: DRV-002
+    title: 1997 Solo transition notes
+    classification: demo-safe
+    origin_kind: synthetic_fixture
+    derivation_kind: directly_authored_fixture
+    source_ref: SRC-002
+    source_created_at: 1997-02-03
+    ingested_at: 2026-08-24T23:33:00+09:00
+    media_type: text/markdown
+    path: archive/derived/documents/DRV-002-solo-transition-notes.md
+    src_sha256: null
+    transform_id: null
+    transform_version: null
+    transform_config_sha256: null
+    derived_hash_projection: utf8-nfc-lf-v1
+    derived_sha256: ca8a31f332015e60034338df3a89fc1f75bba84508fb79f95f34f2641c4dfd2f
+    locator_grammar_version: sr-loc/v1
+    locators:
+      - md:heading/decision-table
+      - md:heading/open-questions
+    review_status: fixture-reviewed
+    ai_eligible: true
+    package_allowed: true
+    contains_free_text: true
+  - id: DRV-003
+    title: 1998 Final gameplay specification excerpt
+    classification: demo-safe
+    origin_kind: synthetic_fixture
+    derivation_kind: directly_authored_fixture
+    source_ref: SRC-003
+    source_created_at: 1998-06-12
+    ingested_at: 2026-08-24T23:33:00+09:00
+    media_type: text/markdown
+    path: archive/derived/documents/DRV-003-final-gameplay-spec.md
+    src_sha256: null
+    transform_id: null
+    transform_version: null
+    transform_config_sha256: null
+    derived_hash_projection: utf8-nfc-lf-v1
+    derived_sha256: 975c243811f98317fa334c57c717d4a50cecd089b547905e09065331204e60b6
+    locator_grammar_version: sr-loc/v1
+    locators:
+      - md:heading/core-loop
+      - md:heading/catch-and-chain
+    review_status: fixture-reviewed
+    ai_eligible: true
+    package_allowed: true
+    contains_free_text: true
+  - id: DRV-004
+    title: RELAY_MASTER thin table projection
+    classification: demo-safe
+    origin_kind: synthetic_fixture
+    derivation_kind: directly_authored_fixture
+    source_ref: SRC-004
+    source_created_at: 1998-06-12
+    ingested_at: 2026-08-24T23:33:00+09:00
+    media_type: application/json
+    path: archive/derived/spreadsheets/DRV-004-relay-master.json
+    src_sha256: null
+    transform_id: null
+    transform_version: null
+    transform_config_sha256: null
+    derived_hash_projection: utf8-nfc-lf-v1
+    derived_sha256: ba0720599b8a66bd47b09f03c7529d4f33cf0e996b5d55c80b0b68ac66f2f45e
+    locator_grammar_version: sr-loc/v1
+    locators:
+      - json:pointer//tables/core_speed
+      - json:pointer//tables/score_events
+    review_status: fixture-reviewed
+    ai_eligible: true
+    package_allowed: true
+    contains_free_text: false
+  - id: DRV-005
+    title: Player guide excerpt
+    classification: demo-safe
+    origin_kind: synthetic_fixture
+    derivation_kind: directly_authored_fixture
+    source_ref: SRC-005
+    source_created_at: 1998-07-01
+    ingested_at: 2026-08-24T23:33:00+09:00
+    media_type: text/markdown
+    path: archive/derived/manuals/DRV-005-player-guide.md
+    src_sha256: null
+    transform_id: null
+    transform_version: null
+    transform_config_sha256: null
+    derived_hash_projection: utf8-nfc-lf-v1
+    derived_sha256: facffd3f54aa14fe87cc7ea26b40f53cca82f45769efb96e1a00f47ef3f2273b
+    locator_grammar_version: sr-loc/v1
+    locators:
+      - md:heading/public-promise
+      - md:heading/chain-display
+    review_status: fixture-reviewed
+    ai_eligible: true
+    package_allowed: true
+    contains_free_text: true
+  - id: DRV-006
+    title: Legacy symbol index projection
+    classification: demo-safe
+    origin_kind: synthetic_fixture
+    derivation_kind: directly_authored_fixture
+    source_ref: SRC-006
+    source_created_at: 1998-06-20
+    ingested_at: 2026-08-24T23:33:00+09:00
+    media_type: application/json
+    path: archive/derived/source/DRV-006-symbol-index.json
+    src_sha256: null
+    transform_id: null
+    transform_version: null
+    transform_config_sha256: null
+    derived_hash_projection: utf8-nfc-lf-v1
+    derived_sha256: a6596e425d73dd186046396f844cb51494e428f340fdf76c72d479b902b8e8ff
+    locator_grammar_version: sr-loc/v1
+    locators:
+      - json:pointer//symbols/core_throw_step
+      - json:pointer//symbols/core_return_step
+    review_status: fixture-reviewed
+    ai_eligible: true
+    package_allowed: true
+    contains_free_text: false

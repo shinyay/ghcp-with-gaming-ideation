@@ -1,0 +1,50 @@
+schema_version: 1
+repository:
+  name: shinyay/ghcp-with-gaming-ideation
+  visibility: private
+  default_branch: main
+  features:
+    issues: enabled
+    discussions: enabled
+    wiki: enabled
+    actions: enabled
+    pages: unpublished
+  browser_runtime:
+    github_api_dependency: forbidden
+    github_token_dependency: forbidden
+ruleset:
+  target: main
+  application: manual_after_owner_bypass_verification
+  enforcement: active
+  owner_bypass:
+    actor: repository_admin
+    mode: always
+    required: true
+  pull_request:
+    required: true
+    approvals: 0
+    require_code_owner_review: false
+  checks:
+    - validate-thin-slice
+  destructive_updates:
+    force_push: blocked
+    deletion: blocked
+project:
+  owner: shinyay
+  title: "STAR RELAY — Idea to Playable"
+  visibility: private
+  thin_slice_item: VS-001
+wiki:
+  source: ops/github/wiki
+  mode: output_only
+release:
+  visibility: repository_access_controlled
+  phase_0_probe: draft
+copilot_space:
+  title: "STAR RELAY / Cleared Archive"
+  automation: optional
+  source_manifest: ops/github/copilot-space-manifest.yaml
+classification:
+  repository_allowed:
+    - demo-safe
+  package_mode: explicit_allowlist

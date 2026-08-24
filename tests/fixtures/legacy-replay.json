@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "seed": 1511506142,
+  "total_ticks": 1800,
+  "checkpoint_ticks": [0, 30, 60, 120, 1800],
+  "expected_final_hash": "12374571",
+  "expected_checkpoint_hashes": {
+    "0": "4df69e0e",
+    "30": "1f71ab6b",
+    "60": "ff6fc749",
+    "120": "04595200",
+    "1800": "12374571"
+  }
+}

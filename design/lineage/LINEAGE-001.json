@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "id": "LINEAGE-001",
+  "classification": "demo-safe",
+  "nodes": [
+    {
+      "id": "DRV-001",
+      "kind": "evidence",
+      "label_ja": "1996年 Relay Pair企画fixture",
+      "summary_en": "Synthetic proposal for active receiving.",
+      "repository_path": "archive/derived/documents/DRV-001-relay-pair-brief.md",
+      "external_url": null
+    },
+    {
+      "id": "DRV-002",
+      "kind": "evidence",
+      "label_ja": "1997年 1人用transition notes fixture",
+      "summary_en": "Synthetic notes record a one-player target without a reason.",
+      "repository_path": "archive/derived/documents/DRV-002-solo-transition-notes.md",
+      "external_url": null
+    },
+    {
+      "id": "DRV-003",
+      "kind": "evidence",
+      "label_ja": "1998年 最終gameplay仕様fixture",
+      "summary_en": "Synthetic final gameplay excerpt.",
+      "repository_path": "archive/derived/documents/DRV-003-final-gameplay-spec.md",
+      "external_url": null
+    },
+    {
+      "id": "CFL-001",
+      "kind": "conflict",
+      "label_ja": "2人proposalと1人targetの矛盾",
+      "summary_en": "The thin archive does not explain the player-count change.",
+      "repository_path": "research/conflicts/CFL-001.json",
+      "external_url": null
+    },
+    {
+      "id": "FND-001",
+      "kind": "finding",
+      "label_ja": "能動的な受領はcore interactionとして残る",
+      "summary_en": "Receiving remains explicit across two synthetic sources.",
+      "repository_path": "research/findings/FND-001.json",
+      "external_url": null
+    },
+    {
+      "id": "PDN-001",
+      "kind": "play-dna",
+      "label_ja": "Active receiving",
+      "summary_en": "A relay completes only through deliberate reception.",
+      "repository_path": "design/play-dna.md",
+      "external_url": null
+    },
+    {
+      "id": "BET-002",
+      "kind": "bet",
+      "label_ja": "SECOND HAND thin stub",
+      "summary_en": "Reframe receiving as a local co-op role.",
+      "repository_path": "design/bets/BET-002-second-hand.md",
+      "external_url": "https://github.com/shinyay/ghcp-with-gaming-ideation/discussions/2"
+    },
+    {
+      "id": "ADR-001",
+      "kind": "decision",
+      "label_ja": "2つの最小simulationで検証する",
+      "summary_en": "Limit implementation to deterministic thin proofs.",
+      "repository_path": "design/decisions/ADR-001-thin-proof.md",
+      "external_url": null
+    },
+    {
+      "id": "VS-001",
+      "kind": "slice",
+      "label_ja": "Active receiving thin proof",
+      "summary_en": "Acceptance contract for the Phase 2 gate.",
+      "repository_path": "design/vertical-slices/VS-001-thin-proof.md",
+      "external_url": "https://github.com/users/shinyay/projects/6"
+    },
+    {
+      "id": "ISSUE-001",
+      "kind": "issue",
+      "label_ja": "Thin proof implementation issue",
+      "summary_en": "Live GitHub work item with an offline resolver.",
+      "repository_path": "ops/github/offline-objects/issue.json",
+      "external_url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/1"
+    },
+    {
+      "id": "PLAYABLE-001",
+      "kind": "playable",
+      "label_ja": "1998 replayとlocal 2P handoff",
+      "summary_en": "Two Canvas 2D proofs sharing deterministic state rules.",
+      "repository_path": "apps/demo-site/src/main.ts",
+      "external_url": null
+    }
+  ],
+  "edges": [
+    { "from": "DRV-001", "to": "CFL-001", "relation": "reveals" },
+    { "from": "DRV-002", "to": "CFL-001", "relation": "reveals" },
+    { "from": "DRV-001", "to": "FND-001", "relation": "supports" },
+    { "from": "DRV-003", "to": "FND-001", "relation": "supports" },
+    { "from": "FND-001", "to": "PDN-001", "relation": "abstracted-as" },
+    { "from": "PDN-001", "to": "BET-002", "relation": "motivates" },
+    { "from": "BET-002", "to": "ADR-001", "relation": "approved-by" },
+    { "from": "ADR-001", "to": "VS-001", "relation": "implemented-as" },
+    { "from": "VS-001", "to": "ISSUE-001", "relation": "tracked-by" },
+    { "from": "ISSUE-001", "to": "PLAYABLE-001", "relation": "demonstrated-by" }
+  ]
+}

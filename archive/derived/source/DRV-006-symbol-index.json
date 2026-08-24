@@ -1,0 +1,23 @@
+{
+  "id": "DRV-006",
+  "origin_kind": "synthetic_fixture",
+  "classification": "demo-safe",
+  "fictional_source_created_at": "1998-06-20",
+  "symbols": {
+    "core_throw_step": {
+      "kind": "function",
+      "module": "core",
+      "summary": "Advances an outbound Core by fixed integer velocity."
+    },
+    "core_return_step": {
+      "kind": "function",
+      "module": "core",
+      "summary": "Advances a returning Core toward the current receiver."
+    },
+    "chain_commit": {
+      "kind": "function",
+      "module": "score",
+      "summary": "Commits one successful relay event to Chain and Charge."
+    }
+  }
+}

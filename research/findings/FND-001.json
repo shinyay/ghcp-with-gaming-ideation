@@ -1,0 +1,24 @@
+{
+  "id": "FND-001",
+  "title": "Active receiving persists as a core interaction",
+  "classification": "demo-safe",
+  "status": "reviewed",
+  "evidence": [
+    {
+      "asset_id": "DRV-001",
+      "locator": "md:heading/active-receiving"
+    },
+    {
+      "asset_id": "DRV-003",
+      "locator": "md:heading/catch-and-chain"
+    }
+  ],
+  "finding": "The early proposal and final gameplay excerpt both require a deliberate receiving action; the number of players changes, but receiving remains mechanically explicit.",
+  "limits": "This does not establish why the player count changed or prove that the shipped implementation preserved every two-player behavior.",
+  "review": {
+    "method": "two-source-owner-checklist",
+    "reviewer_role": "repository-owner",
+    "reviewed_at": "2026-08-24T23:33:00+09:00",
+    "source": "Approved Phase 0-2 thin-slice implementation plan"
+  }
+}

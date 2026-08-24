@@ -1,0 +1,36 @@
+{
+  "name": "star-relay-thin-slice",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "dev": "vite --config vite.config.ts",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "check:sim-apis": "tsx scripts/check-simulation-apis.ts",
+    "validate:content": "tsx scripts/validate-content.ts",
+    "test:node": "tsx --test tests/content/content.test.ts tests/lineage/lineage.test.ts tests/legacy-replay/replay.test.ts tests/second-hand/handoff.test.ts",
+    "test:browser": "playwright test",
+    "test:offline": "playwright test --config playwright.offline.config.ts",
+    "test": "npm run check:sim-apis && npm run validate:content && npm run test:node && npm run test:browser",
+    "build": "vite build --config vite.config.ts",
+    "package:offline": "tsx scripts/package-offline.ts",
+    "serve:offline": "node scripts/serve-offline.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^24.3.0",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.3",
+    "yaml": "^2.8.1"
+  }
+}

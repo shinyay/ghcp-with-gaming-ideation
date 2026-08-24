@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-08-24T23:33:00+09:00",
+  "repository": "shinyay/ghcp-with-gaming-ideation",
+  "pages": {
+    "published": false,
+    "evidence": "REST /pages returned HTTP 404"
+  },
+  "ruleset": {
+    "applied": false,
+    "fallback": "ops/github/ruleset-guidance.md"
+  },
+  "issue": {
+    "status": "created",
+    "stable_id": "ISSUE-001",
+    "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/1"
+  },
+  "discussion": {
+    "status": "created",
+    "stable_id": "DISC-001",
+    "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/discussions/2",
+    "poll_created": false,
+    "reactions_seeded": false
+  },
+  "project": {
+    "status": "reused_and_renamed",
+    "title": "STAR RELAY — Idea to Playable",
+    "private": true,
+    "item_count": 1,
+    "stable_id": "PROJECT-ITEM-001",
+    "url": "https://github.com/users/shinyay/projects/6"
+  },
+  "wiki": {
+    "status": "unsupported_uninitialized_git_remote",
+    "url": null,
+    "probe_error": "Repository not found while cloning the enabled but uninitialized .wiki.git remote",
+    "fallback": "ops/github/wiki/Home.md"
+  },
+  "release": {
+    "status": "created_draft",
+    "tag": "capability-spike-v0.0.0",
+    "repository_private": true,
+    "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/releases/tag/untagged-c9e3b04896773fa57cd0"
+  },
+  "custom_agent": {
+    "status": "branch_file_verified_runtime_activation_unavailable_in_cli",
+    "path": ".github/agents/archive-curator.agent.md",
+    "fallback": "Use the file as explicit chat instructions"
+  },
+  "prompt_file": {
+    "status": "branch_file_verified_runtime_activation_unavailable_in_cli",
+    "path": ".github/prompts/01-reconstruct-shipped-game.prompt.md",
+    "fallback": "Paste the prompt with its allowed paths"
+  },
+  "issue_form": {
+    "status": "branch_file_verified_not_active_until_default_branch",
+    "path": ".github/ISSUE_TEMPLATE/implementation.yml",
+    "fallback_issue_url": "https://github.com/shinyay/ghcp-with-gaming-ideation/issues/1"
+  },
+  "copilot_space": {
+    "status": "manual_fallback",
+    "manifest": "ops/github/copilot-space-manifest.yaml"
+  },
+  "actions": {
+    "status": "passed",
+    "head_sha": "68fa4cf656092be886ec9042d3cd4862ea30f8c9",
+    "url": "https://github.com/shinyay/ghcp-with-gaming-ideation/actions/runs/32742854205"
+  },
+  "canary": {
+    "status": "passed_final",
+    "sha256": "f247ccb83de2f6c306b7b781661254617ae10cdf0610aee402d31eb0b72645e5",
+    "local_matches": 0,
+    "packaged_artifact_matches": 0,
+    "exact_remote_branch_matches": 0,
+    "demo_repository_code_matches": 0,
+    "demo_repository_issue_matches": 0,
+    "demo_repository_discussion_matches": 0
+  }
+}

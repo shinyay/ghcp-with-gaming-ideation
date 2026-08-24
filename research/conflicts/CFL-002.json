@@ -1,0 +1,20 @@
+{
+  "id": "CFL-002",
+  "title": "CHAIN display 30 versus internal counter 32",
+  "classification": "demo-safe",
+  "status": "open",
+  "kind": "numeric-version-difference",
+  "sides": [
+    {
+      "asset_id": "DRV-003",
+      "locator": "md:heading/catch-and-chain",
+      "statement": "The final specification excerpt records an internal counter cap of 32."
+    },
+    {
+      "asset_id": "DRV-005",
+      "locator": "md:heading/chain-display",
+      "statement": "The public guide documents a display up to CHAIN 30."
+    }
+  ],
+  "needed_evidence": "UI code or a versioned operator manual is required to classify rounding, hiding, or version difference."
+}

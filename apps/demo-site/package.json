@@ -1,0 +1,11 @@
+{
+  "name": "@star-relay/demo-site",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@star-relay/legacy-1998": "0.0.0",
+    "@star-relay/lineage-model": "0.0.0",
+    "@star-relay/second-hand": "0.0.0"
+  }
+}

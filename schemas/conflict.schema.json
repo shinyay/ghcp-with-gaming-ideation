@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://star-relay.invalid/schemas/conflict.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "classification", "status", "kind", "sides", "needed_evidence"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^CFL-[0-9]{3}$" },
+    "title": { "type": "string", "minLength": 1 },
+    "classification": { "const": "demo-safe" },
+    "status": { "const": "open" },
+    "kind": {
+      "type": "string",
+      "enum": ["proposal-versus-target", "numeric-version-difference"]
+    },
+    "sides": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["asset_id", "locator", "statement"],
+        "properties": {
+          "asset_id": { "type": "string", "pattern": "^DRV-[0-9]{3}$" },
+          "locator": { "type": "string", "pattern": "^(md:heading|json:pointer)/.+" },
+          "statement": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "needed_evidence": { "type": "string", "minLength": 1 }
+  }
+}

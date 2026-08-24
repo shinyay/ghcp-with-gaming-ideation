@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://star-relay.invalid/schemas/playtest-event.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "session_id", "slice_id", "event", "tick", "sequence", "result"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "session_id": { "type": "string", "pattern": "^demo-[a-f0-9]{8}$" },
+    "slice_id": { "const": "VS-001" },
+    "event": { "enum": ["handoff-requested", "handoff-accepted"] },
+    "tick": { "type": "integer", "minimum": 0 },
+    "sequence": { "type": "integer", "minimum": 0 },
+    "result": { "enum": ["pending", "accepted"] }
+  }
+}

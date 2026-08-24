@@ -1,0 +1,19 @@
+{
+  "id": "DRV-004",
+  "origin_kind": "synthetic_fixture",
+  "classification": "demo-safe",
+  "fictional_source_created_at": "1998-06-12",
+  "tables": {
+    "core_speed": {
+      "holder_units_per_tick": 80,
+      "non_holder_units_per_tick": 120,
+      "outbound_units_per_tick": 180,
+      "return_units_per_tick": 240
+    },
+    "score_events": [
+      { "event": "enemy_pierce", "score": 100, "charge": 30 },
+      { "event": "relay_connect", "score": 200, "charge": 50 },
+      { "event": "perfect_catch", "score": 500, "charge": 20 }
+    ]
+  }
+}

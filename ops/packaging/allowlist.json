@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "build_id": "BLD-001",
+  "sources": [
+    {
+      "from": "dist/demo-site",
+      "to": "."
+    }
+  ],
+  "forbidden_content_tokens": [
+    "REFCANARY-",
+    "api.github.com",
+    "github_pat_",
+    "ghp_",
+    "answer-keys/"
+  ]
+}
