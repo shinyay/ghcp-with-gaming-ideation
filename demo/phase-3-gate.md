@@ -97,12 +97,13 @@ bankを再現し、実際の軌跡を描画する。Relay hitboxに交わる場�
 外れる場合は`MIRROR MISS`または`RELAY MISS`を表示する。`stepLegacy`自体は
 変更していないため、replay hashは不変である。
 
-Linux Actions workflow (`validate-thin-slice`):
+Linux Actions workflow (`validate-playable-slices`, PR #5前は`validate-thin-slice`):
 
 | Commit | 内容 | Run |
 |---|---|---|
 | `644d5a0806d3003a7245bc1158a73318471b60ef` | Full corpus | <https://github.com/shinyay/ghcp-with-gaming-ideation/actions/runs/32750580898> |
 | `b37b21715bfb3ebedf822877b83eeae4d596eb41` | Corpus + Phase 6 playable統合後 | <https://github.com/shinyay/ghcp-with-gaming-ideation/actions/runs/32751428416> |
+| `88c70b7e19c8affcbcdc2564c42dcfdc237e31aa` | レビュー指摘5件修正 + Phase 7 SECOND HAND統合後 | <https://github.com/shinyay/ghcp-with-gaming-ideation/actions/runs/32755754134> |
 
 `npm run validate:content`が追加で検査する項目:
 
