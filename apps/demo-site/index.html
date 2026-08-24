@@ -1,30 +1,283 @@
 <!doctype html>
 <html lang="ja">
   <head>
+    <script>
+      (() => {
+        const param = new URLSearchParams(window.location.search).get("scoutTheme");
+        const theme =
+          param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+    <style>
+      :root {
+        color-scheme: light;
+        --cp-bg: #f7f4ef;
+        --cp-bg-elevated: #fcfbf8;
+        --cp-surface: #ffffff;
+        --cp-surface-soft: #f5f5f5;
+        --cp-border: #dedede;
+        --cp-border-strong: #919191;
+        --cp-text: #242424;
+        --cp-text-muted: #5c5c5c;
+        --cp-text-soft: #6f6f6f;
+        --cp-accent: #b11f4b;
+        --cp-accent-hover: #9a1a41;
+        --cp-accent-soft: rgba(177, 31, 75, 0.08);
+        --cp-accent-fg: #ffffff;
+        --cp-success: #16a34a;
+        --cp-danger: #dc2626;
+        --cp-warning: #f59e0b;
+        --cp-link: #0078d4;
+        --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+        --cp-overlay: rgba(255, 255, 255, 0.8);
+        --cp-panel: rgba(255, 255, 255, 0.86);
+        --cp-panel-strong: rgba(255, 255, 255, 0.96);
+        --cp-sheen: rgba(255, 255, 255, 0.55);
+        --cp-highlight: rgba(177, 31, 75, 0.12);
+      }
+      html[data-theme="dark"] {
+        color-scheme: dark;
+        --cp-bg: #3d3b3a;
+        --cp-bg-elevated: #343231;
+        --cp-surface: #292929;
+        --cp-surface-soft: #2e2e2e;
+        --cp-border: #474747;
+        --cp-border-strong: #5f5f5f;
+        --cp-text: #dedede;
+        --cp-text-muted: #919191;
+        --cp-text-soft: #b0b0b0;
+        --cp-accent: #fd8ea1;
+        --cp-accent-hover: #fb7b91;
+        --cp-accent-soft: rgba(253, 142, 161, 0.14);
+        --cp-accent-fg: #1a1a1a;
+        --cp-success: #4ade80;
+        --cp-danger: #f87171;
+        --cp-warning: #fbbf24;
+        --cp-link: #4da6ff;
+        --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+        --cp-overlay: rgba(41, 41, 41, 0.88);
+        --cp-panel: rgba(41, 41, 41, 0.72);
+        --cp-panel-strong: rgba(41, 41, 41, 0.96);
+        --cp-sheen: rgba(255, 255, 255, 0.04);
+        --cp-highlight: rgba(253, 142, 161, 0.12);
+      }
+    </style>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="STAR RELAY synthetic archive-to-playable thin proof"
+      content="STAR RELAY deterministic playables and demo-safe creative lineage"
     />
-    <title>STAR RELAY — Thin Vertical Proof</title>
+    <title>STAR RELAY — SECOND HAND Twin Span</title>
   </head>
   <body>
     <header class="hero">
-      <div class="eyebrow">PHASE 0–2 / DEMO-SAFE SYNTHETIC FIXTURE</div>
+      <div class="eyebrow">PHASE 7 / DEMO-SAFE IMPLEMENTATION HYPOTHESIS</div>
       <h1>STAR RELAY</h1>
       <p class="hero-copy">
-        証拠から受領のPlay DNAへ、そして2つの最小Playableへ。
-        <span lang="en">One synthetic lineage, two deterministic proofs.</span>
+        受け取る役割を能動的にする、決定論的なTwin Span協力slice。
+        <span lang="en">
+          A deterministic local co-op slice about actively receiving the Core.
+        </span>
       </p>
       <nav aria-label="Page sections">
-        <a href="#legacy">1998 Core Loop</a>
         <a href="#second-hand">SECOND HAND</a>
+        <a href="#legacy">1998 Core Loop</a>
         <a href="#lineage">Creative Lineage</a>
       </nav>
     </header>
 
     <main>
+      <section class="panel second-hand-panel" id="second-hand">
+        <div class="panel-heading">
+          <div>
+            <p class="kicker">VS-001 / TWIN SPAN / 5–10 MIN</p>
+            <h2>SECOND HAND: Twin Span</h2>
+          </div>
+          <button id="handoff-reset" type="button">同じ設定で再開</button>
+        </div>
+        <p>
+          Core保持者が2つのrouteから経路を選び、受領者が位置とタイミングを合わせます。
+          4つのRelay Pointの後、PAIRLESSを往復handoffだけで解決してください。
+          <span lang="en">
+            Roles exchange atomically only when the receiver accepts the Core.
+          </span>
+        </p>
+
+        <div class="slice-controls">
+          <div class="control-card">
+            <h3>Play mode</h3>
+            <div class="mode-switch" role="group" aria-label="Play mode">
+              <button
+                type="button"
+                data-second-hand-mode="1"
+                aria-pressed="true"
+              >
+                Local 2P
+              </button>
+              <button
+                type="button"
+                data-second-hand-mode="2"
+                aria-pressed="false"
+              >
+                1P + AI companion
+              </button>
+            </div>
+            <p>
+              AIはP2を担当し、送信時はrouteを選び、受領時は位置合わせとcatchを行います。
+            </p>
+          </div>
+
+          <form class="control-card settings-grid" id="second-hand-settings">
+            <h3>Latency simulation</h3>
+            <label>
+              P1 delay (ms)
+              <input
+                id="latency-p1"
+                type="number"
+                min="0"
+                max="2000"
+                step="1"
+                value="0"
+                required
+              />
+            </label>
+            <label>
+              P2 delay (ms)
+              <input
+                id="latency-p2"
+                type="number"
+                min="0"
+                max="2000"
+                step="1"
+                value="0"
+                required
+              />
+            </label>
+            <label>
+              Jitter (ms)
+              <input
+                id="latency-jitter"
+                type="number"
+                min="0"
+                max="1000"
+                step="1"
+                value="0"
+                required
+              />
+            </label>
+            <label>
+              Loss (‰)
+              <input
+                id="latency-loss"
+                type="number"
+                min="0"
+                max="999"
+                step="1"
+                value="0"
+                required
+              />
+            </label>
+            <label>
+              Seed
+              <input
+                id="latency-seed"
+                type="number"
+                min="0"
+                max="4294967295"
+                step="1"
+                value="1592594596"
+                required
+              />
+            </label>
+            <label class="toggle">
+              <input id="catch-assist" type="checkbox" checked />
+              Catch assist
+            </label>
+            <button class="primary-button" type="submit">
+              設定を適用して再開
+            </button>
+          </form>
+        </div>
+
+        <div class="accessibility-bar" aria-label="Accessibility settings">
+          <label class="toggle">
+            <input id="captions-enabled" type="checkbox" checked />
+            Captions
+          </label>
+          <label class="toggle">
+            <input id="reduced-flash" type="checkbox" checked />
+            Reduced flash
+          </label>
+          <span>△ P1 · □ P2 · ○ Core · 数字 Relay</span>
+        </div>
+
+        <details class="input-remap">
+          <summary>Keyboard remapping</summary>
+          <p>
+            ボタンを選び、次のキーを押してください。重複キーは元の割当と交換します。
+          </p>
+          <div class="binding-grid" id="input-map"></div>
+        </details>
+
+        <canvas
+          id="handoff-canvas"
+          width="960"
+          height="540"
+          tabindex="0"
+          aria-label="SECOND HAND Twin Span local cooperative vertical slice"
+        ></canvas>
+        <div
+          class="caption-row"
+          id="handoff-caption"
+          aria-live="assertive"
+          aria-atomic="true"
+        ></div>
+        <div
+          class="status-row"
+          id="handoff-status"
+          aria-live="polite"
+          aria-atomic="true"
+        ></div>
+        <div class="tick-row" id="handoff-tick"></div>
+
+        <div class="slice-footer-grid">
+          <div class="control-card telemetry-card">
+            <h3>Anonymous playtest events</h3>
+            <p>
+              Session <code id="playtest-session"></code> ·
+              <span id="playtest-event-count">0</span> events
+            </p>
+            <p>
+              session ID以外は列挙値と整数だけを保存します。自由記述、PII、
+              device ID、IP、外部送信はありません。
+            </p>
+            <button id="export-playtest" type="button">
+              JSONをローカル保存
+            </button>
+          </div>
+
+          <div class="control-card latency-card">
+            <h3>Deterministic fixtures</h3>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Delay</th>
+                    <th>Jitter</th>
+                    <th>Loss</th>
+                    <th>Seed</th>
+                    <th>Max receive</th>
+                  </tr>
+                </thead>
+                <tbody id="latency-fixture-rows"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="panel" id="legacy">
         <div class="panel-heading">
           <div>
@@ -46,28 +299,6 @@
         <div class="status-row" id="legacy-status" aria-live="polite"></div>
       </section>
 
-      <section class="panel" id="second-hand">
-        <div class="panel-heading">
-          <div>
-            <p class="kicker">VS-001 / LOCAL TWO PLAYER</p>
-            <h2>SECOND HAND handoff chamber</h2>
-          </div>
-          <button id="handoff-reset" type="button">Reset</button>
-        </div>
-        <p>
-          P1は<kbd>F</kbd>で送信・<kbd>Q</kbd>で受領、P2は
-          <kbd>Enter</kbd>で送信/受領。受領成立時だけownerとsequenceが変わります。
-        </p>
-        <canvas
-          id="handoff-canvas"
-          width="640"
-          height="360"
-          tabindex="0"
-          aria-label="Local two-player Core handoff"
-        ></canvas>
-        <div class="status-row" id="handoff-status" aria-live="polite"></div>
-      </section>
-
       <section class="panel lineage-panel" id="lineage">
         <p class="kicker">LINEAGE-001 / STATIC SNAPSHOT</p>
         <h2>Creative Lineage</h2>
@@ -79,8 +310,8 @@
 
       <aside class="boundary">
         <strong>Boundary:</strong>
-        complete corpus、answer key、AI相棒、online multiplayer、実在の歴史資料は
-        このbuildに含まれません。
+        このsliceは承認済み実装仮説です。実network backend、matchmaking、account、
+        final ADR/Design Bet answer materialは含みません。
       </aside>
     </main>
 
