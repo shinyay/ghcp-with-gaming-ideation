@@ -2,11 +2,14 @@ import { createHash } from "node:crypto";
 import { readFile, stat } from "node:fs/promises";
 import { join } from "node:path";
 import Ajv from "ajv";
+import { assertReleaseInventory } from "./lib/release-inventory";
 
 interface Artifact {
   readonly name: string;
   readonly sha256: string;
   readonly bytes: number;
+  readonly entrypoint: string;
+  readonly start_anchor: string;
 }
 
 interface ReleaseManifest {
@@ -28,6 +31,7 @@ if (!validate(manifest)) {
     `Release build manifest failed validation: ${JSON.stringify(validate.errors)}`
   );
 }
+assertReleaseInventory(manifest.artifacts);
 
 for (const artifact of manifest.artifacts) {
   const path = join(releaseRoot, artifact.name);

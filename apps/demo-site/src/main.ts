@@ -99,6 +99,22 @@ const legacySection = requireElement("#legacy", HTMLElement);
 const secondHandRoot = requireElement("#second-hand", HTMLElement);
 main.insertBefore(lineageSection, secondHandRoot);
 main.insertBefore(legacySection, secondHandRoot);
+const scrollToDirectTarget = (): void => {
+  if (window.location.hash.length <= 1) {
+    return;
+  }
+  document
+    .getElementById(window.location.hash.slice(1))
+    ?.scrollIntoView({ block: "start" });
+};
+const queueDirectTargetScroll = (): void => {
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(scrollToDirectTarget);
+  });
+};
+queueDirectTargetScroll();
+window.addEventListener("load", queueDirectTargetScroll, { once: true });
+window.addEventListener("hashchange", queueDirectTargetScroll);
 
 const secondHand = mountSecondHandProof(secondHandRoot);
 

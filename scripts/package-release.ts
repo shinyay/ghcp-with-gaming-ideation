@@ -12,17 +12,14 @@ import {
 } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import Ajv from "ajv";
+import {
+  assertReleaseInventory,
+  type ReleaseInventoryEntry
+} from "./lib/release-inventory";
 import { createDeterministicZip } from "./lib/zip";
 
-interface ReleasePackage {
-  readonly name:
-    | "demo-site.zip"
-    | "star-relay-1998-playable.zip"
-    | "second-hand-vertical-slice.zip"
-    | "offline-demo-pack.zip";
+interface ReleasePackage extends ReleaseInventoryEntry {
   readonly source: string;
-  readonly entrypoint: "index.html";
-  readonly start_anchor: "#museum" | "#legacy" | "#second-hand";
 }
 
 interface ReleaseAllowlist {
@@ -49,6 +46,7 @@ if (
 ) {
   throw new Error("Unsupported release allowlist.");
 }
+assertReleaseInventory(allowlist.packages);
 
 const dirtyPaths = execFileSync(
   "git",
@@ -115,11 +113,11 @@ await mkdir(releaseRoot, { recursive: true });
 await mkdir(stagingRoot, { recursive: true });
 
 const artifacts: {
-  name: ReleasePackage["name"];
+  name: string;
   sha256: string;
   bytes: number;
-  entrypoint: "index.html";
-  start_anchor: ReleasePackage["start_anchor"];
+  entrypoint: string;
+  start_anchor: string;
 }[] = [];
 
 for (const packageDefinition of allowlist.packages) {
@@ -161,6 +159,7 @@ for (const packageDefinition of allowlist.packages) {
     start_anchor: packageDefinition.start_anchor
   });
 }
+assertReleaseInventory(artifacts);
 
 const lineageSnapshot = await readFile(
   "demo/offline-snapshots/lineage-snapshot.json"

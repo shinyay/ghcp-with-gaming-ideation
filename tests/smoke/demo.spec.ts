@@ -67,6 +67,21 @@ test("Archive and Lineage filters preserve stable offline resolvers", async ({
   await expect(page.locator("[data-stable-id]")).toHaveCount(14);
 });
 
+test("direct fragment routes land on the reordered final sections", async ({
+  page
+}) => {
+  for (const target of ["lineage", "legacy", "second-hand"]) {
+    await page.goto(`/#${target}`);
+    await expect(page.locator(`#${target}`)).toBeInViewport();
+    expect(
+      await page.locator(`#${target}`).evaluate((element) => {
+        const bounds = element.getBoundingClientRect();
+        return bounds.top >= 0 && bounds.top < window.innerHeight;
+      })
+    ).toBe(true);
+  }
+});
+
 test("live regions stay quiet per tick and invalid settings do not reset", async ({
   page
 }) => {

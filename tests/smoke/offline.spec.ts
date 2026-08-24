@@ -24,6 +24,8 @@ test("allowlisted package runs without external network dependencies", async ({
 
   await page.goto("/");
   await expect(page).toHaveTitle(/STAR RELAY/);
+  expect((await page.request.get("/docs")).status()).toBe(404);
+  expect((await page.request.get("/")).status()).toBe(200);
   await expect(page.locator("[data-stable-id]")).toHaveCount(14);
   await expect(page.locator("[data-archive-id]")).toHaveCount(30);
   expect(

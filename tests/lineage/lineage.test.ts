@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   thinLineage,
+  type Lineage,
   validateLineageReferences
 } from "@star-relay/lineage-model";
 
@@ -39,4 +40,40 @@ test("allowlisted lineage is complete and every repository path resolves", async
       .map((node) => node.github_object_id),
     ["DISC-004", "PROJECT-001", "ISSUE-001", "PR-004", "PR-005", "BLD-001"]
   );
+});
+
+test("GitHub object validation runs even when lineage has no edges", () => {
+  const first = thinLineage.nodes[0];
+  assert.ok(first);
+
+  const unknownObject: Lineage = {
+    ...thinLineage,
+    nodes: [
+      {
+        ...first,
+        github_object_id: "UNKNOWN-001"
+      }
+    ],
+    edges: [],
+    github_objects: []
+  };
+  assert.deepEqual(validateLineageReferences(unknownObject), [
+    "Missing GitHub object UNKNOWN-001 for lineage node: DRV-001"
+  ]);
+
+  const unresolvedUrl: Lineage = {
+    ...thinLineage,
+    nodes: [
+      {
+        ...first,
+        github_object_id: null,
+        external_url: "https://github.com/shinyay/ghcp-with-gaming-ideation"
+      }
+    ],
+    edges: [],
+    github_objects: []
+  };
+  assert.deepEqual(validateLineageReferences(unresolvedUrl), [
+    "Unresolved external URL on lineage node: DRV-001"
+  ]);
 });

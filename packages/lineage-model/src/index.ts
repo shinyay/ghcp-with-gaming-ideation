@@ -73,28 +73,28 @@ export function validateLineageReferences(lineage: Lineage): readonly string[] {
     if (!ids.has(edge.from)) {
       errors.push(`Missing lineage source: ${edge.from}`);
     }
-
-    const githubObjects = new Map(
-      lineage.github_objects.map((object) => [object.stable_id, object])
-    );
-    for (const node of lineage.nodes) {
-      if (node.github_object_id === null) {
-        if (node.external_url !== null) {
-          errors.push(`Unresolved external URL on lineage node: ${node.id}`);
-        }
-        continue;
-      }
-      const object = githubObjects.get(node.github_object_id);
-      if (object === undefined) {
-        errors.push(
-          `Missing GitHub object ${node.github_object_id} for lineage node: ${node.id}`
-        );
-      } else if (node.external_url !== object.url) {
-        errors.push(`GitHub object URL mismatch on lineage node: ${node.id}`);
-      }
-    }
     if (!ids.has(edge.to)) {
       errors.push(`Missing lineage target: ${edge.to}`);
+    }
+  }
+
+  const githubObjects = new Map(
+    lineage.github_objects.map((object) => [object.stable_id, object])
+  );
+  for (const node of lineage.nodes) {
+    if (node.github_object_id === null) {
+      if (node.external_url !== null) {
+        errors.push(`Unresolved external URL on lineage node: ${node.id}`);
+      }
+      continue;
+    }
+    const object = githubObjects.get(node.github_object_id);
+    if (object === undefined) {
+      errors.push(
+        `Missing GitHub object ${node.github_object_id} for lineage node: ${node.id}`
+      );
+    } else if (node.external_url !== object.url) {
+      errors.push(`GitHub object URL mismatch on lineage node: ${node.id}`);
     }
   }
 

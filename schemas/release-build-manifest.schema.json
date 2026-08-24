@@ -31,35 +31,79 @@
       "type": "array",
       "minItems": 4,
       "maxItems": 4,
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "name",
-          "sha256",
-          "bytes",
-          "entrypoint",
-          "start_anchor"
-        ],
-        "properties": {
-          "name": {
-            "enum": [
-              "demo-site.zip",
-              "star-relay-1998-playable.zip",
-              "second-hand-vertical-slice.zip",
-              "offline-demo-pack.zip"
-            ]
-          },
-          "sha256": {
-            "type": "string",
-            "pattern": "^[a-f0-9]{64}$"
-          },
-          "bytes": { "type": "integer", "minimum": 1 },
-          "entrypoint": { "const": "index.html" },
-          "start_anchor": {
-            "enum": ["#museum", "#legacy", "#second-hand"]
-          }
+      "additionalItems": false,
+      "items": [
+        {
+          "allOf": [
+            { "$ref": "#/$defs/artifact" },
+            {
+              "type": "object",
+              "properties": {
+                "name": { "const": "demo-site.zip" },
+                "start_anchor": { "const": "#museum" }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            { "$ref": "#/$defs/artifact" },
+            {
+              "type": "object",
+              "properties": {
+                "name": { "const": "star-relay-1998-playable.zip" },
+                "start_anchor": { "const": "#legacy" }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            { "$ref": "#/$defs/artifact" },
+            {
+              "type": "object",
+              "properties": {
+                "name": { "const": "second-hand-vertical-slice.zip" },
+                "start_anchor": { "const": "#second-hand" }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            { "$ref": "#/$defs/artifact" },
+            {
+              "type": "object",
+              "properties": {
+                "name": { "const": "offline-demo-pack.zip" },
+                "start_anchor": { "const": "#museum" }
+              }
+            }
+          ]
         }
+      ]
+    }
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "sha256",
+        "bytes",
+        "entrypoint",
+        "start_anchor"
+      ],
+      "properties": {
+        "name": { "type": "string" },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "bytes": { "type": "integer", "minimum": 1 },
+        "entrypoint": { "const": "index.html" },
+        "start_anchor": { "type": "string" }
       }
     }
   }

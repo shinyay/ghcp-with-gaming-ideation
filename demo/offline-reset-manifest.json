@@ -12,8 +12,8 @@
     "playwright-report"
   ],
   "rebuild_commands": [
-    "npm run build",
-    "npm run package:offline"
+    "npm run package:release",
+    "npm run verify:release"
   ],
   "ready_when": [
     "dist/offline-demo-pack/index.html exists",
