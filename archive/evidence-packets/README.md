@@ -1,11 +1,12 @@
 # Evidence packets
 
 Evidence packetは「どこを読むか」を示す索引です。結論、期待回答、Findingの本文は
-含みません。結論はこのrepositoryへ書き戻さず、人間のレビューを経てFindingへ昇格
-させます。
+含みません。問い自体も、期待される答えの形や分類を先に示さないように書きます。
+結論はこのrepositoryへ書き戻さず、人間のレビューを経てFindingへ昇格させます。
 
 Evidence packets are reading sets. They state the question and the locations,
-never the answer. Conclusions are not stored in this demo repository.
+never the answer, and never the shape the answer is expected to take.
+Conclusions are not stored in this demo repository.
 
 ## 構造
 
@@ -29,7 +30,7 @@ schemaで禁止しています。
 | EVP-002 | 2人同時プレイがtargetから外れた要因 |
 | EVP-003 | Return Passが呼ぶaim処理の来歴 |
 | EVP-004 | 没設定の二体規約とsystem規則の対応 |
-| EVP-005 | 公開資料と内部資料の数値差の分類 |
+| EVP-005 | 公開表記の数値と内部記述の対応 |
 | EVP-006 | ZERO LAPの150という数値の性質 |
 | EVP-007 | RETURN音声cueが鳴らない理由 |
 
@@ -42,4 +43,5 @@ schemaで禁止しています。
 5. 人間がレビューしたものだけをFindingへ昇格させる。
 
 `npm run validate:content`は、全locatorが実在すること、各packetが3件以上かつ
-2資産以上を要求すること、禁止fieldを持たないことを検査します。
+2資産以上を要求すること、禁止fieldを持たないこと、問いが期待される分類を先に
+述べていないことを検査します。

@@ -7,12 +7,16 @@
   "sides": [
     {
       "asset_id": "DRV-025",
-      "locator": "md:heading/return-voice-cue",
+      "locators": [
+        "md:heading/return-voice-cue"
+      ],
       "statement": "指示書はRETURN cueを二声部構成として計画する。"
     },
     {
       "asset_id": "DRV-026",
-      "locator": "json:pointer//entries",
+      "locators": [
+        "json:pointer//entries"
+      ],
       "statement": "配置表では第一声部がallocated falseであり、第二声部と断片のみが配置されている。"
     }
   ],

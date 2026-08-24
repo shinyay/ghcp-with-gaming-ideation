@@ -17,6 +17,20 @@
     "reuses p2_aim",
     "p2_aim を転用"
   ],
+  "taxonomy_forbidden_substrings": [
+    "単一の誤りではなく",
+    "複数の種類に分かれる",
+    "丸め、非公開",
+    "いずれに当たるか",
+    "数値差の分類",
+    "差分の分類",
+    "rounding, non-disclosure",
+    "version difference, or an omission",
+    "differ in more than one way",
+    "four kinds",
+    "四種類",
+    "四つの種類"
+  ],
   "repository_forbidden_substrings": [
     "REFCANARY-",
     "answer-keys/",
@@ -26,6 +40,7 @@
   ],
   "notes_ja": [
     "derived_forbidden_substrings は archive/derived 配下のfixtureのみを対象とする。",
+    "taxonomy_forbidden_substrings は archive/evidence-packets 配下を対象とし、問いが期待される分類そのものを列挙することを防ぐ。packetは読む位置だけを示し、答えの形を示さない。",
     "repository_forbidden_substrings は scanned_roots 全体を対象とする。",
     "Evidence packetのconclusion系fieldはschema側で禁止しているため、ここでは扱わない。",
     "この一覧はアクセス制御ではない。分類とrepository分離が正本である。"

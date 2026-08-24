@@ -47,6 +47,14 @@ Evidence packetは「どこを読むか」の索引であり、結論を含ま�
   自動で解消しない。
 - **Hypothesis** は反証条件を必須とする。候補Evidenceは2件以上を挙げる。
 
+### Citation scope
+
+主張は、引用したlocatorが到達する範囲だけを述べる。1つのlocatorが足りない場合は
+複数を引用する。ClaimとConflictの各sideは`locators`配列を持つ。
+
+`npm run validate:content`は、statementが名指しするCSV行key、CSV列名、C macroが
+すべて引用済みであることを検査し、引用範囲を超えた主張を拒否する。
+
 ## Review
 
 Findingは最低2つの異なる資産のlocator、review status、review method、review

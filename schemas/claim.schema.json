@@ -2,6 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://star-relay.invalid/schemas/claim.schema.json",
   "title": "STAR RELAY claim",
+  "description": "A single-source reading. Every name the statement asserts about must be covered by a cited locator.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -10,7 +11,7 @@
     "classification",
     "status",
     "asset_id",
-    "locator",
+    "locators",
     "statement_kind",
     "statement",
     "does_not_establish"
@@ -21,9 +22,14 @@
     "classification": { "const": "demo-safe" },
     "status": { "const": "single-source-reading" },
     "asset_id": { "type": "string", "pattern": "^DRV-[0-9]{3}$" },
-    "locator": {
-      "type": "string",
-      "pattern": "^(md:heading|json:pointer|csv:row|csv:column|c:symbol|c:define)/.+"
+    "locators": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(md:heading/[a-z0-9]+(-[a-z0-9]+)*|json:pointer/(/[^/,\\s]+)*|csv:row/[^,\\s]+|csv:column/[^,\\s]+|c:symbol/[A-Za-z_][A-Za-z0-9_]*|c:define/[A-Za-z_][A-Za-z0-9_]*)$"
+      }
     },
     "statement_kind": {
       "type": "string",

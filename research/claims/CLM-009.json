@@ -4,7 +4,9 @@
   "classification": "demo-safe",
   "status": "single-source-reading",
   "asset_id": "DRV-026",
-  "locator": "json:pointer//entries",
+  "locators": [
+    "json:pointer//entries"
+  ],
   "statement_kind": "literal-value",
   "statement": "VOX_RETURN_A は allocated false、requested_bytes 19456 と記録され、VOX_RETURN_B は allocated true、18432 bytes、VOX_RETURN_A_FRAG は allocated true、2048 bytes と記録されている。",
   "does_not_establish": "配置されなかった判断の経緯と、その判断を行った担当。"

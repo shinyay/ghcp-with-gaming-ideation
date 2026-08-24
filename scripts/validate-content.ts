@@ -12,7 +12,9 @@ import {
   hashFixtureText
 } from "./lib/text-projection";
 import {
+  citableNames,
   type LocatorGrammarVersion,
+  mentionsName,
   parseCsvFixture,
   resolveLocator
 } from "./lib/locator";
@@ -24,6 +26,7 @@ interface AssetRecord {
   readonly id: string;
   readonly title: string;
   readonly path: string;
+  readonly media_type: string;
   readonly origin_kind: string;
   readonly derivation_kind: string;
   readonly classification: string;
@@ -68,12 +71,19 @@ interface EvidencePacket {
 interface ClaimRecord {
   readonly id: string;
   readonly asset_id: string;
-  readonly locator: string;
+  readonly locators: readonly string[];
+  readonly statement: string;
+}
+
+interface ConflictSide {
+  readonly asset_id: string;
+  readonly locators: readonly string[];
+  readonly statement: string;
 }
 
 interface ConflictRecord {
   readonly id: string;
-  readonly sides: readonly EvidenceReference[];
+  readonly sides: readonly ConflictSide[];
 }
 
 interface FindingRecord {
@@ -89,6 +99,7 @@ interface HypothesisRecord {
 interface DisclosureGuard {
   readonly scanned_roots: readonly string[];
   readonly derived_forbidden_substrings: readonly string[];
+  readonly taxonomy_forbidden_substrings: readonly string[];
   readonly repository_forbidden_substrings: readonly string[];
 }
 
@@ -284,6 +295,56 @@ function requireDeclaredLocator(
   }
 }
 
+/**
+ * A statement may only assert about names its own locators reach. Naming a CSV
+ * row, a CSV column, or a C macro that no cited locator covers is an
+ * out-of-scope citation, not a valid single-source reading.
+ */
+function requireStatementWithinCitedScope(
+  owner: string,
+  assetId: string,
+  locators: readonly string[],
+  statement: string
+): void {
+  const asset = assetsById.get(assetId);
+  if (!asset) {
+    throw new Error(`${owner} references unknown asset ${assetId}.`);
+  }
+
+  const names = citableNames(fixtureText.get(assetId) ?? "", asset.media_type);
+  const citesAnyRow = locators.some((locator) => locator.startsWith("csv:row/"));
+
+  for (const row of names.rows) {
+    if (mentionsName(statement, row) && !locators.includes(`csv:row/${row}`)) {
+      throw new Error(
+        `${owner} asserts about row ${row} of ${assetId} without citing csv:row/${row}.`
+      );
+    }
+  }
+  for (const column of names.columns) {
+    if (
+      mentionsName(statement, column) &&
+      !locators.includes(`csv:column/${column}`) &&
+      !citesAnyRow
+    ) {
+      throw new Error(
+        `${owner} asserts about column ${column} of ${assetId} without citing it.`
+      );
+    }
+  }
+  for (const macro of names.macros) {
+    if (
+      mentionsName(statement, macro) &&
+      !locators.includes(`c:define/${macro}`) &&
+      !locators.includes(`c:symbol/${macro}`)
+    ) {
+      throw new Error(
+        `${owner} asserts about macro ${macro} of ${assetId} without citing it.`
+      );
+    }
+  }
+}
+
 async function loadRecords<T>(
   directory: string
 ): Promise<readonly { readonly path: string; readonly body: T }[]> {
@@ -305,10 +366,18 @@ for (const { path, body } of claims) {
   if (!validateClaim(body)) {
     throw new Error(`${path}: ${formatErrors(validateClaim.errors)}`);
   }
-  requireDeclaredLocator(body.id, {
-    asset_id: body.asset_id,
-    locator: body.locator
-  });
+  for (const locator of body.locators) {
+    requireDeclaredLocator(body.id, {
+      asset_id: body.asset_id,
+      locator
+    });
+  }
+  requireStatementWithinCitedScope(
+    body.id,
+    body.asset_id,
+    body.locators,
+    body.statement
+  );
 }
 
 const conflicts = await loadRecords<ConflictRecord>("research/conflicts");
@@ -324,7 +393,18 @@ for (const { path, body } of conflicts) {
     throw new Error(`${body.id} compares a single asset with itself.`);
   }
   for (const side of body.sides) {
-    requireDeclaredLocator(body.id, side);
+    for (const locator of side.locators) {
+      requireDeclaredLocator(body.id, {
+        asset_id: side.asset_id,
+        locator
+      });
+    }
+    requireStatementWithinCitedScope(
+      body.id,
+      side.asset_id,
+      side.locators,
+      side.statement
+    );
   }
 }
 
@@ -493,6 +573,17 @@ for (const [id, content] of fixtureText) {
     if (content.includes(forbidden)) {
       throw new Error(
         `${id} discloses a cross-asset conclusion directly: ${forbidden}`
+      );
+    }
+  }
+}
+
+for (const { path, body } of packets) {
+  const serialized = JSON.stringify(body);
+  for (const forbidden of guard.taxonomy_forbidden_substrings) {
+    if (serialized.includes(forbidden)) {
+      throw new Error(
+        `${path} states the shape of the expected answer: ${forbidden}`
       );
     }
   }

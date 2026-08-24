@@ -7,12 +7,16 @@
   "sides": [
     {
       "asset_id": "DRV-016",
-      "locator": "md:heading/rating-aggregate",
+      "locators": [
+        "md:heading/rating-aggregate"
+      ],
       "statement": "ロケテスト集計では2P構成の受領評価が1P構成より高い。"
     },
     {
       "asset_id": "DRV-020",
-      "locator": "md:heading/cabinet-configuration",
+      "locators": [
+        "md:heading/cabinet-configuration"
+      ],
       "statement": "出荷筐体は操作パネル1面のみで、連結運用に対応しない。"
     }
   ],

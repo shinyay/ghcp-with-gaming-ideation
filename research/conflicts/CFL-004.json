@@ -7,12 +7,16 @@
   "sides": [
     {
       "asset_id": "DRV-010",
-      "locator": "md:heading/zero-lap-conditions",
+      "locators": [
+        "md:heading/zero-lap-conditions"
+      ],
       "statement": "仕様書はZERO LAPに制限時間を設けないと記述する。"
     },
     {
       "asset_id": "DRV-021",
-      "locator": "json:pointer//ocr_lines",
+      "locators": [
+        "json:pointer//ocr_lines"
+      ],
       "statement": "公開資料はZERO LAPに150秒という数値を示す。"
     }
   ],

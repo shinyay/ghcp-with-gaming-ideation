@@ -4,7 +4,9 @@
   "classification": "demo-safe",
   "status": "single-source-reading",
   "asset_id": "DRV-012",
-  "locator": "json:pointer//field_geometry",
+  "locators": [
+    "json:pointer//field_geometry"
+  ],
   "statement_kind": "literal-value",
   "statement": "screen_width_px は 384、units_per_pixel は 16、field_width_units は 6144 と記録されている。",
   "does_not_establish": "この値が出荷版に適用されたかどうか、および他資料の速度値との関係。"

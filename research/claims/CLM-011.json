@@ -4,7 +4,9 @@
   "classification": "demo-safe",
   "status": "single-source-reading",
   "asset_id": "DRV-009",
-  "locator": "md:heading/adopted-and-dropped-sections",
+  "locators": [
+    "md:heading/adopted-and-dropped-sections"
+  ],
   "statement_kind": "literal-text",
   "statement": "Two-body protocol は採否欄で不採用と記録され、物語稿から削除されたと記述されている。",
   "does_not_establish": "system、敵挙動、ending 条件における扱い。"

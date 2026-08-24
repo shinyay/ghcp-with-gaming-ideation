@@ -1,19 +1,23 @@
 {
   "id": "CFL-003",
-  "title": "Six documented stages versus eight table rows",
+  "title": "Six documented stages versus eight build_flag values",
   "classification": "demo-safe",
   "status": "open",
   "kind": "table-versus-specification",
   "sides": [
     {
       "asset_id": "DRV-010",
-      "locator": "md:heading/stage-list",
+      "locators": [
+        "md:heading/stage-list"
+      ],
       "statement": "仕様書のstage章は6件のstageのみを記述する。"
     },
     {
       "asset_id": "DRV-014",
-      "locator": "csv:column/build_flag",
-      "statement": "STAGE sheetは8行を持ち、うち2行はshipではない区分を持つ。"
+      "locators": [
+        "csv:column/build_flag"
+      ],
+      "statement": "build_flag 列は 8 件の値を持ち、そのうち 2 件は ship 以外の区分である。"
     }
   ],
   "needed_evidence": "非ship行が製品へ含まれたかを示すbuild成果物か、章の記述範囲を定めた編集方針が必要である。"

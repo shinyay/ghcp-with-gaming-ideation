@@ -10,7 +10,11 @@ import {
 } from "@star-relay/legacy-1998";
 import { parse as parseYaml } from "yaml";
 import {
+  assertLocatorTarget,
+  citableNames,
+  escapeRegExp,
   markdownHeadingSlugs,
+  mentionsName,
   parseCsvFixture,
   resolveJsonPointer,
   resolveLocator,
@@ -104,6 +108,75 @@ test("c locators match whole identifiers and real define directives", () => {
     true
   );
   assert.equal(resolveLocator("c:symbol/core_throw", source, "sr-loc/v2"), false);
+});
+
+test("c locator targets cannot smuggle a regular expression", () => {
+  const source = "#define SCREEN_W 320\nvoid core_throw_step(void) {}\n";
+
+  for (const hostile of [
+    "c:symbol/.*",
+    "c:symbol/core_.*",
+    "c:define/.*",
+    "c:symbol/[A-Z]+",
+    "c:define/SCREEN_W|ANYTHING"
+  ]) {
+    assert.throws(
+      () => resolveLocator(hostile, source, "sr-loc/v2"),
+      /must be a C identifier/,
+      `${hostile} should be rejected before it reaches a regular expression`
+    );
+  }
+});
+
+test("malformed locator targets are rejected instead of crashing", () => {
+  const source = "#define SCREEN_W 320\n";
+
+  for (const malformed of ["c:symbol/a{2,", "c:define/(", "c:symbol/x)"]) {
+    assert.throws(
+      () => resolveLocator(malformed, source, "sr-loc/v2"),
+      /must be a C identifier/
+    );
+  }
+  assert.throws(
+    () => resolveLocator("md:heading/Not A Slug", "# Not A Slug\n", "sr-loc/v2"),
+    /kebab-case slug/
+  );
+  assert.throws(
+    () => resolveLocator("json:pointer/no-leading-slash", "{}", "sr-loc/v2"),
+    /start with a slash/
+  );
+  assert.equal(escapeRegExp("a.*b"), "a\\.\\*b");
+  assert.equal(assertLocatorTarget("c:symbol", "partner_aim"), "partner_aim");
+});
+
+test("a csv column locator requires real data rows, not just a header", () => {
+  const headerOnly = "# comment\nid,build_flag\n";
+  const withRows = "# comment\nid,build_flag\nST-01,ship\n";
+
+  assert.equal(
+    resolveLocator("csv:column/build_flag", headerOnly, "sr-loc/v2"),
+    false
+  );
+  assert.equal(
+    resolveLocator("csv:column/build_flag", withRows, "sr-loc/v2"),
+    true
+  );
+});
+
+test("statement scope is checked against the names a citation reaches", () => {
+  const csv = "# c\nid,build_flag,note\nEN-05,ship,a\nEN-06,unused,b\n";
+  const csvNames = citableNames(csv, "text/csv");
+  assert.deepEqual([...csvNames.rows], ["EN-05", "EN-06"]);
+  assert.ok(csvNames.columns.includes("build_flag"));
+  assert.ok(!csvNames.columns.includes("id"));
+
+  const cNames = citableNames("#define SCREEN_W 320\n#define UNITS_PER_PX 16\n", "text/x-c");
+  assert.deepEqual([...cNames.macros], ["SCREEN_W", "UNITS_PER_PX"]);
+
+  assert.equal(mentionsName("EN-06 が同じ値を持つ", "EN-06"), true);
+  assert.equal(mentionsName("EN-060 は別行である", "EN-06"), false);
+  assert.equal(mentionsName("UNITS_PER_PX は 16", "UNITS_PER_PX"), true);
+  assert.equal(mentionsName("SCREEN_WIDTH は別名", "SCREEN_W"), false);
 });
 
 test("sr-loc/v1 rejects schemes introduced by sr-loc/v2", () => {
@@ -301,19 +374,28 @@ test("research records only cite locators declared by the catalog", async () => 
   for (const file of files) {
     const body = JSON.parse(await readFile(file, "utf8")) as {
       readonly asset_id?: string;
-      readonly locator?: string;
-      readonly sides?: readonly EvidenceReference[];
+      readonly locators?: readonly string[];
+      readonly sides?: readonly {
+        readonly asset_id: string;
+        readonly locators: readonly string[];
+      }[];
       readonly evidence?: readonly EvidenceReference[];
       readonly candidate_evidence?: readonly EvidenceReference[];
     };
     const references: EvidenceReference[] = [
-      ...(body.sides ?? []),
       ...(body.evidence ?? []),
       ...(body.candidate_evidence ?? [])
     ];
 
-    if (body.asset_id !== undefined && body.locator !== undefined) {
-      references.push({ asset_id: body.asset_id, locator: body.locator });
+    for (const side of body.sides ?? []) {
+      for (const locator of side.locators) {
+        references.push({ asset_id: side.asset_id, locator });
+      }
+    }
+    if (body.asset_id !== undefined && body.locators !== undefined) {
+      for (const locator of body.locators) {
+        references.push({ asset_id: body.asset_id, locator });
+      }
     }
 
     assert.ok(references.length > 0, `${file} cites no evidence`);

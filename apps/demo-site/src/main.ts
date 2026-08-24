@@ -1,6 +1,8 @@
 import "./styles.css";
 import {
+  predictLegacyRoute,
   runLegacyReplay,
+  type LegacyRoutePrediction,
   type LegacyState
 } from "@star-relay/legacy-1998";
 import type { SecondHandState } from "@star-relay/second-hand";
@@ -16,6 +18,10 @@ interface DemoBridge {
   };
   readonly getLegacyState: () => LegacyState;
   readonly getLegacyMode: () => "attract" | "manual";
+  readonly predictLegacyRoute: (
+    playerX: number,
+    playerY: number
+  ) => LegacyRoutePrediction;
   readonly getSecondHandState: () => SecondHandState;
 }
 
@@ -86,5 +92,6 @@ window.__STAR_RELAY_DEMO__ = {
   },
   getLegacyState: legacyController.getState,
   getLegacyMode: legacyController.getMode,
+  predictLegacyRoute,
   getSecondHandState
 };

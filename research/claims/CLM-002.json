@@ -4,7 +4,10 @@
   "classification": "demo-safe",
   "status": "single-source-reading",
   "asset_id": "DRV-027",
-  "locator": "c:define/SCREEN_W",
+  "locators": [
+    "c:define/SCREEN_W",
+    "c:define/UNITS_PER_PX"
+  ],
   "statement_kind": "literal-value",
   "statement": "SCREEN_W は 320 と定義され、UNITS_PER_PX は 16 と定義されている。",
   "does_not_establish": "この定数が旧sheetの値からどのように導かれたか、あるいは無関係かどうか。"

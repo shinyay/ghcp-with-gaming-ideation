@@ -15,7 +15,7 @@
     "typecheck": "tsc --project tsconfig.json --noEmit",
     "check:sim-apis": "tsx scripts/check-simulation-apis.ts",
     "validate:content": "tsx scripts/validate-content.ts",
-    "test:node": "tsx --test tests/content/content.test.ts tests/content/corpus.test.ts tests/content/evidence-chains.test.ts tests/lineage/lineage.test.ts tests/legacy-replay/replay.test.ts tests/second-hand/handoff.test.ts",
+    "test:node": "tsx --test tests/content/content.test.ts tests/content/corpus.test.ts tests/content/evidence-chains.test.ts tests/lineage/lineage.test.ts tests/legacy-replay/replay.test.ts tests/legacy-replay/route-preview.test.ts tests/second-hand/handoff.test.ts",
     "test:browser": "playwright test",
     "test:offline": "playwright test --config playwright.offline.config.ts",
     "test": "npm run check:sim-apis && npm run validate:content && npm run test:node && npm run test:browser",

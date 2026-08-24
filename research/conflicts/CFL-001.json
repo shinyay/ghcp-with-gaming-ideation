@@ -7,12 +7,16 @@
   "sides": [
     {
       "asset_id": "DRV-001",
-      "locator": "md:heading/two-player-layout",
+      "locators": [
+        "md:heading/two-player-layout"
+      ],
       "statement": "The proposal assigns active sending and receiving to two local players."
     },
     {
       "asset_id": "DRV-002",
-      "locator": "md:heading/decision-table",
+      "locators": [
+        "md:heading/decision-table"
+      ],
       "statement": "The later target records one player and removes the shared-screen target."
     }
   ],

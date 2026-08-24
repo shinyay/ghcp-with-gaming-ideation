@@ -31,6 +31,56 @@ export function splitLocator(locator: string): {
   };
 }
 
+const HEADING_SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const C_IDENTIFIER = /^[A-Za-z_][A-Za-z0-9_]*$/;
+const CSV_KEY = /^[^\s,]+$/;
+
+/**
+ * Locator targets reach a regular expression for the C schemes, so they are
+ * validated as identifiers first and escaped second. A schema-valid but
+ * regex-active target such as `.*` must never widen or crash a match.
+ */
+export function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+export function assertLocatorTarget(scheme: string, target: string): string {
+  switch (scheme) {
+    case "md:heading":
+      if (!HEADING_SLUG.test(target)) {
+        throw new Error(
+          `md:heading target must be an ASCII kebab-case slug: ${target}`
+        );
+      }
+      return target;
+    case "json:pointer":
+      if (target !== "" && !target.startsWith("/")) {
+        throw new Error(
+          `json:pointer target must be empty or start with a slash: ${target}`
+        );
+      }
+      return target;
+    case "csv:row":
+    case "csv:column":
+      if (!CSV_KEY.test(target)) {
+        throw new Error(
+          `${scheme} target must be a non-empty key without whitespace or commas: ${target}`
+        );
+      }
+      return target;
+    case "c:symbol":
+    case "c:define":
+      if (!C_IDENTIFIER.test(target)) {
+        throw new Error(
+          `${scheme} target must be a C identifier: ${target}`
+        );
+      }
+      return target;
+    default:
+      throw new Error(`Unhandled locator scheme: ${scheme}`);
+  }
+}
+
 export function slugifyHeading(heading: string): string {
   return heading
     .toLowerCase()
@@ -101,11 +151,14 @@ export function parseCsvFixture(content: string): CsvTable {
 }
 
 function hasCIdentifier(content: string, identifier: string): boolean {
-  return new RegExp(`\\b${identifier}\\b`).test(content);
+  return new RegExp(`\\b${escapeRegExp(identifier)}\\b`).test(content);
 }
 
 function hasCDefine(content: string, macro: string): boolean {
-  return new RegExp(`^\\s*#\\s*define\\s+${macro}\\b`, "m").test(content);
+  return new RegExp(
+    `^\\s*#\\s*define\\s+${escapeRegExp(macro)}\\b`,
+    "m"
+  ).test(content);
 }
 
 export function resolveLocator(
@@ -118,6 +171,7 @@ export function resolveLocator(
   if (!schemesFor(version).has(scheme)) {
     throw new Error(`Locator scheme ${scheme} is not part of ${version}.`);
   }
+  assertLocatorTarget(scheme, target);
 
   switch (scheme) {
     case "md:heading":
@@ -127,8 +181,10 @@ export function resolveLocator(
         resolveJsonPointer(JSON.parse(fileContent) as unknown, target) !==
         undefined
       );
-    case "csv:column":
-      return parseCsvFixture(fileContent).header.includes(target);
+    case "csv:column": {
+      const table = parseCsvFixture(fileContent);
+      return table.header.includes(target) && table.rows.length > 0;
+    }
     case "csv:row":
       return parseCsvFixture(fileContent).rows.some(
         (row) => row[0] === target
@@ -141,3 +197,38 @@ export function resolveLocator(
       throw new Error(`Unhandled locator scheme: ${scheme}`);
   }
 }
+
+/**
+ * Names that a statement may only assert about when the matching locator is
+ * cited. This keeps a citation from covering less than the sentence claims.
+ */
+export function citableNames(
+  content: string,
+  mediaType: string
+): { readonly rows: readonly string[]; readonly columns: readonly string[]; readonly macros: readonly string[] } {
+  if (mediaType === "text/csv") {
+    const table = parseCsvFixture(content);
+    return {
+      rows: table.rows.map((row) => row[0] ?? "").filter((key) => key !== ""),
+      columns: table.header.filter((name) => name.length >= 3),
+      macros: []
+    };
+  }
+  if (mediaType === "text/x-c") {
+    return {
+      rows: [],
+      columns: [],
+      macros: [...content.matchAll(/^\s*#\s*define\s+([A-Za-z_][A-Za-z0-9_]*)/gm)].map(
+        (match) => match[1] ?? ""
+      )
+    };
+  }
+  return { rows: [], columns: [], macros: [] };
+}
+
+export function mentionsName(statement: string, name: string): boolean {
+  return new RegExp(`(?<![A-Za-z0-9_-])${escapeRegExp(name)}(?![A-Za-z0-9_-])`).test(
+    statement
+  );
+}
+
