@@ -91,11 +91,15 @@ reviewer、participant、recording、reaction、approvalを作らない。
 
 ### Pages限定公開
 
-- [ ] `npm run validate:pages`がallowlist、hash、CSP、link、禁止contentを検証する。
-- [ ] Repository visibilityがPrivateのまま、Pages sourceをGitHub Actionsへ設定する。
-- [ ] `deploy-pages` workflowが成功し、rootと`/game-guide/`がHTTP 200を返す。
-- [ ] Public browser smokeで外部request 0、same-origin相互navigationを確認する。
-- [ ] `gh api repos/shinyay/ghcp-with-gaming-ideation/pages`のbuild typeとURLを記録する。
+- [x] `npm run validate:pages`がallowlist、hash、CSP、link、禁止contentを検証した。
+- [x] Repository visibilityがPrivateのまま、Pages sourceをGitHub Actionsへ設定した。
+- [x] `deploy-pages` workflow run `33016148364`が成功し、rootと`/game-guide/`が
+  HTTP 200を返した。
+- [x] Public browser smokeでdesktop / mobileとも外部request 0、
+  same-origin相互navigation、console error 0を確認した。
+- [x] Pages APIが`build_type: workflow`、public URL
+  `https://shinyay.github.io/ghcp-with-gaming-ideation/`を返した。
+- [x] Public responseのLF-normalized SHA-256が`pages-allowlist.json`と一致した。
 
 ### Deferred Phase
 
@@ -107,7 +111,7 @@ reviewer、participant、recording、reaction、approvalを作らない。
 
 ### Human sign-off
 
-次の値は実施者が実測後に記入する。現時点ではすべて`Unknown`である。
+次の値は実施者が実測後に記入する。Pages以外は現時点で`Unknown`である。
 
 | Field | Value |
 |---|---|
@@ -120,3 +124,4 @@ reviewer、participant、recording、reaction、approvalを作らない。
 | Space decision/evidence | `Unknown` |
 | Recording decision/evidence | `Unknown` |
 | Release decision/evidence | `Unknown` |
+| Pages decision/evidence | `PAGES-001` / `governance/pages-publication-report.md` |
