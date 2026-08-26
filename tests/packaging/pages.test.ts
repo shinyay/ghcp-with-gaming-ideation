@@ -76,6 +76,8 @@ test("Pages workflow deploys from main with minimal permissions", async () => {
     "workflow_dispatch"
   ]);
   assert.equal(workflow.permissions["contents"], "read");
+  assert.equal(workflow.jobs["upload"]?.permissions?.["contents"], "read");
+  assert.equal(workflow.jobs["upload"]?.permissions?.["pages"], "write");
   assert.equal(workflow.jobs["deploy"]?.permissions?.["pages"], "write");
   assert.equal(workflow.jobs["deploy"]?.permissions?.["id-token"], "write");
   assert.equal(workflow.jobs["deploy"]?.environment?.name, "github-pages");
