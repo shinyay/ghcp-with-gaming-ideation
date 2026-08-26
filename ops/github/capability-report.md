@@ -166,3 +166,26 @@ Status: `passed_phase_5`. Repeated after the reference answer keys existed.
 The only `REFCANARY-` occurrence in the demo repository is the prefix inside
 `governance/disclosure-guard.json`, which is the guard list itself rather than a
 concrete token.
+
+## Limited Pages publication follow-up
+
+Probe time: `2026-08-27`
+
+This section is a later operational record. The Phase 0 and Phase 5 rows above
+remain historical observations for their probe times.
+
+| Capability | Observed result |
+|---|---|
+| Repository visibility | `PRIVATE` |
+| Pages | Public, build type `workflow`, HTTPS enforced |
+| Public scope | `pages/index.html`, `pages/game-guide/index.html` only |
+| Workflow | `deploy-pages` run `33016148364` succeeded |
+| Root route | HTTP 200 |
+| Game Guide route | HTTP 200 |
+| Browser network | External request 0 on desktop and mobile |
+| Public hash | Both responses match `ops/github/pages-allowlist.json` |
+
+The rights decision, scope, hashes, and smoke evidence are recorded in
+[`governance/pages-publication-policy.md`](../../governance/pages-publication-policy.md)
+and
+[`governance/pages-publication-report.md`](../../governance/pages-publication-report.md).
