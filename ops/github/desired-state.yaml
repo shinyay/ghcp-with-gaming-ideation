@@ -9,7 +9,7 @@ repository:
     discussions: enabled
     wiki: enabled
     actions: enabled
-    pages: unpublished
+    pages: published_limited_html
   browser_runtime:
     github_api_dependency: forbidden
     github_token_dependency: forbidden
@@ -79,7 +79,29 @@ release:
   tag_protection:
     application: manual_after_owner_bypass_verification
     verified_live: false
-  pages_publication: forbidden
+  pages_publication: separate_allowlisted_site
+pages:
+  visibility: public
+  repository_visibility_required: private
+  build_type: workflow
+  workflow: .github/workflows/deploy-pages.yml
+  source: pages
+  allowlist: ops/github/pages-allowlist.json
+  routes:
+    - /ghcp-with-gaming-ideation/
+    - /ghcp-with-gaming-ideation/game-guide/
+  excluded:
+    - archive
+    - research
+    - design
+    - canon
+    - demo
+    - packages
+    - apps
+    - tests
+    - evaluation
+    - ops/github/offline-objects
+    - demo/offline-snapshots
 copilot_space:
   title: "STAR RELAY / Cleared Archive"
   automation: optional

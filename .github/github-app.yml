@@ -1,0 +1,14 @@
+instructions: |
+  GitHub Pagesの公開scopeはpages/index.htmlとpages/game-guide/index.htmlだけです。
+  Repository visibilityはprivateのまま維持し、allowlist外contentをPagesへ追加しないでください。
+
+scripts:
+  - name: Preview Pages
+    command: npm run serve:pages
+
+server_ready_pattern: 'Local:\s+(https?://\S+)'
+auto_open_in_browser: true
+
+automation:
+  auto_issue_session: true
+  remote_control: false

@@ -18,7 +18,9 @@
 
 ## Pagesはありますか
 
-ありません。Private repository内のWikiとlocal/offline demoだけを使用します。
+あります。公式Pages siteで公開するのはWorkflow PresentationとSTAR RELAY Game Guideの
+2 HTMLだけです。Repository、Archive、source、snapshot、packageは公開しません。
 
 > English summary: The Wiki is navigation, fixture dates are synthetic, and no
-> participant data or free text enters the GitHub object snapshot.
+> participant data or free text enters the GitHub object snapshot. Pages is
+> limited to two generated HTML guides.

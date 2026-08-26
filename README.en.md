@@ -56,8 +56,9 @@ rejects research records that cite locators the catalog does not declare.
 No answer keys, expected responses, completed findings, real people, real
 products, fabricated Git history, reactions, polls, or historical users belong
 here. The 1998 dates are fixture metadata and are never written into Git
-history. GitHub Pages stays unpublished, and browser code never depends on a
-GitHub token or API.
+history. The repository remains private. GitHub Pages publishes only
+`pages/index.html` and `pages/game-guide/index.html`; no other repository
+content is included. Browser code never depends on a GitHub token or API.
 
 ## Run locally
 
@@ -75,4 +76,14 @@ Open `http://127.0.0.1:4173`.
 
 `npm run gate:phase8` runs the complete local gate. The Release workflow accepts
 only an existing annotated `vX.Y.Z-demo-reference` tag, uploads allowlisted
-assets to a draft Release in this private repository, and never publishes Pages.
+assets to a draft Release in this private repository, and remains separate from
+the limited GitHub Pages deployment.
+
+```powershell
+npm run validate:pages
+npm run serve:pages
+```
+
+The Pages rights and path allowlist are defined in
+[`governance/pages-publication-policy.md`](governance/pages-publication-policy.md)
+and [`NOTICE.md`](NOTICE.md).

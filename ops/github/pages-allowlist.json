@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "publication_id": "PAGES-001",
+  "base_path": "/ghcp-with-gaming-ideation/",
+  "repository_visibility_required": "private",
+  "pages_visibility": "public",
+  "build_type": "workflow",
+  "hash_projection": "utf8-lf-sha256-v1",
+  "rights_policy": "governance/pages-publication-policy.md",
+  "files": [
+    {
+      "path": "pages/.nojekyll",
+      "public_route": null,
+      "content_id": "PAGES-CONFIG-001",
+      "classification": "demo-safe",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "pages/game-guide/index.html",
+      "public_route": "/ghcp-with-gaming-ideation/game-guide/",
+      "content_id": "PAGES-GAME-GUIDE-001",
+      "classification": "demo-safe",
+      "bytes": 126199,
+      "sha256": "1ddf8688bb51cde6928ad5d584397d8bf1c2a82af4e1a0534f5fde545f70d2c5"
+    },
+    {
+      "path": "pages/index.html",
+      "public_route": "/ghcp-with-gaming-ideation/",
+      "content_id": "PAGES-WORKFLOW-001",
+      "classification": "demo-safe",
+      "bytes": 188307,
+      "sha256": "20efbf56515b288a1a92eba8de00ebb4d24985118bfcd1280b192c9c97ab162a"
+    }
+  ],
+  "forbidden_html_patterns": [
+    "file://",
+    "session-state",
+    "github_pat_",
+    "ghp_"
+  ]
+}

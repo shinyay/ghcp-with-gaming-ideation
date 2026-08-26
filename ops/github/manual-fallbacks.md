@@ -14,7 +14,8 @@
 - private User Project #6を再利用し、新規Projectを作らない
 - `ops/github/surfaces.json`がseed objectの機械可読な正本
 - `ops/github/wiki/`がWikiの唯一のsource
-- Pagesは作成も公開もしない
+- RepositoryはPrivateのまま維持する
+- Pagesは`ops/github/pages-allowlist.json`の2 HTMLだけをGitHub Actionsで公開する
 
 ## 再現手順
 

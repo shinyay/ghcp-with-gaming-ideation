@@ -1,0 +1,3096 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <script>
+      (() => {
+        const param = new URLSearchParams(window.location.search).get("scoutTheme");
+        const theme =
+          param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="架空の1998年アーケードゲーム『STAR RELAY』を、Archive Evidence、Inference、Conflict、current implementation recordに分けて解説する独立HTMLガイド。"
+    />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; font-src 'none'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <link
+      rel="canonical"
+      href="https://shinyay.github.io/ghcp-with-gaming-ideation/game-guide/"
+    />
+    <title>STAR RELAY — Field &amp; Archive Guide</title>
+    <!--
+      THESIS: STAR RELAYを「投げた経路を自分で受け取るゲーム」として一枚の往復線で理解させ、genericな仕様card一覧を拒む。
+      OWN-WORLD: operator instruction sheet、CRT field、QA punch cardをClawpilotのneutral/rose palette、罫線、穿孔、測定目盛、shape-coded labelsで統合する。
+      STORY: まず往復運動を掴み、操作、loop、field、数値、stage、art/audio、技術、未解決点、現行proofの順で読む。
+      FIRST VIEWPORT: 左に短い定義とlayer凡例、右にPlayer→Mirror→Enemy→Relay→Returnを描く大判inline SVG。chapter railとlensは常時到達可能。
+      FORM: Read mode。brief-pinned arcade/service-manual world、chaptered field guide、seed key brief-pinned/no-roll。
+    -->
+    <style>
+      :root {
+        color-scheme: light;
+        --cp-bg: #f7f4ef;
+        --cp-bg-elevated: #fcfbf8;
+        --cp-surface: #ffffff;
+        --cp-surface-soft: #f5f5f5;
+        --cp-border: #dedede;
+        --cp-border-strong: #919191;
+        --cp-text: #242424;
+        --cp-text-muted: #5c5c5c;
+        --cp-text-soft: #6f6f6f;
+        --cp-accent: #b11f4b;
+        --cp-accent-hover: #9a1a41;
+        --cp-accent-soft: rgba(177, 31, 75, 0.08);
+        --cp-accent-fg: #ffffff;
+        --cp-success: #16a34a;
+        --cp-danger: #dc2626;
+        --cp-warning: #f59e0b;
+        --cp-link: #0078d4;
+        --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+        --cp-overlay: rgba(255, 255, 255, 0.8);
+        --cp-panel: rgba(255, 255, 255, 0.86);
+        --cp-panel-strong: rgba(255, 255, 255, 0.96);
+        --cp-sheen: rgba(255, 255, 255, 0.55);
+        --cp-highlight: rgba(177, 31, 75, 0.12);
+      }
+      html[data-theme="dark"] {
+        color-scheme: dark;
+        --cp-bg: #3d3b3a;
+        --cp-bg-elevated: #343231;
+        --cp-surface: #292929;
+        --cp-surface-soft: #2e2e2e;
+        --cp-border: #474747;
+        --cp-border-strong: #5f5f5f;
+        --cp-text: #dedede;
+        --cp-text-muted: #919191;
+        --cp-text-soft: #b0b0b0;
+        --cp-accent: #fd8ea1;
+        --cp-accent-hover: #fb7b91;
+        --cp-accent-soft: rgba(253, 142, 161, 0.14);
+        --cp-accent-fg: #1a1a1a;
+        --cp-success: #4ade80;
+        --cp-danger: #f87171;
+        --cp-warning: #fbbf24;
+        --cp-link: #4da6ff;
+        --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+        --cp-overlay: rgba(41, 41, 41, 0.88);
+        --cp-panel: rgba(41, 41, 41, 0.72);
+        --cp-panel-strong: rgba(41, 41, 41, 0.96);
+        --cp-sheen: rgba(255, 255, 255, 0.04);
+        --cp-highlight: rgba(253, 142, 161, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 5.5rem;
+      }
+
+      body {
+        margin: 0;
+        min-width: 20rem;
+        background: var(--cp-bg);
+        color: var(--cp-text);
+        font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.65;
+      }
+
+      button,
+      summary {
+        font: inherit;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      a {
+        color: var(--cp-link);
+      }
+
+      code,
+      kbd,
+      pre,
+      .mono {
+        font-family: Consolas, "Courier New", Courier, monospace;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        text-wrap: pretty;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin-top: 0;
+        color: var(--cp-text);
+        line-height: 1.05;
+      }
+
+      h1 {
+        max-width: 9ch;
+        margin-bottom: 1.5rem;
+        font-size: clamp(3.4rem, 8vw, 6rem);
+        font-weight: 900;
+        letter-spacing: -0.04em;
+      }
+
+      h2 {
+        max-width: 18ch;
+        margin-bottom: 1rem;
+        font-size: clamp(2rem, 4.6vw, 4.3rem);
+        font-weight: 850;
+        letter-spacing: -0.035em;
+      }
+
+      h3 {
+        margin-bottom: 0.75rem;
+        font-size: clamp(1.15rem, 2vw, 1.55rem);
+      }
+
+      p {
+        max-width: 72ch;
+      }
+
+      ::selection {
+        background: var(--cp-accent);
+        color: var(--cp-accent-fg);
+      }
+
+      :focus-visible {
+        outline: 3px solid var(--cp-accent);
+        outline-offset: 3px;
+      }
+
+      .skip-link {
+        position: fixed;
+        top: 0.5rem;
+        left: 0.5rem;
+        z-index: 100;
+        transform: translateY(-160%);
+        border: 1px solid var(--cp-border-strong);
+        border-radius: 0.625rem;
+        background: var(--cp-surface);
+        padding: 0.65rem 0.9rem;
+        color: var(--cp-text);
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+
+      .reading-progress {
+        position: fixed;
+        inset: 0 0 auto;
+        z-index: 90;
+        height: 0.25rem;
+        background: var(--cp-border);
+      }
+
+      .reading-progress span {
+        display: block;
+        width: 0;
+        height: 100%;
+        background: var(--cp-accent);
+      }
+
+      .utility-bar {
+        position: sticky;
+        top: 0;
+        z-index: 80;
+        display: flex;
+        min-height: 4rem;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        border-bottom: 1px solid var(--cp-border);
+        background: var(--cp-bg-elevated);
+        padding: 0.75rem max(1rem, calc((100vw - 96rem) / 2));
+      }
+
+      .wordmark {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: var(--cp-text);
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        text-decoration: none;
+      }
+
+      .wordmark-mark {
+        display: grid;
+        width: 1.65rem;
+        height: 1.65rem;
+        place-items: center;
+        border: 1px solid var(--cp-accent);
+        border-radius: 50%;
+        color: var(--cp-accent);
+        font-family: Consolas, "Courier New", Courier, monospace;
+        font-size: 0.78rem;
+      }
+
+      .utility-actions,
+      .lens-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .utility-actions button,
+      .site-switch-link,
+      .lens-buttons button {
+        min-height: 2.5rem;
+        border: 1px solid var(--cp-border);
+        border-radius: 0.625rem;
+        background: var(--cp-surface);
+        padding: 0.5rem 0.75rem;
+        color: var(--cp-text);
+        font-size: 0.83rem;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .utility-actions button:hover,
+      .site-switch-link:hover,
+      .lens-buttons button:hover {
+        border-color: var(--cp-accent);
+      }
+
+      .site-switch-link {
+        display: inline-flex;
+        align-items: center;
+        border-color: var(--cp-accent);
+        background: var(--cp-accent-soft);
+      }
+
+      .lens-buttons button[aria-pressed="true"] {
+        border-color: var(--cp-accent);
+        background: var(--cp-accent);
+        color: var(--cp-accent-fg);
+      }
+
+      .page-shell {
+        display: grid;
+        width: min(96rem, 100%);
+        margin-inline: auto;
+        grid-template-columns: 18rem minmax(0, 1fr);
+      }
+
+      .chapter-rail {
+        position: sticky;
+        top: 4rem;
+        align-self: start;
+        height: calc(100vh - 4rem);
+        overflow-y: auto;
+        border-right: 1px solid var(--cp-border);
+        background: var(--cp-bg-elevated);
+        padding: 1.5rem 1rem 2rem;
+      }
+
+      .chapter-rail nav {
+        display: grid;
+        gap: 0.15rem;
+      }
+
+      .chapter-rail nav a {
+        display: grid;
+        grid-template-columns: 1.4rem 1fr;
+        gap: 0.55rem;
+        align-items: center;
+        border-radius: 0.625rem;
+        padding: 0.48rem 0.55rem;
+        color: var(--cp-text-muted);
+        font-size: 0.86rem;
+        text-decoration: none;
+      }
+
+      .chapter-rail nav a::before {
+        content: "—";
+        color: var(--cp-border-strong);
+        font-family: Consolas, "Courier New", Courier, monospace;
+      }
+
+      .chapter-rail nav a:hover,
+      .chapter-rail nav a[aria-current="location"] {
+        background: var(--cp-accent-soft);
+        color: var(--cp-text);
+      }
+
+      .chapter-rail nav a[aria-current="location"]::before {
+        content: "◆";
+        color: var(--cp-accent);
+      }
+
+      .rail-label {
+        margin: 1.75rem 0 0.7rem;
+        color: var(--cp-text-muted);
+        font: 700 0.72rem/1.2 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .lens-buttons {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .lens-status {
+        min-height: 2.5rem;
+        margin: 0.75rem 0 0;
+        color: var(--cp-text-muted);
+        font-size: 0.76rem;
+      }
+
+      main {
+        min-width: 0;
+      }
+
+      .chapter {
+        position: relative;
+        min-height: 40rem;
+        border-bottom: 1px solid var(--cp-border);
+        padding: clamp(4rem, 8vw, 8rem) clamp(1.25rem, 5vw, 5.5rem);
+      }
+
+      .chapter::before {
+        position: absolute;
+        top: 2.25rem;
+        right: clamp(1.25rem, 5vw, 5.5rem);
+        content: attr(data-chapter);
+        color: var(--cp-border-strong);
+        font: 700 0.72rem/1 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.1em;
+      }
+
+      .chapter-intro {
+        margin-bottom: clamp(2rem, 5vw, 4rem);
+        color: var(--cp-text-muted);
+        font-size: 1.05rem;
+      }
+
+      .hero-chapter {
+        min-height: calc(100vh - 4rem);
+        padding-top: clamp(3rem, 6vw, 6rem);
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(16rem, 0.72fr) minmax(32rem, 1.28fr);
+        gap: clamp(2rem, 5vw, 5rem);
+        align-items: center;
+      }
+
+      .hero-lead {
+        margin: 0 0 1.5rem;
+        color: var(--cp-text-muted);
+        font-size: clamp(1.15rem, 2vw, 1.45rem);
+        line-height: 1.55;
+      }
+
+      .hero-lead strong {
+        color: var(--cp-text);
+      }
+
+      .hero-meta {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1px;
+        overflow: hidden;
+        border: 1px solid var(--cp-border);
+        border-radius: 16px;
+        background: var(--cp-border);
+      }
+
+      .hero-meta div {
+        background: var(--cp-surface);
+        padding: 1rem;
+      }
+
+      .hero-meta strong,
+      .hero-meta span {
+        display: block;
+      }
+
+      .hero-meta strong {
+        margin-bottom: 0.25rem;
+        color: var(--cp-accent);
+        font: 800 1rem/1.2 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .hero-meta span {
+        color: var(--cp-text-muted);
+        font-size: 0.78rem;
+      }
+
+      .field-plate {
+        overflow: hidden;
+        border: 1px solid var(--cp-border-strong);
+        border-radius: 16px;
+        background: var(--cp-bg-elevated);
+        box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
+      }
+
+      .field-plate svg {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .field-caption {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        border-top: 1px solid var(--cp-border);
+        padding: 0.75rem 1rem;
+        color: var(--cp-text-muted);
+        font: 0.73rem/1.5 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .route-flow {
+        animation: relay-flow 2.6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+      }
+
+      .core-pulse {
+        transform-origin: center;
+        animation: core-pulse 2.6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+      }
+
+      @keyframes relay-flow {
+        to {
+          stroke-dashoffset: -72;
+        }
+      }
+
+      @keyframes core-pulse {
+        50% {
+          opacity: 0.42;
+          transform: scale(1.35);
+        }
+      }
+
+      .layer-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        margin-top: 1.5rem;
+      }
+
+      .layer-key,
+      .layer-stamp {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        color: var(--cp-text);
+        font: 700 0.75rem/1.2 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.04em;
+      }
+
+      .layer-key::before,
+      .layer-stamp::before {
+        display: grid;
+        width: 1.35rem;
+        height: 1.35rem;
+        place-items: center;
+        border: 1px solid currentColor;
+        font-size: 0.62rem;
+      }
+
+      [data-layer="evidence"] .layer-stamp::before,
+      .layer-key.evidence::before {
+        content: "E";
+        border-radius: 50%;
+        background: var(--cp-accent);
+        color: var(--cp-accent-fg);
+      }
+
+      [data-layer="inference"] .layer-stamp::before,
+      .layer-key.inference::before {
+        content: "I";
+        transform: rotate(45deg);
+        border-color: var(--cp-link);
+        color: var(--cp-link);
+      }
+
+      [data-layer="inference"] .layer-stamp::after,
+      .layer-key.inference::after {
+        margin-left: -1.9rem;
+        content: "";
+      }
+
+      [data-layer="proposal"] .layer-stamp::before,
+      .layer-key.proposal::before {
+        content: "P";
+        border-style: dashed;
+        color: var(--cp-warning);
+      }
+
+      [data-layer="current"] .layer-stamp::before,
+      .layer-key.current::before {
+        content: "C";
+        border-width: 3px;
+        color: var(--cp-success);
+      }
+
+      [data-layer="conflict"] .layer-stamp::before,
+      .layer-key.conflict::before {
+        content: "!";
+        clip-path: polygon(50% 0, 100% 100%, 0 100%);
+        border: 0;
+        background: var(--cp-danger);
+        color: var(--cp-accent-fg);
+      }
+
+      .layer-block {
+        max-width: 76rem;
+        margin-top: 2rem;
+        border: 1px solid var(--cp-border);
+        border-radius: 16px;
+        background: var(--cp-surface);
+        padding: clamp(1.25rem, 3vw, 2rem);
+        box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
+      }
+
+      .layer-block[data-layer="inference"] {
+        border-style: dashed;
+      }
+
+      .layer-block[data-layer="proposal"] {
+        background: var(--cp-surface-soft);
+      }
+
+      .layer-block[data-layer="current"] {
+        border-width: 2px;
+      }
+
+      .layer-block[data-layer="conflict"] {
+        border-style: double;
+        border-width: 3px;
+      }
+
+      .layer-block > .layer-stamp {
+        margin-bottom: 1.25rem;
+      }
+
+      body[data-lens]:not([data-lens="all"]) .layer-block {
+        display: none;
+      }
+
+      body[data-lens="evidence"] .layer-block[data-layer="evidence"],
+      body[data-lens="inference"] .layer-block[data-layer="inference"],
+      body[data-lens="proposal"] .layer-block[data-layer="proposal"],
+      body[data-lens="current"] .layer-block[data-layer="current"],
+      body[data-lens="conflict"] .layer-block[data-layer="conflict"] {
+        display: block;
+      }
+
+      .evidence-list {
+        display: grid;
+        gap: 1rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .evidence-line {
+        display: grid;
+        gap: 0.35rem;
+        border-bottom: 1px solid var(--cp-border);
+        padding-bottom: 1rem;
+      }
+
+      .evidence-line:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .evidence-line strong {
+        color: var(--cp-accent);
+        font-family: Consolas, "Courier New", Courier, monospace;
+      }
+
+      .source-badge {
+        width: fit-content;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        border: 1px solid var(--cp-border);
+        border-radius: 0.625rem;
+        background: var(--cp-surface-soft);
+        padding: 0.2rem 0.5rem;
+        color: var(--cp-link);
+        font: 0.7rem/1.45 Consolas, "Courier New", Courier, monospace;
+        text-decoration: none;
+      }
+
+      .source-badge:hover {
+        border-color: var(--cp-link);
+      }
+
+      .inference-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(14rem, 0.55fr);
+        gap: 2rem;
+      }
+
+      .inference-grid > p {
+        margin: 0;
+        font-size: 1.08rem;
+      }
+
+      .confidence {
+        display: grid;
+        gap: 0.75rem;
+        margin: 0;
+      }
+
+      .confidence div {
+        display: grid;
+        grid-template-columns: 7rem 1fr;
+        gap: 0.75rem;
+        border-bottom: 1px solid var(--cp-border);
+        padding-bottom: 0.65rem;
+      }
+
+      .confidence dt {
+        color: var(--cp-text-muted);
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+
+      .confidence dd {
+        margin: 0;
+        font-size: 0.82rem;
+      }
+
+      .manual-strip {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1px;
+        overflow: hidden;
+        border: 1px solid var(--cp-border-strong);
+        border-radius: 16px;
+        background: var(--cp-border);
+      }
+
+      .manual-step {
+        position: relative;
+        min-height: 14rem;
+        background: var(--cp-surface);
+        padding: 1.25rem;
+      }
+
+      .manual-step svg {
+        display: block;
+        width: 100%;
+        height: 6rem;
+        margin-bottom: 1rem;
+      }
+
+      .manual-step strong {
+        display: block;
+        margin-bottom: 0.35rem;
+        font: 800 1rem/1.2 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .manual-step p {
+        margin: 0;
+        color: var(--cp-text-muted);
+        font-size: 0.86rem;
+      }
+
+      .manual-step + .manual-step::before {
+        position: absolute;
+        top: 2.8rem;
+        left: -0.55rem;
+        z-index: 2;
+        content: "→";
+        color: var(--cp-accent);
+        font: 900 1.1rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .state-track {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        margin-top: 2rem;
+        border-block: 1px solid var(--cp-border-strong);
+      }
+
+      .state-track article {
+        position: relative;
+        padding: 1.25rem 1rem 1.4rem;
+      }
+
+      .state-track article:not(:last-child) {
+        border-right: 1px solid var(--cp-border);
+      }
+
+      .state-track strong {
+        display: block;
+        color: var(--cp-accent);
+        font: 850 1.3rem/1 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .state-track span {
+        display: block;
+        margin-top: 0.55rem;
+        color: var(--cp-text-muted);
+        font-size: 0.8rem;
+      }
+
+      .anatomy-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.5fr) minmax(16rem, 0.5fr);
+        gap: 2rem;
+        align-items: start;
+      }
+
+      .anatomy-notes {
+        display: grid;
+        gap: 1rem;
+        margin: 0;
+      }
+
+      .anatomy-notes div {
+        border-top: 1px solid var(--cp-border-strong);
+        padding-top: 0.85rem;
+      }
+
+      .anatomy-notes dt {
+        font-weight: 800;
+      }
+
+      .anatomy-notes dd {
+        margin: 0.25rem 0 0;
+        color: var(--cp-text-muted);
+        font-size: 0.86rem;
+      }
+
+      .measurement-board {
+        display: grid;
+        gap: 1.25rem;
+      }
+
+      .measure-row {
+        display: grid;
+        grid-template-columns: 10rem minmax(0, 1fr) 7rem;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      .measure-row > strong {
+        font-family: Consolas, "Courier New", Courier, monospace;
+        font-size: 0.82rem;
+      }
+
+      .measure-track {
+        height: 1.2rem;
+        overflow: hidden;
+        border: 1px solid var(--cp-border);
+        border-radius: 0.625rem;
+        background: var(--cp-surface-soft);
+      }
+
+      .measure-track span {
+        display: block;
+        width: calc(var(--bar) * 1%);
+        height: 100%;
+        background: var(--cp-accent);
+      }
+
+      .measure-row:nth-child(even) .measure-track span {
+        background: var(--cp-link);
+      }
+
+      .measure-row > code {
+        color: var(--cp-text-muted);
+        font-size: 0.78rem;
+        text-align: right;
+      }
+
+      .formula {
+        overflow-x: auto;
+        border-block: 1px solid var(--cp-border-strong);
+        padding: 1rem 0;
+        color: var(--cp-text);
+        font: 700 clamp(0.82rem, 1.8vw, 1.1rem)/1.7 Consolas, "Courier New", Courier, monospace;
+        white-space: nowrap;
+      }
+
+      .score-ledger {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 2rem;
+      }
+
+      .event-ledger {
+        display: grid;
+        gap: 1px;
+        border: 1px solid var(--cp-border);
+        background: var(--cp-border);
+      }
+
+      .event-row {
+        display: grid;
+        grid-template-columns: 1fr 5.5rem 6rem;
+        gap: 1rem;
+        background: var(--cp-surface);
+        padding: 1rem;
+      }
+
+      .event-row strong {
+        font-family: Consolas, "Courier New", Courier, monospace;
+      }
+
+      .event-row span {
+        color: var(--cp-text-muted);
+        text-align: right;
+      }
+
+      .chain-ruler {
+        position: relative;
+        min-height: 15rem;
+        border: 1px solid var(--cp-border-strong);
+        background: var(--cp-surface-soft);
+        padding: 1.25rem;
+      }
+
+      .chain-ruler h3 {
+        max-width: 12ch;
+      }
+
+      .chain-scale {
+        position: absolute;
+        right: 1.25rem;
+        bottom: 1.25rem;
+        left: 1.25rem;
+        display: grid;
+        grid-template-columns: repeat(32, minmax(0, 1fr));
+        gap: 2px;
+        align-items: end;
+        height: 6.5rem;
+      }
+
+      .chain-scale i {
+        display: block;
+        height: calc(1.2rem + var(--tick) * 0.12rem);
+        border-top: 2px solid var(--cp-accent);
+        background: var(--cp-border);
+      }
+
+      .chain-scale i:nth-last-child(-n + 2) {
+        border: 1px dashed var(--cp-danger);
+        background: var(--cp-accent-soft);
+      }
+
+      .chain-labels {
+        position: absolute;
+        right: 1.25rem;
+        bottom: 8.15rem;
+        left: 1.25rem;
+        display: flex;
+        justify-content: space-between;
+        color: var(--cp-text-muted);
+        font: 0.7rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .conflict-split {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1px;
+        margin-top: 1rem;
+        border: 1px solid var(--cp-border);
+        background: var(--cp-border);
+      }
+
+      .conflict-side {
+        background: var(--cp-surface);
+        padding: 1.25rem;
+      }
+
+      .conflict-side strong {
+        display: block;
+        margin-bottom: 0.6rem;
+        color: var(--cp-danger);
+        font: 800 0.78rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .stage-line {
+        position: relative;
+        display: grid;
+        gap: 0;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .stage-line::before {
+        position: absolute;
+        top: 1.5rem;
+        bottom: 1.5rem;
+        left: 1rem;
+        width: 1px;
+        content: "";
+        background: var(--cp-border-strong);
+      }
+
+      .stage-line li {
+        position: relative;
+        display: grid;
+        grid-template-columns: 2rem minmax(0, 1fr) auto;
+        gap: 1rem;
+        align-items: center;
+        min-height: 5rem;
+        border-bottom: 1px solid var(--cp-border);
+        padding: 0.75rem 0;
+      }
+
+      .stage-line li::before {
+        z-index: 1;
+        width: 2rem;
+        height: 2rem;
+        content: "";
+        border: 1px solid var(--cp-accent);
+        border-radius: 50%;
+        background: var(--cp-surface);
+      }
+
+      .stage-line li:last-child::before {
+        background: var(--cp-accent);
+      }
+
+      .stage-line strong,
+      .stage-line span {
+        display: block;
+      }
+
+      .stage-line strong {
+        font: 850 1.05rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .stage-line span {
+        color: var(--cp-text-muted);
+        font-size: 0.8rem;
+      }
+
+      .zero-lap-board {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1px;
+        overflow: hidden;
+        margin-top: 2rem;
+        border: 1px solid var(--cp-border-strong);
+        border-radius: 16px;
+        background: var(--cp-border);
+      }
+
+      .zero-lap-board article {
+        min-height: 13rem;
+        background: var(--cp-surface);
+        padding: 1.1rem;
+      }
+
+      .zero-lap-board strong {
+        display: block;
+        min-height: 3.5rem;
+        font: 800 0.78rem/1.35 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .zero-lap-value {
+        display: block;
+        margin: 1.4rem 0 0.65rem;
+        color: var(--cp-accent);
+        font: 900 clamp(1.8rem, 4vw, 3.3rem)/1 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .zero-lap-board p {
+        margin: 0;
+        color: var(--cp-text-muted);
+        font-size: 0.78rem;
+      }
+
+      .history-tape {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(9rem, 1fr));
+        overflow-x: auto;
+        border-block: 1px solid var(--cp-border-strong);
+      }
+
+      .history-event {
+        min-width: 9rem;
+        border-right: 1px solid var(--cp-border);
+        padding: 1.25rem;
+      }
+
+      .history-event time {
+        color: var(--cp-accent);
+        font: 800 0.75rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .history-event strong {
+        display: block;
+        margin: 0.8rem 0 0.45rem;
+      }
+
+      .history-event p {
+        margin: 0;
+        color: var(--cp-text-muted);
+        font-size: 0.8rem;
+      }
+
+      .matrix {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.82rem;
+      }
+
+      .matrix th,
+      .matrix td {
+        border-bottom: 1px solid var(--cp-border);
+        padding: 0.85rem;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      .matrix th {
+        color: var(--cp-text-muted);
+        font-family: Consolas, "Courier New", Courier, monospace;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+      }
+
+      .shape-board {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 2rem;
+        align-items: stretch;
+      }
+
+      .shape-specimen {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1px;
+        border: 1px solid var(--cp-border);
+        background: var(--cp-border);
+      }
+
+      .shape-cell {
+        display: grid;
+        min-height: 13rem;
+        place-items: center;
+        background: var(--cp-surface);
+        padding: 1rem;
+        text-align: center;
+      }
+
+      .shape-cell svg {
+        width: 6rem;
+        height: 6rem;
+      }
+
+      .shape-cell strong {
+        display: block;
+        margin-top: 0.65rem;
+        font-family: Consolas, "Courier New", Courier, monospace;
+      }
+
+      .hud-spec {
+        position: relative;
+        min-height: 26rem;
+        overflow: hidden;
+        border: 1px solid var(--cp-border-strong);
+        background: var(--cp-bg-elevated);
+        padding: 1rem;
+      }
+
+      .hud-spec::before {
+        position: absolute;
+        inset: 4rem 1rem 3.75rem;
+        content: "";
+        border: 1px dashed var(--cp-border-strong);
+      }
+
+      .hud-score,
+      .hud-chain,
+      .hud-charge {
+        position: absolute;
+        color: var(--cp-text);
+        font: 800 0.78rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .hud-score {
+        top: 1rem;
+        left: 1rem;
+      }
+
+      .hud-chain {
+        top: 1rem;
+        right: 1rem;
+      }
+
+      .hud-charge {
+        right: 25%;
+        bottom: 1rem;
+        left: 25%;
+        border: 1px solid var(--cp-border-strong);
+        padding: 0.4rem;
+        text-align: center;
+      }
+
+      .hud-spec svg {
+        position: absolute;
+        inset: 6rem 12% auto;
+        width: 76%;
+        height: 12rem;
+      }
+
+      .palette-register {
+        display: grid;
+        gap: 0;
+        margin-top: 1rem;
+      }
+
+      .palette-register div {
+        display: grid;
+        grid-template-columns: 5rem 1fr;
+        gap: 1rem;
+        border-top: 1px solid var(--cp-border);
+        padding: 0.6rem 0;
+      }
+
+      .palette-register code {
+        color: var(--cp-accent);
+      }
+
+      .audio-score {
+        display: grid;
+        grid-template-columns: 0.8fr 1.2fr;
+        gap: 2rem;
+      }
+
+      .bgm-stack {
+        display: grid;
+        align-content: end;
+        min-height: 23rem;
+        border: 1px solid var(--cp-border-strong);
+        background: var(--cp-surface-soft);
+        padding: 1rem;
+      }
+
+      .bgm-layer {
+        display: grid;
+        grid-template-columns: 3rem 1fr auto;
+        gap: 0.75rem;
+        align-items: center;
+        min-height: 4.5rem;
+        border-top: 1px solid var(--cp-border-strong);
+        background: var(--cp-surface);
+        padding: 0.75rem;
+      }
+
+      .bgm-layer strong {
+        color: var(--cp-accent);
+        font-family: Consolas, "Courier New", Courier, monospace;
+      }
+
+      .bgm-layer span {
+        color: var(--cp-text-muted);
+        font-size: 0.8rem;
+      }
+
+      .cue-track {
+        border: 1px solid var(--cp-border-strong);
+        background: var(--cp-surface);
+        padding: 1.25rem;
+      }
+
+      .cue-timeline {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 2px;
+        margin: 1.5rem 0;
+      }
+
+      .cue-timeline i {
+        display: block;
+        height: 5rem;
+        border-bottom: 1px solid var(--cp-border-strong);
+        background: var(--cp-surface-soft);
+      }
+
+      .cue-timeline i:first-child {
+        border-top: 0.8rem solid var(--cp-accent);
+      }
+
+      .cue-timeline i:nth-child(7) {
+        border-top: 0.8rem dashed var(--cp-link);
+      }
+
+      .cue-labels {
+        display: flex;
+        justify-content: space-between;
+        color: var(--cp-text-muted);
+        font: 0.72rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .rom-map {
+        display: grid;
+        grid-template-columns: 18.31fr 18.31fr 15.63fr 23.44fr 15.63fr 7.03fr 0.78fr 0.87fr;
+        min-height: 6rem;
+        overflow: hidden;
+        border: 1px solid var(--cp-border-strong);
+        background: var(--cp-border);
+      }
+
+      .rom-map span {
+        display: grid;
+        min-width: 0;
+        place-items: center;
+        border-right: 1px solid var(--cp-border);
+        background: var(--cp-surface);
+        padding: 0.25rem;
+        color: var(--cp-text);
+        font: 700 0.58rem/1.2 Consolas, "Courier New", Courier, monospace;
+        text-align: center;
+        writing-mode: vertical-rl;
+      }
+
+      .rom-map span:nth-last-child(-n + 2) {
+        border: 1px dashed var(--cp-danger);
+        background: var(--cp-accent-soft);
+      }
+
+      .rom-key {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.5rem 1rem;
+        margin-top: 1rem;
+        color: var(--cp-text-muted);
+        font-size: 0.78rem;
+      }
+
+      .technical-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+
+      .source-window {
+        overflow: hidden;
+        border: 1px solid var(--cp-border-strong);
+        border-radius: 16px;
+        background: var(--cp-bg-elevated);
+      }
+
+      .source-window header {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        border-bottom: 1px solid var(--cp-border);
+        padding: 0.75rem 1rem;
+        color: var(--cp-text-muted);
+        font: 0.72rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .source-window pre {
+        margin: 0;
+        overflow-x: auto;
+        padding: 1.25rem;
+        color: var(--cp-text);
+        font-size: 0.82rem;
+        line-height: 1.8;
+      }
+
+      .pipeline {
+        display: grid;
+        gap: 1px;
+        border: 1px solid var(--cp-border);
+        background: var(--cp-border);
+      }
+
+      .pipeline div {
+        position: relative;
+        background: var(--cp-surface);
+        padding: 1rem;
+      }
+
+      .pipeline div:not(:last-child)::after {
+        position: absolute;
+        right: 1rem;
+        bottom: -0.75rem;
+        z-index: 2;
+        content: "↓";
+        color: var(--cp-accent);
+        font: 900 1rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .pipeline strong {
+        display: block;
+        font-family: Consolas, "Courier New", Courier, monospace;
+      }
+
+      .pipeline span {
+        color: var(--cp-text-muted);
+        font-size: 0.8rem;
+      }
+
+      .conflict-board {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.25rem;
+      }
+
+      .conflict-ticket {
+        position: relative;
+        min-height: 22rem;
+        border: 3px double var(--cp-border-strong);
+        background: var(--cp-surface);
+        padding: 1.25rem;
+      }
+
+      .conflict-ticket::before,
+      .conflict-ticket::after {
+        position: absolute;
+        top: 50%;
+        width: 1rem;
+        height: 2rem;
+        content: "";
+        border: 1px solid var(--cp-border-strong);
+        border-radius: 50%;
+        background: var(--cp-bg);
+      }
+
+      .conflict-ticket::before {
+        left: -0.6rem;
+      }
+
+      .conflict-ticket::after {
+        right: -0.6rem;
+      }
+
+      .conflict-kind {
+        display: inline-block;
+        border: 1px solid var(--cp-danger);
+        border-radius: 0.625rem;
+        padding: 0.2rem 0.45rem;
+        color: var(--cp-danger);
+        font: 700 0.68rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .conflict-ticket h3 {
+        margin-top: 1rem;
+      }
+
+      .conflict-ticket p,
+      .conflict-ticket li {
+        color: var(--cp-text-muted);
+        font-size: 0.83rem;
+      }
+
+      .conflict-ticket ul {
+        padding-left: 1.1rem;
+      }
+
+      .needed {
+        border-top: 1px dashed var(--cp-border-strong);
+        padding-top: 0.8rem;
+      }
+
+      .proof-split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        overflow: hidden;
+        border: 1px solid var(--cp-border-strong);
+        border-radius: 16px;
+        background: var(--cp-border);
+      }
+
+      .proof-panel {
+        min-height: 31rem;
+        background: var(--cp-surface);
+        padding: clamp(1.25rem, 3vw, 2rem);
+      }
+
+      .proof-panel h3 {
+        margin-top: 1.25rem;
+        font-size: 1.8rem;
+      }
+
+      .proof-panel > strong {
+        color: var(--cp-danger);
+        font: 800 0.72rem Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.08em;
+      }
+
+      .proof-panel svg {
+        display: block;
+        width: 100%;
+        height: 12rem;
+        margin: 1.5rem 0;
+        border-block: 1px solid var(--cp-border);
+      }
+
+      .proof-stats {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1px;
+        border: 1px solid var(--cp-border);
+        background: var(--cp-border);
+      }
+
+      .proof-stats div {
+        background: var(--cp-surface-soft);
+        padding: 0.75rem;
+      }
+
+      .proof-stats strong,
+      .proof-stats span {
+        display: block;
+      }
+
+      .proof-stats strong {
+        color: var(--cp-accent);
+        font: 800 1rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .proof-stats span {
+        color: var(--cp-text-muted);
+        font-size: 0.72rem;
+      }
+
+      .record-path {
+        display: block;
+        margin-top: 0.65rem;
+        overflow-wrap: anywhere;
+        color: var(--cp-text-muted);
+        font: 0.7rem/1.5 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .proposal-tasks {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1px;
+        border: 1px solid var(--cp-border);
+        background: var(--cp-border);
+      }
+
+      .proposal-tasks article {
+        min-height: 12rem;
+        background: var(--cp-surface);
+        padding: 1.25rem;
+      }
+
+      .proposal-tasks strong {
+        font-family: Consolas, "Courier New", Courier, monospace;
+      }
+
+      .proposal-tasks p {
+        color: var(--cp-text-muted);
+        font-size: 0.84rem;
+      }
+
+      .source-index {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .source-entry {
+        scroll-margin-top: 6rem;
+        border: 1px solid var(--cp-border);
+        border-radius: 0.625rem;
+        background: var(--cp-surface);
+        padding: 1rem;
+      }
+
+      .source-entry summary {
+        display: grid;
+        grid-template-columns: 6rem 1fr;
+        gap: 1rem;
+        align-items: baseline;
+        cursor: pointer;
+        color: var(--cp-text);
+        font-weight: 800;
+      }
+
+      .source-entry summary code {
+        color: var(--cp-accent);
+      }
+
+      .source-entry ul {
+        display: grid;
+        gap: 0.35rem;
+        margin: 0.9rem 0 0 7rem;
+        padding: 0;
+        list-style: none;
+      }
+
+      .source-entry li {
+        overflow-wrap: anywhere;
+        color: var(--cp-text-muted);
+        font: 0.74rem/1.45 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .archive-boundary {
+        margin-top: 2rem;
+        border-block: 1px solid var(--cp-border-strong);
+        padding: 1rem 0;
+        color: var(--cp-text-muted);
+        font-size: 0.84rem;
+      }
+
+      footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 2rem;
+        border-top: 1px solid var(--cp-border);
+        background: var(--cp-bg-elevated);
+        padding: 2rem max(1rem, calc((100vw - 96rem) / 2));
+        color: var(--cp-text-muted);
+        font-size: 0.78rem;
+      }
+
+      footer p {
+        margin: 0;
+      }
+
+      @media (max-width: 72rem) {
+        html {
+          scroll-padding-top: 10rem;
+        }
+
+        .page-shell {
+          grid-template-columns: 1fr;
+        }
+
+        .chapter-rail {
+          top: 4rem;
+          z-index: 70;
+          display: grid;
+          height: auto;
+          max-height: none;
+          overflow: visible;
+          border-right: 0;
+          border-bottom: 1px solid var(--cp-border);
+          padding: 0.6rem 1rem;
+        }
+
+        .chapter-rail nav {
+          display: flex;
+          overflow-x: auto;
+          padding-bottom: 0.25rem;
+        }
+
+        .chapter-rail nav a {
+          flex: 0 0 auto;
+          grid-template-columns: auto;
+          white-space: nowrap;
+        }
+
+        .chapter-rail nav a::before,
+        .chapter-rail .rail-label,
+        .chapter-rail .lens-status {
+          display: none;
+        }
+
+        .chapter-rail .lens-buttons {
+          display: flex;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          padding-bottom: 0.2rem;
+        }
+
+        .chapter-rail .lens-buttons button {
+          flex: 0 0 auto;
+          min-height: 2.2rem;
+          padding: 0.4rem 0.6rem;
+          font-size: 0.72rem;
+        }
+
+        .hero-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-copy {
+          max-width: 48rem;
+        }
+      }
+
+      @media (max-width: 56rem) {
+        .manual-strip,
+        .zero-lap-board {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .manual-step:nth-child(3)::before {
+          display: none;
+        }
+
+        .anatomy-grid,
+        .score-ledger,
+        .shape-board,
+        .audio-score,
+        .technical-grid,
+        .proof-split {
+          grid-template-columns: 1fr;
+        }
+
+        .conflict-board {
+          grid-template-columns: 1fr;
+        }
+
+        .rom-map {
+          min-width: 40rem;
+        }
+
+        .rom-map-wrap {
+          overflow-x: auto;
+        }
+      }
+
+      @media (max-width: 40rem) {
+        .utility-bar {
+          align-items: flex-start;
+        }
+
+        .wordmark span:last-child {
+          display: none;
+        }
+
+        .utility-actions {
+          justify-content: flex-end;
+        }
+
+        .utility-actions button {
+          min-height: 2.25rem;
+          padding: 0.4rem 0.55rem;
+          font-size: 0.74rem;
+        }
+
+        .chapter {
+          min-height: 0;
+          padding: 4.5rem 1rem;
+        }
+
+        .chapter::before {
+          top: 1.5rem;
+          right: 1rem;
+        }
+
+        .hero-meta,
+        .manual-strip,
+        .state-track,
+        .zero-lap-board,
+        .shape-specimen,
+        .proposal-tasks {
+          grid-template-columns: 1fr;
+        }
+
+        .manual-step + .manual-step::before,
+        .manual-step:nth-child(3)::before {
+          top: -0.7rem;
+          left: 50%;
+          display: block;
+          transform: rotate(90deg);
+        }
+
+        .state-track article:not(:last-child) {
+          border-right: 0;
+          border-bottom: 1px solid var(--cp-border);
+        }
+
+        .measure-row {
+          grid-template-columns: 1fr;
+          gap: 0.4rem;
+        }
+
+        .measure-row > code {
+          text-align: left;
+        }
+
+        .stage-line li {
+          grid-template-columns: 2rem minmax(0, 1fr);
+        }
+
+        .stage-line .source-badge {
+          grid-column: 2;
+        }
+
+        .conflict-split,
+        .inference-grid,
+        .rom-key {
+          grid-template-columns: 1fr;
+        }
+
+        .source-entry summary {
+          grid-template-columns: 1fr;
+          gap: 0.2rem;
+        }
+
+        .source-entry ul {
+          margin-left: 0;
+        }
+
+        footer {
+          flex-direction: column;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        .route-flow,
+        .core-pulse {
+          animation: none;
+        }
+      }
+
+      @media print {
+        :root,
+        html[data-theme="dark"] {
+          color-scheme: light;
+        }
+
+        .reading-progress,
+        .utility-bar,
+        .chapter-rail,
+        .skip-link {
+          display: none;
+        }
+
+        body {
+          background: var(--cp-surface);
+        }
+
+        .page-shell {
+          display: block;
+        }
+
+        .chapter {
+          min-height: 0;
+          break-inside: avoid;
+          padding: 2rem 0;
+        }
+
+        .layer-block {
+          display: block !important;
+          break-inside: avoid;
+          box-shadow: none;
+        }
+
+        details {
+          display: block;
+        }
+
+        details > * {
+          display: block;
+        }
+
+        a {
+          color: var(--cp-text);
+          text-decoration: none;
+        }
+      }
+    </style>
+  </head>
+  <body data-lens="all">
+    <a class="skip-link" href="#content">本文へスキップ</a>
+    <div class="reading-progress" aria-hidden="true"><span id="progress-bar"></span></div>
+
+    <header class="utility-bar">
+      <a class="wordmark" href="#overview" aria-label="STAR RELAY guide top">
+        <span class="wordmark-mark">SR</span>
+        <span>STAR RELAY / FIELD &amp; ARCHIVE GUIDE</span>
+      </a>
+      <div class="utility-actions">
+        <a class="site-switch-link" href="../">Workflow</a>
+        <button id="theme-toggle" type="button" aria-label="表示テーマを切り替える">THEME</button>
+        <button id="print-guide" type="button">PRINT</button>
+      </div>
+    </header>
+
+    <div class="page-shell">
+      <aside class="chapter-rail" aria-label="章ナビゲーションと読解レンズ">
+        <nav aria-label="章">
+          <a href="#overview">ゲームの核心</a>
+          <a href="#controls">操作とCore loop</a>
+          <a href="#field">Field anatomy</a>
+          <a href="#timing">移動とtiming</a>
+          <a href="#scoring">Catch / Chain / Charge</a>
+          <a href="#stages">Stage / ZERO LAP</a>
+          <a href="#history">Player count history</a>
+          <a href="#visual">Visual language</a>
+          <a href="#audio">Audio</a>
+          <a href="#technical">Technical character</a>
+          <a href="#conflicts">Unknown / Conflict</a>
+          <a href="#proof">Current playable proof</a>
+          <a href="#proposals">Proposal</a>
+          <a href="#sources">Evidence appendix</a>
+        </nav>
+        <p class="rail-label">Reading lens</p>
+        <div class="lens-buttons" role="group" aria-label="表示レイヤー">
+          <button type="button" data-lens-button="all" aria-pressed="true">ALL</button>
+          <button type="button" data-lens-button="evidence" aria-pressed="false">EVIDENCE</button>
+          <button type="button" data-lens-button="inference" aria-pressed="false">INFERENCE</button>
+          <button type="button" data-lens-button="proposal" aria-pressed="false">PROPOSAL</button>
+          <button type="button" data-lens-button="current" aria-pressed="false">CURRENT</button>
+          <button type="button" data-lens-button="conflict" aria-pressed="false">CONFLICT</button>
+        </div>
+        <p class="lens-status" id="lens-status" aria-live="polite">
+          すべてのレイヤーを表示中
+        </p>
+      </aside>
+
+      <main id="content">
+        <section class="chapter hero-chapter" id="overview" data-chapter="FIELD GUIDE / START">
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <h1>STAR RELAY</h1>
+              <p class="hero-lead">
+                <strong>光を投げる。Mirrorで折る。敵を線で貫く。帰ってきた光を、自分で受け取る。</strong>
+                架空の1998年アーケードゲームを、資料に書かれたことと、そこから読めることを分けて案内します。
+              </p>
+              <div class="hero-meta" aria-label="Guide scope">
+                <div><strong>1P TARGET</strong><span>出荷資料上のplayer station</span></div>
+                <div><strong>60 Hz</strong><span>Archive記載の更新頻度</span></div>
+                <div><strong>OFFLINE</strong><span>このHTMLはnetwork不要</span></div>
+              </div>
+              <div class="layer-legend" aria-label="Information layers">
+                <span class="layer-key evidence">Archive Evidence</span>
+                <span class="layer-key inference">Inference</span>
+                <span class="layer-key proposal">Proposal</span>
+                <span class="layer-key current">Current record</span>
+                <span class="layer-key conflict">Conflict</span>
+              </div>
+            </div>
+
+            <figure class="field-plate">
+              <svg viewBox="0 0 960 560" role="img" aria-label="PlayerがCoreを投げ、Mirrorで反射し、Enemyを貫き、Relay Pointへ接続した後、CoreがPlayerへ戻る図">
+                <defs>
+                  <pattern id="hero-grid" width="48" height="48" patternUnits="userSpaceOnUse">
+                    <path d="M48 0H0V48" fill="none" stroke="var(--cp-border)" stroke-width="1" />
+                  </pattern>
+                  <marker id="arrow-out" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M0 0L10 5L0 10Z" fill="var(--cp-accent)" />
+                  </marker>
+                  <marker id="arrow-return" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M0 0L10 5L0 10Z" fill="var(--cp-warning)" />
+                  </marker>
+                </defs>
+                <rect width="960" height="560" fill="var(--cp-bg-elevated)" />
+                <rect x="44" y="64" width="872" height="430" fill="url(#hero-grid)" stroke="var(--cp-border-strong)" />
+                <text x="64" y="42" fill="var(--cp-text-muted)" font-family="Consolas, 'Courier New', Courier, monospace" font-size="15">ROUTE FIELD / EXPLANATORY SCHEMATIC</text>
+                <text x="896" y="42" text-anchor="end" fill="var(--cp-text-muted)" font-family="Consolas, 'Courier New', Courier, monospace" font-size="15">OUTBOUND → RETURN</text>
+
+                <path d="M130 406L345 150L690 305L850 305" fill="none" stroke="var(--cp-accent)" stroke-width="7" stroke-linecap="square" marker-end="url(#arrow-out)" />
+                <path class="route-flow" d="M850 342C660 466 394 496 148 427" fill="none" stroke="var(--cp-warning)" stroke-width="5" stroke-dasharray="16 12" marker-end="url(#arrow-return)" />
+
+                <g transform="translate(122 408)">
+                  <path d="M28 0L-24 -24L-14 0L-24 24Z" fill="var(--cp-text)" stroke="var(--cp-border-strong)" stroke-width="3" />
+                  <circle cx="0" cy="0" r="10" fill="var(--cp-accent)" />
+                  <circle class="core-pulse" cx="0" cy="0" r="19" fill="none" stroke="var(--cp-accent)" stroke-width="2" />
+                </g>
+                <text x="92" y="465" fill="var(--cp-text)" font-family="Consolas, 'Courier New', Courier, monospace" font-size="17">PLAYER</text>
+
+                <g transform="translate(345 150)">
+                  <line x1="-84" y1="0" x2="84" y2="0" stroke="var(--cp-link)" stroke-width="11" />
+                  <g stroke="var(--cp-border-strong)" stroke-width="2">
+                    <line x1="-70" y1="-12" x2="-50" y2="12" />
+                    <line x1="-30" y1="-12" x2="-10" y2="12" />
+                    <line x1="10" y1="-12" x2="30" y2="12" />
+                    <line x1="50" y1="-12" x2="70" y2="12" />
+                  </g>
+                </g>
+                <text x="345" y="115" text-anchor="middle" fill="var(--cp-text)" font-family="Consolas, 'Courier New', Courier, monospace" font-size="17">MIRROR / BANK</text>
+
+                <g transform="translate(548 244)">
+                  <polygon points="0,-30 28,-8 17,27 -17,27 -28,-8" fill="var(--cp-danger)" stroke="var(--cp-text)" stroke-width="3" />
+                  <line x1="-42" y1="-42" x2="42" y2="42" stroke="var(--cp-accent)" stroke-width="3" />
+                </g>
+                <text x="548" y="308" text-anchor="middle" fill="var(--cp-text)" font-family="Consolas, 'Courier New', Courier, monospace" font-size="17">ENEMY / PIERCE</text>
+
+                <g transform="translate(850 305)" fill="none" stroke="var(--cp-success)" stroke-width="6">
+                  <rect x="-28" y="-62" width="56" height="124" />
+                  <rect x="-14" y="-42" width="28" height="84" />
+                  <path d="M-52 -22L-38 0L-52 22M52 -22L38 0L52 22" />
+                </g>
+                <text x="850" y="402" text-anchor="middle" fill="var(--cp-text)" font-family="Consolas, 'Courier New', Courier, monospace" font-size="17">RELAY POINT</text>
+
+                <circle cx="450" cy="469" r="9" fill="var(--cp-warning)" />
+                <text x="450" y="523" text-anchor="middle" fill="var(--cp-text-muted)" font-family="Consolas, 'Courier New', Courier, monospace" font-size="14">RETURN PATH / CATCH THE CORE</text>
+              </svg>
+              <figcaption class="field-caption">
+                <span>Original inline SVG / diagram, not a recovered asset</span>
+                <span>PLAYER → BANK → PIERCE → RELAY → RETURN</span>
+              </figcaption>
+            </figure>
+          </div>
+
+          <div class="layer-block" data-layer="evidence">
+            <div class="layer-stamp">Archive Evidence / elevator pitch</div>
+            <ul class="evidence-list">
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> 公開manualは、光を投げ、Mirrorで曲げ、敵を貫き、戻る光を受け取るよう案内する。</span>
+                <a class="source-badge" href="#drv-005">DRV-005 / md:heading/public-promise</a>
+              </li>
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> 最終gameplay仕様は、CoreがMirrorで反射し、敵を貫通し、Relay Pointへ接続した後、Playerへ戻ると記す。</span>
+                <a class="source-badge" href="#drv-003">DRV-003 / md:heading/core-loop</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="layer-block" data-layer="inference">
+            <div class="layer-stamp">Inference / what it feels like</div>
+            <div class="inference-grid">
+              <p>
+                STAR RELAYの中心は「弾を当てる」だけでなく、<strong>自分が作った往路を、帰路の受領まで完結させる</strong>緊張にあると読める。攻撃線、navigation、timing challengeが同じCoreの往復に重なる。
+              </p>
+              <dl class="confidence">
+                <div><dt>確信度</dt><dd>高</dd></div>
+                <div><dt>依拠</dt><dd>DRV-005 public promise / DRV-003 core loop</dd></div>
+                <div><dt>不足Evidence</dt><dd>完全な出荷manualと全stageの連続play記録</dd></div>
+                <div><dt>反証条件</dt><dd>帰路受領が任意または自動でloop完了すると示す資料</dd></div>
+              </dl>
+            </div>
+          </div>
+        </section>
+
+        <section class="chapter" id="controls" data-chapter="OPERATOR CARD / CONTROL">
+          <h2>Holdで経路を見せ、releaseで投げ、returnをcatchする。</h2>
+          <p class="chapter-intro">
+            ひとつのAボタンが、予告・投擲・受領という異なる時間帯の意味を持つ。レバー移動は発射位置と帰還位置の両方を変える。
+          </p>
+
+          <div class="layer-block" data-layer="evidence">
+            <div class="layer-stamp">Archive Evidence / control sequence</div>
+            <div class="manual-strip" aria-label="Control sequence">
+              <article class="manual-step">
+                <svg viewBox="0 0 160 96" aria-hidden="true">
+                  <path d="M80 14L126 48L80 82L34 48Z" fill="none" stroke="var(--cp-border-strong)" stroke-width="4" />
+                  <circle cx="80" cy="48" r="15" fill="var(--cp-text)" />
+                  <path d="M80 4V25M80 71V92M24 48H55M105 48H136" stroke="var(--cp-accent)" stroke-width="4" />
+                </svg>
+                <strong>MOVE</strong>
+                <p>レバーでPlayerを移動し、投げる位置と受ける位置を作る。</p>
+              </article>
+              <article class="manual-step">
+                <svg viewBox="0 0 160 96" aria-hidden="true">
+                  <circle cx="80" cy="48" r="34" fill="var(--cp-accent)" />
+                  <circle cx="80" cy="48" r="22" fill="none" stroke="var(--cp-accent-fg)" stroke-width="4" />
+                  <path d="M37 24C17 48 22 75 42 86" fill="none" stroke="var(--cp-text)" stroke-width="3" stroke-dasharray="6 5" />
+                </svg>
+                <strong>HOLD A</strong>
+                <p>Aを長押ししてrouteを予告する。</p>
+              </article>
+              <article class="manual-step">
+                <svg viewBox="0 0 160 96" aria-hidden="true">
+                  <circle cx="40" cy="48" r="22" fill="none" stroke="var(--cp-border-strong)" stroke-width="4" />
+                  <circle cx="112" cy="48" r="10" fill="var(--cp-accent)" />
+                  <path d="M66 48H96" stroke="var(--cp-accent)" stroke-width="5" />
+                  <path d="M90 38L104 48L90 58" fill="none" stroke="var(--cp-accent)" stroke-width="5" />
+                </svg>
+                <strong>RELEASE</strong>
+                <p>Aを離すとCoreを投げる。</p>
+              </article>
+              <article class="manual-step">
+                <svg viewBox="0 0 160 96" aria-hidden="true">
+                  <path d="M122 48C102 18 65 18 43 45" fill="none" stroke="var(--cp-warning)" stroke-width="4" stroke-dasharray="8 6" />
+                  <circle cx="42" cy="48" r="9" fill="var(--cp-warning)" />
+                  <circle cx="42" cy="48" r="26" fill="none" stroke="var(--cp-link)" stroke-width="3" />
+                  <circle cx="42" cy="48" r="38" fill="none" stroke="var(--cp-border-strong)" stroke-width="2" />
+                </svg>
+                <strong>CATCH A</strong>
+                <p>戻る光に触れた瞬間のA入力でPERFECT CATCH。</p>
+              </article>
+            </div>
+            <ul class="evidence-list" style="margin-top: 1.5rem">
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> インストカードはレバーを移動、A長押しを狙い、Aを離す操作を投擲として記す。</span>
+                <a class="source-badge" href="#drv-021">DRV-021 / json:pointer//ocr_lines</a>
+              </li>
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> インストカードは、戻る光に触れた瞬間のA入力をPERFECT CATCHとして案内する。</span>
+                <a class="source-badge" href="#drv-021">DRV-021 / json:pointer//ocr_lines</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="layer-block" data-layer="evidence">
+            <div class="layer-stamp">Archive Evidence / one play cycle</div>
+            <div class="state-track" aria-label="HOLD BANK RELAY RETURN state diagram">
+              <article><strong>HOLD</strong><span>Core保持。A長押しでroute preview。</span></article>
+              <article><strong>BANK</strong><span>Mirrorでtrajectoryが折れる。</span></article>
+              <article><strong>RELAY</strong><span>敵を貫き、Relay Pointへ接続。</span></article>
+              <article><strong>RETURN</strong><span>Playerへ戻るCoreをcatchする。</span></article>
+            </div>
+            <p class="archive-boundary">
+              HOLD → BANK → RELAY → RETURNは、Archiveの文面を操作順に並べたreading aidです。Recovered state machineではありません。
+            </p>
+            <a class="source-badge" href="#drv-003">DRV-003 / md:heading/core-loop</a>
+          </div>
+        </section>
+
+        <section class="chapter" id="field" data-chapter="SERVICE PLATE / FIELD">
+          <h2>320px相当の一画面に、役割の違うshapeを置く。</h2>
+          <p class="chapter-intro">
+            Player、Core、Mirror、Enemy、Relay Pointは、色だけでなく輪郭で読み分けられる。HUDはfieldの外側ではなく、同じ画面の三辺に固定される。
+          </p>
+
+          <div class="layer-block" data-layer="evidence">
+            <div class="layer-stamp">Archive Evidence / field anatomy</div>
+            <div class="anatomy-grid">
+              <figure class="field-plate">
+                <svg viewBox="0 0 720 500" role="img" aria-label="320px相当fieldにPlayer、Core、Mirror、Enemy、Relay Point、HUDを配置した説明図">
+                  <defs>
+                    <pattern id="field-grid" width="32" height="32" patternUnits="userSpaceOnUse">
+                      <path d="M32 0H0V32" fill="none" stroke="var(--cp-border)" />
+                    </pattern>
+                  </defs>
+                  <rect width="720" height="500" fill="var(--cp-bg-elevated)" />
+                  <rect x="36" y="70" width="648" height="360" fill="url(#field-grid)" stroke="var(--cp-border-strong)" />
+                  <text x="52" y="42" fill="var(--cp-text)" font-family="Consolas, 'Courier New', Courier, monospace" font-size="16">SCORE 001300</text>
+                  <text x="668" y="42" text-anchor="end" fill="var(--cp-text)" font-family="Consolas, 'Courier New', Courier, monospace" font-size="16">CHAIN 05</text>
+                  <rect x="256" y="455" width="208" height="18" fill="none" stroke="var(--cp-border-strong)" />
+                  <rect x="256" y="455" width="166" height="18" fill="var(--cp-accent)" />
+                  <text x="360" y="490" text-anchor="middle" fill="var(--cp-text)" font-family="Consolas, 'Courier New', Courier, monospace" font-size="14">CHARGE</text>
+
+                  <g transform="translate(118 356)">
+                    <path d="M26 0L-22 -23L-12 0L-22 23Z" fill="var(--cp-text)" />
+                    <circle cx="0" cy="0" r="8" fill="var(--cp-accent)" />
+                  </g>
+                  <text x="118" y="407" text-anchor="middle" fill="var(--cp-text-muted)" font-family="Consolas, 'Courier New', Courier, monospace" font-size="13">PLAYER △ + CORE ○</text>
+
+                  <line x1="206" y1="178" x2="382" y2="178" stroke="var(--cp-link)" stroke-width="10" />
+                  <text x="294" y="150" text-anchor="middle" fill="var(--cp-text-muted)" font-family="Consolas, 'Courier New', Courier, monospace" font-size="13">MIRROR / LINE · 45°</text>
+
+                  <polygon points="450,220 474,239 465,268 435,268 426,239" fill="var(--cp-danger)" stroke="var(--cp-text)" stroke-width="2" />
+                  <text x="450" y="300" text-anchor="middle" fill="var(--cp-text-muted)" font-family="Consolas, 'Courier New', Courier, monospace" font-size="13">ENEMY / POLYGON</text>
+
+                  <g transform="translate(610 256)" fill="none" stroke="var(--cp-success)" stroke-width="5">
+                    <rect x="-22" y="-48" width="44" height="96" />
+                    <path d="M-40 -18L-30 0L-40 18M40 -18L30 0L40 18" />
+                  </g>
+                  <text x="610" y="336" text-anchor="middle" fill="var(--cp-text-muted)" font-family="Consolas, 'Courier New', Courier, monospace" font-size="13">RELAY POINT</text>
+
+                  <path d="M118 346L288 178L450 244L610 256" fill="none" stroke="var(--cp-accent)" stroke-width="4" stroke-dasharray="9 7" />
+                </svg>
+                <figcaption class="field-caption">
+                  <span>320px equivalent / schematic, not spatial evidence</span>
+                  <span>HUD: top-left / top-right / bottom-center</span>
+                </figcaption>
+              </figure>
+              <dl class="anatomy-notes">
+                <div><dt>Player</dt><dd>三角形の先端が向きを示す。</dd></div>
+                <div><dt>Core</dt><dd>常に円。保持中だけ外周ringを足す。</dd></div>
+                <div><dt>Mirror</dt><dd>直線と45度。曲面は使わない。</dd></div>
+                <div><dt>Enemy</dt><dd>多角形。link個体は輪郭幅を共有する。</dd></div>
+                <div><dt>HUD</dt><dd>SCORE左上、CHAIN右上、CHARGE下辺中央。</dd></div>
+              </dl>
+            </div>
+            <ul class="evidence-list" style="margin-top: 1.5rem">
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> Art bibleはCoreを円、Mirrorを直線と45度、敵を多角形、Playerを三角形で表す。</span>
+                <a class="source-badge" href="#drv-022">DRV-022 / md:heading/shape-language</a>
+              </li>
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> Art bibleは320px前提でSCOREを左上、CHAINを右上、CHARGEを下辺中央へ置く。</span>
+                <a class="source-badge" href="#drv-022">DRV-022 / md:heading/hud-layout</a>
+              </li>
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> Operator manualの出荷構成はmonitor有効表示幅320px相当、操作panel 1面、Player station 1を記す。</span>
+                <a class="source-badge" href="#drv-020">DRV-020 / md:heading/cabinet-configuration</a>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="chapter" id="timing" data-chapter="CALIBRATION / MOTION">
+          <h2>速度値は変わった。画面を横断する時間は揃う。</h2>
+          <p class="chapter-intro">
+            384px前提の旧sheetと320px実装projectionは、同じ1px=16 unitを持ちながら異なる速度値を使う。ここでは値と計算を分けて表示します。
+          </p>
+
+          <div class="layer-block" data-layer="evidence">
+            <div class="layer-stamp">Archive Evidence / declared values</div>
+            <div class="measurement-board" aria-label="Field width and speed comparison">
+              <div class="measure-row">
+                <strong>OLD FIELD</strong>
+                <div class="measure-track"><span style="--bar: 100"></span></div>
+                <code>384 px</code>
+              </div>
+              <div class="measure-row">
+                <strong>1998 FIELD</strong>
+                <div class="measure-track"><span style="--bar: 83.333"></span></div>
+                <code>320 px</code>
+              </div>
+              <div class="measure-row">
+                <strong>OLD OUTBOUND</strong>
+                <div class="measure-track"><span style="--bar: 90"></span></div>
+                <code>216 u/tick</code>
+              </div>
+              <div class="measure-row">
+                <strong>1998 OUTBOUND</strong>
+                <div class="measure-track"><span style="--bar: 75"></span></div>
+                <code>180 u/tick</code>
+              </div>
+              <div class="measure-row">
+                <strong>OLD RETURN</strong>
+                <div class="measure-track"><span style="--bar: 100"></span></div>
+                <code>288 u/tick</code>
+              </div>
+              <div class="measure-row">
+                <strong>1998 RETURN</strong>
+                <div class="measure-track"><span style="--bar: 83.333"></span></div>
+                <code>240 u/tick</code>
+              </div>
+            </div>
+            <ul class="evidence-list" style="margin-top: 1.5rem">
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> 旧2P sheetは384px、1px=16 unit、outbound 216 unit/tick、return 288 unit/tickを記す。</span>
+                <a class="source-badge" href="#drv-012">DRV-012 / json:pointer//field_geometry + json:pointer//core_speed</a>
+              </li>
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> 1998 core speed tableはoutbound 180 unit/tick、return 240 unit/tickを記す。</span>
+                <a class="source-badge" href="#drv-004">DRV-004 / json:pointer//tables/core_speed</a>
+              </li>
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> C89風source projectionはSCREEN_W 320、UNITS_PER_PX 16、CORE_OUTBOUND_STEP 180、CORE_RETURN_STEP 240を定義する。</span>
+                <a class="source-badge" href="#drv-027">DRV-027 / c:define/SCREEN_W + c:define/UNITS_PER_PX + c:define/CORE_OUTBOUND_STEP + c:define/CORE_RETURN_STEP</a>
+              </li>
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> Hardware memoは384pxから320pxへの変更時も、光の横断時間を変えないよう指示する。</span>
+                <a class="source-badge" href="#drv-011">DRV-011 / md:heading/display-change</a>
+              </li>
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> 最終gameplay仕様projectionはgameplay updateを60回/秒と記す。</span>
+                <a class="source-badge" href="#drv-003">DRV-003 / md:heading/simulation-frame</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="layer-block" data-layer="inference">
+            <div class="layer-stamp">Inference / traversal equivalence</div>
+            <div class="formula" aria-label="Traversal tick calculations">
+              OUT: (384×16)÷216 = 28.44 tick &nbsp;=&nbsp; (320×16)÷180 = 28.44 tick<br />
+              RETURN: (384×16)÷288 = 21.33 tick &nbsp;=&nbsp; (320×16)÷240 = 21.33 tick
+            </div>
+            <div class="inference-grid" style="margin-top: 1.5rem">
+              <p>
+                画面幅と速度がともに<strong>5/6</strong>へ縮み、単純な横断tick数は往路・帰路とも旧sheetと1998 projectionで一致する、と計算できる。公開cardの「およそ0.5秒」はoutbound 28.44 tick ÷ 60Hz ≒ 0.47秒と近い。
+              </p>
+              <dl class="confidence">
+                <div><dt>確信度</dt><dd>高（算術関係）</dd></div>
+                <div><dt>不足Evidence</dt><dd>変換式を明記した作業記録</dd></div>
+                <div><dt>反証条件</dt><dd>speed値が同じ横断軸を表さない、または別unit conventionが存在する場合</dd></div>
+                <div><dt>非Finding</dt><dd>この計算は人間review済みFindingへ昇格していない</dd></div>
+              </dl>
+            </div>
+            <a class="source-badge" href="#drv-021">DRV-021 / json:pointer//ocr_lines</a>
+          </div>
+        </section>
+
+        <section class="chapter" id="scoring" data-chapter="LEDGER / SCORE SYSTEM">
+          <h2>経路上の成功が、Score・Charge・Chainを同時に積む。</h2>
+          <p class="chapter-intro">
+            Enemy pierce、Relay connect、PERFECT CATCHはそれぞれ異なるscoreとChargeを持ち、いずれもChainを増やす。ただしChainの内部値と表示値は一致しない区間が残る。
+          </p>
+
+          <div class="layer-block" data-layer="evidence">
+            <div class="layer-stamp">Archive Evidence / scoring ledger</div>
+            <div class="score-ledger">
+              <div class="event-ledger" aria-label="Score event table">
+                <div class="event-row"><strong>ENEMY PIERCE</strong><span>+100 SCORE</span><span>+30 CHARGE</span></div>
+                <div class="event-row"><strong>RELAY CONNECT</strong><span>+200 SCORE</span><span>+50 CHARGE</span></div>
+                <div class="event-row"><strong>PERFECT CATCH</strong><span>+500 SCORE</span><span>+20 CHARGE</span></div>
+              </div>
+              <div class="chain-ruler" aria-label="Chain display 30 and internal cap 32 comparison">
+                <h3>CHAIN 30 / 32</h3>
+                <p>1–30は表示域。31–32は内部counterにだけ存在しうる区間として点線化。</p>
+                <div class="chain-labels"><span>01</span><span>DISPLAY 30</span><span>INTERNAL 32</span></div>
+                <div class="chain-scale" aria-hidden="true">
+                  <i style="--tick: 1"></i><i style="--tick: 2"></i><i style="--tick: 3"></i><i style="--tick: 4"></i>
+                  <i style="--tick: 5"></i><i style="--tick: 6"></i><i style="--tick: 7"></i><i style="--tick: 8"></i>
+                  <i style="--tick: 1"></i><i style="--tick: 2"></i><i style="--tick: 3"></i><i style="--tick: 4"></i>
+                  <i style="--tick: 5"></i><i style="--tick: 6"></i><i style="--tick: 7"></i><i style="--tick: 8"></i>
+                  <i style="--tick: 1"></i><i style="--tick: 2"></i><i style="--tick: 3"></i><i style="--tick: 4"></i>
+                  <i style="--tick: 5"></i><i style="--tick: 6"></i><i style="--tick: 7"></i><i style="--tick: 8"></i>
+                  <i style="--tick: 1"></i><i style="--tick: 2"></i><i style="--tick: 3"></i><i style="--tick: 4"></i>
+                  <i style="--tick: 5"></i><i style="--tick: 6"></i><i style="--tick: 7"></i><i style="--tick: 8"></i>
+                </div>
+              </div>
+            </div>
+            <ul class="evidence-list" style="margin-top: 1.5rem">
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> Score tableはenemy_pierceを100点/Charge 30、relay_connectを200点/Charge 50、perfect_catchを500点/Charge 20と記す。</span>
+                <a class="source-badge" href="#drv-004">DRV-004 / json:pointer//tables/score_events</a>
+              </li>
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> 最終gameplay仕様はEnemy pierce、Relay connect、PERFECT CATCHでChainが増えると記す。</span>
+                <a class="source-badge" href="#drv-003">DRV-003 / md:heading/catch-and-chain</a>
+              </li>
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> Stage仕様はChargeを0–100の整数、100でRELEASE有効、Chain内部counter上限を32と記す。</span>
+                <a class="source-badge" href="#drv-010">DRV-010 / md:heading/charge-and-chain</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="layer-block" data-layer="conflict">
+            <div class="layer-stamp">Conflict / public display vs internal counter</div>
+            <div class="conflict-split">
+              <div class="conflict-side">
+                <strong>SIDE A / PUBLIC &amp; QA</strong>
+                <p>Player guideはCHAIN 30までを案内し、QAは表示が30で停止してもscoreとChargeの加算が続くと観測した。</p>
+                <a class="source-badge" href="#drv-005">DRV-005 / md:heading/chain-display</a>
+                <a class="source-badge" href="#drv-018">DRV-018 / md:heading/observed</a>
+              </div>
+              <div class="conflict-side">
+                <strong>SIDE B / INTERNAL</strong>
+                <p>最終仕様は内部counter上限32を記し、QA調査は31以上のglyph indexが無いと記す。</p>
+                <a class="source-badge" href="#drv-003">DRV-003 / md:heading/catch-and-chain</a>
+                <a class="source-badge" href="#drv-018">DRV-018 / md:heading/investigation</a>
+              </div>
+            </div>
+            <p class="needed"><strong>Conflict kind:</strong> public-display / internal-state。丸め、非公開、version差、仕様漏れのどれかは裁定しない。必要な追加Evidenceは、公開表記の決定記録とglyph table仕様。</p>
+          </div>
+        </section>
+
+        <section class="chapter" id="stages" data-chapter="ROUTE TABLE / STAGES">
+          <h2>6つのstage名。data tableには、さらに2行が残る。</h2>
+          <p class="chapter-intro">
+            最終stage章は6 stageを列挙し、すべて制限時間なしと記す。一方、stage tableにはtest-onlyとunusedの行も存在する。行数だけでstage数を決めません。
+          </p>
+
+          <div class="layer-block" data-layer="evidence">
+            <div class="layer-stamp">Archive Evidence / six-stage specification</div>
+            <ol class="stage-line">
+              <li><div><strong>FIRST LIGHT</strong><span>ST-01 / time limit: なし</span></div><a class="source-badge" href="#drv-010">DRV-010 / md:heading/stage-list</a></li>
+              <li><div><strong>LONG MIRROR</strong><span>ST-02 / time limit: なし</span></div><a class="source-badge" href="#drv-010">DRV-010 / md:heading/stage-list</a></li>
+              <li><div><strong>CROSSFIRE</strong><span>ST-03 / time limit: なし</span></div><a class="source-badge" href="#drv-010">DRV-010 / md:heading/stage-list</a></li>
+              <li><div><strong>THE HUSH</strong><span>ST-04 / time limit: なし</span></div><a class="source-badge" href="#drv-010">DRV-010 / md:heading/stage-list</a></li>
+              <li><div><strong>DOUBLE WARDEN</strong><span>ST-05 / time limit: なし</span></div><a class="source-badge" href="#drv-010">DRV-010 / md:heading/stage-list</a></li>
+              <li><div><strong>ZERO LAP</strong><span>ST-06 / time limit: なし</span></div><a class="source-badge" href="#drv-010">DRV-010 / md:heading/stage-list</a></li>
+            </ol>
+            <ul class="evidence-list" style="margin-top: 1.5rem">
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> ST-06のtable rowはZERO LAPにRelay Point 7、Mirror 7を記す。</span>
+                <a class="source-badge" href="#drv-014">DRV-014 / csv:row/ST-06</a>
+              </li>
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> ST-05のWARDEN_AとWARDEN_Bは同じlink_group LG-1を持ち、link_release_ticksはともに90である。</span>
+                <a class="source-badge" href="#drv-013">DRV-013 / csv:row/EN-05 + csv:row/EN-06 + csv:column/link_group + csv:column/link_release_ticks</a>
+              </li>
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> Stage tableのbuild_flag列にはship 6件、test_only 1件、unused 1件がある。</span>
+                <a class="source-badge" href="#drv-014">DRV-014 / csv:column/build_flag</a>
+              </li>
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> ST-90 SPEED RIGはtest_only、ST-91 PAIR RIGはunusedと記録される。</span>
+                <a class="source-badge" href="#drv-014">DRV-014 / csv:row/ST-90 + csv:row/ST-91</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="layer-block" data-layer="conflict">
+            <div class="layer-stamp">Conflict / what does “150” mean?</div>
+            <div class="zero-lap-board" aria-label="ZERO LAP source comparison">
+              <article>
+                <strong>SPECIFICATION</strong>
+                <span class="zero-lap-value">NO LIMIT</span>
+                <p>Coreを落とした時点で終了。想定所要時間は記載しない。</p>
+                <a class="source-badge" href="#drv-010">DRV-010 / md:heading/zero-lap-conditions</a>
+              </article>
+              <article>
+                <strong>PUBLIC CARD</strong>
+                <span class="zero-lap-value">150 s</span>
+                <p>「めやす150秒」。根拠はcard内に記載なし。</p>
+                <a class="source-badge" href="#drv-021">DRV-021 / json:pointer//ocr_lines</a>
+              </article>
+              <article>
+                <strong>QA MEASUREMENT</strong>
+                <span class="zero-lap-value">150.4 s</span>
+                <p>10 runs平均。最短141.2、最長158.4。</p>
+                <a class="source-badge" href="#drv-019">DRV-019 / md:heading/runs</a>
+              </article>
+              <article>
+                <strong>REPLAY R-10</strong>
+                <span class="zero-lap-value">9048 t</span>
+                <p>60Hz capture。timer_expired=false。</p>
+                <a class="source-badge" href="#drv-030">DRV-030 / json:pointer//capture + json:pointer//expected_outcome</a>
+              </article>
+            </div>
+            <p class="needed">
+              150を制限時間とは裁定しない。QA平均との近さ、R-10の9048 tick = 150.8秒は対応候補だが、公開cardへの転記記録と丸め方針が不足している。
+            </p>
+          </div>
+
+          <div class="layer-block" data-layer="inference">
+            <div class="layer-stamp">Inference / ZERO LAP reading</div>
+            <div class="inference-grid">
+              <p>
+                「150」は仕様上のdeadlineより、通常進行の<strong>目安時間</strong>に対応する可能性がある。仕様は無制限、QA平均は150.4秒、公開cardは「めやす150秒」と書くためである。
+              </p>
+              <dl class="confidence">
+                <div><dt>確信度</dt><dd>中</dd></div>
+                <div><dt>不足Evidence</dt><dd>公開card作成時の転記元と丸め規則</dd></div>
+                <div><dt>反証条件</dt><dd>別buildで150秒timerが仕様化されていた記録</dd></div>
+                <div><dt>Conflict保持</dt><dd>spec / measurement / public indicationを別sourceのまま残す</dd></div>
+              </dl>
+            </div>
+          </div>
+        </section>
+
+        <section class="chapter" id="history" data-chapter="CHANGE TAPE / PLAYER COUNT">
+          <h2>2P proposalから1P targetへ。理由は一つに決められない。</h2>
+          <p class="chapter-intro">
+            体験評価は2P構成の方が高い。一方で仮設panel、占有時間、320px field、出荷cabinetの制約も残る。資料は変更の「単一理由」を記していません。
+          </p>
+
+          <div class="layer-block" data-layer="evidence">
+            <div class="layer-stamp">Archive Evidence / fixture timeline</div>
+            <div class="history-tape" aria-label="Player count history">
+              <article class="history-event">
+                <time datetime="1996-04-18">1996 / PROPOSAL</time>
+                <strong>Relay Pair</strong>
+                <p>同一画面の左右からP1/P2。受け手も移動とtimingを選ぶ。</p>
+                <a class="source-badge" href="#drv-001">DRV-001 / md:heading/active-receiving + md:heading/two-player-layout</a>
+              </article>
+              <article class="history-event">
+                <time datetime="1996-11-10">1996 / LOCATION TEST</time>
+                <strong>2P rating 4.6</strong>
+                <p>1P平均2.8に対し2P平均4.6。採否理由は記録しない。</p>
+                <a class="source-badge" href="#drv-016">DRV-016 / md:heading/rating-aggregate</a>
+              </article>
+              <article class="history-event">
+                <time datetime="1997-02-03">1997 / TARGET</time>
+                <strong>1 player</strong>
+                <p>出荷targetは1人。同一画面2人はtarget外。具体理由は本文なし。</p>
+                <a class="source-badge" href="#drv-008">DRV-008 / md:heading/recorded-decisions + md:heading/open-questions</a>
+              </article>
+              <article class="history-event">
+                <time datetime="1997-11-14">1997 / DISPLAY</time>
+                <strong>384 → 320</strong>
+                <p>320pxでは左右分割marginを確保できない。結論はmemo範囲外。</p>
+                <a class="source-badge" href="#drv-011">DRV-011 / md:heading/display-change + md:heading/field-layout-impact</a>
+              </article>
+              <article class="history-event">
+                <time datetime="1998-07-15">1998 / SHIPPED CONFIG</time>
+                <strong>1 station</strong>
+                <p>単体upright、panel 1面、coin機構1、連結非対応。</p>
+                <a class="source-badge" href="#drv-020">DRV-020 / md:heading/cabinet-configuration</a>
+              </article>
+            </div>
+            <div class="table-wrap" style="margin-top: 2rem">
+              <table class="matrix">
+                <thead>
+                  <tr><th>観測軸</th><th>2P側の記録</th><th>1P / 出荷側の記録</th><th>射程</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Experience</td>
+                    <td>受領rating平均4.6、4以上100%</td>
+                    <td>受領rating平均2.8、4以上0%</td>
+                    <td><a class="source-badge" href="#drv-016">DRV-016 / md:heading/rating-aggregate</a></td>
+                  </tr>
+                  <tr>
+                    <td>Operation</td>
+                    <td>仮設2 panel、占有時間増、毎日調整</td>
+                    <td>平均占有時間を短く保つ案内</td>
+                    <td>
+                      <a class="source-badge" href="#drv-016">DRV-016 / md:heading/operation-notes</a>
+                      <a class="source-badge" href="#drv-020">DRV-020 / md:heading/operation-guidance</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Display</td>
+                    <td>384px旧前提</td>
+                    <td>320px、左右分割再検討</td>
+                    <td><a class="source-badge" href="#drv-011">DRV-011 / md:heading/display-change + md:heading/field-layout-impact</a></td>
+                  </tr>
+                  <tr>
+                    <td>Cabinet</td>
+                    <td>仮設構成のみ</td>
+                    <td>panel 1面 / station 1 / 連結なし</td>
+                    <td><a class="source-badge" href="#drv-020">DRV-020 / md:heading/cabinet-configuration</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <ul class="evidence-list" style="margin-top: 1.5rem">
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> 1997議事録は出荷targetを1人、同一画面2人をtarget外とし、理由を本文に記録しない。</span>
+                <a class="source-badge" href="#drv-008">DRV-008 / md:heading/recorded-decisions</a>
+              </li>
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> 絵コンテmetadataはsplit_verticalのr1からsingle_fullのr4へ改稿され、作図領域を320px前提へ縮小した。</span>
+                <a class="source-badge" href="#drv-024">DRV-024 / json:pointer//sheets</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="layer-block" data-layer="inference">
+            <div class="layer-stamp">Inference / change is visible, cause is not</div>
+            <div class="inference-grid">
+              <p>
+                2Pから1Pへの<strong>構成変更そのもの</strong>は複数資料に現れるが、変更理由をexperience、operation、display、cabinetのいずれか一つへ帰属させることはできない。2P評価の高さは「体験が悪かったから」という単純説明を弱める。
+              </p>
+              <dl class="confidence">
+                <div><dt>確信度</dt><dd>変更: 高 / 理由: 低</dd></div>
+                <div><dt>不足Evidence</dt><dd>議事録が参照したATT-1〜ATT-3本文と決裁記録</dd></div>
+                <div><dt>反証条件</dt><dd>体験評価を理由として明記した会議記録</dd></div>
+                <div><dt>裁定</dt><dd>しない。複数要因を並置する</dd></div>
+              </dl>
+            </div>
+          </div>
+        </section>
+
+        <section class="chapter" id="visual" data-chapter="ART PLATE / SHAPE LANGUAGE">
+          <h2>円、線、三角、多角形。意味は輪郭から読む。</h2>
+          <p class="chapter-intro">
+            Archiveのpalette値は資料として存在しますが、このguideはClawpilot themeだけで描画します。色の復元ではなく、形とHUD構造を解説します。
+          </p>
+
+          <div class="layer-block" data-layer="evidence">
+            <div class="layer-stamp">Archive Evidence / visual grammar</div>
+            <div class="shape-board">
+              <div class="shape-specimen" aria-label="Shape language specimens">
+                <div class="shape-cell">
+                  <div>
+                    <svg viewBox="0 0 100 100" aria-hidden="true">
+                      <circle cx="50" cy="50" r="19" fill="var(--cp-accent)" />
+                      <circle cx="50" cy="50" r="32" fill="none" stroke="var(--cp-accent)" stroke-width="4" />
+                    </svg>
+                    <strong>CORE / CIRCLE</strong>
+                  </div>
+                </div>
+                <div class="shape-cell">
+                  <div>
+                    <svg viewBox="0 0 100 100" aria-hidden="true">
+                      <line x1="12" y1="70" x2="88" y2="70" stroke="var(--cp-link)" stroke-width="10" />
+                      <line x1="22" y1="58" x2="38" y2="82" stroke="var(--cp-border-strong)" stroke-width="3" />
+                      <line x1="52" y1="58" x2="68" y2="82" stroke="var(--cp-border-strong)" stroke-width="3" />
+                    </svg>
+                    <strong>MIRROR / LINE</strong>
+                  </div>
+                </div>
+                <div class="shape-cell">
+                  <div>
+                    <svg viewBox="0 0 100 100" aria-hidden="true">
+                      <path d="M82 50L22 18L36 50L22 82Z" fill="var(--cp-text)" />
+                    </svg>
+                    <strong>PLAYER / TRIANGLE</strong>
+                  </div>
+                </div>
+                <div class="shape-cell">
+                  <div>
+                    <svg viewBox="0 0 100 100" aria-hidden="true">
+                      <polygon points="50,10 87,37 73,82 27,82 13,37" fill="var(--cp-danger)" stroke="var(--cp-text)" stroke-width="4" />
+                    </svg>
+                    <strong>ENEMY / POLYGON</strong>
+                  </div>
+                </div>
+              </div>
+              <div class="hud-spec" aria-label="HUD layout specimen">
+                <span class="hud-score">SCORE 001300</span>
+                <span class="hud-chain">CHAIN 30</span>
+                <svg viewBox="0 0 300 160" aria-hidden="true">
+                  <path d="M60 118L138 36L220 82" fill="none" stroke="var(--cp-accent)" stroke-width="4" stroke-dasharray="8 6" />
+                  <path d="M76 118L48 102L58 118L48 134Z" fill="var(--cp-text)" />
+                  <circle cx="76" cy="118" r="6" fill="var(--cp-accent)" />
+                  <line x1="96" y1="65" x2="170" y2="65" stroke="var(--cp-link)" stroke-width="8" />
+                  <polygon points="204,55 224,70 216,94 192,94 184,70" fill="var(--cp-danger)" />
+                </svg>
+                <span class="hud-charge">CHARGE 080</span>
+              </div>
+            </div>
+            <div class="palette-register" aria-label="Archive palette roles">
+              <div><code>PAL-00/01</code><span>背景の最暗部 / 中間</span></div>
+              <div><code>PAL-02/03</code><span>Mirror / 敵基調</span></div>
+              <div><code>PAL-04/05</code><span>Core本体 / Core軌跡</span></div>
+              <div><code>PAL-06/07</code><span>Relay Point / HUD文字</span></div>
+            </div>
+            <ul class="evidence-list" style="margin-top: 1.5rem">
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> Art bibleは背景、Mirror、敵、Core本体、Core軌跡、Relay Point、HUD文字へpalette slotを割り当てる。</span>
+                <a class="source-badge" href="#drv-022">DRV-022 / md:heading/palette</a>
+              </li>
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> Sprite metadataはPLAYER bankとCORE bankをbuild参照あり、RESERVED_B bankをbuild参照なしと記録する。</span>
+                <a class="source-badge" href="#drv-023">DRV-023 / json:pointer//banks</a>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="chapter" id="audio" data-chapter="SOUND ROM / CUE MAP">
+          <h2>ChainがBGMを開き、成功状態をSEが読み上げる。</h2>
+          <p class="chapter-intro">
+            音響は3層BGM、6種SE、二声部のRETURN cueで設計されている。ただし最終ROM配置とQAはRETURN voiceの欠落を残す。このguideは音声assetを復元しません。
+          </p>
+
+          <div class="layer-block" data-layer="evidence">
+            <div class="layer-stamp">Archive Evidence / adaptive layers and state cues</div>
+            <div class="audio-score">
+              <div class="bgm-stack" aria-label="BGM layers by Chain threshold">
+                <div class="bgm-layer"><strong>L3</strong><span>高域lead</span><code>CHAIN ≥16</code></div>
+                <div class="bgm-layer"><strong>L2</strong><span>中域arpeggio</span><code>CHAIN ≥8</code></div>
+                <div class="bgm-layer"><strong>L1</strong><span>低域pad</span><code>ALWAYS</code></div>
+              </div>
+              <div class="cue-track">
+                <h3>RETURN cue / two voices</h3>
+                <p>第一声部Aを受領frame、第二声部Bを6 frame後へ置く計画。</p>
+                <div class="cue-timeline" aria-hidden="true">
+                  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                </div>
+                <div class="cue-labels"><span>FRAME 0 / VOX_RETURN_A</span><span>+6 / VOX_RETURN_B</span><span>+11</span></div>
+                <h3 style="margin-top: 2rem">SE state words</h3>
+                <p class="mono">THROW → MIRROR → PIERCE → CONNECT → CATCH / PERFECT</p>
+              </div>
+            </div>
+            <ul class="evidence-list" style="margin-top: 1.5rem">
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> Sound directionはL1を常時、L2をChain 8以上、L3をChain 16以上で開く。</span>
+                <a class="source-badge" href="#drv-025">DRV-025 / md:heading/bgm-layers</a>
+              </li>
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> Sound directionは投擲、反射、貫通、Relay接続、通常受領、PERFECT CATCHのSEを列挙する。</span>
+                <a class="source-badge" href="#drv-025">DRV-025 / md:heading/se-list</a>
+              </li>
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> RETURN cueはAを主、Bを応答とし、Bを6 frame遅らせる計画である。</span>
+                <a class="source-badge" href="#drv-025">DRV-025 / md:heading/return-voice-cue</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="layer-block" data-layer="conflict">
+            <div class="layer-stamp">Conflict / planned cue vs final allocation</div>
+            <div class="rom-map-wrap">
+              <div class="rom-map" aria-label="Sound ROM allocation map">
+                <span>BGM A 48000</span>
+                <span>BGM B 48000</span>
+                <span>BGM C 40960</span>
+                <span>SE 61440</span>
+                <span>NAV 40960</span>
+                <span>RETURN B 18432</span>
+                <span>A FRAG 2048</span>
+                <span>FREE 2304</span>
+              </div>
+            </div>
+            <div class="rom-key">
+              <span>Capacity: 262,144 bytes</span>
+              <span>Allocated: 259,840 bytes</span>
+              <span>Free: 2,304 bytes</span>
+              <span>VOX_RETURN_A requested: 19,456 bytes / allocated false</span>
+            </div>
+            <div class="conflict-split">
+              <div class="conflict-side">
+                <strong>PLANNED</strong>
+                <p>A+Bの二声部。Bだけでは意味が通らないため避ける。</p>
+                <a class="source-badge" href="#drv-025">DRV-025 / md:heading/return-voice-cue</a>
+              </div>
+              <div class="conflict-side">
+                <strong>ALLOCATED / OBSERVED</strong>
+                <p>A本体はallocated false、Bと短いA断片は配置。QAはRETURN voice非再生をwont_fixと記録。</p>
+                <a class="source-badge" href="#drv-026">DRV-026 / json:pointer//entries + json:pointer//totals</a>
+                <a class="source-badge" href="#drv-017">DRV-017 / csv:row/BUG-063</a>
+              </div>
+            </div>
+            <p class="needed">
+              空き2,304 bytesは要求19,456 bytesより17,152 bytes少なく、増設不可memoとも整合するが、cueを落とした明示的な決定記録はない。容量不足を唯一の理由とは断定しない。
+            </p>
+            <a class="source-badge" href="#drv-011">DRV-011 / md:heading/rom-budget</a>
+          </div>
+
+          <div class="layer-block" data-layer="proposal">
+            <div class="layer-stamp">Proposal / rights-safe presentation</div>
+            <p>
+              未決の提示方針として、音声binaryや断片を合成・復元せず、layer、cue timing、ROM allocationの図だけを使う。将来audioを扱う場合も、実在file・権利確認・source provenanceが揃うまで再生素材を作らない。
+            </p>
+          </div>
+        </section>
+
+        <section class="chapter" id="technical" data-chapter="SOURCE LISTING / DETERMINISM">
+          <h2>整数のtickが、光の手触りを固定する。</h2>
+          <p class="chapter-intro">
+            ArchiveにはC89風source projectionとreplay event streamがある。現在のplayableも60Hz、integer state、canonical serializationを使うが、両者は別レイヤーです。
+          </p>
+
+          <div class="layer-block" data-layer="evidence">
+            <div class="layer-stamp">Archive Evidence / C89-style projection</div>
+            <div class="technical-grid">
+              <div class="source-window">
+                <header><span>DRV-027-core-step.c</span><span>SYNTHETIC PROJECTION</span></header>
+                <pre><code>#define SCREEN_W               320
+#define UNITS_PER_PX            16
+#define CORE_OUTBOUND_STEP     180
+#define CORE_RETURN_STEP       240
+#define CHAIN_MAX               32
+#define TICKS_PER_SECOND        60
+
+void core_throw_step(struct core *c)
+{
+    c-&gt;x += CORE_OUTBOUND_STEP;
+}</code></pre>
+              </div>
+              <div class="pipeline" aria-label="Archive technical pipeline">
+                <div><strong>INPUT / TICK</strong><span>60 updates per second</span></div>
+                <div><strong>INTEGER STATE</strong><span>position, velocity, tick, score, Chain, Charge</span></div>
+                <div><strong>CORE STEP</strong><span>fixed integer velocity</span></div>
+                <div><strong>REPLAY STREAM</strong><span>enumerated events and integer values</span></div>
+                <div><strong>EXPECTED OUTCOME</strong><span>final tick, Chain, Charge, ending branch</span></div>
+              </div>
+            </div>
+            <ul class="evidence-list" style="margin-top: 1.5rem">
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> C89風projectionはSCREEN_W、UNITS_PER_PX、outbound/return step、CHAIN_MAXをmacroで定義する。</span>
+                <a class="source-badge" href="#drv-027">DRV-027 / c:define/SCREEN_W + c:define/UNITS_PER_PX + c:define/CORE_OUTBOUND_STEP + c:define/CORE_RETURN_STEP + c:define/CHAIN_MAX</a>
+              </li>
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> ZERO LAP replayは60Hz captureで、eventをinteger tickとvalueの列として記録する。</span>
+                <a class="source-badge" href="#drv-030">DRV-030 / json:pointer//capture + json:pointer//events</a>
+              </li>
+              <li class="evidence-line">
+                <span><strong>Evidence:</strong> Replay expected outcomeはfinal tick 9048、Chain 32、Charge 100、true_end、timer_expired falseを記す。</span>
+                <a class="source-badge" href="#drv-030">DRV-030 / json:pointer//expected_outcome</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="layer-block" data-layer="current">
+            <div class="layer-stamp">Current implementation record / deterministic proof</div>
+            <div class="technical-grid">
+              <div class="pipeline">
+                <div><strong>NUMERIC INPUT MASK</strong><span>keyboard / replay input</span></div>
+                <div><strong>60 HZ STEP</strong><span>safe integer simulation state</span></div>
+                <div><strong>CANONICAL SERIALIZER</strong><span>fixed field order</span></div>
+                <div><strong>CHECKPOINT HASH</strong><span>same fixture, same state hash</span></div>
+                <div><strong>CANVAS RENDERER</strong><span>float rendering does not feed simulation</span></div>
+              </div>
+              <div>
+                <h3>魅力は「再現できる緊張」</h3>
+                <p>
+                  現在のLegacy proofは30秒/1800 tickの固定replayを持ち、route previewをsimulationと照合するtestを持つ。stateの整数列を固定順でserializeし、checkpoint hashを比較できる。
+                </p>
+                <code class="record-path">packages/game-core/src/canonical.ts</code>
+                <code class="record-path">packages/legacy-1998/src/index.ts</code>
+                <code class="record-path">tests/fixtures/legacy-replay.json</code>
+                <code class="record-path">tests/legacy-replay/route-preview.test.ts</code>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="chapter" id="conflicts" data-chapter="QA BOARD / OPEN">
+          <h2>Unknownは欠陥ではなく、次に読む場所を示す。</h2>
+          <p class="chapter-intro">
+            片側を消さず、種類と必要Evidenceを明記します。以下はいずれも未解決で、正しい側を選びません。
+          </p>
+
+          <div class="layer-block" data-layer="conflict">
+            <div class="layer-stamp">Conflict board / unresolved</div>
+            <div class="conflict-board">
+              <article class="conflict-ticket">
+                <span class="conflict-kind">PLAYER-COUNT / CAUSE</span>
+                <h3>2P評価は高いが、出荷targetは1P</h3>
+                <ul>
+                  <li>2P receive rating平均4.6、1P平均2.8。</li>
+                  <li>1997議事録は1P targetを記すが具体理由は本文なし。</li>
+                  <li>仮設panel、回転率、320px、出荷panel 1面が別資料に残る。</li>
+                </ul>
+                <p class="needed"><strong>必要Evidence:</strong> ATT-1〜3本文、決裁記録、player-count理由を明記したversion。</p>
+                <a class="source-badge" href="#drv-016">DRV-016 / md:heading/rating-aggregate + md:heading/operation-notes</a>
+                <a class="source-badge" href="#drv-008">DRV-008 / md:heading/attachments-referenced + md:heading/open-questions</a>
+                <a class="source-badge" href="#drv-011">DRV-011 / md:heading/field-layout-impact</a>
+                <a class="source-badge" href="#drv-020">DRV-020 / md:heading/cabinet-configuration</a>
+              </article>
+
+              <article class="conflict-ticket">
+                <span class="conflict-kind">STAGE / SCOPE</span>
+                <h3>仕様章は6 stage、tableは8 rows</h3>
+                <ul>
+                  <li>仕様章はST-01〜ST-06の6件。</li>
+                  <li>tableはship 6、test_only 1、unused 1。</li>
+                  <li>ST-90とST-91を出荷stageへ数える根拠はない。</li>
+                </ul>
+                <p class="needed"><strong>必要Evidence:</strong> build manifest、stage loaderの対象flag、公開stage count作成記録。</p>
+                <a class="source-badge" href="#drv-010">DRV-010 / md:heading/stage-list</a>
+                <a class="source-badge" href="#drv-014">DRV-014 / csv:column/build_flag + csv:row/ST-90 + csv:row/ST-91</a>
+              </article>
+
+              <article class="conflict-ticket">
+                <span class="conflict-kind">CHAIN / DISPLAY</span>
+                <h3>内部32、表示30</h3>
+                <ul>
+                  <li>仕様とsource projectionは内部上限32。</li>
+                  <li>公開guideとQA観測は表示30。</li>
+                  <li>31以上のglyph indexは無い。</li>
+                </ul>
+                <p class="needed"><strong>必要Evidence:</strong> glyph table、UI specification、公開manualの表記決定記録。</p>
+                <a class="source-badge" href="#drv-003">DRV-003 / md:heading/catch-and-chain</a>
+                <a class="source-badge" href="#drv-005">DRV-005 / md:heading/chain-display</a>
+                <a class="source-badge" href="#drv-018">DRV-018 / md:heading/observed + md:heading/investigation + md:heading/resolution-note</a>
+              </article>
+
+              <article class="conflict-ticket">
+                <span class="conflict-kind">ZERO LAP / NUMBER</span>
+                <h3>無制限、目安150、平均150.4</h3>
+                <ul>
+                  <li>仕様は制限時間なし。</li>
+                  <li>公開cardは「めやす150秒」。</li>
+                  <li>QA平均は150.4秒、R-10は150.8秒相当。</li>
+                </ul>
+                <p class="needed"><strong>必要Evidence:</strong> 公開cardの転記元、丸め規則、別buildのtimer specification。</p>
+                <a class="source-badge" href="#drv-010">DRV-010 / md:heading/zero-lap-conditions</a>
+                <a class="source-badge" href="#drv-021">DRV-021 / json:pointer//ocr_lines</a>
+                <a class="source-badge" href="#drv-019">DRV-019 / md:heading/measurement-method + md:heading/runs + md:heading/disposition</a>
+                <a class="source-badge" href="#drv-030">DRV-030 / json:pointer//capture + json:pointer//expected_outcome</a>
+              </article>
+
+              <article class="conflict-ticket">
+                <span class="conflict-kind">AUDIO / BUILD</span>
+                <h3>RETURN cue計画、main voice未配置</h3>
+                <ul>
+                  <li>A+B二声部の計画。</li>
+                  <li>RETURN_Aはallocated false、free 2,304 bytes。</li>
+                  <li>QAは非再生をwont_fix。</li>
+                </ul>
+                <p class="needed"><strong>必要Evidence:</strong> 音響allocation会議、cue disable flag、最終sound build manifest。</p>
+                <a class="source-badge" href="#drv-025">DRV-025 / md:heading/return-voice-cue</a>
+                <a class="source-badge" href="#drv-026">DRV-026 / json:pointer//capacity_bytes + json:pointer//entries + json:pointer//totals</a>
+                <a class="source-badge" href="#drv-017">DRV-017 / csv:row/BUG-063</a>
+              </article>
+
+              <article class="conflict-ticket">
+                <span class="conflict-kind">UNKNOWN / ENDING ORIGIN</span>
+                <h3>TRUE ENDの同時接触条件、その由来</h3>
+                <ul>
+                  <li>仕様は最終Relay PointとPlayerの同一tick接触を要求。</li>
+                  <li>どちらかが先に離れると通常END。</li>
+                  <li>仕様章は条件の由来を記さない。</li>
+                </ul>
+                <p class="needed"><strong>必要Evidence:</strong> ending conditionの設計記録、source call relation、採用理由。</p>
+                <a class="source-badge" href="#drv-010">DRV-010 / md:heading/true-ending-condition</a>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="chapter" id="proof" data-chapter="2026 RECORD / NOT 1998">
+          <h2>現在playableで観測できることは、1998年の事実ではない。</h2>
+          <p class="chapter-intro">
+            RepositoryのLegacyとSECOND HANDは、archiveから得た問いを現在のdeterministic simulationで見せるproofです。ここからArchive Evidenceへ逆算しません。
+          </p>
+
+          <div class="layer-block" data-layer="current">
+            <div class="layer-stamp">Current implementation record / two proofs</div>
+            <div class="proof-split">
+              <article class="proof-panel">
+                <strong>CURRENT PROOF · NOT ARCHIVE EVIDENCE</strong>
+                <h3>Legacy / Mirror Corridor</h3>
+                <svg viewBox="0 0 520 190" role="img" aria-label="Legacy proofのHOLD BANK RELAY RETURN概念図">
+                  <path d="M48 140L188 42L352 105L468 105" fill="none" stroke="var(--cp-accent)" stroke-width="6" />
+                  <path d="M468 132C328 168 184 168 58 148" fill="none" stroke="var(--cp-warning)" stroke-width="4" stroke-dasharray="10 8" />
+                  <path d="M70 140L40 124L50 140L40 156Z" fill="var(--cp-text)" />
+                  <line x1="138" y1="42" x2="238" y2="42" stroke="var(--cp-link)" stroke-width="9" />
+                  <polygon points="294,72 314,88 306,112 282,112 274,88" fill="var(--cp-danger)" />
+                  <rect x="452" y="74" width="32" height="62" fill="none" stroke="var(--cp-success)" stroke-width="5" />
+                  <text x="48" y="184" fill="var(--cp-text-muted)" font-family="Consolas, 'Courier New', Courier, monospace" font-size="12">HOLD / BANK / RELAY / RETURN</text>
+                </svg>
+                <div class="proof-stats">
+                  <div><strong>1800 tick</strong><span>fixed 30-second replay</span></div>
+                  <div><strong>ab4e58a9</strong><span>fixture final hash</span></div>
+                  <div><strong>Manual + Attract</strong><span>current browser modes</span></div>
+                  <div><strong>Preview = Sim</strong><span>route predictor test</span></div>
+                </div>
+                <code class="record-path">apps/demo-site/src/legacy-view.ts</code>
+                <code class="record-path">packages/legacy-1998/src/index.ts</code>
+                <code class="record-path">tests/legacy-replay/replay.test.ts</code>
+              </article>
+
+              <article class="proof-panel">
+                <strong>MODERN CREATIVE LINEAGE · NOT 1998</strong>
+                <h3>SECOND HAND / Twin Span</h3>
+                <svg viewBox="0 0 520 190" role="img" aria-label="SECOND HAND current proofのP1とP2 handoff概念図">
+                  <path d="M64 95H456" stroke="var(--cp-border-strong)" stroke-width="2" />
+                  <path d="M92 95H426" stroke="var(--cp-accent)" stroke-width="5" stroke-dasharray="12 8" />
+                  <path d="M90 95L56 70L64 95L56 120Z" fill="var(--cp-link)" />
+                  <rect x="424" y="69" width="52" height="52" fill="var(--cp-accent-soft)" stroke="var(--cp-accent)" stroke-width="4" />
+                  <circle cx="260" cy="95" r="13" fill="var(--cp-text)" />
+                  <g fill="var(--cp-success)">
+                    <circle cx="158" cy="95" r="8" /><circle cx="226" cy="95" r="8" /><circle cx="294" cy="95" r="8" /><circle cx="362" cy="95" r="8" />
+                  </g>
+                  <text x="260" y="160" text-anchor="middle" fill="var(--cp-text-muted)" font-family="Consolas, 'Courier New', Courier, monospace" font-size="12">4 RELAYS + RECIPROCAL PAIRLESS RETURN</text>
+                </svg>
+                <div class="proof-stats">
+                  <div><strong>4 Relay</strong><span>current slice progression</span></div>
+                  <div><strong>6 handoff</strong><span>4 relay + outbound + return</span></div>
+                  <div><strong>Local / AI</strong><span>same numeric input path</span></div>
+                  <div><strong>50–200 ms</strong><span>deterministic latency fixtures</span></div>
+                </div>
+                <code class="record-path">design/bets/BET-002-second-hand.md · Proposal record</code>
+                <code class="record-path">design/decisions/ADR-001-thin-proof.md · Accepted for Phase 2 only</code>
+                <code class="record-path">design/lineage/LINEAGE-001.json · Current lineage graph</code>
+                <code class="record-path">packages/second-hand/src/simulation.ts · Current implementation</code>
+              </article>
+            </div>
+            <p class="archive-boundary">
+              ADR-001は「1998 core loopを30秒固定replay、SECOND HANDを1画面local 2P handoffで実装する」というPhase 2限定のcurrent decision recordです。BET-002、ADR-001、SECOND HANDを1998年版の事実へ昇格しません。
+            </p>
+          </div>
+        </section>
+
+        <section class="chapter" id="proposals" data-chapter="NEXT READING / UNDECIDED">
+          <h2>次に増やすのは答えではなく、判断できるEvidence。</h2>
+          <p class="chapter-intro">
+            以下は未決の調査選択肢です。推奨・順位付け・採用を行わず、playable meaningも変更しません。
+          </p>
+
+          <div class="layer-block" data-layer="proposal">
+            <div class="layer-stamp">Proposal / future evidence work</div>
+            <div class="proposal-tasks">
+              <article>
+                <strong>PLAYER COUNT</strong>
+                <p>ATT-1〜ATT-3に相当する実在fixtureが追加される場合、player-count理由の記述範囲を確認する。存在しない添付を補作しない。</p>
+              </article>
+              <article>
+                <strong>PUBLIC NUMBERS</strong>
+                <p>CHAIN 30とZERO LAP 150の転記元、version、丸め規則を示す資料だけを追加候補にする。</p>
+              </article>
+              <article>
+                <strong>AUDIO ALLOCATION</strong>
+                <p>RETURN cueの採否を明記した決定記録またはbuild manifestが現れた場合のみ、容量との因果を再評価する。</p>
+              </article>
+              <article>
+                <strong>STAGE SCOPE</strong>
+                <p>ship / test_only / unusedをloaderがどう扱ったかを示すsourceまたはmanifestが現れた場合、table rowとstage数の関係を再評価する。</p>
+              </article>
+            </div>
+            <p class="archive-boundary">
+              すべて未決。新rule、balance、勝敗条件、操作意味の提案は含みません。Playableの意味を変える場合は、人間が署名したADRが先です。
+            </p>
+          </div>
+        </section>
+
+        <section class="chapter" id="sources" data-chapter="SOURCE REGISTER / RESOLVED">
+          <h2>Evidence appendix</h2>
+          <p class="chapter-intro">
+            本文のsource badgeは、`archive/catalog/assets.yaml`で`classification: demo-safe`かつ`ai_eligible: true`を確認したDRVと、同catalogで宣言されたlocatorだけへ解決します。Evidence Packetはreading setとしてのみ確認し、answerとして引用していません。
+          </p>
+
+          <div class="layer-block" data-layer="evidence">
+            <div class="layer-stamp">Archive Evidence / source register</div>
+            <div class="source-index">
+              <details class="source-entry" id="drv-001">
+                <summary><code>DRV-001</code><span>1996 Relay Pair planning brief</span></summary>
+                <ul><li>md:heading/active-receiving</li><li>md:heading/two-player-layout</li></ul>
+              </details>
+              <details class="source-entry" id="drv-003">
+                <summary><code>DRV-003</code><span>1998 Final gameplay specification excerpt</span></summary>
+                <ul><li>md:heading/core-loop</li><li>md:heading/catch-and-chain</li><li>md:heading/simulation-frame</li></ul>
+              </details>
+              <details class="source-entry" id="drv-004">
+                <summary><code>DRV-004</code><span>RELAY_MASTER thin table projection</span></summary>
+                <ul><li>json:pointer//tables/core_speed</li><li>json:pointer//tables/score_events</li></ul>
+              </details>
+              <details class="source-entry" id="drv-005">
+                <summary><code>DRV-005</code><span>Player guide excerpt</span></summary>
+                <ul><li>md:heading/public-promise</li><li>md:heading/chain-display</li></ul>
+              </details>
+              <details class="source-entry" id="drv-008">
+                <summary><code>DRV-008</code><span>1997 Solo transition minutes</span></summary>
+                <ul><li>md:heading/recorded-decisions</li><li>md:heading/attachments-referenced</li><li>md:heading/open-questions</li></ul>
+              </details>
+              <details class="source-entry" id="drv-010">
+                <summary><code>DRV-010</code><span>1998 Final specification stage section</span></summary>
+                <ul><li>md:heading/stage-list</li><li>md:heading/zero-lap-conditions</li><li>md:heading/true-ending-condition</li><li>md:heading/charge-and-chain</li></ul>
+              </details>
+              <details class="source-entry" id="drv-011">
+                <summary><code>DRV-011</code><span>1997 Hardware and ROM budget memo</span></summary>
+                <ul><li>md:heading/display-change</li><li>md:heading/field-layout-impact</li><li>md:heading/rom-budget</li><li>md:heading/fixed-point-convention</li></ul>
+              </details>
+              <details class="source-entry" id="drv-012">
+                <summary><code>DRV-012</code><span>RELAY_MASTER OLD_2P sheet projection</span></summary>
+                <ul><li>json:pointer//field_geometry</li><li>json:pointer//core_speed</li><li>json:pointer//player_slots</li></ul>
+              </details>
+              <details class="source-entry" id="drv-013">
+                <summary><code>DRV-013</code><span>RELAY_MASTER ENEMY sheet projection</span></summary>
+                <ul><li>csv:column/link_group</li><li>csv:column/link_release_ticks</li><li>csv:row/EN-05</li><li>csv:row/EN-06</li></ul>
+              </details>
+              <details class="source-entry" id="drv-014">
+                <summary><code>DRV-014</code><span>RELAY_MASTER STAGE sheet projection</span></summary>
+                <ul><li>csv:column/build_flag</li><li>csv:row/ST-06</li><li>csv:row/ST-90</li><li>csv:row/ST-91</li></ul>
+              </details>
+              <details class="source-entry" id="drv-016">
+                <summary><code>DRV-016</code><span>1996 Location test summary notes</span></summary>
+                <ul><li>md:heading/rating-aggregate</li><li>md:heading/operation-notes</li></ul>
+              </details>
+              <details class="source-entry" id="drv-017">
+                <summary><code>DRV-017</code><span>1998 QA bug tracker projection</span></summary>
+                <ul><li>csv:row/BUG-047</li><li>csv:row/BUG-063</li></ul>
+              </details>
+              <details class="source-entry" id="drv-018">
+                <summary><code>DRV-018</code><span>QA record BUG-021 CHAIN display cap</span></summary>
+                <ul><li>md:heading/observed</li><li>md:heading/investigation</li><li>md:heading/resolution-note</li></ul>
+              </details>
+              <details class="source-entry" id="drv-019">
+                <summary><code>DRV-019</code><span>QA record BUG-047 ZERO LAP duration</span></summary>
+                <ul><li>md:heading/measurement-method</li><li>md:heading/runs</li><li>md:heading/disposition</li></ul>
+              </details>
+              <details class="source-entry" id="drv-020">
+                <summary><code>DRV-020</code><span>1998 Operator manual excerpt</span></summary>
+                <ul><li>md:heading/cabinet-configuration</li><li>md:heading/operation-guidance</li></ul>
+              </details>
+              <details class="source-entry" id="drv-021">
+                <summary><code>DRV-021</code><span>1998 Instruction card text projection</span></summary>
+                <ul><li>json:pointer//ocr_lines</li><li>json:pointer//visual_annotations</li></ul>
+              </details>
+              <details class="source-entry" id="drv-022">
+                <summary><code>DRV-022</code><span>1998 Art bible excerpt</span></summary>
+                <ul><li>md:heading/palette</li><li>md:heading/shape-language</li><li>md:heading/hud-layout</li></ul>
+              </details>
+              <details class="source-entry" id="drv-023">
+                <summary><code>DRV-023</code><span>1998 Sprite bank metadata</span></summary>
+                <ul><li>json:pointer//banks</li><li>json:pointer//observations_ja</li></ul>
+              </details>
+              <details class="source-entry" id="drv-024">
+                <summary><code>DRV-024</code><span>1996 Storyboard scene metadata</span></summary>
+                <ul><li>json:pointer//sheets</li><li>json:pointer//limits_ja</li></ul>
+              </details>
+              <details class="source-entry" id="drv-025">
+                <summary><code>DRV-025</code><span>1998 Sound direction excerpt</span></summary>
+                <ul><li>md:heading/bgm-layers</li><li>md:heading/se-list</li><li>md:heading/return-voice-cue</li></ul>
+              </details>
+              <details class="source-entry" id="drv-026">
+                <summary><code>DRV-026</code><span>1998 Sound ROM allocation map</span></summary>
+                <ul><li>json:pointer//capacity_bytes</li><li>json:pointer//entries</li><li>json:pointer//totals</li></ul>
+              </details>
+              <details class="source-entry" id="drv-027">
+                <summary><code>DRV-027</code><span>1998 Core step source projection</span></summary>
+                <ul><li>c:define/SCREEN_W</li><li>c:define/UNITS_PER_PX</li><li>c:define/CORE_OUTBOUND_STEP</li><li>c:define/CORE_RETURN_STEP</li><li>c:define/CHAIN_MAX</li><li>c:symbol/core_throw_step</li></ul>
+              </details>
+              <details class="source-entry" id="drv-030">
+                <summary><code>DRV-030</code><span>1998 ZERO LAP replay event stream</span></summary>
+                <ul><li>json:pointer//capture</li><li>json:pointer//events</li><li>json:pointer//expected_outcome</li></ul>
+              </details>
+            </div>
+            <p class="archive-boundary">
+              Rights check: `archive/catalog/rights-and-ai-eligibility.yaml`は使用DRVをinternally authored fiction、AI eligible、rights knownとして登録しています。外部検索、Reference repository、answer key、expected output、scored runは使用していません。
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer>
+      <p>STAR RELAY Field &amp; Archive Guide / Japanese canonical edition</p>
+      <p class="mono">SELF-CONTAINED · INLINE SVG · NO NETWORK · NO RECOVERED ASSETS</p>
+      <p>Public display scope: this HTML only</p>
+    </footer>
+
+    <script>
+      (() => {
+        const progressBar = document.getElementById("progress-bar");
+        const themeToggle = document.getElementById("theme-toggle");
+        const printButton = document.getElementById("print-guide");
+        const lensStatus = document.getElementById("lens-status");
+        const lensButtons = Array.from(document.querySelectorAll("[data-lens-button]"));
+        const chapterLinks = Array.from(document.querySelectorAll(".chapter-rail nav a"));
+        const chapters = Array.from(document.querySelectorAll("main > section[id]"));
+
+        const updateProgress = () => {
+          const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+          const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+          progressBar.style.width = `${progress * 100}%`;
+        };
+
+        const updateThemeLabel = () => {
+          const theme = document.documentElement.getAttribute("data-theme");
+          themeToggle.textContent = theme === "dark" ? "LIGHT" : "DARK";
+          themeToggle.setAttribute(
+            "aria-label",
+            theme === "dark" ? "ライトテーマへ切り替える" : "ダークテーマへ切り替える"
+          );
+        };
+
+        themeToggle.addEventListener("click", () => {
+          const current = document.documentElement.getAttribute("data-theme");
+          document.documentElement.setAttribute("data-theme", current === "dark" ? "light" : "dark");
+          updateThemeLabel();
+        });
+
+        printButton.addEventListener("click", () => window.print());
+
+        const lensLabels = {
+          all: "すべてのレイヤーを表示中",
+          evidence: "Archive Evidenceだけを表示中",
+          inference: "Inferenceだけを表示中",
+          proposal: "Proposalだけを表示中",
+          current: "Current implementation recordだけを表示中",
+          conflict: "Conflictだけを表示中"
+        };
+
+        for (const button of lensButtons) {
+          button.addEventListener("click", () => {
+            const lens = button.dataset.lensButton;
+            if (!lens || !(lens in lensLabels)) {
+              return;
+            }
+            document.body.dataset.lens = lens;
+            for (const candidate of lensButtons) {
+              candidate.setAttribute("aria-pressed", String(candidate === button));
+            }
+            lensStatus.textContent = lensLabels[lens];
+          });
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            const visible = entries
+              .filter((entry) => entry.isIntersecting)
+              .sort((left, right) => right.intersectionRatio - left.intersectionRatio)[0];
+            if (!visible) {
+              return;
+            }
+            for (const link of chapterLinks) {
+              const active = link.getAttribute("href") === `#${visible.target.id}`;
+              if (active) {
+                link.setAttribute("aria-current", "location");
+              } else {
+                link.removeAttribute("aria-current");
+              }
+            }
+          },
+          { rootMargin: "-20% 0px -65% 0px", threshold: [0.05, 0.2, 0.5] }
+        );
+
+        for (const chapter of chapters) {
+          observer.observe(chapter);
+        }
+
+        window.addEventListener("scroll", updateProgress, { passive: true });
+        window.addEventListener("resize", updateProgress);
+        updateProgress();
+        updateThemeLabel();
+      })();
+    </script>
+  </body>
+</html>

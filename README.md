@@ -59,7 +59,16 @@ APIを必要としません。
 
 Phase 8の全gateは`npm run gate:phase8`です。Release workflowは既存のannotated
 `vX.Y.Z-demo-reference` tagだけを受け取り、Private repositoryのdraft Releaseへ
-allowlisted assetを添付します。Pages publicationは行いません。
+allowlisted assetを添付します。これとは別に、owner-approvedの2 HTMLだけを
+GitHub Pagesへ公開します。
+
+```powershell
+npm run validate:pages
+npm run serve:pages
+```
+
+Pages sourceは`pages/`で、rootがWorkflow Presentation、`/game-guide/`がSTAR RELAY
+Game Guideです。
 
 ## 情報の境界
 
@@ -67,7 +76,10 @@ allowlisted assetを添付します。Pages publicationは行いません。
 - すべての初期fixtureは`origin_kind: synthetic_fixture`です。
 - 正解、期待回答、完全な成果物は別のPrivate reference repositoryが所有します。
 - `ai_eligible`、Copilot instructions、branch、labelはアクセス制御ではありません。
-- Pagesは公開しません。ローカル実行とprivate repository内のartifactを使います。
+- RepositoryはPrivateのままです。Pagesへ公開するのは`pages/index.html`と
+  `pages/game-guide/index.html`だけで、その他のcontentは公開しません。
+- 限定公開scopeと権利条件は[Pages公開ポリシー](governance/pages-publication-policy.md)
+  と[NOTICE](NOTICE.md)が正本です。
 
 詳細は[情報アーキテクチャ](governance/information-architecture.md)、
 [証拠ポリシー](governance/evidence-policy.md)、
