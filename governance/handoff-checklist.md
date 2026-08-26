@@ -78,7 +78,9 @@ reviewer、participant、recording、reaction、approvalを作らない。
 - [ ] recorded fallbackが必要な場合だけ、実在recordingのrights review、filename、
   duration、capture date、SHA-256、approval referenceを記録する。
 - [ ] recordingを用意しない場合、`not-recorded`表示とstatic fallbackを維持する。
-- [ ] 再配布または公開展示の前にlicense判断を行う。現状の`NOTICE.md`では許諾されない。
+- [x] Repository ownerが`pages/index.html`と`pages/game-guide/index.html`に限る
+  GitHub Pages公開展示を許諾し、`NOTICE.md`と
+  `governance/pages-publication-policy.md`へscopeを記録した。
 - [x] 対象commitを確認し、annotated `v0.1.0-demo-reference` tagを作成した。
 - [x] `package-private-release`をmanual dispatchし、同じtag、successful run、
   private draft Release、manifest、checksum、4 ZIPを確認した。
@@ -86,6 +88,14 @@ reviewer、participant、recording、reaction、approvalを作らない。
   再確認した。
 - [ ] manual acceptanceとhuman sign-off後に、draft Releaseを公開するかdraftのまま
   維持するかを決定する。
+
+### Pages限定公開
+
+- [ ] `npm run validate:pages`がallowlist、hash、CSP、link、禁止contentを検証する。
+- [ ] Repository visibilityがPrivateのまま、Pages sourceをGitHub Actionsへ設定する。
+- [ ] `deploy-pages` workflowが成功し、rootと`/game-guide/`がHTTP 200を返す。
+- [ ] Public browser smokeで外部request 0、same-origin相互navigationを確認する。
+- [ ] `gh api repos/shinyay/ghcp-with-gaming-ideation/pages`のbuild typeとURLを記録する。
 
 ### Deferred Phase
 

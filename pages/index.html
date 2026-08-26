@@ -1,0 +1,4951 @@
+<!doctype html>
+<!--
+THESIS: Old game assets become a responsible learning loop, not an AI-generated answer; this refuses the generic feature-card presentation.
+OWN-WORLD: A 1998 arcade service dossier crossed with GitHub workflow notation, using Clawpilot neutrals, one deep-rose signal, ruled documents, status stamps, and a continuous relay line.
+STORY: The audience follows one fictional case from scattered assets through human decision, deterministic playable proof, and bounded learning.
+FIRST VIEWPORT: A large Japanese thesis sits beside a seven-node relay schematic; the GitHub / Copilot / Human contract and fictional-private-offline boundary are visible without scrolling.
+FORM: A vertical scrollytelling control-room dossier with a sticky phase rail, actor and role lenses, expandable proof, and a resolved Evidence appendix.
+-->
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="STAR RELAYを題材に、GitHubとGitHub CopilotでArchiveからLearnまでをつなぐゲーム開発workflow presentation"
+    />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; font-src 'none'; connect-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <link
+      rel="canonical"
+      href="https://shinyay.github.io/ghcp-with-gaming-ideation/"
+    />
+    <script>
+      (() => {
+        const param = new URLSearchParams(window.location.search).get("scoutTheme");
+        const theme =
+          param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+    <title>STAR RELAY — Archive-to-Playable Workflow</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --cp-bg: #f7f4ef;
+        --cp-bg-elevated: #fcfbf8;
+        --cp-surface: #ffffff;
+        --cp-surface-soft: #f5f5f5;
+        --cp-border: #dedede;
+        --cp-border-strong: #919191;
+        --cp-text: #242424;
+        --cp-text-muted: #5c5c5c;
+        --cp-text-soft: #6f6f6f;
+        --cp-accent: #b11f4b;
+        --cp-accent-hover: #9a1a41;
+        --cp-accent-soft: rgba(177, 31, 75, 0.08);
+        --cp-accent-fg: #ffffff;
+        --cp-success: #16a34a;
+        --cp-danger: #dc2626;
+        --cp-warning: #f59e0b;
+        --cp-link: #0078d4;
+        --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+        --cp-overlay: rgba(255, 255, 255, 0.8);
+        --cp-panel: rgba(255, 255, 255, 0.86);
+        --cp-panel-strong: rgba(255, 255, 255, 0.96);
+        --cp-sheen: rgba(255, 255, 255, 0.55);
+        --cp-highlight: rgba(177, 31, 75, 0.12);
+      }
+      html[data-theme="dark"] {
+        color-scheme: dark;
+        --cp-bg: #3d3b3a;
+        --cp-bg-elevated: #343231;
+        --cp-surface: #292929;
+        --cp-surface-soft: #2e2e2e;
+        --cp-border: #474747;
+        --cp-border-strong: #5f5f5f;
+        --cp-text: #dedede;
+        --cp-text-muted: #919191;
+        --cp-text-soft: #b0b0b0;
+        --cp-accent: #fd8ea1;
+        --cp-accent-hover: #fb7b91;
+        --cp-accent-soft: rgba(253, 142, 161, 0.14);
+        --cp-accent-fg: #1a1a1a;
+        --cp-success: #4ade80;
+        --cp-danger: #f87171;
+        --cp-warning: #fbbf24;
+        --cp-link: #4da6ff;
+        --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+        --cp-overlay: rgba(41, 41, 41, 0.88);
+        --cp-panel: rgba(41, 41, 41, 0.72);
+        --cp-panel-strong: rgba(41, 41, 41, 0.96);
+        --cp-sheen: rgba(255, 255, 255, 0.04);
+        --cp-highlight: rgba(253, 142, 161, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 9.5rem;
+      }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        background:
+          linear-gradient(
+            90deg,
+            transparent 0,
+            transparent calc(50% - 1px),
+            color-mix(in srgb, var(--cp-border) 45%, transparent) 50%,
+            transparent calc(50% + 1px)
+          ),
+          var(--cp-bg);
+        color: var(--cp-text);
+        font-family:
+          "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.65;
+      }
+
+      button,
+      summary,
+      select,
+      a {
+        font: inherit;
+      }
+
+      button,
+      select {
+        color: inherit;
+      }
+
+      a {
+        color: var(--cp-link);
+        text-underline-offset: 0.18em;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      :focus-visible {
+        outline: 3px solid var(--cp-accent);
+        outline-offset: 3px;
+      }
+
+      ::selection {
+        background: var(--cp-highlight);
+        color: var(--cp-text);
+      }
+
+      .skip-link {
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        z-index: 100;
+        transform: translateY(-160%);
+        border: 1px solid var(--cp-accent);
+        border-radius: 0.625rem;
+        background: var(--cp-surface);
+        padding: 10px 14px;
+        color: var(--cp-text);
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+
+      .reading-progress {
+        position: fixed;
+        inset: 0 0 auto;
+        z-index: 90;
+        height: 4px;
+        background: var(--cp-border);
+      }
+
+      .reading-progress span {
+        display: block;
+        width: 100%;
+        height: 100%;
+        transform: scaleX(0);
+        transform-origin: left center;
+        background: var(--cp-accent);
+        transition: transform 120ms linear;
+      }
+
+      .utility-bar {
+        position: sticky;
+        top: 4px;
+        z-index: 80;
+        border-bottom: 1px solid var(--cp-border);
+        background: var(--cp-bg-elevated);
+      }
+
+      .utility-inner {
+        display: flex;
+        width: min(1440px, calc(100% - 32px));
+        min-height: 56px;
+        margin-inline: auto;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .brand {
+        display: flex;
+        min-width: 0;
+        align-items: baseline;
+        gap: 10px;
+        color: var(--cp-text);
+        text-decoration: none;
+      }
+
+      .brand strong {
+        font: 800 0.86rem/1 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.08em;
+      }
+
+      .brand span {
+        overflow: hidden;
+        color: var(--cp-text-muted);
+        font-size: 0.78rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .utility-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .site-switch-link {
+        display: inline-flex;
+        min-height: 38px;
+        align-items: center;
+        border: 1px solid var(--cp-accent);
+        border-radius: 0.625rem;
+        background: var(--cp-accent-soft);
+        padding: 8px 11px;
+        color: var(--cp-text);
+        font-size: 0.78rem;
+        font-weight: 750;
+        text-decoration: none;
+      }
+
+      .site-switch-link:hover {
+        background: var(--cp-accent);
+        color: var(--cp-accent-fg);
+      }
+
+      .compact-button {
+        border: 1px solid var(--cp-border);
+        border-radius: 0.625rem;
+        background: var(--cp-surface);
+        padding: 8px 11px;
+        color: var(--cp-text);
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+
+      .compact-button:hover {
+        border-color: var(--cp-accent);
+      }
+
+      .hero {
+        display: grid;
+        width: min(1440px, calc(100% - 32px));
+        min-height: calc(100vh - 60px);
+        margin-inline: auto;
+        grid-template-columns: minmax(0, 0.92fr) minmax(480px, 1.08fr);
+        align-items: center;
+        gap: clamp(32px, 6vw, 96px);
+        padding: clamp(64px, 9vw, 128px) 0 80px;
+      }
+
+      .hero-copy {
+        min-width: 0;
+      }
+
+      .hero h1 {
+        max-width: 10ch;
+        margin: 0;
+        font-size: clamp(3.35rem, 7.4vw, 5.75rem);
+        font-weight: 850;
+        letter-spacing: -0.04em;
+        line-height: 0.98;
+        text-wrap: balance;
+      }
+
+      .hero h1 em {
+        color: var(--cp-accent);
+        font-style: normal;
+      }
+
+      .hero-lead {
+        max-width: 65ch;
+        margin: 28px 0 0;
+        color: var(--cp-text-muted);
+        font-size: clamp(1.02rem, 1.5vw, 1.24rem);
+        line-height: 1.85;
+      }
+
+      .boundary-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 28px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .boundary-strip li,
+      .source-badge,
+      .status-tag {
+        border: 1px solid var(--cp-border);
+        border-radius: 0.625rem;
+        background: var(--cp-surface);
+        color: var(--cp-text-muted);
+        font: 700 0.72rem/1.2 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.04em;
+      }
+
+      .boundary-strip li {
+        padding: 8px 10px;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 32px;
+      }
+
+      .primary-link,
+      .secondary-link {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.625rem;
+        padding: 10px 16px;
+        font-weight: 750;
+        text-decoration: none;
+      }
+
+      .primary-link {
+        border: 1px solid var(--cp-accent);
+        background: var(--cp-accent);
+        color: var(--cp-accent-fg);
+      }
+
+      .primary-link:hover {
+        background: var(--cp-accent-hover);
+      }
+
+      .secondary-link {
+        border: 1px solid var(--cp-border);
+        background: var(--cp-surface);
+        color: var(--cp-text);
+      }
+
+      .secondary-link:hover {
+        border-color: var(--cp-accent);
+      }
+
+      .hero-schematic {
+        position: relative;
+        min-height: 620px;
+        border: 1px solid var(--cp-border-strong);
+        background: var(--cp-bg-elevated);
+        box-shadow:
+          0 0 2px color-mix(in srgb, var(--cp-text) 12%, transparent),
+          0 1px 2px color-mix(in srgb, var(--cp-text) 14%, transparent);
+      }
+
+      .hero-schematic::before,
+      .hero-schematic::after {
+        position: absolute;
+        content: "";
+        pointer-events: none;
+      }
+
+      .hero-schematic::before {
+        inset: 16px;
+        border: 1px solid var(--cp-border);
+      }
+
+      .hero-schematic::after {
+        inset: 32px;
+        background:
+          linear-gradient(
+            90deg,
+            transparent 49.8%,
+            var(--cp-border) 50%,
+            transparent 50.2%
+          );
+        opacity: 0.55;
+      }
+
+      .schematic-title {
+        position: absolute;
+        top: 28px;
+        left: 36px;
+        z-index: 2;
+        margin: 0;
+        font: 800 0.76rem/1.4 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.12em;
+      }
+
+      .schematic-title span {
+        color: var(--cp-accent);
+      }
+
+      .relay-svg {
+        position: absolute;
+        inset: 76px 24px 24px;
+        z-index: 1;
+        width: calc(100% - 48px);
+        height: calc(100% - 100px);
+      }
+
+      .relay-track {
+        fill: none;
+        stroke: var(--cp-border-strong);
+        stroke-dasharray: 8 10;
+        stroke-width: 2;
+      }
+
+      .relay-signal {
+        fill: none;
+        stroke: var(--cp-accent);
+        stroke-dasharray: 720;
+        stroke-dashoffset: 720;
+        stroke-linecap: round;
+        stroke-width: 5;
+        animation: signal-draw 2.2s cubic-bezier(0.22, 1, 0.36, 1) 220ms forwards;
+      }
+
+      .relay-node {
+        fill: var(--cp-surface);
+        stroke: var(--cp-border-strong);
+        stroke-width: 2;
+      }
+
+      .relay-node.is-human {
+        fill: var(--cp-accent);
+        stroke: var(--cp-accent);
+      }
+
+      .relay-node-label {
+        fill: var(--cp-text);
+        font: 700 13px Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.05em;
+      }
+
+      .relay-node-meta {
+        fill: var(--cp-text-muted);
+        font: 12px "Segoe UI", Aptos, Calibri, sans-serif;
+      }
+
+      .hero-core {
+        fill: var(--cp-accent);
+        stroke: var(--cp-accent-fg);
+        stroke-width: 2;
+      }
+
+      .schematic-legend {
+        position: absolute;
+        right: 34px;
+        bottom: 30px;
+        z-index: 3;
+        display: grid;
+        gap: 4px;
+        border: 1px solid var(--cp-border);
+        background: var(--cp-panel-strong);
+        padding: 12px;
+        color: var(--cp-text-muted);
+        font: 0.7rem/1.45 Consolas, "Courier New", Courier, monospace;
+      }
+
+      @keyframes signal-draw {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      .control-dock {
+        position: sticky;
+        top: 60px;
+        z-index: 70;
+        border-block: 1px solid var(--cp-border);
+        background: var(--cp-bg-elevated);
+      }
+
+      .control-inner {
+        display: grid;
+        width: min(1440px, calc(100% - 32px));
+        margin-inline: auto;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 16px;
+        padding: 10px 0;
+      }
+
+      .phase-strip {
+        display: grid;
+        min-width: 0;
+        grid-template-columns: repeat(7, minmax(96px, 1fr));
+        gap: 4px;
+      }
+
+      .phase-strip a {
+        display: grid;
+        gap: 2px;
+        border: 1px solid transparent;
+        border-radius: 0.625rem;
+        padding: 8px 10px;
+        color: var(--cp-text-muted);
+        text-decoration: none;
+      }
+
+      .phase-strip a:hover {
+        border-color: var(--cp-border);
+        background: var(--cp-surface);
+        color: var(--cp-text);
+      }
+
+      .phase-strip a[aria-current="step"] {
+        border-color: var(--cp-accent);
+        background: var(--cp-accent-soft);
+        color: var(--cp-text);
+      }
+
+      .phase-strip strong {
+        font: 750 0.76rem/1.1 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .phase-strip span {
+        font-size: 0.68rem;
+      }
+
+      .lens-control {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .lens-control button {
+        border: 1px solid var(--cp-border);
+        border-radius: 0.625rem;
+        background: var(--cp-surface);
+        padding: 8px 10px;
+        color: var(--cp-text-muted);
+        font-size: 0.72rem;
+        font-weight: 750;
+      }
+
+      .lens-control button[aria-pressed="true"] {
+        border-color: var(--cp-accent);
+        background: var(--cp-accent);
+        color: var(--cp-accent-fg);
+      }
+
+      main {
+        display: block;
+      }
+
+      .story-section {
+        width: min(1220px, calc(100% - 32px));
+        margin-inline: auto;
+        padding: clamp(88px, 11vw, 152px) 0;
+      }
+
+      .story-section + .story-section {
+        border-top: 1px solid var(--cp-border);
+      }
+
+      .section-heading {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(300px, 0.55fr);
+        align-items: end;
+        gap: clamp(28px, 6vw, 84px);
+        margin-bottom: 56px;
+      }
+
+      .section-heading h2 {
+        max-width: 14ch;
+        margin: 0;
+        font-size: clamp(2.5rem, 6vw, 5.25rem);
+        font-weight: 830;
+        letter-spacing: -0.04em;
+        line-height: 1.02;
+        text-wrap: balance;
+      }
+
+      .section-heading p {
+        max-width: 48ch;
+        margin: 0;
+        color: var(--cp-text-muted);
+        font-size: 1.05rem;
+        line-height: 1.8;
+      }
+
+      .problem-ledger {
+        display: grid;
+        border-block: 1px solid var(--cp-border-strong);
+        grid-template-columns: 1.15fr repeat(2, 0.85fr);
+      }
+
+      .problem-ledger > div {
+        min-height: 220px;
+        padding: 28px;
+      }
+
+      .problem-ledger > div + div {
+        border-left: 1px solid var(--cp-border);
+      }
+
+      .problem-ledger strong {
+        display: block;
+        max-width: 13ch;
+        margin-bottom: 18px;
+        font-size: clamp(1.3rem, 2.2vw, 2rem);
+        line-height: 1.2;
+      }
+
+      .problem-ledger p {
+        max-width: 42ch;
+        margin: 0;
+        color: var(--cp-text-muted);
+      }
+
+      .transformation-line {
+        display: flex;
+        margin-top: 44px;
+        align-items: center;
+        gap: 12px;
+        overflow-x: auto;
+        padding-bottom: 10px;
+        scrollbar-color: var(--cp-border-strong) transparent;
+      }
+
+      .transformation-line span {
+        flex: 0 0 auto;
+        font: 750 0.78rem/1.3 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .transformation-line i {
+        width: 30px;
+        height: 1px;
+        flex: 0 0 auto;
+        background: var(--cp-accent);
+      }
+
+      .responsibility-manifest {
+        display: grid;
+        border-block: 1px solid var(--cp-border-strong);
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .actor-column {
+        min-height: 360px;
+        padding: clamp(24px, 4vw, 42px);
+        transition:
+          opacity 180ms ease,
+          background 180ms ease;
+      }
+
+      .actor-column + .actor-column {
+        border-left: 1px solid var(--cp-border);
+      }
+
+      .actor-column[data-actor-muted="true"] {
+        opacity: 0.38;
+      }
+
+      .actor-name {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 28px;
+        font: 800 0.84rem/1.2 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .actor-name::before {
+        width: 12px;
+        height: 12px;
+        border: 1px solid var(--cp-border-strong);
+        background: var(--cp-surface);
+        content: "";
+      }
+
+      .actor-column[data-actor="copilot"] .actor-name::before {
+        border-radius: 50%;
+        background: var(--cp-accent);
+      }
+
+      .actor-column[data-actor="human"] .actor-name::before {
+        transform: rotate(45deg);
+        border-color: var(--cp-accent);
+      }
+
+      .actor-column h3 {
+        max-width: 16ch;
+        margin: 0 0 18px;
+        font-size: clamp(1.45rem, 2.6vw, 2.2rem);
+        line-height: 1.14;
+      }
+
+      .actor-column p {
+        max-width: 40ch;
+        margin: 0;
+        color: var(--cp-text-muted);
+      }
+
+      .case-file {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(360px, 0.7fr);
+        gap: 48px;
+        align-items: start;
+      }
+
+      .paper-stack {
+        position: relative;
+        min-height: 560px;
+      }
+
+      .paper {
+        position: absolute;
+        width: min(520px, calc(100% - 32px));
+        border: 1px solid var(--cp-border-strong);
+        background: var(--cp-surface);
+        box-shadow:
+          0 0 2px color-mix(in srgb, var(--cp-text) 12%, transparent),
+          0 1px 2px color-mix(in srgb, var(--cp-text) 14%, transparent);
+        padding: 28px;
+      }
+
+      .paper:nth-child(1) {
+        inset: 0 auto auto 0;
+        transform: rotate(-1.4deg);
+      }
+
+      .paper:nth-child(2) {
+        inset: 168px 0 auto auto;
+        transform: rotate(1.2deg);
+      }
+
+      .paper:nth-child(3) {
+        inset: 340px auto auto 28px;
+        transform: rotate(-0.5deg);
+      }
+
+      .paper-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        border-bottom: 1px solid var(--cp-border);
+        padding-bottom: 12px;
+        font: 700 0.72rem/1.4 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .paper-head span:last-child {
+        color: var(--cp-accent);
+      }
+
+      .paper blockquote {
+        margin: 18px 0 0;
+        font-size: 1.05rem;
+        font-weight: 650;
+        line-height: 1.7;
+      }
+
+      .paper p {
+        margin: 10px 0 0;
+        color: var(--cp-text-muted);
+        font-size: 0.82rem;
+      }
+
+      .interpretation-protocol {
+        border-top: 1px solid var(--cp-border-strong);
+      }
+
+      .protocol-row {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 20px;
+        border-bottom: 1px solid var(--cp-border);
+        padding: 20px 0;
+      }
+
+      .protocol-row strong {
+        color: var(--cp-accent);
+        font: 800 0.76rem/1.4 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.08em;
+      }
+
+      .protocol-row p {
+        margin: 0;
+        color: var(--cp-text-muted);
+      }
+
+      .unknown-stamp {
+        display: inline-block;
+        margin-top: 28px;
+        transform: rotate(-2deg);
+        border: 2px solid var(--cp-accent);
+        padding: 10px 14px;
+        color: var(--cp-accent);
+        font: 850 0.82rem/1 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.1em;
+      }
+
+      .act-marker {
+        width: min(1440px, calc(100% - 32px));
+        margin: 0 auto;
+        border-block: 1px solid var(--cp-border-strong);
+        padding: 20px 0;
+      }
+
+      .act-marker div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+      }
+
+      .act-marker strong {
+        font: 850 clamp(1.45rem, 3vw, 2.5rem) / 1 Consolas, "Courier New", Courier,
+          monospace;
+      }
+
+      .act-marker span {
+        max-width: 54ch;
+        color: var(--cp-text-muted);
+        text-align: right;
+      }
+
+      .phase-section {
+        position: relative;
+        width: min(1220px, calc(100% - 32px));
+        margin-inline: auto;
+        padding: clamp(96px, 12vw, 168px) 0;
+      }
+
+      .phase-section::before {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 176px;
+        width: 1px;
+        background: var(--cp-border-strong);
+        content: "";
+      }
+
+      .phase-opening {
+        display: grid;
+        grid-template-columns: 176px minmax(0, 1fr);
+        gap: 48px;
+      }
+
+      .phase-code {
+        position: relative;
+        z-index: 2;
+        align-self: start;
+        border: 1px solid var(--cp-border-strong);
+        background: var(--cp-bg);
+        padding: 18px 14px;
+        text-align: center;
+      }
+
+      .phase-code strong {
+        display: block;
+        color: var(--cp-accent);
+        font: 850 1.02rem/1 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .phase-code span {
+        display: block;
+        margin-top: 8px;
+        color: var(--cp-text-muted);
+        font-size: 0.72rem;
+      }
+
+      .phase-copy {
+        min-width: 0;
+      }
+
+      .phase-copy h2 {
+        max-width: 13ch;
+        margin: 0;
+        font-size: clamp(3rem, 7vw, 5.6rem);
+        font-weight: 850;
+        letter-spacing: -0.04em;
+        line-height: 0.98;
+      }
+
+      .phase-question {
+        max-width: 30ch;
+        margin: 24px 0 0;
+        font-size: clamp(1.25rem, 2.4vw, 2rem);
+        font-weight: 720;
+        line-height: 1.35;
+        text-wrap: balance;
+      }
+
+      .phase-story {
+        max-width: 68ch;
+        margin: 22px 0 0;
+        color: var(--cp-text-muted);
+        font-size: 1.02rem;
+        line-height: 1.85;
+      }
+
+      .visual-explainer {
+        margin: 48px 0 0 224px;
+        border: 1px solid var(--cp-border-strong);
+        background: var(--cp-bg-elevated);
+        box-shadow:
+          0 0 2px color-mix(in srgb, var(--cp-text) 12%, transparent),
+          0 1px 2px color-mix(in srgb, var(--cp-text) 14%, transparent);
+      }
+
+      .visual-explainer figcaption {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 20px;
+        border-bottom: 1px solid var(--cp-border);
+        padding: 14px 18px;
+      }
+
+      .visual-explainer figcaption strong {
+        font: 800 0.72rem/1.3 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.08em;
+      }
+
+      .visual-explainer figcaption span {
+        color: var(--cp-text-muted);
+        font-size: 0.76rem;
+        text-align: right;
+      }
+
+      .diagram-stage {
+        position: relative;
+        min-height: 260px;
+        overflow: hidden;
+        padding: 30px;
+      }
+
+      .diagram-node {
+        border: 1px solid var(--cp-border-strong);
+        background: var(--cp-surface);
+        padding: 14px;
+        text-align: center;
+      }
+
+      .diagram-node strong,
+      .diagram-label {
+        display: block;
+        font: 800 0.72rem/1.3 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.06em;
+      }
+
+      .diagram-node small {
+        display: block;
+        margin-top: 5px;
+        color: var(--cp-text-muted);
+        font-size: 0.72rem;
+        line-height: 1.4;
+      }
+
+      .diagram-arrow {
+        display: grid;
+        min-width: 48px;
+        place-items: center;
+        color: var(--cp-accent);
+        font: 850 1.35rem/1 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .diagram-note {
+        border-top: 1px solid var(--cp-border);
+        padding: 12px 18px;
+        color: var(--cp-text-muted);
+        font-size: 0.76rem;
+      }
+
+      .asset-intake {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) 56px minmax(150px, 0.8fr) 56px minmax(0, 1.05fr);
+        align-items: center;
+        gap: 10px;
+      }
+
+      .asset-stream {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .asset-token {
+        display: grid;
+        min-height: 70px;
+        place-items: center;
+        border: 1px solid var(--cp-border);
+        background: var(--cp-surface-soft);
+        color: var(--cp-text-muted);
+        font: 750 0.68rem/1.2 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .catalog-node {
+        position: relative;
+        border-color: var(--cp-accent);
+      }
+
+      .catalog-node::before,
+      .catalog-node::after {
+        position: absolute;
+        right: 12px;
+        left: 12px;
+        height: 1px;
+        background: var(--cp-border);
+        content: "";
+      }
+
+      .catalog-node::before {
+        top: 38%;
+      }
+
+      .catalog-node::after {
+        top: 62%;
+      }
+
+      .knowledge-output {
+        display: grid;
+        gap: 8px;
+      }
+
+      .knowledge-output span {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border-bottom: 1px solid var(--cp-border);
+        padding: 8px 0;
+        color: var(--cp-text-muted);
+        font-size: 0.78rem;
+      }
+
+      .knowledge-output b {
+        color: var(--cp-accent);
+        font: 800 0.68rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .conflict-map {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 150px minmax(0, 1fr);
+        align-items: stretch;
+        gap: 18px;
+      }
+
+      .conflict-side {
+        display: grid;
+        align-content: center;
+        gap: 10px;
+        border-block: 1px solid var(--cp-border-strong);
+        padding: 22px;
+      }
+
+      .conflict-side strong {
+        color: var(--cp-accent);
+        font: 800 0.72rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .conflict-side p {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 700;
+      }
+
+      .conflict-side small {
+        color: var(--cp-text-muted);
+      }
+
+      .conflict-hold {
+        display: grid;
+        place-items: center;
+        text-align: center;
+      }
+
+      .conflict-diamond {
+        display: grid;
+        width: 106px;
+        height: 106px;
+        transform: rotate(45deg);
+        place-items: center;
+        border: 2px solid var(--cp-accent);
+        background: var(--cp-surface);
+      }
+
+      .conflict-diamond span {
+        transform: rotate(-45deg);
+        color: var(--cp-accent);
+        font: 850 0.68rem/1.4 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .evidence-needed {
+        grid-column: 1 / -1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        border-top: 1px dashed var(--cp-border-strong);
+        padding-top: 18px;
+        color: var(--cp-text-muted);
+        font-size: 0.78rem;
+      }
+
+      .bet-map {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        padding-top: 4px;
+      }
+
+      .bet-map::before {
+        position: absolute;
+        top: 108px;
+        right: 16.666%;
+        left: 16.666%;
+        height: 1px;
+        background: var(--cp-border-strong);
+        content: "";
+      }
+
+      .dna-node {
+        position: relative;
+        z-index: 2;
+        grid-column: 1 / -1;
+        justify-self: center;
+        width: min(270px, 100%);
+        border-color: var(--cp-accent);
+      }
+
+      .bet-node {
+        position: relative;
+        z-index: 2;
+        margin-top: 46px;
+        text-align: left;
+      }
+
+      .bet-node::before {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        width: 1px;
+        height: 47px;
+        background: var(--cp-border-strong);
+        content: "";
+      }
+
+      .bet-node ul {
+        display: grid;
+        gap: 6px;
+        margin: 12px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .bet-node li {
+        display: grid;
+        grid-template-columns: 72px 1fr;
+        gap: 8px;
+        border-top: 1px solid var(--cp-border);
+        padding-top: 6px;
+        color: var(--cp-text-muted);
+        font-size: 0.7rem;
+      }
+
+      .bet-node li b {
+        color: var(--cp-text);
+        font: 700 0.62rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .decision-gate {
+        display: grid;
+        grid-template-columns: minmax(120px, 0.75fr) 42px minmax(130px, 0.75fr) 42px minmax(180px, 1fr);
+        align-items: center;
+        gap: 12px;
+      }
+
+      .candidate-stack {
+        display: grid;
+        gap: 7px;
+      }
+
+      .candidate-stack span {
+        border: 1px solid var(--cp-border);
+        background: var(--cp-surface-soft);
+        padding: 8px;
+        color: var(--cp-text-muted);
+        font: 700 0.68rem Consolas, "Courier New", Courier, monospace;
+        text-align: center;
+      }
+
+      .human-checkpoint {
+        display: grid;
+        width: 126px;
+        height: 126px;
+        place-items: center;
+        justify-self: center;
+        border: 2px solid var(--cp-accent);
+        border-radius: 50%;
+        background: var(--cp-accent-soft);
+        text-align: center;
+      }
+
+      .human-checkpoint strong {
+        color: var(--cp-accent);
+        font: 850 0.72rem/1.35 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .adr-stack {
+        display: grid;
+        gap: 10px;
+      }
+
+      .adr-step {
+        border: 1px solid var(--cp-border-strong);
+        background: var(--cp-surface);
+        padding: 12px;
+      }
+
+      .adr-step.is-proposed {
+        border-color: var(--cp-accent);
+      }
+
+      .adr-step.is-accepted {
+        border-style: dashed;
+      }
+
+      .adr-step small {
+        display: block;
+        margin-top: 4px;
+        color: var(--cp-text-muted);
+      }
+
+      .plan-tree {
+        display: grid;
+        gap: 18px;
+      }
+
+      .tree-root,
+      .tree-epic {
+        justify-self: center;
+        width: min(340px, 100%);
+      }
+
+      .tree-link {
+        width: 1px;
+        height: 24px;
+        justify-self: center;
+        background: var(--cp-accent);
+      }
+
+      .tree-branches {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 8px;
+        padding-top: 24px;
+      }
+
+      .tree-branches::before {
+        position: absolute;
+        top: 0;
+        right: 8.333%;
+        left: 8.333%;
+        height: 1px;
+        background: var(--cp-border-strong);
+        content: "";
+      }
+
+      .tree-leaf {
+        position: relative;
+        min-height: 72px;
+        padding: 12px 8px;
+        font-size: 0.68rem;
+      }
+
+      .tree-leaf::before {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        width: 1px;
+        height: 24px;
+        background: var(--cp-border-strong);
+        content: "";
+      }
+
+      .build-pipeline {
+        display: grid;
+        grid-template-columns: minmax(100px, 0.8fr) 32px minmax(150px, 1fr) 32px minmax(160px, 1.05fr) 32px minmax(110px, 0.85fr);
+        align-items: center;
+        gap: 8px;
+      }
+
+      .input-pair,
+      .runtime-pair {
+        display: grid;
+        gap: 8px;
+      }
+
+      .hash-node {
+        border-color: var(--cp-accent);
+      }
+
+      .hash-value {
+        display: block;
+        margin-top: 8px;
+        color: var(--cp-accent);
+        font: 800 0.76rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .equal-mark {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 8px;
+        color: var(--cp-success);
+        font: 850 0.7rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .learning-router {
+        display: grid;
+        grid-template-columns: minmax(140px, 0.78fr) 40px minmax(0, 1.6fr);
+        align-items: center;
+        gap: 14px;
+      }
+
+      .event-stream {
+        display: grid;
+        gap: 8px;
+      }
+
+      .event-chip {
+        display: grid;
+        grid-template-columns: 28px 1fr;
+        gap: 8px;
+        align-items: center;
+        border-bottom: 1px solid var(--cp-border);
+        padding: 7px 0;
+        color: var(--cp-text-muted);
+        font-size: 0.72rem;
+      }
+
+      .event-chip b {
+        color: var(--cp-accent);
+        font: 800 0.66rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .learning-lanes {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .learning-lane {
+        min-height: 130px;
+        padding: 14px;
+        text-align: left;
+      }
+
+      .learning-lane.is-insufficient {
+        border-style: dashed;
+      }
+
+      .return-paths {
+        grid-column: 1 / -1;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+        border-top: 1px dashed var(--cp-border-strong);
+        padding-top: 16px;
+      }
+
+      .return-paths span {
+        border: 1px solid var(--cp-border);
+        padding: 5px 7px;
+        color: var(--cp-text-muted);
+        font: 700 0.62rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .evidence-graph {
+        margin-top: 56px;
+        border-block: 1px solid var(--cp-border-strong);
+        padding: 26px 0;
+      }
+
+      .evidence-graph figcaption {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 24px;
+      }
+
+      .evidence-graph figcaption strong {
+        font-size: 1rem;
+      }
+
+      .evidence-graph figcaption span {
+        color: var(--cp-text-muted);
+        font-size: 0.76rem;
+        text-align: right;
+      }
+
+      .rating-row {
+        display: grid;
+        grid-template-columns: 120px minmax(0, 1fr) 64px;
+        align-items: center;
+        gap: 16px;
+        margin-top: 12px;
+      }
+
+      .rating-label {
+        font: 750 0.76rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .rating-track {
+        position: relative;
+        height: 28px;
+        border: 1px solid var(--cp-border);
+        background: var(--cp-surface-soft);
+      }
+
+      .rating-fill {
+        display: block;
+        height: 100%;
+        background: var(--cp-accent);
+      }
+
+      .rating-fill.is-46 {
+        width: 100%;
+      }
+
+      .rating-fill.is-28 {
+        width: 60.87%;
+        background: var(--cp-border-strong);
+      }
+
+      .rating-value {
+        color: var(--cp-accent);
+        font: 850 1.2rem Consolas, "Courier New", Courier, monospace;
+        text-align: right;
+      }
+
+      .phase-keyline {
+        display: grid;
+        margin: 24px 0 0 224px;
+        grid-template-columns: 0.95fr 1.05fr 1fr;
+        border-block: 1px solid var(--cp-border-strong);
+      }
+
+      .phase-keyline > div {
+        min-width: 0;
+        padding: 24px;
+      }
+
+      .phase-keyline > div + div {
+        border-left: 1px solid var(--cp-border);
+      }
+
+      .phase-keyline dt {
+        color: var(--cp-accent);
+        font: 800 0.68rem/1.3 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.08em;
+      }
+
+      .phase-keyline dd {
+        margin: 10px 0 0;
+      }
+
+      .phase-keyline dd > strong {
+        display: block;
+        font-size: clamp(1.08rem, 1.7vw, 1.42rem);
+        line-height: 1.35;
+      }
+
+      .phase-keyline dd > p {
+        margin: 8px 0 0;
+        color: var(--cp-text-muted);
+        font-size: 0.82rem;
+        line-height: 1.6;
+      }
+
+      .mini-transform {
+        display: flex;
+        margin-top: 14px;
+        align-items: center;
+        gap: 8px;
+        color: var(--cp-text-muted);
+        font: 750 0.66rem/1.3 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .mini-transform i {
+        width: 22px;
+        height: 1px;
+        background: var(--cp-accent);
+      }
+
+      .solution-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin: 14px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .solution-tags li {
+        border: 1px solid var(--cp-border);
+        padding: 4px 6px;
+        color: var(--cp-text-muted);
+        font: 700 0.62rem/1.2 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .phase-roles {
+        margin: 28px 0 0 224px;
+        border-bottom: 1px solid var(--cp-border-strong);
+      }
+
+      .phase-roles > summary {
+        display: flex;
+        cursor: pointer;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 16px 0;
+        font-weight: 750;
+        list-style: none;
+      }
+
+      .phase-roles > summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .phase-roles > summary::after {
+        color: var(--cp-accent);
+        content: "＋";
+        font: 850 1rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .phase-roles[open] > summary::after {
+        content: "−";
+      }
+
+      .phase-roles .phase-work {
+        margin: 0;
+        border-bottom: 0;
+      }
+
+      .phase-work {
+        display: grid;
+        margin: 64px 0 0 224px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        border-block: 1px solid var(--cp-border-strong);
+      }
+
+      .work-lane {
+        min-height: 320px;
+        padding: 28px;
+        transition: opacity 180ms ease;
+      }
+
+      .work-lane + .work-lane {
+        border-left: 1px solid var(--cp-border);
+      }
+
+      .work-lane[data-actor-muted="true"] {
+        opacity: 0.3;
+      }
+
+      .lane-label {
+        display: inline-flex;
+        min-height: 28px;
+        align-items: center;
+        border: 1px solid var(--cp-border);
+        padding: 5px 8px;
+        color: var(--cp-text-muted);
+        font: 750 0.68rem/1.2 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.08em;
+      }
+
+      .work-lane[data-actor="copilot"] .lane-label {
+        border-color: var(--cp-accent);
+        color: var(--cp-accent);
+      }
+
+      .work-lane[data-actor="human"] .lane-label {
+        background: var(--cp-accent);
+        color: var(--cp-accent-fg);
+      }
+
+      .work-lane h3 {
+        margin: 22px 0 14px;
+        font-size: 1.2rem;
+        line-height: 1.35;
+      }
+
+      .work-lane ul {
+        display: grid;
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .work-lane li {
+        position: relative;
+        padding-left: 18px;
+        color: var(--cp-text-muted);
+        font-size: 0.92rem;
+      }
+
+      .work-lane li::before {
+        position: absolute;
+        top: 0.72em;
+        left: 0;
+        width: 7px;
+        height: 1px;
+        background: var(--cp-accent);
+        content: "";
+      }
+
+      .phase-outcome {
+        display: grid;
+        margin: 44px 0 0 224px;
+        grid-template-columns: minmax(0, 1fr) minmax(260px, 0.52fr);
+        border-bottom: 1px solid var(--cp-border-strong);
+      }
+
+      .phase-value,
+      .phase-handoff {
+        padding: 28px 0 32px;
+      }
+
+      .phase-value {
+        padding-right: 40px;
+      }
+
+      .phase-handoff {
+        border-left: 1px solid var(--cp-border);
+        padding-left: 32px;
+      }
+
+      .phase-outcome strong {
+        display: block;
+        margin-bottom: 10px;
+        color: var(--cp-accent);
+        font: 800 0.72rem/1.3 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.08em;
+      }
+
+      .phase-outcome p {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 680;
+        line-height: 1.55;
+      }
+
+      .phase-details {
+        margin: 24px 0 0 224px;
+        border-bottom: 1px solid var(--cp-border);
+      }
+
+      .phase-details summary {
+        display: flex;
+        cursor: pointer;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 18px 0;
+        font-weight: 750;
+        list-style: none;
+      }
+
+      .phase-details summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .phase-details summary::after {
+        content: "＋";
+        color: var(--cp-accent);
+        font: 800 1rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .phase-details[open] summary::after {
+        content: "−";
+      }
+
+      .detail-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 28px;
+        padding: 4px 0 28px;
+      }
+
+      .detail-grid h4 {
+        margin: 0 0 8px;
+        font-size: 0.9rem;
+      }
+
+      .detail-grid p,
+      .detail-grid li {
+        color: var(--cp-text-muted);
+        font-size: 0.88rem;
+      }
+
+      .detail-grid ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .source-badge {
+        display: inline-flex;
+        margin: 8px 6px 0 0;
+        padding: 6px 8px;
+        color: var(--cp-link);
+        text-decoration: none;
+      }
+
+      .source-badge:hover {
+        border-color: var(--cp-link);
+      }
+
+      .role-aware {
+        transition: opacity 180ms ease;
+      }
+
+      .role-aware[data-role-muted="true"] {
+        opacity: 0.25;
+      }
+
+      .relay-summary {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        border-block: 1px solid var(--cp-border-strong);
+      }
+
+      .relay-summary::before {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        left: 0;
+        height: 1px;
+        background: var(--cp-accent);
+        content: "";
+      }
+
+      .relay-step {
+        position: relative;
+        z-index: 2;
+        min-height: 190px;
+        background: var(--cp-bg);
+        padding: 24px;
+      }
+
+      .relay-step:nth-child(n + 5) {
+        border-top: 1px solid var(--cp-border);
+      }
+
+      .relay-step + .relay-step {
+        border-left: 1px solid var(--cp-border);
+      }
+
+      .relay-step strong {
+        display: block;
+        color: var(--cp-accent);
+        font: 800 0.76rem/1.3 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .relay-step h3 {
+        margin: 12px 0 8px;
+        font-size: 1.05rem;
+      }
+
+      .relay-step p {
+        margin: 0;
+        color: var(--cp-text-muted);
+        font-size: 0.84rem;
+      }
+
+      .role-console {
+        display: grid;
+        grid-template-columns: 260px minmax(0, 1fr);
+        gap: 40px;
+      }
+
+      .role-selector {
+        display: grid;
+        align-content: start;
+        gap: 6px;
+      }
+
+      .role-selector button {
+        border: 1px solid transparent;
+        border-radius: 0.625rem;
+        background: transparent;
+        padding: 10px 12px;
+        color: var(--cp-text-muted);
+        text-align: left;
+      }
+
+      .role-selector button:hover {
+        border-color: var(--cp-border);
+        background: var(--cp-surface);
+      }
+
+      .role-selector button[aria-pressed="true"] {
+        border-color: var(--cp-accent);
+        background: var(--cp-accent-soft);
+        color: var(--cp-text);
+        font-weight: 750;
+      }
+
+      .role-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .role-table th,
+      .role-table td {
+        border-bottom: 1px solid var(--cp-border);
+        padding: 16px 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      .role-table th {
+        color: var(--cp-text-muted);
+        font: 750 0.68rem/1.4 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.08em;
+      }
+
+      .role-table td:first-child {
+        width: 22%;
+        font-weight: 750;
+      }
+
+      .role-table td {
+        color: var(--cp-text-muted);
+        font-size: 0.9rem;
+      }
+
+      .status-matrix {
+        display: grid;
+        border-top: 1px solid var(--cp-border-strong);
+      }
+
+      .status-row {
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr);
+        border-bottom: 1px solid var(--cp-border);
+      }
+
+      .status-row > * {
+        padding: 22px 0;
+      }
+
+      .status-row dt {
+        font-weight: 780;
+      }
+
+      .status-row dd {
+        margin: 0;
+        color: var(--cp-text-muted);
+      }
+
+      .status-tag {
+        display: inline-flex;
+        margin-right: 10px;
+        padding: 5px 8px;
+      }
+
+      .status-tag.is-current {
+        border-color: var(--cp-success);
+        color: var(--cp-success);
+      }
+
+      .status-tag.is-record {
+        border-color: var(--cp-link);
+        color: var(--cp-link);
+      }
+
+      .status-tag.is-fixture {
+        border-color: var(--cp-warning);
+        color: var(--cp-warning);
+      }
+
+      .status-tag.is-out {
+        border-color: var(--cp-danger);
+        color: var(--cp-danger);
+      }
+
+      .route-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .route-table th,
+      .route-table td {
+        border-bottom: 1px solid var(--cp-border);
+        padding: 18px 14px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      .route-table th {
+        color: var(--cp-text-muted);
+        font: 750 0.68rem/1.4 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.08em;
+      }
+
+      .route-table td:first-child {
+        width: 110px;
+        color: var(--cp-accent);
+        font: 750 0.78rem/1.4 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .route-table td:nth-child(2) {
+        width: 180px;
+        font-weight: 750;
+      }
+
+      .phase-feature-link,
+      .inline-feature-link,
+      .appendix-backlink {
+        color: var(--cp-link);
+        font-weight: 750;
+        text-underline-offset: 0.2em;
+      }
+
+      .phase-feature-link {
+        display: inline-flex;
+        margin-top: 12px;
+        font-size: 0.76rem;
+      }
+
+      .solution-tags a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .solution-tags a:hover {
+        color: var(--cp-link);
+        text-decoration: underline;
+        text-underline-offset: 0.18em;
+      }
+
+      .function-appendix-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 30px;
+      }
+
+      .function-appendix-nav a {
+        border: 1px solid var(--cp-border);
+        padding: 7px 9px;
+        color: var(--cp-text-muted);
+        font: 750 0.68rem/1.2 Consolas, "Courier New", Courier, monospace;
+        text-decoration: none;
+      }
+
+      .function-appendix-nav a:hover {
+        border-color: var(--cp-accent);
+        color: var(--cp-text);
+      }
+
+      .function-status-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 0 0 32px;
+        padding: 0;
+        list-style: none;
+      }
+
+      .status-tag.is-fallback {
+        border-color: var(--cp-border-strong);
+        border-style: dashed;
+        color: var(--cp-text-muted);
+      }
+
+      .status-tag.is-proposal {
+        border-color: var(--cp-accent);
+        border-style: dashed;
+        color: var(--cp-accent);
+      }
+
+      .feature-matrix-wrap {
+        overflow-x: auto;
+        border-block: 1px solid var(--cp-border-strong);
+      }
+
+      .feature-matrix {
+        width: 100%;
+        min-width: 960px;
+        border-collapse: collapse;
+      }
+
+      .feature-matrix th,
+      .feature-matrix td {
+        border-bottom: 1px solid var(--cp-border);
+        padding: 12px 10px;
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      .feature-matrix th {
+        color: var(--cp-text-muted);
+        font: 750 0.64rem/1.35 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.05em;
+      }
+
+      .feature-matrix th:first-child,
+      .feature-matrix td:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 2;
+        background: var(--cp-bg-elevated);
+        text-align: left;
+      }
+
+      .matrix-use {
+        display: inline-grid;
+        width: 24px;
+        height: 24px;
+        place-items: center;
+        border: 1px solid var(--cp-accent);
+        border-radius: 50%;
+        color: var(--cp-accent);
+        font: 850 0.66rem Consolas, "Courier New", Courier, monospace;
+      }
+
+      .matrix-support {
+        color: var(--cp-text-muted);
+        font-size: 0.72rem;
+      }
+
+      .function-phase {
+        padding: 72px 0 20px;
+        border-top: 1px solid var(--cp-border-strong);
+      }
+
+      .function-phase-header {
+        display: grid;
+        grid-template-columns: 180px minmax(0, 1fr);
+        gap: 30px;
+        align-items: start;
+        margin-bottom: 28px;
+      }
+
+      .function-phase-code {
+        color: var(--cp-accent);
+        font: 850 0.82rem/1.4 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.08em;
+      }
+
+      .function-phase-header h3 {
+        margin: 0;
+        font-size: clamp(1.8rem, 3vw, 2.8rem);
+        line-height: 1.12;
+      }
+
+      .function-phase-header p {
+        max-width: 68ch;
+        margin: 10px 0 0;
+        color: var(--cp-text-muted);
+      }
+
+      .function-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 36px;
+      }
+
+      .function-group > h4 {
+        margin: 0;
+        border-bottom: 1px solid var(--cp-border-strong);
+        padding: 0 0 12px;
+        font: 850 0.76rem/1.4 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.08em;
+      }
+
+      .function-entry {
+        padding: 22px 0;
+        border-bottom: 1px solid var(--cp-border);
+      }
+
+      .function-entry-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .function-entry h5 {
+        margin: 0;
+        font-size: 1.02rem;
+        line-height: 1.4;
+      }
+
+      .function-entry > p {
+        margin: 10px 0 0;
+        color: var(--cp-text-muted);
+        font-size: 0.88rem;
+        line-height: 1.7;
+      }
+
+      .function-entry dl {
+        display: grid;
+        grid-template-columns: 82px minmax(0, 1fr);
+        gap: 8px 12px;
+        margin: 16px 0 0;
+        font-size: 0.78rem;
+      }
+
+      .function-entry dt {
+        color: var(--cp-text-soft);
+        font: 750 0.66rem/1.45 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .function-entry dd {
+        margin: 0;
+        color: var(--cp-text-muted);
+      }
+
+      .function-entry code {
+        font: 0.7rem/1.45 Consolas, "Courier New", Courier, monospace;
+        overflow-wrap: anywhere;
+      }
+
+      .human-boundary-ledger,
+      .future-candidate-ledger {
+        display: grid;
+        grid-template-columns: 180px minmax(0, 1fr);
+        gap: 30px;
+        border-top: 1px solid var(--cp-border);
+        padding: 22px 0;
+      }
+
+      .human-boundary-ledger strong,
+      .future-candidate-ledger strong {
+        font: 800 0.7rem/1.4 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.06em;
+      }
+
+      .human-boundary-ledger p,
+      .future-candidate-ledger p {
+        margin: 0;
+        color: var(--cp-text-muted);
+      }
+
+      .function-phase-footer {
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 18px;
+      }
+
+      .appendix {
+        border-top: 1px solid var(--cp-border-strong);
+      }
+
+      .appendix-details {
+        margin-left: 0;
+      }
+
+      .citation {
+        display: grid;
+        grid-template-columns: 170px minmax(0, 1fr);
+        border-bottom: 1px solid var(--cp-border);
+      }
+
+      .citation > * {
+        padding: 22px 0;
+      }
+
+      .citation-id {
+        color: var(--cp-accent);
+        font: 800 0.78rem/1.5 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .citation-body p {
+        max-width: 70ch;
+        margin: 0;
+      }
+
+      .citation-body code {
+        display: block;
+        margin-top: 8px;
+        color: var(--cp-text-muted);
+        font: 0.76rem/1.5 Consolas, "Courier New", Courier, monospace;
+        overflow-wrap: anywhere;
+      }
+
+      .closing {
+        width: min(1220px, calc(100% - 32px));
+        margin-inline: auto;
+        padding: 120px 0 80px;
+      }
+
+      .closing blockquote {
+        max-width: 20ch;
+        margin: 0;
+        font-size: clamp(2.4rem, 6vw, 5rem);
+        font-weight: 830;
+        letter-spacing: -0.04em;
+        line-height: 1.08;
+      }
+
+      .closing blockquote span {
+        color: var(--cp-accent);
+      }
+
+      .closing-note {
+        max-width: 68ch;
+        margin: 40px 0 0;
+        color: var(--cp-text-muted);
+        line-height: 1.8;
+      }
+
+      footer {
+        border-top: 1px solid var(--cp-border);
+      }
+
+      .footer-inner {
+        display: flex;
+        width: min(1220px, calc(100% - 32px));
+        margin-inline: auto;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 28px 0;
+        color: var(--cp-text-muted);
+        font-size: 0.78rem;
+      }
+
+      .back-to-top {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        z-index: 60;
+        width: 44px;
+        height: 44px;
+        transform: translateY(90px);
+        border: 1px solid var(--cp-border-strong);
+        border-radius: 50%;
+        background: var(--cp-surface);
+        color: var(--cp-text);
+        font-weight: 850;
+        transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .back-to-top.is-visible {
+        transform: translateY(0);
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+      }
+
+      @media (max-width: 1100px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-schematic {
+          min-height: 580px;
+        }
+
+        .control-inner {
+          grid-template-columns: 1fr;
+        }
+
+        .lens-control {
+          overflow-x: auto;
+        }
+
+        .phase-work,
+        .phase-outcome,
+        .phase-details,
+        .visual-explainer,
+        .phase-keyline,
+        .phase-roles {
+          margin-left: 192px;
+        }
+
+        .phase-section::before {
+          left: 144px;
+        }
+
+        .phase-opening {
+          grid-template-columns: 144px minmax(0, 1fr);
+          gap: 48px;
+        }
+
+        .phase-work {
+          grid-template-columns: 1fr;
+        }
+
+        .work-lane + .work-lane {
+          border-top: 1px solid var(--cp-border);
+          border-left: 0;
+        }
+
+        .work-lane {
+          min-height: 0;
+        }
+      }
+
+      @media (max-width: 820px) {
+        html {
+          scroll-padding-top: 11.5rem;
+        }
+
+        body {
+          background: var(--cp-bg);
+        }
+
+        .brand span {
+          display: none;
+        }
+
+        .utility-inner {
+          min-height: 52px;
+        }
+
+        .utility-actions .compact-button:first-child {
+          display: none;
+        }
+
+        .hero {
+          min-height: auto;
+          padding-top: 72px;
+        }
+
+        .hero h1 {
+          font-size: clamp(3rem, 15vw, 4.9rem);
+        }
+
+        .hero-schematic {
+          min-height: 520px;
+        }
+
+        .control-dock {
+          top: 56px;
+        }
+
+        .phase-strip {
+          display: flex;
+          overflow-x: auto;
+          padding-bottom: 4px;
+        }
+
+        .phase-strip a {
+          min-width: 112px;
+        }
+
+        .section-heading,
+        .case-file,
+        .role-console {
+          grid-template-columns: 1fr;
+        }
+
+        .problem-ledger,
+        .responsibility-manifest,
+        .relay-summary {
+          grid-template-columns: 1fr;
+        }
+
+        .problem-ledger > div + div,
+        .actor-column + .actor-column,
+        .relay-step + .relay-step {
+          border-top: 1px solid var(--cp-border);
+          border-left: 0;
+        }
+
+        .paper-stack {
+          min-height: 700px;
+        }
+
+        .phase-section::before {
+          left: 23px;
+        }
+
+        .phase-opening {
+          grid-template-columns: 48px minmax(0, 1fr);
+          gap: 18px;
+        }
+
+        .phase-code {
+          writing-mode: vertical-rl;
+          padding: 12px 8px;
+        }
+
+        .phase-code span {
+          display: none;
+        }
+
+        .phase-work,
+        .phase-outcome,
+        .phase-details,
+        .visual-explainer,
+        .phase-keyline,
+        .phase-roles {
+          margin-left: 66px;
+        }
+
+        .phase-keyline {
+          grid-template-columns: 1fr;
+        }
+
+        .phase-keyline > div + div {
+          border-top: 1px solid var(--cp-border);
+          border-left: 0;
+        }
+
+        .asset-intake,
+        .decision-gate,
+        .build-pipeline,
+        .learning-router {
+          grid-template-columns: 1fr;
+        }
+
+        .asset-intake .diagram-arrow,
+        .decision-gate .diagram-arrow,
+        .build-pipeline .diagram-arrow,
+        .learning-router .diagram-arrow {
+          min-height: 28px;
+          transform: rotate(90deg);
+        }
+
+        .conflict-map {
+          grid-template-columns: 1fr;
+        }
+
+        .conflict-hold {
+          min-height: 130px;
+        }
+
+        .evidence-needed {
+          grid-column: auto;
+        }
+
+        .tree-branches {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .tree-branches::before,
+        .tree-leaf::before {
+          display: none;
+        }
+
+        .learning-lanes {
+          grid-template-columns: 1fr;
+        }
+
+        .return-paths {
+          grid-column: auto;
+        }
+
+        .phase-outcome {
+          grid-template-columns: 1fr;
+        }
+
+        .phase-handoff {
+          border-top: 1px solid var(--cp-border);
+          border-left: 0;
+          padding-left: 0;
+        }
+
+        .detail-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .relay-summary {
+          border-bottom: 0;
+        }
+
+        .relay-summary::before {
+          display: none;
+        }
+
+        .status-row,
+        .citation,
+        .function-phase-header,
+        .human-boundary-ledger,
+        .future-candidate-ledger {
+          grid-template-columns: 1fr;
+        }
+
+        .function-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .function-entry-head {
+          display: grid;
+        }
+
+        .function-entry dl {
+          grid-template-columns: 72px minmax(0, 1fr);
+        }
+
+        .status-row dt,
+        .citation-id {
+          padding-bottom: 0;
+        }
+
+        .route-table {
+          display: block;
+          overflow-x: auto;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .utility-inner,
+        .hero,
+        .control-inner,
+        .story-section,
+        .phase-section,
+        .closing,
+        .footer-inner,
+        .act-marker {
+          width: min(100% - 20px, 1220px);
+        }
+
+        .utility-actions {
+          gap: 4px;
+        }
+
+        .compact-button {
+          padding-inline: 8px;
+        }
+
+        .hero-schematic {
+          min-height: 460px;
+        }
+
+        .schematic-legend {
+          right: 20px;
+          bottom: 20px;
+        }
+
+        .phase-copy h2 {
+          font-size: clamp(2.5rem, 15vw, 4rem);
+        }
+
+        .phase-work,
+        .phase-outcome,
+        .phase-details,
+        .visual-explainer,
+        .phase-keyline,
+        .phase-roles {
+          margin-left: 52px;
+        }
+
+        .diagram-stage {
+          padding: 20px 16px;
+        }
+
+        .visual-explainer figcaption,
+        .evidence-graph figcaption {
+          display: grid;
+          gap: 6px;
+        }
+
+        .visual-explainer figcaption span,
+        .evidence-graph figcaption span {
+          text-align: left;
+        }
+
+        .asset-stream,
+        .bet-map,
+        .tree-branches {
+          grid-template-columns: 1fr;
+        }
+
+        .bet-map::before,
+        .bet-node::before {
+          display: none;
+        }
+
+        .bet-node {
+          margin-top: 8px;
+        }
+
+        .rating-row {
+          grid-template-columns: 94px minmax(0, 1fr) 48px;
+          gap: 10px;
+        }
+
+        .phase-opening {
+          grid-template-columns: 38px minmax(0, 1fr);
+          gap: 14px;
+        }
+
+        .phase-section::before {
+          left: 18px;
+        }
+
+        .work-lane {
+          padding: 22px 18px;
+        }
+
+        .protocol-row {
+          grid-template-columns: 1fr;
+          gap: 6px;
+        }
+
+        .footer-inner {
+          flex-direction: column;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+
+        .relay-signal {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @media print {
+        @page {
+          margin: 14mm;
+        }
+
+        body {
+          background: var(--cp-surface);
+        }
+
+        .reading-progress,
+        .utility-bar,
+        .control-dock,
+        .hero-actions,
+        .back-to-top,
+        .role-selector {
+          display: none !important;
+        }
+
+        .hero,
+        .story-section,
+        .phase-section,
+        .closing {
+          width: 100%;
+          min-height: 0;
+          padding: 16mm 0;
+          break-inside: avoid;
+        }
+
+        .hero {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .phase-details {
+          display: block;
+        }
+
+        .phase-details > * {
+          display: block;
+        }
+
+        .role-console {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">本文へ移動</a>
+    <div class="reading-progress" aria-hidden="true">
+      <span id="reading-progress-bar"></span>
+    </div>
+
+    <header class="utility-bar" aria-label="Presentation controls">
+      <div class="utility-inner">
+        <a class="brand" href="#top">
+          <strong>STAR RELAY</strong>
+          <span>Archive-to-Playable / workflow dossier</span>
+        </a>
+        <div class="utility-actions">
+          <a class="site-switch-link" href="./game-guide/">Game Guide</a>
+          <button class="compact-button" id="print-button" type="button">印刷</button>
+          <button class="compact-button" id="theme-button" type="button">Theme</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <h1 id="hero-title">過去の資産を、<em>未来の遊び</em>へ。</h1>
+        <p class="hero-lead">
+          架空の1998年アーケードゲーム『STAR RELAY』を題材に、古い資料を集めるところから、
+          新しいIP候補のplayable proofと次の学びまでを、GitHubとGitHub Copilotで
+          追跡可能につなぐ物語です。
+        </p>
+        <ul class="boundary-strip" aria-label="Demonstration boundary">
+          <li>FICTIONAL ARCHIVE</li>
+          <li>PRIVATE / OFFLINE</li>
+          <li>HUMAN DECISION</li>
+          <li>NO ANSWER KEY</li>
+        </ul>
+        <div class="hero-actions">
+          <a class="primary-link" href="#why">物語を始める</a>
+          <a class="secondary-link" href="#presenter-route">45–60分の進行を見る</a>
+        </div>
+      </div>
+
+      <div class="hero-schematic" aria-label="Seven-phase relay schematic">
+        <p class="schematic-title"><span>SR-WF/07</span> — DECISION TRACE</p>
+        <svg
+          class="relay-svg"
+          viewBox="0 0 620 520"
+          role="img"
+          aria-labelledby="relay-map-title relay-map-desc"
+        >
+          <title id="relay-map-title">ArchiveからLearnまでのrelay</title>
+          <desc id="relay-map-desc">
+            七つの工程を一本の経路で結び、Decideに人間のcheckpointを示す。
+          </desc>
+          <path
+            class="relay-track"
+            d="M70 70 C180 70 180 150 300 150 S430 70 550 90 S420 230 310 230 S170 300 80 300 S170 430 300 420 S430 330 550 410"
+          />
+          <path
+            class="relay-signal"
+            d="M70 70 C180 70 180 150 300 150 S430 70 550 90 S420 230 310 230 S170 300 80 300 S170 430 300 420 S430 330 550 410"
+          />
+          <circle class="relay-node" cx="70" cy="70" r="15" />
+          <circle class="relay-node" cx="300" cy="150" r="15" />
+          <circle class="relay-node" cx="550" cy="90" r="15" />
+          <circle class="relay-node is-human" cx="310" cy="230" r="17" />
+          <circle class="relay-node" cx="80" cy="300" r="15" />
+          <circle class="relay-node" cx="300" cy="420" r="15" />
+          <circle class="relay-node" cx="550" cy="410" r="15" />
+          <circle class="hero-core" cx="70" cy="70" r="7" />
+
+          <text class="relay-node-label" x="30" y="38">ARCHIVE</text>
+          <text class="relay-node-meta" x="30" y="118">govern assets</text>
+          <text class="relay-node-label" x="245" y="118">UNDERSTAND</text>
+          <text class="relay-node-meta" x="246" y="190">hold conflict</text>
+          <text class="relay-node-label" x="495" y="56">IMAGINE</text>
+          <text class="relay-node-meta" x="490" y="134">three futures</text>
+          <text class="relay-node-label" x="270" y="274">DECIDE</text>
+          <text class="relay-node-meta" x="260" y="294">human checkpoint</text>
+          <text class="relay-node-label" x="38" y="345">PLAN</text>
+          <text class="relay-node-meta" x="28" y="365">test contract</text>
+          <text class="relay-node-label" x="270" y="466">BUILD</text>
+          <text class="relay-node-meta" x="246" y="486">deterministic proof</text>
+          <text class="relay-node-label" x="520" y="456">LEARN</text>
+          <text class="relay-node-meta" x="490" y="476">return the signal</text>
+        </svg>
+        <div class="schematic-legend">
+          <span>○ workflow stage</span>
+          <span>● human decision gate</span>
+          <span>─ stable-ID lineage</span>
+        </div>
+      </div>
+      <figure class="evidence-graph" aria-labelledby="rating-graph-title">
+        <figcaption>
+          <strong id="rating-graph-title">Synthetic receive_rating average</strong>
+          <span>bar length is normalized to the larger observed average / 採否理由は示さない</span>
+        </figcaption>
+        <div class="rating-row">
+          <span class="rating-label">2P / 8 sessions</span>
+          <div class="rating-track" aria-hidden="true">
+            <span class="rating-fill is-46"></span>
+          </div>
+          <span class="rating-value">4.6</span>
+        </div>
+        <div class="rating-row">
+          <span class="rating-label">1P / 4 sessions</span>
+          <div class="rating-track" aria-hidden="true">
+            <span class="rating-fill is-28"></span>
+          </div>
+          <span class="rating-value">2.8</span>
+        </div>
+      </figure>
+    </section>
+
+    <nav class="control-dock" aria-label="Workflow navigation and lens controls">
+      <div class="control-inner">
+        <div class="phase-strip">
+          <a href="#archive" data-phase-link="archive">
+            <strong>Archive</strong><span>資産を知識へ</span>
+          </a>
+          <a href="#understand" data-phase-link="understand">
+            <strong>Understand</strong><span>境界を共有</span>
+          </a>
+          <a href="#imagine" data-phase-link="imagine">
+            <strong>Imagine</strong><span>未来を分岐</span>
+          </a>
+          <a href="#decide" data-phase-link="decide">
+            <strong>Decide</strong><span>人間が選ぶ</span>
+          </a>
+          <a href="#plan" data-phase-link="plan">
+            <strong>Plan</strong><span>契約へ分解</span>
+          </a>
+          <a href="#build" data-phase-link="build">
+            <strong>Build</strong><span>意味を守る</span>
+          </a>
+          <a href="#learn" data-phase-link="learn">
+            <strong>Learn</strong><span>問いへ戻す</span>
+          </a>
+        </div>
+        <div class="lens-control" role="group" aria-label="Responsibility lens">
+          <button type="button" data-lens="all" aria-pressed="true">全体</button>
+          <button type="button" data-lens="github" aria-pressed="false">GitHub</button>
+          <button type="button" data-lens="copilot" aria-pressed="false">Copilot</button>
+          <button type="button" data-lens="human" aria-pressed="false">Human</button>
+        </div>
+      </div>
+    </nav>
+    <p class="sr-only" id="filter-status" aria-live="polite">すべての役割を表示中</p>
+
+    <main id="main-content">
+      <section class="story-section" id="why" aria-labelledby="why-title">
+        <div class="section-heading">
+          <h2 id="why-title">ファイルが残っていても、知識が残っているとは限らない。</h2>
+          <p>
+            古いHDDや共有folderから資料が見つかっても、版、出所、権利、採用理由、
+            実装との差が分からなければ、新しいゲームを考える材料にはなりません。
+          </p>
+        </div>
+        <div class="problem-ledger">
+          <div>
+            <strong>資料は散在し、職種ごとに違う過去を見ている。</strong>
+            <p>
+              企画書、C source、parameter表、QA票、art/audio資料が別々に残り、
+              同じmechanicを指しているかさえ追えません。
+            </p>
+          </div>
+          <div>
+            <strong>AIは空白を、もっともらしい物語で埋められる。</strong>
+            <p>
+              参照位置と権利境界がなければ、探索の速さが誤った確信を増幅します。
+            </p>
+          </div>
+          <div>
+            <strong>決定と実装と学びが切れ、同じ議論を繰り返す。</strong>
+            <p>
+              なぜ選んだか、何を検証したか、何が分からないかが次のteamへ渡りません。
+            </p>
+          </div>
+        </div>
+        <div class="transformation-line" aria-label="Workflow transformation">
+          <span>SCATTERED ASSETS</span><i></i>
+          <span>GOVERNED ARCHIVE</span><i></i>
+          <span>SHARED UNDERSTANDING</span><i></i>
+          <span>TRACEABLE OPTIONS</span><i></i>
+          <span>HUMAN DECISION</span><i></i>
+          <span>TESTABLE PLAN</span><i></i>
+          <span>REPRODUCIBLE PLAYABLE</span><i></i>
+          <span>RESPONSIBLE LEARNING</span>
+        </div>
+      </section>
+
+      <section class="story-section" id="operating-model" aria-labelledby="model-title">
+        <div class="section-heading">
+          <h2 id="model-title">速さより先に、責任の置き場所を決める。</h2>
+          <p>
+            七工程すべてで役割分担は変わりません。GitHubが記憶し、Copilotが認知作業を
+            加速し、人間が創造と承認を担います。
+          </p>
+        </div>
+        <div class="responsibility-manifest">
+          <article class="actor-column" data-actor="github">
+            <div class="actor-name">GitHub</div>
+            <h3>共有記憶と、仕事の座標。</h3>
+            <p>
+              Repository、Issue、Discussion、Project、PR、Actions、Releaseを使い、
+              証拠、会話、判断、作業、検証をstable IDでつなぎます。
+            </p>
+          </article>
+          <article class="actor-column" data-actor="copilot">
+            <div class="actor-name">GitHub Copilot</div>
+            <h3>探索から学習整理までの相棒。</h3>
+            <p>
+              横断検索、Conflict整理、案の分岐、ADR草案、Slice分解、実装、test、
+              event集計を支援します。ただし決定者にはなりません。
+            </p>
+          </article>
+          <article class="actor-column" data-actor="human">
+            <div class="actor-name">Human</div>
+            <h3>創造上の選択と責任。</h3>
+            <p>
+              Finding昇格、Design Bet選択、ADR受理、rights、playtest解釈を担います。
+              「これで行く」と言えるのは人間だけです。
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="story-section" id="case-file" aria-labelledby="case-title">
+        <div class="section-heading">
+          <h2 id="case-title">事件簿：失われたPlayer 2。</h2>
+          <p>
+            『STAR RELAY』の資料は一つの歴史を語りません。この不一致が、workflow全体を
+            動かす問いになります。
+          </p>
+        </div>
+        <div class="case-file">
+          <div class="paper-stack" aria-label="Synthetic archive excerpts">
+            <article class="paper">
+              <div class="paper-head">
+                <span>PLANNING BRIEF / 1996</span><span>DRV-001</span>
+              </div>
+              <blockquote>
+                投げる側だけでなく、受ける側も移動とtimingを選ぶ。
+              </blockquote>
+              <p>active receiving / synthetic fixture</p>
+            </article>
+            <article class="paper">
+              <div class="paper-head">
+                <span>TRANSITION NOTES / 1997</span><span>DRV-002</span>
+              </div>
+              <blockquote>
+                Current target: Players = One。Shared screenはtargetから外れた。
+              </blockquote>
+              <p>この抜粋には変更理由が記録されていない。</p>
+            </article>
+            <article class="paper">
+              <div class="paper-head">
+                <span>LOCATION TEST / SYNTHETIC</span><span>DRV-016</span>
+              </div>
+              <blockquote>
+                受領評価平均は2P構成4.6、1P構成2.8。
+              </blockquote>
+              <p>集計は採否理由を記録していない。</p>
+            </article>
+          </div>
+          <div class="interpretation-protocol">
+            <div class="protocol-row">
+              <strong>EVIDENCE</strong>
+              <p>資料に明記された内容だけを、DRV IDとlocator付きで読む。</p>
+            </div>
+            <div class="protocol-row">
+              <strong>INFERENCE</strong>
+              <p>
+                「能動的受領が価値だった可能性」は仮説として扱い、確信度と反証条件を持つ。
+              </p>
+            </div>
+            <div class="protocol-row">
+              <strong>PROPOSAL</strong>
+              <p>新しいゲーム案は未来の選択肢であり、過去の事実として語らない。</p>
+            </div>
+            <span class="unknown-stamp">REASON: UNKNOWN</span>
+            <div>
+              <a class="source-badge" href="#cite-drv-001">DRV-001 / active-receiving</a>
+              <a class="source-badge" href="#cite-drv-002">DRV-002 / decision-table</a>
+              <a class="source-badge" href="#cite-drv-016">DRV-016 / rating-aggregate</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="act-marker" aria-label="Act one">
+        <div>
+          <strong>DISCOVER</strong>
+          <span>過去を一つの答えにせず、「何を持ち、何が分かるか」を共有する。</span>
+        </div>
+      </div>
+
+      <section
+        class="phase-section"
+        id="archive"
+        data-phase="archive"
+        aria-labelledby="archive-title"
+      >
+        <div class="phase-opening">
+          <div class="phase-code">
+            <strong>ARCHIVE</strong><span>入口</span>
+          </div>
+          <div class="phase-copy">
+            <h2 id="archive-title">ファイルを、AIが安全に読める開発知識へ。</h2>
+            <p class="phase-question">何が残っていて、誰が、何のために利用できるのか。</p>
+            <p class="phase-story">
+              企画書やsourceを置くだけでは、まだArchiveではありません。stable ID、path、
+              hash、media type、rights、AI利用可否、引用位置を付け、第三者とCopilotが
+              同じ資料へ戻れる状態にします。
+            </p>
+          </div>
+        </div>
+        <figure class="visual-explainer" aria-labelledby="archive-diagram-title">
+          <figcaption>
+            <strong id="archive-diagram-title">ASSET INTAKE → TRUSTED KNOWLEDGE</strong>
+            <span>異種fileを、検索・引用・監査できる単位へ</span>
+          </figcaption>
+          <div class="diagram-stage asset-intake">
+            <div class="asset-stream" aria-label="Incoming asset types">
+              <span class="asset-token">企画書</span>
+              <span class="asset-token">C89</span>
+              <span class="asset-token">CSV</span>
+              <span class="asset-token">QA</span>
+              <span class="asset-token">ART</span>
+              <span class="asset-token">AUDIO</span>
+            </div>
+            <div class="diagram-arrow" aria-hidden="true">→</div>
+            <div class="diagram-node catalog-node">
+              <strong>CATALOG</strong>
+              <small>ID / hash / locator<br />rights / eligibility</small>
+            </div>
+            <div class="diagram-arrow" aria-hidden="true">→</div>
+            <div class="knowledge-output" aria-label="Archive outputs">
+              <span><b>SEARCH</b> 職種横断で発見</span>
+              <span><b>CITE</b> 原資料へ戻る</span>
+              <span><b>AUDIT</b> 権利と整合性</span>
+              <span><b>STOP</b> Unknown rights</span>
+            </div>
+          </div>
+          <div class="diagram-note">
+            GitHubはfileを保存するだけでなく、Copilotが安全に探索できる境界を管理する。
+          </div>
+        </figure>
+        <dl class="phase-keyline">
+          <div>
+            <dt>まとめ</dt>
+            <dd>
+              <strong>散在するfileを、信頼できるArchiveへ。</strong>
+              <div class="mini-transform"><span>RAW ASSETS</span><i></i><span>TRUSTED KNOWLEDGE</span></div>
+            </dd>
+          </div>
+          <div>
+            <dt>キーソリューション</dt>
+            <dd>
+              <strong>Catalogとstable IDで、AIの探索境界を作る。</strong>
+              <ul class="solution-tags">
+                <li><a href="#feature-archive-repository-catalog">REPOSITORY</a></li>
+                <li><a href="#feature-archive-repository-catalog">CATALOG</a></li>
+                <li><a href="#feature-archive-actions-validation">ACTIONS</a></li>
+                <li><a href="#feature-archive-curator">COPILOT SEARCH</a></li>
+              </ul>
+            </dd>
+          </div>
+          <div>
+            <dt>伝えるべき価値</dt>
+            <dd>
+              <strong>AI活用の前に、信頼できる入口を作る。</strong>
+              <p>速く探せるだけでなく、原資料とrightsへ戻れる。</p>
+              <a class="phase-feature-link" href="#appendix-archive">この工程の機能一覧 →</a>
+            </dd>
+          </div>
+        </dl>
+        <details class="phase-roles">
+          <summary>具体的な作業を見る — GitHub / Copilot / Human</summary>
+          <div class="phase-work">
+          <article class="work-lane" data-actor="github">
+            <span class="lane-label">GITHUB</span>
+            <h3>資産を一元化し、出所と状態を残す。</h3>
+            <ul>
+              <li><a class="inline-feature-link" href="#feature-archive-repository-catalog">Repository</a>へcode、文書、表、QA、art/audio metadataを格納</li>
+              <li><a class="inline-feature-link" href="#feature-archive-repository-catalog">Asset Catalog</a>へstable ID、hash、locator、classificationを登録</li>
+              <li><a class="inline-feature-link" href="#feature-archive-actions-validation">Actions / Content Validation</a>で整合性を検査</li>
+              <li>不明点を<a class="inline-feature-link" href="#feature-archive-issue-explorer">Archive Question Issue</a>として起票</li>
+            </ul>
+          </article>
+          <article class="work-lane" data-actor="copilot">
+            <span class="lane-label">COPILOT</span>
+            <h3><a class="inline-feature-link" href="#feature-archive-curator">Archive Curator</a>で異種資料を横断探索する。</h3>
+            <ul>
+              <li>企画、仕様、QA、sourceから同じmechanicを探す</li>
+              <li>stable IDとlocator付きで関連箇所を返す</li>
+              <li>metadata不足や参照不能な箇所を指摘する</li>
+              <li>rightsや出所が不明なら`risk:rights`で停止する</li>
+            </ul>
+          </article>
+          <article class="work-lane" data-actor="human">
+            <span class="lane-label">HUMAN</span>
+            <h3>読ませてよいものを決める。</h3>
+            <ul>
+              <li>assetの出所、権利、利用範囲を確認</li>
+              <li>Archiveへ登録する資料を選定</li>
+              <li>AI eligibilityをアクセス制御と誤認しない</li>
+              <li>不明素材を使わない判断をする</li>
+            </ul>
+          </article>
+          </div>
+        </details>
+        <div class="phase-outcome">
+          <div class="phase-value">
+            <strong>VALUE</strong>
+            <p>過去資産が「読めるファイル」から「根拠を確認できる共有知識」へ変わる。</p>
+          </div>
+          <div class="phase-handoff">
+            <strong>HANDOFF TO UNDERSTAND</strong>
+            <p>利用可能なArchive＋調べるべき質問</p>
+          </div>
+        </div>
+        <details class="phase-details">
+          <summary>現在のデモで見せられること</summary>
+          <div class="detail-grid">
+            <div>
+              <h4>Current implementation record</h4>
+              <p>
+                30 synthetic DRV、8 media categories、Archive Explorer、7 Evidence packets、
+                catalog / locator validationをlocal/offlineで確認できます。
+              </p>
+            </div>
+            <div>
+              <h4>Boundary</h4>
+              <p>
+                実在Office / PDF ingest、変換Actions、商用rights clearanceは未実装です。
+              </p>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section
+        class="phase-section"
+        id="understand"
+        data-phase="understand"
+        aria-labelledby="understand-title"
+      >
+        <div class="phase-opening">
+          <div class="phase-code">
+            <strong>UNDERSTAND</strong><span>読解</span>
+          </div>
+          <div class="phase-copy">
+            <h2 id="understand-title">矛盾を消さず、理解の境界を共有する。</h2>
+            <p class="phase-question">資料から何が分かり、何がまだ分からないのか。</p>
+            <p class="phase-story">
+              2P構想、1P target、受領評価、画面幅、筐体制約を横断します。
+              「古い資料ほど正しい」といった暗黙の優先規則は使いません。
+            </p>
+          </div>
+        </div>
+        <figure class="visual-explainer" aria-labelledby="understand-diagram-title">
+          <figcaption>
+            <strong id="understand-diagram-title">CONFLICT IS A FIRST-CLASS OUTPUT</strong>
+            <span>片側を消さず、追加Evidenceの条件へ</span>
+          </figcaption>
+          <div class="diagram-stage conflict-map">
+            <div class="conflict-side">
+              <strong>SIDE A / DRV-001</strong>
+              <p>受け手も移動とtimingを選ぶ2P構想</p>
+              <small>proposal record</small>
+            </div>
+            <div class="conflict-hold">
+              <div class="conflict-diamond"><span>UNRESOLVED<br />CFL</span></div>
+            </div>
+            <div class="conflict-side">
+              <strong>SIDE B / DRV-002</strong>
+              <p>Current targetはPlayers = One</p>
+              <small>reason not recorded</small>
+            </div>
+            <div class="evidence-needed">
+              <span>必要な追加Evidence</span>
+              <span>decision record</span>
+              <span>build context</span>
+              <span>運用制約</span>
+            </div>
+          </div>
+          <div class="diagram-note">
+            Copilotの価値はwinnerを選ぶことではなく、何を読めば判断できるかを明確にすること。
+          </div>
+        </figure>
+        <dl class="phase-keyline">
+          <div>
+            <dt>まとめ</dt>
+            <dd>
+              <strong>矛盾する資料を、共有できる理解の境界へ。</strong>
+              <div class="mini-transform"><span>CONFLICTING SOURCES</span><i></i><span>SHARED BOUNDARY</span></div>
+            </dd>
+          </div>
+          <div>
+            <dt>キーソリューション</dt>
+            <dd>
+              <strong>複数資料を横断し、Conflictを未解決のまま保持する。</strong>
+              <ul class="solution-tags">
+                <li><a href="#feature-understand-evidence-packets">EVIDENCE PACKET</a></li>
+                <li><a href="#feature-understand-collaboration">ISSUE</a></li>
+                <li><a href="#feature-understand-collaboration">DISCUSSION</a></li>
+                <li><a href="#feature-understand-prompts">OPEN QUESTIONS</a></li>
+              </ul>
+            </dd>
+          </div>
+          <div>
+            <dt>伝えるべき価値</dt>
+            <dd>
+              <strong>「分からない」ことも、次の仕事になる。</strong>
+              <p>誤った合意より、追加Evidenceへ進める共通理解を作る。</p>
+              <a class="phase-feature-link" href="#appendix-understand">この工程の機能一覧 →</a>
+            </dd>
+          </div>
+        </dl>
+        <details class="phase-roles">
+          <summary>具体的な作業を見る — GitHub / Copilot / Human</summary>
+          <div class="phase-work">
+          <article class="work-lane" data-actor="github">
+            <span class="lane-label">GITHUB</span>
+            <h3>問い、会話、状態を別のsurfaceで管理する。</h3>
+            <ul>
+              <li><a class="inline-feature-link" href="#feature-understand-evidence-packets">Evidence packet</a>をcross-asset reading setとして使う</li>
+              <li>調査単位を<a class="inline-feature-link" href="#feature-understand-collaboration">Issue</a>、会話を<a class="inline-feature-link" href="#feature-understand-collaboration">Discussion</a>へ置く</li>
+              <li><a class="inline-feature-link" href="#feature-understand-collaboration">Project</a>でStage、Gate、Disciplineを可視化</li>
+              <li>ConflictのSide A / Side Bを両方保持</li>
+            </ul>
+          </article>
+          <article class="work-lane" data-actor="copilot">
+            <span class="lane-label">COPILOT</span>
+            <h3>Evidence、Inference、Unknownを分ける。</h3>
+            <ul>
+              <li><a class="inline-feature-link" href="#feature-understand-prompts">Prompt 01</a>で出荷版の再構成を資料別に整理</li>
+              <li><a class="inline-feature-link" href="#feature-understand-prompts">Prompt 02</a>でConflict候補と不一致の種類を列挙</li>
+              <li>解消に必要な追加証拠を示す</li>
+              <li>「結局どちらが正しいか」には答えない</li>
+            </ul>
+          </article>
+          <article class="work-lane" data-actor="human">
+            <span class="lane-label">HUMAN</span>
+            <h3>不明を残し、昇格を判断する。</h3>
+            <ul>
+              <li>InferenceをFindingへ昇格するかreview</li>
+              <li>Conflictを裁定するならADRで判断を残す</li>
+              <li>資料の射程を越えた主張を退ける</li>
+              <li>「分からない」を正式な成果として認める</li>
+            </ul>
+          </article>
+          </div>
+        </details>
+        <div class="phase-outcome">
+          <div class="phase-value">
+            <strong>VALUE</strong>
+            <p>部門ごとの解釈差が、再読可能なConflictとOpen questionへ変わる。</p>
+          </div>
+          <div class="phase-handoff">
+            <strong>HANDOFF TO IMAGINE</strong>
+            <p>review済み理解＋未解決Conflict＋反証可能なHypothesis</p>
+          </div>
+        </div>
+        <details class="phase-details">
+          <summary>STAR RELAYで扱う代表的な問い</summary>
+          <div class="detail-grid">
+            <div>
+              <h4>CHAIN 30 / 32</h4>
+              <p>公開表示、内部counter、QA観測を同じ仕様として潰さずに並置します。</p>
+            </div>
+            <div>
+              <h4>Player 2 removal</h4>
+              <p>体験評価と筐体・表示制約を分け、採否理由を補完しません。</p>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <div class="act-marker" aria-label="Act two">
+        <div>
+          <strong>CREATE</strong>
+          <span>過去の仕様をコピーせず、未来の選択肢へ翻訳し、人間が決める。</span>
+        </div>
+      </div>
+
+      <section
+        class="phase-section"
+        id="imagine"
+        data-phase="imagine"
+        aria-labelledby="imagine-title"
+      >
+        <div class="phase-opening">
+          <div class="phase-code">
+            <strong>IMAGINE</strong><span>発散</span>
+          </div>
+          <div class="phase-copy">
+            <h2 id="imagine-title">過去の定数ではなく、遊びの関係を未来へ移す。</h2>
+            <p class="phase-question">このArchiveから、どんな新しい体験を作り得るのか。</p>
+            <p class="phase-story">
+              「2人用」という表層ではなく、受け手にも判断と失敗可能性があり、
+              受領によって役割が変わる関係をPlay DNA候補として抽出します。
+            </p>
+          </div>
+        </div>
+        <figure class="visual-explainer" aria-labelledby="imagine-diagram-title">
+          <figcaption>
+            <strong id="imagine-diagram-title">ONE PLAY DNA → THREE UNSELECTED FUTURES</strong>
+            <span>見た目ではなく、緊張・関係・失敗形で分岐</span>
+          </figcaption>
+          <div class="diagram-stage bet-map">
+            <div class="diagram-node dna-node">
+              <strong>PLAY DNA CANDIDATE</strong>
+              <small>受領は、次の役割を引き受ける能動的な行為</small>
+            </div>
+            <div class="diagram-node bet-node">
+              <strong>DIRECTION A / UNSELECTED</strong>
+              <ul>
+                <li><b>TENSION</b><span>timing同期</span></li>
+                <li><b>RELATION</b><span>対等協力</span></li>
+                <li><b>FAILURE</b><span>受領不成立</span></li>
+              </ul>
+            </div>
+            <div class="diagram-node bet-node">
+              <strong>DIRECTION B / UNSELECTED</strong>
+              <ul>
+                <li><b>TENSION</b><span>役割交代</span></li>
+                <li><b>RELATION</b><span>非対称協力</span></li>
+                <li><b>FAILURE</b><span>ownership停滞</span></li>
+              </ul>
+            </div>
+            <div class="diagram-node bet-node">
+              <strong>DIRECTION C / UNSELECTED</strong>
+              <ul>
+                <li><b>TENSION</b><span>signal制約</span></li>
+                <li><b>RELATION</b><span>間接協力</span></li>
+                <li><b>FAILURE</b><span>伝達欠落</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="diagram-note">
+            これは比較構造の例であり、既存BETの正解、推薦、採用を示さない。
+          </div>
+        </figure>
+        <dl class="phase-keyline">
+          <div>
+            <dt>まとめ</dt>
+            <dd>
+              <strong>過去のEvidenceを、比較可能な三つの未来へ。</strong>
+              <div class="mini-transform"><span>PLAY DNA</span><i></i><span>3 FUTURES</span></div>
+            </dd>
+          </div>
+          <div>
+            <dt>キーソリューション</dt>
+            <dd>
+              <strong>Invariantと3軸差異で、似た案の量産を防ぐ。</strong>
+              <ul class="solution-tags">
+                <li><a href="#feature-imagine-prompts">PLAY DNA</a></li>
+                <li><a href="#feature-imagine-prompts">FALSIFIED IF</a></li>
+                <li><a href="#feature-imagine-prompts">3-AXIS TABLE</a></li>
+                <li><a href="#feature-imagine-facilitator">NO RANKING</a></li>
+              </ul>
+            </dd>
+          </div>
+          <div>
+            <dt>伝えるべき価値</dt>
+            <dd>
+              <strong>発想の量より、人間が比較できる質。</strong>
+              <p>由来、捨てるもの、反証条件を失わずに未来を広げる。</p>
+              <a class="phase-feature-link" href="#appendix-imagine">この工程の機能一覧 →</a>
+            </dd>
+          </div>
+        </dl>
+        <details class="phase-roles">
+          <summary>具体的な作業を見る — GitHub / Copilot / Human</summary>
+          <div class="phase-work">
+          <article class="work-lane" data-actor="github">
+            <span class="lane-label">GITHUB</span>
+            <h3>候補から由来Evidenceへ戻れる状態を保つ。</h3>
+            <ul>
+              <li><a class="inline-feature-link" href="#feature-imagine-discussion-project">Design Lab Discussion</a>で比較軸を共有</li>
+              <li><a class="inline-feature-link" href="#feature-imagine-discussion-project">Design Bet Portfolio</a>で候補群を可視化</li>
+              <li>未選択案を正式BETへ自動昇格しない</li>
+              <li>未解決Conflictを各案へ持ち越す</li>
+            </ul>
+          </article>
+          <article class="work-lane" data-actor="copilot">
+            <span class="lane-label">COPILOT</span>
+            <h3><a class="inline-feature-link" href="#feature-imagine-facilitator">Design Facilitator</a>で未来を三方向へ分岐する。</h3>
+            <ul>
+              <li><a class="inline-feature-link" href="#feature-imagine-prompts">Prompt 03</a>で関係としてのInvariantを候補化</li>
+              <li>Portable quality、Not implied、Falsified ifを整理</li>
+              <li><a class="inline-feature-link" href="#feature-imagine-prompts">Prompt 04</a>で中心的緊張、関係、失敗形が異なる3 Betを生成</li>
+              <li>推奨、順位付け、採用をしない</li>
+            </ul>
+          </article>
+          <article class="work-lane" data-actor="human">
+            <span class="lane-label">HUMAN</span>
+            <h3>当時の制約と、残したい体験を切り分ける。</h3>
+            <ul>
+              <li>320px、panel、ROM容量などhardware制約を除外</li>
+              <li>3案が見た目違いの同一gameでないか確認</li>
+              <li>Accessibilityやproduction制約を比較軸へ加える</li>
+              <li>この時点ではまだ選ばない</li>
+            </ul>
+          </article>
+          </div>
+        </details>
+        <div class="phase-outcome">
+          <div class="phase-value">
+            <strong>VALUE</strong>
+            <p>ノスタルジーに寄らず、根拠と反証条件を持つ本質的に異なる未来を比較できる。</p>
+          </div>
+          <div class="phase-handoff">
+            <strong>HANDOFF TO DECIDE</strong>
+            <p>根拠＋差異＋捨てるものを持つ無順位の選択肢群</p>
+          </div>
+        </div>
+        <details class="phase-details">
+          <summary>Design Betを異なるものにする3軸</summary>
+          <div class="detail-grid">
+            <div>
+              <h4>Structural difference</h4>
+              <ul>
+                <li>中心的な緊張</li>
+                <li>プレイヤー同士またはAIとの関係</li>
+                <li>失敗の形</li>
+              </ul>
+            </div>
+            <div>
+              <h4>Not enough</h4>
+              <p>theme、見た目、mode数、platformだけの差は別のBetとは数えません。</p>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section
+        class="phase-section"
+        id="decide"
+        data-phase="decide"
+        aria-labelledby="decide-title"
+      >
+        <div class="phase-opening">
+          <div class="phase-code">
+            <strong>DECIDE</strong><span>選択</span>
+          </div>
+          <div class="phase-copy">
+            <h2 id="decide-title">AIの提案を、人間の意思へ変える。</h2>
+            <p class="phase-question">どの方向へ進み、なぜ他の方向を選ばないのか。</p>
+            <p class="phase-story">
+              Creative DirectorやGame Directorが一案を選び、自分の言葉で理由を残します。
+              Copilotはその理由を改変せず、監査可能なADR草案へ整えます。
+            </p>
+          </div>
+        </div>
+        <figure class="visual-explainer" aria-labelledby="decide-diagram-title">
+          <figcaption>
+            <strong id="decide-diagram-title">COPILOT DRAFTS / HUMAN DECIDES</strong>
+            <span>選択、署名、accepted化は人間checkpoint</span>
+          </figcaption>
+          <div class="diagram-stage decision-gate">
+            <div class="candidate-stack" aria-label="Unselected candidates">
+              <span>BET A</span><span>BET B</span><span>BET C</span>
+            </div>
+            <div class="diagram-arrow" aria-hidden="true">→</div>
+            <div class="human-checkpoint">
+              <strong>HUMAN<br />SELECTS<br />＋ REASON</strong>
+            </div>
+            <div class="diagram-arrow" aria-hidden="true">→</div>
+            <div class="adr-stack">
+              <div class="adr-step is-proposed">
+                <span class="diagram-label">COPILOT OUTPUT</span>
+                <small>ADR / Status: proposed<br />Decisionは人間文言のまま</small>
+              </div>
+              <div class="adr-step is-accepted">
+                <span class="diagram-label">HUMAN SIGNATURE GATE</span>
+                <small>accepted / Decided by / Decided at</small>
+              </div>
+            </div>
+          </div>
+          <div class="diagram-note">
+            proposedのまま止まることも正しい。Project statusはADR署名の代わりにならない。
+          </div>
+        </figure>
+        <dl class="phase-keyline">
+          <div>
+            <dt>まとめ</dt>
+            <dd>
+              <strong>AIの選択肢を、人間の意思決定へ。</strong>
+              <div class="mini-transform"><span>UNSELECTED OPTIONS</span><i></i><span>HUMAN DECISION</span></div>
+            </dd>
+          </div>
+          <div>
+            <dt>キーソリューション</dt>
+            <dd>
+              <strong>人間の理由を改変せず、proposed ADRへ整える。</strong>
+              <ul class="solution-tags">
+                <li><a href="#feature-decide-bet-adr">BET ID</a></li>
+                <li><a href="#feature-decide-prompt">HUMAN REASON</a></li>
+                <li><a href="#feature-decide-prompt">PROPOSED ADR</a></li>
+                <li><a href="#feature-decide-bet-adr">SIGNATURE GATE</a></li>
+              </ul>
+            </dd>
+          </div>
+          <div>
+            <dt>伝えるべき価値</dt>
+            <dd>
+              <strong>AIの提案と、人間の責任を分離する。</strong>
+              <p>誰が、何を、なぜ選び、いつ見直すかを将来まで残す。</p>
+              <a class="phase-feature-link" href="#appendix-decide">この工程の機能一覧 →</a>
+            </dd>
+          </div>
+        </dl>
+        <details class="phase-roles">
+          <summary>具体的な作業を見る — GitHub / Copilot / Human</summary>
+          <div class="phase-work">
+          <article class="work-lane" data-actor="github">
+            <span class="lane-label">GITHUB</span>
+            <h3>判断の正本を、会話や作業から分離する。</h3>
+            <ul>
+              <li>人間が選んだ<a class="inline-feature-link" href="#feature-decide-bet-adr">Bet record</a>を採番して保存</li>
+              <li><a class="inline-feature-link" href="#feature-decide-bet-adr">ADR</a>をDecisionのsource of truthにする</li>
+              <li><a class="inline-feature-link" href="#feature-decide-project-lineage">Discussion / Issue / Project</a>で比較・作業・状態を分離</li>
+              <li><a class="inline-feature-link" href="#feature-decide-project-lineage">Creative Lineage</a>で後続SliceとPRへ接続</li>
+            </ul>
+          </article>
+          <article class="work-lane" data-actor="copilot">
+            <span class="lane-label">COPILOT</span>
+            <h3><a class="inline-feature-link" href="#feature-decide-prompt">Prompt 05</a>で人間の理由を変更せずADR草案へ。</h3>
+            <ul>
+              <li>保存済みBET IDと人間の理由がなければ停止</li>
+              <li>Decisionへ理由を忠実に転記</li>
+              <li>ConsequencesとReversal conditionsを整理</li>
+              <li>Statusはproposed、署名欄は空に保つ</li>
+            </ul>
+          </article>
+          <article class="work-lane" data-actor="human">
+            <span class="lane-label">HUMAN</span>
+            <h3>「これで行く」と宣言する。</h3>
+            <ul>
+              <li>Betの選択と理由の記述</li>
+              <li>BET IDの採番と保存</li>
+              <li>ADRのDecisionを確認</li>
+              <li>受理または却下、署名、実日付を記入</li>
+            </ul>
+          </article>
+          </div>
+        </details>
+        <div class="phase-outcome">
+          <div class="phase-value">
+            <strong>VALUE</strong>
+            <p>AIの提案と人間の判断が混ざらず、「なぜ作るか」が将来まで残る。</p>
+          </div>
+          <div class="phase-handoff">
+            <strong>HANDOFF TO PLAN</strong>
+            <p>人間が署名し、厳密にacceptedとなったADR</p>
+          </div>
+        </div>
+        <details class="phase-details">
+          <summary>現在のdemoで重要な停止例</summary>
+          <div class="detail-grid">
+            <div>
+              <h4>ADR-001</h4>
+              <p>
+                `Accepted for Phase 2 only`はstrict gateが求める`accepted`と一致しないため、
+                新しいPlanは停止します。
+              </p>
+            </div>
+            <div>
+              <h4>Training fixture</h4>
+              <p>
+                `ADR-DEMO-001`は計画練習用で、ゲーム設計や実装承認ではありません。
+              </p>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <div class="act-marker" aria-label="Act three">
+        <div>
+          <strong>DELIVER</strong>
+          <span>人間の判断を検証可能な契約とplayableへ変え、観測を次の問いへ戻す。</span>
+        </div>
+      </div>
+
+      <section
+        class="phase-section"
+        id="plan"
+        data-phase="plan"
+        aria-labelledby="plan-title"
+      >
+        <div class="phase-opening">
+          <div class="phase-code">
+            <strong>PLAN</strong><span>分解</span>
+          </div>
+          <div class="phase-copy">
+            <h2 id="plan-title">Creative intentを、職種横断の作業契約へ。</h2>
+            <p class="phase-question">何を作れば、この判断を最小構成で検証できるのか。</p>
+            <p class="phase-story">
+              「実装してください」では、制作中に意味が変わります。accepted ADRを、
+              Vertical Slice、Epic、Sub-issue、観測可能な受入条件へ分解します。
+            </p>
+          </div>
+        </div>
+        <figure class="visual-explainer" aria-labelledby="plan-diagram-title">
+          <figcaption>
+            <strong id="plan-diagram-title">DECISION → TESTABLE WORK BREAKDOWN</strong>
+            <span>意味を変えず、独立検証できる単位へ</span>
+          </figcaption>
+          <div class="diagram-stage plan-tree">
+            <div class="diagram-node tree-root">
+              <strong>ACCEPTED ADR</strong>
+              <small>human decision / exact status gate</small>
+            </div>
+            <span class="tree-link" aria-hidden="true"></span>
+            <div class="diagram-node tree-epic">
+              <strong>VERTICAL SLICE + EPIC</strong>
+              <small>input X → observable Y / command + pass condition</small>
+            </div>
+            <div class="tree-branches" aria-label="Discipline work breakdown">
+              <div class="diagram-node tree-leaf"><strong>GAMEPLAY</strong><small>invariant</small></div>
+              <div class="diagram-node tree-leaf"><strong>ENGINE</strong><small>determinism</small></div>
+              <div class="diagram-node tree-leaf"><strong>QA</strong><small>equivalence</small></div>
+              <div class="diagram-node tree-leaf"><strong>ART / UX</strong><small>readability</small></div>
+              <div class="diagram-node tree-leaf"><strong>AUDIO</strong><small>rights gate</small></div>
+              <div class="diagram-node tree-leaf"><strong>PLATFORM</strong><small>offline</small></div>
+            </div>
+          </div>
+          <div class="diagram-note">
+            ADRにない意味変更はsub-issueへ混ぜず、`要ADR`としてDecideへ戻す。
+          </div>
+        </figure>
+        <dl class="phase-keyline">
+          <div>
+            <dt>まとめ</dt>
+            <dd>
+              <strong>Creative decisionを、検証可能な作業契約へ。</strong>
+              <div class="mini-transform"><span>DECISION</span><i></i><span>TEST CONTRACT</span></div>
+            </dd>
+          </div>
+          <div>
+            <dt>キーソリューション</dt>
+            <dd>
+              <strong>strict gateと観測可能な受入条件で分解する。</strong>
+              <ul class="solution-tags">
+                <li><a href="#feature-plan-prompt-gate">ACCEPTED ADR</a></li>
+                <li><a href="#feature-plan-slice-issues">VERTICAL SLICE</a></li>
+                <li><a href="#feature-plan-slice-issues">EPIC</a></li>
+                <li><a href="#feature-plan-slice-issues">SUB-ISSUES</a></li>
+              </ul>
+            </dd>
+          </div>
+          <div>
+            <dt>伝えるべき価値</dt>
+            <dd>
+              <strong>未承認仕様をBuildへ流さない。</strong>
+              <p>職種が違っても、同じintentと合格条件から作業を始められる。</p>
+              <a class="phase-feature-link" href="#appendix-plan">この工程の機能一覧 →</a>
+            </dd>
+          </div>
+        </dl>
+        <details class="phase-roles">
+          <summary>具体的な作業を見る — GitHub / Copilot / Human</summary>
+          <div class="phase-work">
+          <article class="work-lane" data-actor="github">
+            <span class="lane-label">GITHUB</span>
+            <h3>職種ごとのworkを、一つのSliceへ接続する。</h3>
+            <ul>
+              <li><a class="inline-feature-link" href="#feature-plan-slice-issues">Vertical Slice</a>をRepositoryで管理</li>
+              <li><a class="inline-feature-link" href="#feature-plan-slice-issues">Epic / Sub-issues</a>へ分解</li>
+              <li><a class="inline-feature-link" href="#feature-plan-project-forms">Project fields / views</a>でDiscipline、Stage、Gate、Priorityを管理</li>
+              <li>Human decisionとRights reviewをBuild前に置く</li>
+            </ul>
+          </article>
+          <article class="work-lane" data-actor="copilot">
+            <span class="lane-label">COPILOT</span>
+            <h3><a class="inline-feature-link" href="#feature-plan-planner">Slice Planner</a>で観測可能な契約へ変える。</h3>
+            <ul>
+              <li>ADRの存在とStatusを厳密に確認</li>
+              <li>入力X → 観測Y型の受入条件を作る</li>
+              <li>検証command、合格条件、対象外、riskを整理</li>
+              <li>ADR外の要求を`要ADR`として分離</li>
+            </ul>
+          </article>
+          <article class="work-lane" data-actor="human">
+            <span class="lane-label">HUMAN</span>
+            <h3>Buildへ投入する契約をreviewする。</h3>
+            <ul>
+              <li>PlanがDecisionを変えていないか確認</li>
+              <li>優先順位、担当、見積前提を決定</li>
+              <li>rights blockerと依存を解消</li>
+              <li>Issue / Projectへの正式投入とBuild開始を判断</li>
+            </ul>
+          </article>
+          </div>
+        </details>
+        <div class="phase-outcome">
+          <div class="phase-value">
+            <strong>VALUE</strong>
+            <p>Designerのintentを、Engineer、QA、Art、Audio、UX、Platformへ同じ契約で渡す。</p>
+          </div>
+          <div class="phase-handoff">
+            <strong>HANDOFF TO BUILD</strong>
+            <p>職種別に独立検証できるBuild-ready backlog</p>
+          </div>
+        </div>
+        <details class="phase-details">
+          <summary>Playable planning guardrails</summary>
+          <div class="detail-grid">
+            <div>
+              <h4>Determinism first</h4>
+              <p>60Hz固定tick、safe integer state、固定seed、暗黙順序禁止を先に契約化します。</p>
+            </div>
+            <div>
+              <h4>Meaning change</h4>
+              <p>rule、balance、勝敗条件、操作意味を変えるならPlanではなくADRへ戻します。</p>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section
+        class="phase-section"
+        id="build"
+        data-phase="build"
+        aria-labelledby="build-title"
+      >
+        <div class="phase-opening">
+          <div class="phase-code">
+            <strong>BUILD</strong><span>実装</span>
+          </div>
+          <div class="phase-copy">
+            <h2 id="build-title">Copilotで速く作り、GitHubで意味を守る。</h2>
+            <p class="phase-question">決めた体験を、同じ入力から同じ結果へ実装できるか。</p>
+            <p class="phase-story">
+              既存thin lineageでは、Legacy replayとSECOND HAND handoffの二つのproofを
+              Buildします。完成ゲームではなく、選んだ関係を最小構成で検証します。
+            </p>
+          </div>
+        </div>
+        <figure class="visual-explainer" aria-labelledby="build-diagram-title">
+          <figcaption>
+            <strong id="build-diagram-title">DETERMINISM PIPELINE</strong>
+            <span>同じ入力を、runtimeを越えて同じstateへ</span>
+          </figcaption>
+          <div class="diagram-stage build-pipeline">
+            <div class="input-pair">
+              <div class="diagram-node"><strong>FIXED REPLAY</strong><small>1800 ticks</small></div>
+              <div class="diagram-node"><strong>INPUT MASK</strong><small>local / deterministic AI</small></div>
+            </div>
+            <div class="diagram-arrow" aria-hidden="true">→</div>
+            <div class="diagram-node">
+              <strong>60 Hz INTEGER SIM</strong>
+              <small>safe integer state<br />fixed seed / explicit order</small>
+            </div>
+            <div class="diagram-arrow" aria-hidden="true">→</div>
+            <div class="diagram-node hash-node">
+              <strong>CANONICAL HASH</strong>
+              <span class="hash-value">STATE / CHECKPOINT</span>
+              <small>renderer floatはstateへ戻さない</small>
+            </div>
+            <div class="diagram-arrow" aria-hidden="true">→</div>
+            <div class="runtime-pair">
+              <div class="diagram-node"><strong>NODE</strong><small>hash A</small></div>
+              <div class="equal-mark">＝ SAME</div>
+              <div class="diagram-node"><strong>BROWSER</strong><small>hash A</small></div>
+            </div>
+          </div>
+          <div class="diagram-note">
+            Actionsはtypecheck、test、build、offline smoke、allowlist、checksumを検査する。
+          </div>
+        </figure>
+        <dl class="phase-keyline">
+          <div>
+            <dt>まとめ</dt>
+            <dd>
+              <strong>作業契約を、再現可能なplayable proofへ。</strong>
+              <div class="mini-transform"><span>TEST CONTRACT</span><i></i><span>PLAYABLE PROOF</span></div>
+            </dd>
+          </div>
+          <div>
+            <dt>キーソリューション</dt>
+            <dd>
+              <strong>決定的simulationとActionsで、runtime差を検出する。</strong>
+              <ul class="solution-tags">
+                <li><a href="#feature-build-actions">60 HZ</a></li>
+                <li><a href="#feature-build-actions">INTEGER STATE</a></li>
+                <li><a href="#feature-build-actions">CANONICAL HASH</a></li>
+                <li><a href="#feature-build-package-release">OFFLINE PACKAGE</a></li>
+              </ul>
+            </dd>
+          </div>
+          <div>
+            <dt>伝えるべき価値</dt>
+            <dd>
+              <strong>速く作りながら、ゲームの意味を守る。</strong>
+              <p>Copilotの実装速度を、GitHubのtraceabilityと自動gateで支える。</p>
+              <a class="phase-feature-link" href="#appendix-build">この工程の機能一覧 →</a>
+            </dd>
+          </div>
+        </dl>
+        <details class="phase-roles">
+          <summary>具体的な作業を見る — GitHub / Copilot / Human</summary>
+          <div class="phase-work">
+          <article class="work-lane" data-actor="github">
+            <span class="lane-label">GITHUB</span>
+            <h3>Issue、PR、Actions、packageを一つのtraceへ。</h3>
+            <ul>
+              <li><a class="inline-feature-link" href="#feature-build-issue-pr">Issue → Pull Request</a>へADR / VS / stable IDを接続</li>
+              <li><a class="inline-feature-link" href="#feature-build-actions">Actions</a>でtypecheck、test、build、offline smoke</li>
+              <li><a class="inline-feature-link" href="#feature-build-issue-pr">PR review</a>で受入条件と差分を確認</li>
+              <li><a class="inline-feature-link" href="#feature-build-package-release">Offline package / manifest / SHA-256</a>を生成</li>
+            </ul>
+          </article>
+          <article class="work-lane" data-actor="copilot">
+            <span class="lane-label">COPILOT</span>
+            <h3><a class="inline-feature-link" href="#feature-build-copilot-coding">Repository-aware coding session</a>でcodeとtestを作る。</h3>
+            <ul>
+              <li>既存helperとsimulation境界を探索</li>
+              <li>targeted testから実装と検証を進める</li>
+              <li>replay mismatchやhandoff failureを調査</li>
+              <li>未成功のtestやreleaseを成功と報告しない</li>
+            </ul>
+          </article>
+          <article class="work-lane" data-actor="human">
+            <span class="lane-label">HUMAN</span>
+            <h3>gameplayと配布の最終責任を持つ。</h3>
+            <ul>
+              <li>PRと体験のreview</li>
+              <li>meaning changeの承認または差戻し</li>
+              <li>rights / license確認</li>
+              <li>draft Releaseを公開するか判断</li>
+            </ul>
+          </article>
+          </div>
+        </details>
+        <div class="phase-outcome">
+          <div class="phase-value">
+            <strong>VALUE</strong>
+            <p>実装速度と、Node / browser / offlineで同じgame meaningを保つ再現性を両立する。</p>
+          </div>
+          <div class="phase-handoff">
+            <strong>HANDOFF TO LEARN</strong>
+            <p>playable＋build ID＋hash＋test結果＋numeric event</p>
+          </div>
+        </div>
+        <details class="phase-details">
+          <summary>現在のtechnical proof</summary>
+          <div class="detail-grid">
+            <div>
+              <h4>Legacy proof</h4>
+              <p>60Hz、1800 tick、fixed seed、canonical checkpoint / final hash。</p>
+            </div>
+            <div>
+              <h4>SECOND HAND proof</h4>
+              <p>
+                local 2P、owner一意性、handoff sequence単調増加、deterministic AI input、
+                latency fixture。
+              </p>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section
+        class="phase-section"
+        id="learn"
+        data-phase="learn"
+        aria-labelledby="learn-title"
+      >
+        <div class="phase-opening">
+          <div class="phase-code">
+            <strong>LEARN</strong><span>循環</span>
+          </div>
+          <div class="phase-copy">
+            <h2 id="learn-title">観測を正解にせず、次の問いへ戻す。</h2>
+            <p class="phase-question">何を観測し、何はまだ判断できないのか。</p>
+            <p class="phase-story">
+              handoffが成立しても、「楽しい」「理解された」とは言えません。件数付きの観測、
+              見直し候補、判断不能事項へ分け、適切な工程へ戻します。
+            </p>
+          </div>
+        </div>
+        <figure class="visual-explainer" aria-labelledby="learn-diagram-title">
+          <figcaption>
+            <strong id="learn-diagram-title">OBSERVATION ROUTER</strong>
+            <span>eventを自動決定にせず、適切な工程へ返す</span>
+          </figcaption>
+          <div class="diagram-stage learning-router">
+            <div class="event-stream" aria-label="Enum-only event stream">
+              <div class="event-chip"><b>01</b><span>handoff requested</span></div>
+              <div class="event-chip"><b>02</b><span>handoff accepted</span></div>
+              <div class="event-chip"><b>03</b><span>sequence / tick / actor</span></div>
+            </div>
+            <div class="diagram-arrow" aria-hidden="true">→</div>
+            <div class="learning-lanes">
+              <div class="diagram-node learning-lane">
+                <strong>OBSERVED</strong>
+                <small>PT ID＋件数<br />起きたことだけ</small>
+              </div>
+              <div class="diagram-node learning-lane">
+                <strong>LEARNING CANDIDATE</strong>
+                <small>見直し対象ID<br />反証条件＋追加data</small>
+              </div>
+              <div class="diagram-node learning-lane is-insufficient">
+                <strong>INSUFFICIENT</strong>
+                <small>楽しさ・理解・一般傾向はまだ不明</small>
+              </div>
+            </div>
+            <div class="return-paths" aria-label="Workflow return paths">
+              <span>rights → ARCHIVE</span>
+              <span>missing evidence → UNDERSTAND</span>
+              <span>new hypothesis → IMAGINE</span>
+              <span>decision review → DECIDE</span>
+              <span>experiment → PLAN</span>
+              <span>defect → BUILD</span>
+            </div>
+          </div>
+          <div class="diagram-note">
+            氏名、自由記述、感情、device ID、IP、telemetryを生成・収集しない。
+          </div>
+        </figure>
+        <dl class="phase-keyline">
+          <div>
+            <dt>まとめ</dt>
+            <dd>
+              <strong>小さなeventを、責任ある次の問いへ。</strong>
+              <div class="mini-transform"><span>EVENTS</span><i></i><span>NEXT QUESTION</span></div>
+            </dd>
+          </div>
+          <div>
+            <dt>キーソリューション</dt>
+            <dd>
+              <strong>Observed、Candidate、Insufficientへroutingする。</strong>
+              <ul class="solution-tags">
+                <li><a href="#feature-learn-events">ENUM ONLY</a></li>
+                <li><a href="#feature-learn-prompt">COUNTS</a></li>
+                <li><a href="#feature-learn-prompt">FALSIFIER</a></li>
+                <li><a href="#feature-learn-work-items">RETURN PATH</a></li>
+              </ul>
+            </dd>
+          </div>
+          <div>
+            <dt>伝えるべき価値</dt>
+            <dd>
+              <strong>観測を、自動決定にしない。</strong>
+              <p>少数dataを過剰解釈せず、適切な工程と人間reviewへ返す。</p>
+              <a class="phase-feature-link" href="#appendix-learn">この工程の機能一覧 →</a>
+            </dd>
+          </div>
+        </dl>
+        <details class="phase-roles">
+          <summary>具体的な作業を見る — GitHub / Copilot / Human</summary>
+          <div class="phase-work">
+          <article class="work-lane" data-actor="github">
+            <span class="lane-label">GITHUB</span>
+            <h3>学びをwork itemとして追跡し、元の判断へ戻る。</h3>
+            <ul>
+              <li><a class="inline-feature-link" href="#feature-learn-work-items">Learning Issue / Milestone</a>を作る</li>
+              <li><a class="inline-feature-link" href="#feature-learn-work-items">Project Learning Loop view</a>で状態を追跡</li>
+              <li>BET、ADR、VSへstable IDで戻る</li>
+              <li>不具合とdesign learningを分ける</li>
+            </ul>
+          </article>
+          <article class="work-lane" data-actor="copilot">
+            <span class="lane-label">COPILOT</span>
+            <h3><a class="inline-feature-link" href="#feature-learn-prompt">Prompt 07</a>でObserved、候補、Insufficientへ分ける。</h3>
+            <ul>
+              <li>eventを件数付きで集計</li>
+              <li>見直し対象のBET / ADRと反証条件を整理</li>
+              <li>追加で必要なdataを示す</li>
+              <li>参加者、感情、統計結果を捏造しない</li>
+            </ul>
+          </article>
+          <article class="work-lane" data-actor="human">
+            <span class="lane-label">HUMAN</span>
+            <h3>学びを解釈し、戻り先を決める。</h3>
+            <ul>
+              <li>少数eventから一般化しない</li>
+              <li>追加playtestとresearch protocolを設計</li>
+              <li>BET / ADRを見直すか判断</li>
+              <li>Finding昇格、consent、rightsをreview</li>
+            </ul>
+          </article>
+          </div>
+        </details>
+        <div class="phase-outcome">
+          <div class="phase-value">
+            <strong>VALUE</strong>
+            <p>playtestを逸話や自動決定にせず、反証可能な次の仕事へ変える。</p>
+          </div>
+          <div class="phase-handoff">
+            <strong>RETURN THE SIGNAL</strong>
+            <p>rights→Archive / 不足資料→Understand / 仮説→Imagine / 判断→Decide</p>
+          </div>
+        </div>
+        <details class="phase-details">
+          <summary>Privacy-safe learning boundary</summary>
+          <div class="detail-grid">
+            <div>
+              <h4>What is recorded</h4>
+              <p>sequence、tick、numeric event code、actor、valueをbrowser memoryに保持します。</p>
+            </div>
+            <div>
+              <h4>What is not recorded</h4>
+              <p>氏名、email、自由記述、device ID、IP、telemetry upload、accountはありません。</p>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section class="story-section" id="relay-summary" aria-labelledby="summary-title">
+        <div class="section-heading">
+          <h2 id="summary-title">一つのCoreが、形を変えながら全工程を渡る。</h2>
+          <p>
+            工程の価値は単体機能ではなく、前工程の成果を失わず、次工程が使える形へ変える
+            handoffにあります。
+          </p>
+        </div>
+        <div class="relay-summary">
+          <article class="relay-step">
+            <strong>START</strong><h3>Scattered assets</h3>
+            <p>個人PC、folder、古い媒体に分散した資料。</p>
+          </article>
+          <article class="relay-step">
+            <strong>ARCHIVE</strong><h3>Governed knowledge</h3>
+            <p>ID、rights、hash、locator付きの資産。</p>
+          </article>
+          <article class="relay-step">
+            <strong>UNDERSTAND</strong><h3>Shared boundary</h3>
+            <p>Evidence、Conflict、Unknownが共有される。</p>
+          </article>
+          <article class="relay-step">
+            <strong>IMAGINE</strong><h3>Traceable options</h3>
+            <p>由来と反証条件を持つ複数の未来。</p>
+          </article>
+          <article class="relay-step">
+            <strong>DECIDE</strong><h3>Human decision</h3>
+            <p>人間の理由と署名を持つADR。</p>
+          </article>
+          <article class="relay-step">
+            <strong>PLAN</strong><h3>Test contract</h3>
+            <p>観測可能な受入条件とBuild-ready backlog。</p>
+          </article>
+          <article class="relay-step">
+            <strong>BUILD</strong><h3>Reproducible proof</h3>
+            <p>同じ入力から同じhashへ到達するplayable。</p>
+          </article>
+          <article class="relay-step">
+            <strong>LEARN</strong><h3>Responsible question</h3>
+            <p>断定ではなく、次の工程へ戻す問い。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="story-section" id="role-value" aria-labelledby="role-title">
+        <div class="section-heading">
+          <h2 id="role-title">同じworkflowを、違う職種の価値で読む。</h2>
+          <p>
+            左の職種を選ぶと関連箇所が強調されます。役割を孤立させず、同じstable IDと
+            gateを共有することがGitHub上の協業価値です。
+          </p>
+        </div>
+        <div class="role-console">
+          <div class="role-selector" role="group" aria-label="Profession lens">
+            <button type="button" data-role-filter="all" aria-pressed="true">すべての職種</button>
+            <button type="button" data-role-filter="design" aria-pressed="false">Design / Direction</button>
+            <button type="button" data-role-filter="production" aria-pressed="false">Production</button>
+            <button type="button" data-role-filter="engineering" aria-pressed="false">Engineering</button>
+            <button type="button" data-role-filter="qa" aria-pressed="false">QA / Data</button>
+            <button type="button" data-role-filter="creative" aria-pressed="false">Art / Audio / UX</button>
+            <button type="button" data-role-filter="platform" aria-pressed="false">Platform / Release</button>
+            <button type="button" data-role-filter="archive" aria-pressed="false">Archive / Rights</button>
+          </div>
+          <div>
+            <table class="role-table">
+              <thead>
+                <tr>
+                  <th>Role</th><th>GitHub / Copilotの価値</th><th>主な工程</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="role-aware" data-roles="design">
+                  <td>Designer / Director</td>
+                  <td>根拠付きの案を比較し、選択理由と体験意図を実装・学習まで保つ。</td>
+                  <td>Understand → Decide → Learn</td>
+                </tr>
+                <tr class="role-aware" data-roles="production">
+                  <td>Producer / PM</td>
+                  <td>Issue、Project、Gateで職種横断の状態とblockerを一つの座標へ置く。</td>
+                  <td>全工程</td>
+                </tr>
+                <tr class="role-aware" data-roles="engineering">
+                  <td>Gameplay / Engine</td>
+                  <td>資料とDecisionへ戻りながら、決定的simulationとtest contractを実装する。</td>
+                  <td>Archive → Plan → Build</td>
+                </tr>
+                <tr class="role-aware" data-roles="qa">
+                  <td>QA / Data</td>
+                  <td>仕様差をConflictとして保持し、受入条件、hash、eventを再現可能にする。</td>
+                  <td>Understand → Build → Learn</td>
+                </tr>
+                <tr class="role-aware" data-roles="creative">
+                  <td>Art / Audio / UX</td>
+                  <td>表現とgame meaningを分け、可読性・入力・rightsを独立したgateへする。</td>
+                  <td>Imagine → Plan → Build</td>
+                </tr>
+                <tr class="role-aware" data-roles="platform">
+                  <td>Platform / Release</td>
+                  <td>Actions、offline smoke、manifest、checksumで再現可能なprivate deliveryを作る。</td>
+                  <td>Plan → Build → Learn</td>
+                </tr>
+                <tr class="role-aware" data-roles="archive">
+                  <td>Archive / Rights</td>
+                  <td>出所、classification、AI利用範囲を管理し、不明素材を使用前に止める。</td>
+                  <td>Archive → Understand → Build</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="story-section" id="current-state" aria-labelledby="state-title">
+        <div class="section-heading">
+          <h2 id="state-title">デモで見せられることと、まだ言えないこと。</h2>
+          <p>
+            capabilityを誇張しないこともworkflowの一部です。local実装、過去のlive記録、
+            fixture、未実装を明確に分けます。
+          </p>
+        </div>
+        <dl class="status-matrix">
+          <div class="status-row">
+            <dt><span class="status-tag is-current">LOCAL / OFFLINE</span></dt>
+            <dd>
+              30 synthetic DRV、Archive / Lineage、2 playable proof、deterministic tests、
+              offline package、manifest、SHA-256。
+            </dd>
+          </div>
+          <div class="status-row">
+            <dt><span class="status-tag is-record">PAST LIVE RECORD</span></dt>
+            <dd>
+              private repository、Issues、Discussions、Project、Actions、private draft Release。
+              現在のlive stateをこのartifactから保証しない。
+            </dd>
+          </div>
+          <div class="status-row">
+            <dt><span class="status-tag is-fixture">FIXTURE / CONFIG</span></dt>
+            <dd>
+              PT-001の2 automated events、training ADR、prompt / agent files、Wiki / Space
+              fallback。実人間評価や実装承認と呼ばない。
+            </dd>
+          </div>
+          <div class="status-row">
+            <dt><span class="status-tag is-out">OUT OF SCOPE</span></dt>
+            <dd>
+              実在旧資産ingest、商用rights clearance、実人間playtest、online backend、
+              telemetry、public Pages / Release、production game、市場価値。
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <section
+        class="story-section"
+        id="presenter-route"
+        aria-labelledby="presenter-title"
+      >
+        <div class="section-heading">
+          <h2 id="presenter-title">45〜60分で、この物語をどう話すか。</h2>
+          <p>
+            詳細を全部読むのではなく、「同じ問いが工程ごとに何へ変わるか」をrelayとして
+            見せます。折りたたみ部分は質疑または長尺時に使います。
+          </p>
+        </div>
+        <table class="route-table">
+          <thead>
+            <tr><th>目安</th><th>章</th><th>見せること</th><th>一言で残す価値</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>0–6分</td><td>Opening</td><td>業界課題、三者の役割、STAR RELAY case</td><td>AI作品ではなく判断workflow</td></tr>
+            <tr><td>6–13分</td><td>Archive</td><td>異種資産、catalog、rights、横断探索</td><td>fileを共有知識へ</td></tr>
+            <tr><td>13–20分</td><td>Understand</td><td>2P / 1P Conflict、Unknown、追加証拠</td><td>矛盾を消さない</td></tr>
+            <tr><td>20–28分</td><td>Imagine</td><td>Play DNA、hardware制約、3 Bet</td><td>根拠付きで未来を分岐</td></tr>
+            <tr><td>28–35分</td><td>Decide</td><td>人間選択、ADR草案、strict gate</td><td>Copilotに決めさせない</td></tr>
+            <tr><td>35–42分</td><td>Plan</td><td>Slice、Issue、受入条件、要ADR</td><td>未承認仕様を流さない</td></tr>
+            <tr><td>42–52分</td><td>Build</td><td>Legacy、SECOND HAND、Actions、offline</td><td>速度と意味の再現性</td></tr>
+            <tr><td>52–58分</td><td>Learn</td><td>numeric event、Insufficient、戻り先</td><td>観測を自動決定にしない</td></tr>
+            <tr><td>58–60分</td><td>Closing</td><td>一本のlineageと現状境界</td><td>共有記憶・加速・人間判断</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section
+        class="story-section"
+        id="function-appendix"
+        aria-labelledby="function-appendix-title"
+      >
+        <div class="section-heading">
+          <h2 id="function-appendix-title">Appendix A — GitHub / Copilot Function Reference</h2>
+          <p>
+            本文で触れた具体的なGitHub surface、Copilot agent / prompt、validator、
+            fallbackを工程別に解決します。将来候補は必ず未実装として分離しています。
+          </p>
+        </div>
+
+        <nav class="function-appendix-nav" aria-label="Function appendix phases">
+          <a href="#appendix-archive">Archive</a>
+          <a href="#appendix-understand">Understand</a>
+          <a href="#appendix-imagine">Imagine</a>
+          <a href="#appendix-decide">Decide</a>
+          <a href="#appendix-plan">Plan</a>
+          <a href="#appendix-build">Build</a>
+          <a href="#appendix-learn">Learn</a>
+        </nav>
+
+        <ul class="function-status-legend" aria-label="Capability status legend">
+          <li><span class="status-tag is-current">LOCAL / OFFLINE実装済み</span></li>
+          <li><span class="status-tag is-record">過去LIVE確認記録</span></li>
+          <li><span class="status-tag is-fixture">設定済み・RUNTIME未確認</span></li>
+          <li><span class="status-tag is-fallback">FALLBACK</span></li>
+          <li><span class="status-tag is-proposal">PROPOSAL / 未実装</span></li>
+        </ul>
+
+        <div class="feature-matrix-wrap">
+          <table class="feature-matrix">
+            <caption class="sr-only">工程ごとのGitHubおよびGitHub Copilot機能利用matrix</caption>
+            <thead>
+              <tr>
+                <th>Phase</th>
+                <th>Repository<br />Records</th>
+                <th>Issue</th>
+                <th>Discussion</th>
+                <th>Project</th>
+                <th>PR / Actions<br />Release</th>
+                <th>Agent / Prompt<br />Instructions</th>
+                <th>Offline<br />Fallback</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a href="#appendix-archive">Archive</a></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-support">—</span></td>
+                <td><span class="matrix-support">support</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+              </tr>
+              <tr>
+                <td><a href="#appendix-understand">Understand</a></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-support">validate</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+              </tr>
+              <tr>
+                <td><a href="#appendix-imagine">Imagine</a></td>
+                <td><span class="matrix-support">lineage</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-support">validate</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+              </tr>
+              <tr>
+                <td><a href="#appendix-decide">Decide</a></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-support">work</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-support">validate</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+              </tr>
+              <tr>
+                <td><a href="#appendix-plan">Plan</a></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-support">review</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-support">validate</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+              </tr>
+              <tr>
+                <td><a href="#appendix-build">Build</a></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-support">—</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+              </tr>
+              <tr>
+                <td><a href="#appendix-learn">Learn</a></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-support">event</span></td>
+                <td><span class="matrix-use">●</span></td>
+                <td><span class="matrix-use">●</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <article class="function-phase" id="appendix-archive">
+          <header class="function-phase-header">
+            <div class="function-phase-code">ARCHIVE</div>
+            <div>
+              <h3>古いassetを、探索・引用・監査できる知識へ変える機能。</h3>
+              <p>Team question: 何が残っていて、誰が、何のために利用できるのか。</p>
+            </div>
+          </header>
+          <div class="function-grid">
+            <section class="function-group">
+              <h4>GITHUB FUNCTIONS</h4>
+              <article class="function-entry" id="feature-archive-repository-catalog">
+                <div class="function-entry-head">
+                  <h5>Repository + Asset Catalog</h5>
+                  <span class="status-tag is-current">LOCAL / OFFLINE</span>
+                </div>
+                <p>異種資料をsource of truthとして保存し、stable ID、path、hash、locator、rights、AI eligibilityを管理します。</p>
+                <dl>
+                  <dt>操作</dt><dd>`archive/derived/**`と`archive/catalog/assets.yaml`を照合する。</dd>
+                  <dt>成果物</dt><dd>第三者とCopilotが同じ位置へ戻れるasset record。</dd>
+                  <dt>Source</dt><dd><code>archive/catalog/assets.yaml</code></dd>
+                </dl>
+              </article>
+              <article class="function-entry" id="feature-archive-actions-validation">
+                <div class="function-entry-head">
+                  <h5>Actions / Content Validation</h5>
+                  <span class="status-tag is-current">LOCAL / OFFLINE</span>
+                </div>
+                <p>catalogとfileの一対一対応、hash、locator、eligibility、timelineを自動検査します。</p>
+                <dl>
+                  <dt>操作</dt><dd><code>npm run validate:content</code></dd>
+                  <dt>成果物</dt><dd>Archiveの参照切れや未宣言locatorをBuild前に検出するgate。</dd>
+                  <dt>Source</dt><dd><code>package.json / scripts/validate-content.ts</code></dd>
+                </dl>
+              </article>
+              <article class="function-entry" id="feature-archive-issue-explorer">
+                <div class="function-entry-head">
+                  <h5>Archive Explorer + Archive Question Issue</h5>
+                  <div><span class="status-tag is-current">LOCAL UI</span><span class="status-tag is-record">PAST LIVE</span></div>
+                </div>
+                <p>ID、title、date、media typeで検索し、不足情報や横断調査をstable ID付きIssueへ渡します。</p>
+                <dl>
+                  <dt>操作</dt><dd>Archive ExplorerでDRVを検索し、declared locatorを確認する。</dd>
+                  <dt>成果物</dt><dd>Understandへ渡せるbounded question。</dd>
+                  <dt>Source</dt><dd><code>apps/demo-site/src/archive-view.ts / ops/github/surfaces.json</code></dd>
+                </dl>
+              </article>
+            </section>
+            <section class="function-group">
+              <h4>GITHUB COPILOT FUNCTIONS</h4>
+              <article class="function-entry" id="feature-archive-curator">
+                <div class="function-entry-head">
+                  <h5>Archive Curator custom agent</h5>
+                  <span class="status-tag is-record">SELECTABLE記録</span>
+                </div>
+                <p>demo-safeかつAI eligibleなDRVだけをread/searchし、IDとlocator付きで整理するread-only agentです。</p>
+                <dl>
+                  <dt>操作</dt><dd>対象mechanicや資料種別を指定して関連assetを探索する。</dd>
+                  <dt>境界</dt><dd>file変更、command、外部検索、Conflict裁定をしない。</dd>
+                  <dt>Source</dt><dd><code>.github/agents/archive-curator.agent.md</code></dd>
+                </dl>
+              </article>
+              <article class="function-entry" id="feature-archive-instructions">
+                <div class="function-entry-head">
+                  <h5>Repository / Path Instructions</h5>
+                  <span class="status-tag is-record">APPLIED記録</span>
+                </div>
+                <p>Evidence、rights、playable、designのpathごとに、Copilotが使えるsourceと禁止操作を制約します。</p>
+                <dl>
+                  <dt>操作</dt><dd>作業対象pathに対応するinstructionsをsessionへ適用する。</dd>
+                  <dt>成果物</dt><dd>存在しないID、未宣言locator、権利不明素材を止める実行境界。</dd>
+                  <dt>Source</dt><dd><code>.github/copilot-instructions.md / .github/instructions/**</code></dd>
+                </dl>
+              </article>
+              <article class="function-entry" id="feature-archive-agent-fallback">
+                <div class="function-entry-head">
+                  <h5>Agent / Prompt paste fallback</h5>
+                  <span class="status-tag is-fallback">FALLBACK</span>
+                </div>
+                <p>custom agentやprompt pickerがsurfaceに出ない場合、agent本文とprompt本文を順にchatへ貼り付けます。</p>
+                <dl>
+                  <dt>用途</dt><dd>surface差があっても同じ境界を再現する。</dd>
+                  <dt>注意</dt><dd>runtime activation済みと表現せず、fallback利用を明示する。</dd>
+                  <dt>Source</dt><dd><code>demo/self-guided-workshop.md</code></dd>
+                </dl>
+              </article>
+            </section>
+          </div>
+          <div class="human-boundary-ledger">
+            <strong>HUMAN CHECKPOINT</strong>
+            <p>assetの出所、rights、登録、利用可否を判断する。AI eligibility、branch、labelはアクセス制御ではありません。</p>
+          </div>
+          <div class="future-candidate-ledger" id="feature-archive-future-ingestion">
+            <strong><span class="status-tag is-proposal">PROPOSAL / 未実装</span></strong>
+            <p>実Office / PDF / image ingestion、transform version / config hash、semantic diff gate。rightsとsourceが確定するまで実assetを扱いません。</p>
+          </div>
+          <footer class="function-phase-footer"><a class="appendix-backlink" href="#archive">Archive工程へ戻る ↑</a></footer>
+        </article>
+
+        <article class="function-phase" id="appendix-understand">
+          <header class="function-phase-header">
+            <div class="function-phase-code">UNDERSTAND</div>
+            <div>
+              <h3>複数sourceの違いと、まだ言えないことを共有する機能。</h3>
+              <p>Team question: 資料から何が分かり、何がまだ分からないのか。</p>
+            </div>
+          </header>
+          <div class="function-grid">
+            <section class="function-group">
+              <h4>GITHUB FUNCTIONS</h4>
+              <article class="function-entry" id="feature-understand-evidence-packets">
+                <div class="function-entry-head"><h5>Evidence Packets</h5><span class="status-tag is-current">LOCAL / OFFLINE</span></div>
+                <p>問いとreading setだけを持ち、answerやexpected findingを持たないcross-asset indexです。</p>
+                <dl><dt>操作</dt><dd>3 asset以上、2 category以上のlocatorを順に読む。</dd><dt>成果物</dt><dd>単一資料では答えない調査単位。</dd><dt>Source</dt><dd><code>archive/evidence-packets/**</code></dd></dl>
+              </article>
+              <article class="function-entry" id="feature-understand-collaboration">
+                <div class="function-entry-head"><h5>Issue + Discussion + Project</h5><span class="status-tag is-record">PAST LIVE</span></div>
+                <p>Issueは問いと受入条件、Discussionは対話、ProjectはStage / Gate / Disciplineを管理します。</p>
+                <dl><dt>操作</dt><dd>Archive QuestionをIssue化し、ProjectでEvidence gateを追跡する。</dd><dt>成果物</dt><dd>会話とcanonical recordを混同しない協業座標。</dd><dt>Source</dt><dd><code>ops/github/surfaces.json</code></dd></dl>
+              </article>
+              <article class="function-entry" id="feature-understand-conflict-records">
+                <div class="function-entry-head"><h5>Conflict records + Wiki fallback</h5><span class="status-tag is-fallback">REPO FALLBACK</span></div>
+                <p>Conflictの両側、想定種類、追加Evidenceをrepositoryへ残し、Wiki未初期化時はrepo内sourceを使います。</p>
+                <dl><dt>操作</dt><dd>CFL recordを保持し、片側を消さずにreviewする。</dd><dt>成果物</dt><dd>unresolvedのまま追跡できる理解の境界。</dd><dt>Source</dt><dd><code>research/conflicts/** / ops/github/wiki/**</code></dd></dl>
+              </article>
+            </section>
+            <section class="function-group">
+              <h4>GITHUB COPILOT FUNCTIONS</h4>
+              <article class="function-entry" id="feature-understand-prompts">
+                <div class="function-entry-head"><h5>Prompt 01 / 02</h5><span class="status-tag is-fixture">FILE / RUNTIME未確認</span></div>
+                <p>出荷版再構成とConflict抽出を、Evidence / Inference / Open questions / Not establishedへ分けます。</p>
+                <dl><dt>操作</dt><dd>`core loop`、速度、player数、audio cueなどのthemeを指定する。</dd><dt>境界</dt><dd>winnerを選ばず、必要な追加Evidenceまでで止まる。</dd><dt>Source</dt><dd><code>.github/prompts/01-* / 02-*</code></dd></dl>
+              </article>
+              <article class="function-entry" id="feature-understand-auditor">
+                <div class="function-entry-head"><h5>Provenance Auditor</h5><span class="status-tag is-fixture">CONFIGURED</span></div>
+                <p>引用実在、射程、単一資料依存、Conflict保全、rights、捏造、PIIをread-only監査します。</p>
+                <dl><dt>出力</dt><dd>Blocking / Non-blocking / Verified / Could not check。</dd><dt>境界</dt><dd>修正、承認、Conflict裁定をしない。</dd><dt>Source</dt><dd><code>.github/agents/provenance-auditor.agent.md</code></dd></dl>
+              </article>
+              <article class="function-entry" id="feature-understand-curator">
+                <div class="function-entry-head"><h5>Archive Curator reasoning boundary</h5><span class="status-tag is-record">SELECTABLE記録</span></div>
+                <p>EvidenceとInferenceを分離し、資料から判定できない項目をUnknownとして残します。</p>
+                <dl><dt>操作</dt><dd>Cross-asset questionを指定し、各行のID / locatorを点検する。</dd><dt>成果物</dt><dd>Imagineへ渡せるreview材料。</dd><dt>Source</dt><dd><code>.github/agents/archive-curator.agent.md</code></dd></dl>
+              </article>
+            </section>
+          </div>
+          <div class="human-boundary-ledger"><strong>HUMAN CHECKPOINT</strong><p>InferenceをFindingへ昇格するか、ConflictをADRで裁定するかを人間が判断します。</p></div>
+          <div class="future-candidate-ledger"><strong><span class="status-tag is-proposal">PROPOSAL / 未実装</span></strong><p>Evidence packet専用UIと、human-reviewed Finding promotionのreview支援。自動昇格は行いません。</p></div>
+          <footer class="function-phase-footer"><a class="appendix-backlink" href="#understand">Understand工程へ戻る ↑</a></footer>
+        </article>
+
+        <article class="function-phase" id="appendix-imagine">
+          <header class="function-phase-header">
+            <div class="function-phase-code">IMAGINE</div>
+            <div><h3>由来を失わず、本質的に異なる未来を比較する機能。</h3><p>Team question: このArchiveから、どんな新しい体験を作り得るのか。</p></div>
+          </header>
+          <div class="function-grid">
+            <section class="function-group">
+              <h4>GITHUB FUNCTIONS</h4>
+              <article class="function-entry" id="feature-imagine-discussion-project">
+                <div class="function-entry-head"><h5>Design Lab Discussion + Design Bet Portfolio</h5><span class="status-tag is-record">PAST LIVE / FALLBACK CATEGORY</span></div>
+                <p>比較軸をDiscussionで対話し、Project viewで未選択候補とhuman gateを可視化します。</p>
+                <dl><dt>操作</dt><dd>推奨ではなく3方向の差を議論する。</dd><dt>成果物</dt><dd>人間が選択できる比較材料。</dd><dt>Source</dt><dd><code>ops/github/surfaces.json / DISC-004</code></dd></dl>
+              </article>
+              <article class="function-entry" id="feature-imagine-lineage">
+                <div class="function-entry-head"><h5>Creative Lineage + offline resolver</h5><span class="status-tag is-current">LOCAL / OFFLINE</span></div>
+                <p>DRV、Finding、Play DNA、Bet、ADR、Slice、Issue、Playableをstable IDで辿ります。</p>
+                <dl><dt>操作</dt><dd>layer filterと`offline:&lt;ID&gt;` resolverを使う。</dd><dt>境界</dt><dd>既存lineageを新しい問いのanswer keyにしない。</dd><dt>Source</dt><dd><code>design/lineage/LINEAGE-001.json</code></dd></dl>
+              </article>
+            </section>
+            <section class="function-group">
+              <h4>GITHUB COPILOT FUNCTIONS</h4>
+              <article class="function-entry" id="feature-imagine-facilitator">
+                <div class="function-entry-head"><h5>Design Facilitator custom agent</h5><span class="status-tag is-fixture">CONFIGURED / RUNTIME未確認</span></div>
+                <p>Play DNA候補とDesign Bet候補を由来Evidence付きで作り、選択はしません。</p>
+                <dl><dt>品質</dt><dd>Betごとに異なる3 DRV以上、3軸差、Falsified if。</dd><dt>境界</dt><dd>推薦、順位、accepted ADR作成をしない。</dd><dt>Source</dt><dd><code>.github/agents/design-facilitator.agent.md</code></dd></dl>
+              </article>
+              <article class="function-entry" id="feature-imagine-prompts">
+                <div class="function-entry-head"><h5>Prompt 03 / 04</h5><span class="status-tag is-fixture">FILES / RUNTIME未確認</span></div>
+                <p>Play DNA抽出と、中心的緊張・関係・失敗形が異なる3 Design Bet生成を支援します。</p>
+                <dl><dt>操作</dt><dd>themeと制作制約を渡し、差異表を点検する。</dd><dt>成果物</dt><dd>無採番・無順位の候補群。</dd><dt>Source</dt><dd><code>.github/prompts/03-* / 04-*</code></dd></dl>
+              </article>
+              <article class="function-entry" id="feature-imagine-evaluation">
+                <div class="function-entry-head"><h5>Structural scenarios / rubric</h5><span class="status-tag is-fixture">METADATA ONLY</span></div>
+                <p>引用、3案差、Conflict保全、無断採用を人間が採点する構造rubricです。</p>
+                <dl><dt>現在</dt><dd>10 scenarioとrubricは存在するが、実行済みhuman scoreはない。</dd><dt>Source</dt><dd><code>evaluation/**</code></dd><dt>注意</dt><dd>CIはmodel responseを採点しない。</dd></dl>
+              </article>
+            </section>
+          </div>
+          <div class="human-boundary-ledger"><strong>HUMAN CHECKPOINT</strong><p>Hardware固有制約を外し、3案が本質的に違うかを確認する。Betの選択はまだ行いません。</p></div>
+          <div class="future-candidate-ledger"><strong><span class="status-tag is-proposal">PROPOSAL / 未実装</span></strong><p>Prompt scenarioの実行支援、human scoring record、未選択候補portfolio同期。自動推薦は行いません。</p></div>
+          <footer class="function-phase-footer"><a class="appendix-backlink" href="#imagine">Imagine工程へ戻る ↑</a></footer>
+        </article>
+
+        <article class="function-phase" id="appendix-decide">
+          <header class="function-phase-header">
+            <div class="function-phase-code">DECIDE</div>
+            <div><h3>AIの候補と、人間の意思決定を明確に分ける機能。</h3><p>Team question: どの方向へ進み、なぜ他の方向を選ばないのか。</p></div>
+          </header>
+          <div class="function-grid">
+            <section class="function-group">
+              <h4>GITHUB FUNCTIONS</h4>
+              <article class="function-entry" id="feature-decide-bet-adr">
+                <div class="function-entry-head"><h5>Bet / ADR repository records</h5><span class="status-tag is-current">LOCAL RECORDS</span></div>
+                <p>人間が採番・保存したBetと、Decisionのsource of truthであるADRをrepositoryに残します。</p>
+                <dl><dt>操作</dt><dd>選択理由を人間の文言で保存し、ADR statusと署名を確認する。</dd><dt>成果物</dt><dd>理由、Consequences、Reversal conditions、持越Conflict。</dd><dt>Source</dt><dd><code>design/bets/** / design/decisions/**</code></dd></dl>
+              </article>
+              <article class="function-entry" id="feature-decide-project-lineage">
+                <div class="function-entry-head"><h5>Discussion + Project Gate + Lineage</h5><span class="status-tag is-record">MIXED CURRENT / PAST LIVE</span></div>
+                <p>Discussionで比較過程、ProjectでHuman decision gate、Lineageで後続Sliceへの由来を表示します。</p>
+                <dl><dt>境界</dt><dd>Project statusをADR署名の代わりにしない。</dd><dt>成果物</dt><dd>会話、状態、canonical decisionの分離。</dd><dt>Source</dt><dd><code>ops/github/surfaces.json / LINEAGE-001</code></dd></dl>
+              </article>
+            </section>
+            <section class="function-group">
+              <h4>GITHUB COPILOT FUNCTIONS</h4>
+              <article class="function-entry" id="feature-decide-prompt">
+                <div class="function-entry-head"><h5>Prompt 05 — Draft decision</h5><span class="status-tag is-fixture">FILE / RUNTIME未確認</span></div>
+                <p>実在BET IDと人間の理由が揃った場合だけ、`Status: proposed`のADR草案を作ります。</p>
+                <dl><dt>忠実性</dt><dd>Decisionへ人間文言を加筆・要約せず転記する。</dd><dt>停止</dt><dd>理由または保存済みBETが無ければ草案を書かない。</dd><dt>Source</dt><dd><code>.github/prompts/05-draft-decision.prompt.md</code></dd></dl>
+              </article>
+              <article class="function-entry" id="feature-decide-auditor">
+                <div class="function-entry-head"><h5>Decision provenance audit</h5><span class="status-tag is-fixture">CONFIGURED</span></div>
+                <p>Decisionの出所、Conflict持越し、無断accepted化、架空署名者をread-only監査します。</p>
+                <dl><dt>出力</dt><dd>実file / 位置付きのBlockingとCould not check。</dd><dt>境界</dt><dd>ADRを受理・修正しない。</dd><dt>Source</dt><dd><code>.github/agents/provenance-auditor.agent.md</code></dd></dl>
+              </article>
+            </section>
+          </div>
+          <div class="human-boundary-ledger"><strong>HUMAN CHECKPOINT</strong><p>Bet選択、BET ID採番、理由記述、ADR受理 / 却下、Decided by / atの署名を人間だけが行います。</p></div>
+          <div class="future-candidate-ledger"><strong><span class="status-tag is-proposal">PROPOSAL / 未実装</span></strong><p>Human approval integrationとsignature evidenceのmachine check。自動承認や架空署名は行いません。</p></div>
+          <footer class="function-phase-footer"><a class="appendix-backlink" href="#decide">Decide工程へ戻る ↑</a></footer>
+        </article>
+
+        <article class="function-phase" id="appendix-plan">
+          <header class="function-phase-header">
+            <div class="function-phase-code">PLAN</div>
+            <div><h3>受理済みDecisionを、観測可能な作業契約へ変える機能。</h3><p>Team question: 何を作れば、この判断を最小構成で検証できるのか。</p></div>
+          </header>
+          <div class="function-grid">
+            <section class="function-group">
+              <h4>GITHUB FUNCTIONS</h4>
+              <article class="function-entry" id="feature-plan-slice-issues">
+                <div class="function-entry-head"><h5>Vertical Slice + Epic / Sub-issues</h5><span class="status-tag is-record">LOCAL + PAST LIVE</span></div>
+                <p>DecisionをSlice fileへ固定し、Gameplay、Engine、QA、Art、Audio、Platformの独立Issueへ分解します。</p>
+                <dl><dt>操作</dt><dd>参照ADR、observable acceptance、verification、out-of-scopeを記録する。</dd><dt>成果物</dt><dd>Build-ready backlog。</dd><dt>Source</dt><dd><code>design/vertical-slices/** / ISSUE-010..019</code></dd></dl>
+              </article>
+              <article class="function-entry" id="feature-plan-project-forms">
+                <div class="function-entry-head"><h5>Issue Forms + Project fields / views</h5><span class="status-tag is-record">CONFIG + PAST LIVE</span></div>
+                <p>stable ID、acceptance、guardrailをIssue Formへ、Stage / Gate / Discipline / PriorityをProjectへ置きます。</p>
+                <dl><dt>操作</dt><dd>Human decisionとRights reviewをBuild前のgateに設定する。</dd><dt>成果物</dt><dd>職種横断の作業座標。</dd><dt>Source</dt><dd><code>.github/ISSUE_TEMPLATE/** / ops/github/surfaces.json</code></dd></dl>
+              </article>
+            </section>
+            <section class="function-group">
+              <h4>GITHUB COPILOT FUNCTIONS</h4>
+              <article class="function-entry" id="feature-plan-planner">
+                <div class="function-entry-head"><h5>Slice Planner custom agent</h5><span class="status-tag is-fixture">CONFIGURED / RUNTIME未確認</span></div>
+                <p>strict `accepted` ADRを、Epic、Sub-issue、observable acceptance、verification、riskへ分解します。</p>
+                <dl><dt>停止</dt><dd>不存在、proposed、scoped statusではPlanを作らない。</dd><dt>境界</dt><dd>ADR外の変更は`要ADR`として分離。</dd><dt>Source</dt><dd><code>.github/agents/slice-planner.agent.md</code></dd></dl>
+              </article>
+              <article class="function-entry" id="feature-plan-prompt-gate">
+                <div class="function-entry-head"><h5>Prompt 06 + strict status gate</h5><span class="status-tag is-fixture">FILE / STRUCTURE TESTED</span></div>
+                <p>参照ADR、入力X→観測Y、command＋pass条件、対象外を順に出します。</p>
+                <dl><dt>演習</dt><dd>training fixture利用時は実装承認でないことを冒頭に明示。</dd><dt>検査</dt><dd>SCN-009 rubricは人間がPlan構造を採点する。</dd><dt>Source</dt><dd><code>.github/prompts/06-plan-slice.prompt.md</code></dd></dl>
+              </article>
+            </section>
+          </div>
+          <div class="human-boundary-ledger"><strong>HUMAN CHECKPOINT</strong><p>Plan review、優先度、担当、見積前提、rights、Issue / Projectへの正式投入、Build開始を判断します。</p></div>
+          <div class="future-candidate-ledger"><strong><span class="status-tag is-proposal">PROPOSAL / 未実装</span></strong><p>Approved SliceからのIssue作成、Sub-issue dependency graph、専用Plan checkpoint。Decision追加は行いません。</p></div>
+          <footer class="function-phase-footer"><a class="appendix-backlink" href="#plan">Plan工程へ戻る ↑</a></footer>
+        </article>
+
+        <article class="function-phase" id="appendix-build">
+          <header class="function-phase-header">
+            <div class="function-phase-code">BUILD</div>
+            <div><h3>Decisionの意味を保ちながら、再現可能なplayableへ変える機能。</h3><p>Team question: 決めた体験を、同じ入力から同じ結果へ実装できるか。</p></div>
+          </header>
+          <div class="function-grid">
+            <section class="function-group">
+              <h4>GITHUB FUNCTIONS</h4>
+              <article class="function-entry" id="feature-build-issue-pr">
+                <div class="function-entry-head"><h5>Issue → Pull Request traceability</h5><span class="status-tag is-record">PAST LIVE RECORD</span></div>
+                <p>ADR / VS / Issue IDをPRへ接続し、受入条件と差分をreviewします。</p>
+                <dl><dt>操作</dt><dd>PR本文とreviewで由来、検証、scopeを確認する。</dd><dt>成果物</dt><dd>Decisionからcodeまでのtrace。</dd><dt>Source</dt><dd><code>LINEAGE-001 / governance/final-audit-report.md</code></dd></dl>
+              </article>
+              <article class="function-entry" id="feature-build-actions">
+                <div class="function-entry-head"><h5>Actions + deterministic test gates</h5><span class="status-tag is-current">LOCAL GATE + PAST CI</span></div>
+                <p>typecheck、simulation API guard、Node / Chromium hash、browser、offline smokeを実行します。</p>
+                <dl><dt>操作</dt><dd><code>npm run gate:phase8</code></dd><dt>成果物</dt><dd>同じ入力がruntimeを越えて同じstateへ到達する検証。</dd><dt>Source</dt><dd><code>package.json / .github/workflows/**</code></dd></dl>
+              </article>
+              <article class="function-entry" id="feature-build-package-release">
+                <div class="function-entry-head"><h5>Offline package + manifest + draft Release</h5><div><span class="status-tag is-current">LOCAL</span><span class="status-tag is-record">PAST LIVE</span></div>
+                </div>
+                <p>allowlistだけでZIPを作り、manifest、size、SHA-256を検査してprivate draft Releaseへ配置します。</p>
+                <dl><dt>操作</dt><dd><code>package:release / verify:release / test:offline</code></dd><dt>境界</dt><dd>Pages未公開、public Releaseではない。</dd><dt>Source</dt><dd><code>scripts/package-* / governance/final-audit-report.md</code></dd></dl>
+              </article>
+            </section>
+            <section class="function-group">
+              <h4>GITHUB COPILOT FUNCTIONS</h4>
+              <article class="function-entry" id="feature-build-copilot-coding">
+                <div class="function-entry-head"><h5>Repository-aware coding session</h5><span class="status-tag is-current">CURRENT WORKFLOW</span></div>
+                <p>code search、既存pattern探索、受入条件内のedit、targeted test、failure調査を支援します。</p>
+                <dl><dt>操作</dt><dd>Issue / ADR / VSを確認し、最小のtestから実装する。</dd><dt>境界</dt><dd>ADRなしのrule、balance、勝敗、操作意味変更をしない。</dd><dt>Source</dt><dd><code>.github/instructions/playable.instructions.md</code></dd></dl>
+              </article>
+              <article class="function-entry" id="feature-build-auditor">
+                <div class="function-entry-head"><h5>PR provenance / rights audit</h5><span class="status-tag is-fixture">CONFIGURED</span></div>
+                <p>引用、Decision出所、Conflict保全、meaning change、rights、PII、lineage切断をread-only検査します。</p>
+                <dl><dt>操作</dt><dd>PRまたは新規文書をProvenance Auditorへ渡す。</dd><dt>成果物</dt><dd>Blocking / Verified / Could not check。</dd><dt>Source</dt><dd><code>.github/agents/provenance-auditor.agent.md</code></dd></dl>
+              </article>
+              <article class="function-entry" id="feature-build-offline-fallback">
+                <div class="function-entry-head"><h5>Static / offline fallback</h5><span class="status-tag is-fallback">FALLBACK</span></div>
+                <p>live GitHubやnetworkが使えない場合、allowlisted snapshot、local resolver、offline packで同じstable IDを示します。</p>
+                <dl><dt>注意</dt><dd>static fallbackを録画やlive stateと呼ばない。</dd><dt>成果物</dt><dd>network依存しないdemonstration。</dd><dt>Source</dt><dd><code>demo/fallback-matrix.md</code></dd></dl>
+              </article>
+            </section>
+          </div>
+          <div class="human-boundary-ledger"><strong>HUMAN CHECKPOINT</strong><p>PR、gameplay meaning、rights、manual acceptance、draft Releaseの公開可否をreviewします。</p></div>
+          <div class="future-candidate-ledger"><strong><span class="status-tag is-proposal">PROPOSAL / 未実装</span></strong><p>追加OS / runtimeのCI環境と、human-approved delivery expansion。公開や配布範囲はrights判断後に限ります。</p></div>
+          <footer class="function-phase-footer"><a class="appendix-backlink" href="#build">Build工程へ戻る ↑</a></footer>
+        </article>
+
+        <article class="function-phase" id="appendix-learn">
+          <header class="function-phase-header">
+            <div class="function-phase-code">LEARN</div>
+            <div><h3>小さな観測を、過剰解釈せず次の問いへ戻す機能。</h3><p>Team question: 何を観測し、何はまだ判断できないのか。</p></div>
+          </header>
+          <div class="function-grid">
+            <section class="function-group">
+              <h4>GITHUB FUNCTIONS</h4>
+              <article class="function-entry" id="feature-learn-events">
+                <div class="function-entry-head"><h5>Enum-only local event export</h5><span class="status-tag is-current">LOCAL / OFFLINE</span></div>
+                <p>sequence、tick、numeric code、actor、valueをbrowser memoryに保持し、明示操作時だけJSONへdownloadします。</p>
+                <dl><dt>境界</dt><dd>氏名、email、自由記述、device ID、IP、telemetry uploadなし。</dd><dt>成果物</dt><dd>再現可能な小さいsignal。</dd><dt>Source</dt><dd><code>packages/second-hand/src/playtest-events.ts</code></dd></dl>
+              </article>
+              <article class="function-entry" id="feature-learn-work-items">
+                <div class="function-entry-head"><h5>Learning Issue + Milestone + Project view + Discussion</h5><span class="status-tag is-record">PAST LIVE / CONFIG</span></div>
+                <p>ISSUE-020、MILESTONE-003、Learning Loop view、Playtest Guideで問いとhuman gateを追跡します。</p>
+                <dl><dt>操作</dt><dd>Observed、追加data、戻り先をwork itemとして管理する。</dd><dt>注意</dt><dd>LRN-001は完成Learning recordではない。</dd><dt>Source</dt><dd><code>ops/github/surfaces.json</code></dd></dl>
+              </article>
+              <article class="function-entry" id="feature-learn-offline">
+                <div class="function-entry-head"><h5>Allowlisted offline GitHub snapshot</h5><span class="status-tag is-fallback">FALLBACK</span></div>
+                <p>author、comment、reaction、token、free textを除外し、stable IDとenum stateだけを表示します。</p>
+                <dl><dt>用途</dt><dd>networkなしでLearning Loopの座標を示す。</dd><dt>境界</dt><dd>現在のlive stateを証明しない。</dd><dt>Source</dt><dd><code>demo/offline-snapshots/github-objects.json</code></dd></dl>
+              </article>
+            </section>
+            <section class="function-group">
+              <h4>GITHUB COPILOT FUNCTIONS</h4>
+              <article class="function-entry" id="feature-learn-prompt">
+                <div class="function-entry-head"><h5>Prompt 07 — Playtest synthesis</h5><span class="status-tag is-fixture">FILE / RUNTIME未確認</span></div>
+                <p>匿名eventをObserved、Learning candidates、Insufficientへ分け、BET / ADRを見直し対象として指します。</p>
+                <dl><dt>操作</dt><dd>PT IDと検証したかったBetを渡し、各Observedに件数を付ける。</dd><dt>境界</dt><dd>参加者、感情、統計結果を作らず、Bet / ADRを変更しない。</dd><dt>Source</dt><dd><code>.github/prompts/07-synthesize-playtest.prompt.md</code></dd></dl>
+              </article>
+              <article class="function-entry" id="feature-learn-planner">
+                <div class="function-entry-head"><h5>Slice Planner as learning organizer</h5><span class="status-tag is-fixture">CONFIGURED / RUNTIME未確認</span></div>
+                <p>event集計を、見直し対象、Falsified if、追加data、Insufficientへ構造化します。</p>
+                <dl><dt>境界</dt><dd>Finding昇格、Conflict裁定、ADR更新、Archive書戻しをしない。</dd><dt>成果物</dt><dd>人間reviewへ渡すLearning candidate。</dd><dt>Source</dt><dd><code>.github/agents/slice-planner.agent.md</code></dd></dl>
+              </article>
+              <article class="function-entry" id="feature-learn-privacy-audit">
+                <div class="function-entry-head"><h5>Playtest privacy / provenance audit</h5><span class="status-tag is-fixture">CONFIGURED</span></div>
+                <p>playtest logの追加field、PII、free text、device ID、IP、Archive混同を検査します。</p>
+                <dl><dt>停止</dt><dd>Unknown rightsやprivacy fieldはBlocking。</dd><dt>境界</dt><dd>Could not checkを合格扱いしない。</dd><dt>Source</dt><dd><code>.github/agents/provenance-auditor.agent.md</code></dd></dl>
+              </article>
+            </section>
+          </div>
+          <div class="human-boundary-ledger"><strong>HUMAN CHECKPOINT</strong><p>観測の解釈、追加research、consent、Bet / ADR見直し、Finding昇格、release判断を行います。</p></div>
+          <div class="future-candidate-ledger"><strong><span class="status-tag is-proposal">PROPOSAL / 未実装</span></strong><p>Runtime numeric exportからPT recordへのmapping、human-reviewed LRN schema、承認済みresearch workflow。</p></div>
+          <footer class="function-phase-footer"><a class="appendix-backlink" href="#learn">Learn工程へ戻る ↑</a></footer>
+        </article>
+      </section>
+
+      <section class="story-section" id="evidence-appendix" aria-labelledby="appendix-title">
+        <div class="section-heading">
+          <h2 id="appendix-title">Appendix B — Archive Evidence Reference</h2>
+          <p>
+            本文のArchive Evidenceを、実在するstable IDと宣言済みlocatorへ解決します。
+            以下はすべてsynthetic fixtureです。
+          </p>
+        </div>
+        <div class="appendix">
+          <article class="citation" id="cite-drv-001">
+            <div class="citation-id">DRV-001</div>
+            <div class="citation-body">
+              <p>Coreを投げる側だけでなく、受ける側も移動とtimingを選ぶ。</p>
+              <code>md:heading/active-receiving</code>
+            </div>
+          </article>
+          <article class="citation" id="cite-drv-001-layout">
+            <div class="citation-id">DRV-001</div>
+            <div class="citation-body">
+              <p>Coreは同時に1人だけが保持し、受領確定時にownerを移す。</p>
+              <code>md:heading/two-player-layout</code>
+            </div>
+          </article>
+          <article class="citation" id="cite-drv-002">
+            <div class="citation-id">DRV-002</div>
+            <div class="citation-body">
+              <p>
+                Current targetのPlayersはOne、Shared screenはRemoved from targetで、
+                両項目の理由はこの抜粋に記録されていない。
+              </p>
+              <code>md:heading/decision-table</code>
+            </div>
+          </article>
+          <article class="citation" id="cite-drv-003">
+            <div class="citation-id">DRV-003</div>
+            <div class="citation-body">
+              <p>
+                PlayerはCore保持中にrouteを予告して投げ、CoreはMirror、敵、Relay Pointを
+                経てPlayerへ戻る。
+              </p>
+              <code>md:heading/core-loop</code>
+            </div>
+          </article>
+          <article class="citation" id="cite-drv-011">
+            <div class="citation-id">DRV-011</div>
+            <div class="citation-body">
+              <p>
+                有効表示幅は384pxから320pxへ変更され、横断時間を変えない指示が記録されている。
+              </p>
+              <code>md:heading/display-change</code>
+            </div>
+          </article>
+          <article class="citation" id="cite-drv-016">
+            <div class="citation-id">DRV-016</div>
+            <div class="citation-body">
+              <p>
+                2P構成8 sessionsのreceive_rating平均は4.6、1P構成4 sessionsは2.8で、
+                この集計は採否理由を記録していない。
+              </p>
+              <code>md:heading/rating-aggregate</code>
+            </div>
+          </article>
+          <article class="citation" id="cite-drv-030">
+            <div class="citation-id">DRV-030</div>
+            <div class="citation-body">
+              <p>ZERO LAP replayのcaptureは60 tick/秒である。</p>
+              <code>json:pointer//capture</code>
+            </div>
+          </article>
+        </div>
+        <details class="phase-details appendix-details">
+          <summary>Current implementation sources</summary>
+          <div class="detail-grid">
+            <div>
+              <h4>Workflow and operation</h4>
+              <p>
+                `README.md` / `demo/self-guided-workshop.md` /
+                `demo/60-minute-cue-sheet.md` / `demo/speaker-notes.md`
+              </p>
+            </div>
+            <div>
+              <h4>Implementation records</h4>
+              <p>
+                `design/lineage/LINEAGE-001.json` / `ops/github/surfaces.json` /
+                `governance/final-audit-report.md`
+              </p>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section class="closing" aria-labelledby="closing-title">
+        <blockquote id="closing-title">
+          GitHubは<span>共有記憶</span>。Copilotは<span>加速</span>。創造上の判断は<span>人間</span>に残る。
+        </blockquote>
+        <p class="closing-note">
+          STAR RELAYは、synthetic fixtureを使って、過去のゲーム資産から新しいIP候補の
+          playable proofまでを、人間の判断と追跡可能性を保ちながら進めるworkflow
+          demonstrationです。実在資産のrights、実人間playtest、市場価値を実証するものでは
+          ありません。
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <span>STAR RELAY Archive-to-Playable / Japanese authoritative presentation</span>
+        <span>Fictional · Synthetic · Private · Offline</span>
+        <span>Public display scope: this HTML only</span>
+      </div>
+    </footer>
+
+    <button class="back-to-top" id="back-to-top" type="button" aria-label="先頭へ戻る">↑</button>
+
+    <script>
+      (() => {
+        const progressBar = document.querySelector("#reading-progress-bar");
+        const backToTop = document.querySelector("#back-to-top");
+        const phaseLinks = Array.from(document.querySelectorAll("[data-phase-link]"));
+        const phaseSections = Array.from(document.querySelectorAll("[data-phase]"));
+        const lensButtons = Array.from(document.querySelectorAll("[data-lens]"));
+        const actorElements = Array.from(document.querySelectorAll("[data-actor]"));
+        const roleButtons = Array.from(document.querySelectorAll("[data-role-filter]"));
+        const roleElements = Array.from(document.querySelectorAll("[data-roles]"));
+        const phaseRoles = Array.from(document.querySelectorAll(".phase-roles"));
+        const filterStatus = document.querySelector("#filter-status");
+        const themeButton = document.querySelector("#theme-button");
+        const printButton = document.querySelector("#print-button");
+
+        const updateProgress = () => {
+          const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+          const progress = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+          if (progressBar instanceof HTMLElement) {
+            progressBar.style.transform = `scaleX(${Math.min(1, Math.max(0, progress / 100))})`;
+          }
+          if (backToTop instanceof HTMLElement) {
+            backToTop.classList.toggle("is-visible", window.scrollY > window.innerHeight * 0.8);
+          }
+        };
+
+        const setActivePhase = (phase) => {
+          phaseLinks.forEach((link) => {
+            if (!(link instanceof HTMLAnchorElement)) return;
+            if (link.dataset.phaseLink === phase) {
+              link.setAttribute("aria-current", "step");
+            } else {
+              link.removeAttribute("aria-current");
+            }
+          });
+        };
+
+        if ("IntersectionObserver" in window) {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              const visible = entries
+                .filter((entry) => entry.isIntersecting)
+                .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+              if (visible?.target instanceof HTMLElement && visible.target.dataset.phase) {
+                setActivePhase(visible.target.dataset.phase);
+              }
+            },
+            { rootMargin: "-28% 0px -54% 0px", threshold: [0.12, 0.3, 0.5] }
+          );
+          phaseSections.forEach((section) => observer.observe(section));
+        }
+
+        lensButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            if (!(button instanceof HTMLButtonElement)) return;
+            const lens = button.dataset.lens ?? "all";
+            lensButtons.forEach((item) => {
+              item.setAttribute("aria-pressed", String(item === button));
+            });
+            actorElements.forEach((element) => {
+              if (!(element instanceof HTMLElement)) return;
+              element.dataset.actorMuted = String(
+                lens !== "all" && element.dataset.actor !== lens
+              );
+            });
+            phaseRoles.forEach((details) => {
+              if (!(details instanceof HTMLDetailsElement)) return;
+              if (lens !== "all" && !details.open) {
+                details.open = true;
+                details.dataset.lensOpened = "true";
+              } else if (lens === "all" && details.dataset.lensOpened === "true") {
+                details.open = false;
+                delete details.dataset.lensOpened;
+              }
+            });
+            if (filterStatus instanceof HTMLElement) {
+              filterStatus.textContent =
+                lens === "all" ? "すべての役割を表示中" : `${lens}の役割を強調中`;
+            }
+          });
+        });
+
+        roleButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            if (!(button instanceof HTMLButtonElement)) return;
+            const role = button.dataset.roleFilter ?? "all";
+            roleButtons.forEach((item) => {
+              item.setAttribute("aria-pressed", String(item === button));
+            });
+            roleElements.forEach((element) => {
+              if (!(element instanceof HTMLElement)) return;
+              const roles = (element.dataset.roles ?? "").split(/\s+/);
+              element.dataset.roleMuted = String(role !== "all" && !roles.includes(role));
+            });
+            if (filterStatus instanceof HTMLElement) {
+              filterStatus.textContent =
+                role === "all" ? "すべての職種を表示中" : `${role}に関連する価値を強調中`;
+            }
+          });
+        });
+
+        backToTop?.addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+
+        themeButton?.addEventListener("click", () => {
+          const current = document.documentElement.getAttribute("data-theme");
+          document.documentElement.setAttribute("data-theme", current === "dark" ? "light" : "dark");
+        });
+
+        printButton?.addEventListener("click", () => window.print());
+
+        let printOpenStates = [];
+        window.addEventListener("beforeprint", () => {
+          printOpenStates = phaseRoles.map((details) =>
+            details instanceof HTMLDetailsElement ? details.open : false
+          );
+          phaseRoles.forEach((details) => {
+            if (details instanceof HTMLDetailsElement) details.open = true;
+          });
+        });
+        window.addEventListener("afterprint", () => {
+          phaseRoles.forEach((details, index) => {
+            if (details instanceof HTMLDetailsElement) {
+              details.open = printOpenStates[index] ?? false;
+            }
+          });
+        });
+
+        document.addEventListener("keydown", (event) => {
+          const target = event.target;
+          if (
+            target instanceof HTMLInputElement ||
+            target instanceof HTMLTextAreaElement ||
+            target instanceof HTMLSelectElement
+          ) {
+            return;
+          }
+          if (event.key !== "j" && event.key !== "k") return;
+          const positions = phaseSections.map((section) => ({
+            section,
+            distance: Math.abs(section.getBoundingClientRect().top - 180)
+          }));
+          positions.sort((a, b) => a.distance - b.distance);
+          const current = phaseSections.indexOf(positions[0]?.section);
+          const next =
+            event.key === "j"
+              ? Math.min(phaseSections.length - 1, current + 1)
+              : Math.max(0, current - 1);
+          phaseSections[next]?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+
+        window.addEventListener("scroll", updateProgress, { passive: true });
+        window.addEventListener("resize", updateProgress);
+        updateProgress();
+      })();
+    </script>
+  </body>
+</html>

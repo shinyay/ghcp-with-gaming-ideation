@@ -7,7 +7,10 @@
 5. `npm run package:offline`
 6. `npm run test:offline`
 
-デモ中の問いはIssueまたはDiscussionへ残し、進捗だけをProjectへ更新します。Pagesは公開しません。
+デモ中の問いはIssueまたはDiscussionへ残し、進捗だけをProjectへ更新します。
+Pagesはowner-approvedのWorkflow PresentationとSTAR RELAY Game Guideだけを公開し、
+ArchiveやGitHub snapshotの代替にはしません。
 
 > English summary: Run both playables locally or from the allowlisted offline
-> package; the browser never calls the GitHub API.
+> package; the browser never calls the GitHub API. The public Pages site contains
+> only two generated HTML guides.

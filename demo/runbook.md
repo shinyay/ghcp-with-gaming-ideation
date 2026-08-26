@@ -14,7 +14,9 @@
 - 検証: `npm run gate:phase8`が終了コード`0`となり、offline Playwrightが外部request
   `0`件を確認する。
 - 影響範囲: demo表示、allowlisted snapshot、運用資料、offline/release packaging。
-  対象外はgame rule、balance、勝敗条件、入力の意味、Reference repository、Pages公開。
+  対象外はgame rule、balance、勝敗条件、入力の意味、Reference repository。
+- Pagesの2 HTMLは補助説明資料であり、このlocal/private demoのcritical pathや
+  live GitHub stateの代替にしない。
 
 ## 開始前チェック
 
@@ -38,7 +40,7 @@ npm run serve:offline
 | 25:00–35:00 | Legacy | HOLD / BANK / RELAY / RETURN | 4つのstepが順に更新される |
 | 35:00–47:00 | SECOND HAND | 保持者と受領者の役割差、local/AI、latency fixture | ownerとsequenceが更新される |
 | 47:00–54:00 | GitHub object resolver | live URLとoffline stable IDは同じ対象を表す | network無しでもIDとpathが残る |
-| 54:00–58:00 | Boundary | Pages未公開、Releaseはrepository accessを継承 | public URLを提示しない |
+| 54:00–58:00 | Boundary | Pagesは2 HTML限定、Releaseはrepository accessを継承 | ArchiveやsnapshotをPages公開しない |
 | 58:00–60:00 | Reset | 次の参加者向けに初期状態へ戻す | reset verificationがpassする |
 
 ## Evidence
