@@ -5,6 +5,7 @@
   "repository_visibility_required": "private",
   "pages_visibility": "public",
   "build_type": "workflow",
+  "hash_projection": "utf8-lf-sha256-v1",
   "rights_policy": "governance/pages-publication-policy.md",
   "files": [
     {
@@ -20,16 +21,16 @@
       "public_route": "/ghcp-with-gaming-ideation/game-guide/",
       "content_id": "PAGES-GAME-GUIDE-001",
       "classification": "demo-safe",
-      "bytes": 129295,
-      "sha256": "f51adc03586e5f2dfa3eacc2efc12e6bf048927320fbd900fe974433b4af3a9b"
+      "bytes": 126199,
+      "sha256": "1ddf8688bb51cde6928ad5d584397d8bf1c2a82af4e1a0534f5fde545f70d2c5"
     },
     {
       "path": "pages/index.html",
       "public_route": "/ghcp-with-gaming-ideation/",
       "content_id": "PAGES-WORKFLOW-001",
       "classification": "demo-safe",
-      "bytes": 193258,
-      "sha256": "d51b99dd0a9db334996c011a99191252eb16a4cedde13dc22928f38252e4e319"
+      "bytes": 188307,
+      "sha256": "20efbf56515b288a1a92eba8de00ebb4d24985118bfcd1280b192c9c97ab162a"
     }
   ],
   "forbidden_html_patterns": [

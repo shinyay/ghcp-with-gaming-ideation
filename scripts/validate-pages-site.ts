@@ -18,6 +18,7 @@ interface PagesAllowlist {
   readonly repository_visibility_required: "private";
   readonly pages_visibility: "public";
   readonly build_type: "workflow";
+  readonly hash_projection: "utf8-lf-sha256-v1";
   readonly rights_policy: string;
   readonly files: readonly PagesFile[];
   readonly forbidden_html_patterns: readonly string[];
@@ -134,6 +135,7 @@ if (
   allowlist.repository_visibility_required !== "private" ||
   allowlist.pages_visibility !== "public" ||
   allowlist.build_type !== "workflow" ||
+  allowlist.hash_projection !== "utf8-lf-sha256-v1" ||
   allowlist.rights_policy !== "governance/pages-publication-policy.md"
 ) {
   throw new Error("Unsupported Pages allowlist configuration.");
@@ -176,9 +178,11 @@ const forbidden = [
 
 for (const entry of allowlist.files) {
   const content = await readFile(entry.path);
-  const metadata = await lstat(entry.path);
-  const hash = createHash("sha256").update(content).digest("hex");
-  if (metadata.size !== entry.bytes || hash !== entry.sha256) {
+  const projected = entry.path.endsWith(".html")
+    ? Buffer.from(content.toString("utf8").replace(/\r\n/g, "\n"), "utf8")
+    : content;
+  const hash = createHash("sha256").update(projected).digest("hex");
+  if (projected.length !== entry.bytes || hash !== entry.sha256) {
     throw new Error(`Pages artifact does not match allowlist: ${entry.path}`);
   }
   if (entry.classification !== "demo-safe") {

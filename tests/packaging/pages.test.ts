@@ -21,6 +21,7 @@ test("Pages allowlist exposes exactly two demo-safe HTML artifacts", async () =>
     readonly repository_visibility_required: string;
     readonly pages_visibility: string;
     readonly build_type: string;
+    readonly hash_projection: string;
     readonly files: readonly {
       readonly path: string;
       readonly public_route: string | null;
@@ -31,6 +32,7 @@ test("Pages allowlist exposes exactly two demo-safe HTML artifacts", async () =>
   assert.equal(allowlist.repository_visibility_required, "private");
   assert.equal(allowlist.pages_visibility, "public");
   assert.equal(allowlist.build_type, "workflow");
+  assert.equal(allowlist.hash_projection, "utf8-lf-sha256-v1");
   assert.deepEqual(
     allowlist.files.map((entry) => entry.path).sort(),
     ["pages/.nojekyll", "pages/game-guide/index.html", "pages/index.html"]
