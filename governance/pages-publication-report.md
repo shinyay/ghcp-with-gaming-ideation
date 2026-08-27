@@ -2,8 +2,9 @@
 
 > **日本語が正本です。** English summary: The two owner-approved HTML
 > artifacts are live on GitHub Pages. The repository remains private, the
-> deployment contains only the allowlisted files, and public hashes match the
-> committed LF-normalized manifest.
+> deployment contains only the allowlisted files, and public hashes matched the
+> deployment-time LF-normalized manifest. A later Role Lens source update is
+> pending locally and has not been deployed.
 
 - Publication ID: `PAGES-001`
 - Verified at: 2026-08-27
@@ -35,13 +36,29 @@
 | `https://shinyay.github.io/ghcp-with-gaming-ideation/game-guide/` | 126199 | `1ddf8688bb51cde6928ad5d584397d8bf1c2a82af4e1a0534f5fde545f70d2c5` |
 
 公開responseをUTF-8 / LFへ正規化したhashは
-`ops/github/pages-allowlist.json`と一致した。
+公開時点の`ops/github/pages-allowlist.json`と一致した。
+
+## Pending source update
+
+2026-08-27にWorkflow PresentationへCross-functional Role Lens説明を追加し、
+`pages/index.html`の次回公開候補hashを更新した。
+
+| State | Value |
+|---|---|
+| Next source LF bytes | 199692 |
+| Next source SHA-256 | `5a9706eab25b70350348b6e9d2d7fe9d0850aeb9b6f985c7d2619704b435718d` |
+| `deploy-pages` workflow | `disabled_manually` |
+| Public site | 上記初回deploymentのまま |
+
+ユーザーから再公開指示があるまでworkflowを有効化・実行しない。したがって現在の
+repository allowlistは次回候補、上のpublic response hashはlive siteの実測として
+区別する。
 
 ## Inference
 
 - Inference: 2 HTML限定の公開scopeは維持されていると考えられる。確信度は高い。
   根拠はPages upload rootが`pages/`であること、allowlistが2 HTMLと`.nojekyll`だけを
-  許可すること、public response hashがmanifestと一致することである。
+  許可すること、公開時点のresponse hashがmanifestと一致したことである。
   allowlist外pathがdeployment artifactへ現れるか、hashが不一致になれば反証される。
 - Inference: RepositoryをPrivateのまま維持しながら、説明用HTMLだけを公開できている。
   確信度は高い。GitHub APIまたはrepository visibilityが変更された場合に反証される。
@@ -50,6 +67,8 @@
 
 - Proposal: custom domain、追加route、public Releaseは未決であり、今回の許諾scopeに
   含まれない。必要な場合は新しい人間の権利判断、NOTICE、allowlist、validationを要求する。
+- Proposal: Role Lensを含む更新版Workflow Presentationの再公開は未決である。
+  `deploy-pages`を再有効化するにはユーザーの明示指示を要求する。
 
 ## Deployment note
 

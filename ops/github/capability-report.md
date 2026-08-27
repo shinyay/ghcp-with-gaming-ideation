@@ -183,9 +183,31 @@ remain historical observations for their probe times.
 | Root route | HTTP 200 |
 | Game Guide route | HTTP 200 |
 | Browser network | External request 0 on desktop and mobile |
-| Public hash | Both responses match `ops/github/pages-allowlist.json` |
+| Public hash | Both responses matched the allowlist at deployment time |
 
 The rights decision, scope, hashes, and smoke evidence are recorded in
 [`governance/pages-publication-policy.md`](../../governance/pages-publication-policy.md)
 and
 [`governance/pages-publication-report.md`](../../governance/pages-publication-report.md).
+The later Role Lens source update changes the next `pages/index.html` hash, but
+`deploy-pages` is `disabled_manually`; it is not described as deployed.
+
+## Cross-functional Role Lens configuration
+
+Recorded at: `2026-08-27`
+
+| Capability | Observed result |
+|---|---|
+| Role Lens agent files | 11 present |
+| Role Lens prompt files | 11 present and bound one-to-one |
+| Tool scope | All 11 are `read`, `search` only |
+| Model invocation | All 11 require explicit selection |
+| Role Lens scenarios | 11 metadata scenarios present |
+| Shared contract | `governance/role-lens-contract.md` |
+| Runtime selection / response | **Not yet observed** |
+| Human scoring | **Not yet performed** |
+
+File presence and metadata validation do not prove that a client has surfaced
+the agents or that their model responses follow the contract. Re-probe in a new
+session and score responses with `evaluation/role-lens-rubric.md` before
+reporting runtime behavior.

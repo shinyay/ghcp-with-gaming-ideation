@@ -1798,6 +1798,15 @@ FORM: A vertical scrollytelling control-room dossier with a sticky phase rail, a
         gap: 40px;
       }
 
+      .role-console > * {
+        min-width: 0;
+      }
+
+      .role-table-wrap {
+        min-width: 0;
+        overflow-x: auto;
+      }
+
       .role-selector {
         display: grid;
         align-content: start;
@@ -1827,6 +1836,7 @@ FORM: A vertical scrollytelling control-room dossier with a sticky phase rail, a
 
       .role-table {
         width: 100%;
+        min-width: 720px;
         border-collapse: collapse;
       }
 
@@ -1852,6 +1862,75 @@ FORM: A vertical scrollytelling control-room dossier with a sticky phase rail, a
       .role-table td {
         color: var(--cp-text-muted);
         font-size: 0.9rem;
+      }
+
+      .role-lens-model {
+        display: grid;
+        margin-bottom: 52px;
+        grid-template-columns: minmax(180px, 0.7fr) 48px minmax(0, 1.8fr) 48px minmax(180px, 0.8fr);
+        align-items: center;
+        gap: 12px;
+        border-block: 1px solid var(--cp-border-strong);
+        padding: 28px 0;
+      }
+
+      .role-lens-model-node {
+        border: 1px solid var(--cp-border-strong);
+        background: var(--cp-surface);
+        padding: 18px;
+        text-align: center;
+      }
+
+      .role-lens-model-node strong {
+        display: block;
+        font: 800 0.72rem/1.35 Consolas, "Courier New", Courier, monospace;
+        letter-spacing: 0.07em;
+      }
+
+      .role-lens-model-node p {
+        margin: 8px 0 0;
+        color: var(--cp-text-muted);
+        font-size: 0.78rem;
+      }
+
+      .role-lens-model-arrow {
+        color: var(--cp-accent);
+        font: 850 1.25rem Consolas, "Courier New", Courier, monospace;
+        text-align: center;
+      }
+
+      .role-lens-model-center {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+      }
+
+      .role-lens-model-center span {
+        border: 1px solid var(--cp-border);
+        background: var(--cp-surface-soft);
+        padding: 8px 6px;
+        color: var(--cp-text-muted);
+        font: 700 0.61rem/1.25 Consolas, "Courier New", Courier, monospace;
+        text-align: center;
+      }
+
+      .role-lens-boundary {
+        display: grid;
+        margin: 28px 0 44px;
+        grid-template-columns: 160px minmax(0, 1fr);
+        gap: 24px;
+        border-block: 1px solid var(--cp-border);
+        padding: 18px 0;
+      }
+
+      .role-lens-boundary strong {
+        color: var(--cp-accent);
+        font: 800 0.68rem/1.4 Consolas, "Courier New", Courier, monospace;
+      }
+
+      .role-lens-boundary p {
+        margin: 0;
+        color: var(--cp-text-muted);
       }
 
       .status-matrix {
@@ -2376,7 +2455,16 @@ FORM: A vertical scrollytelling control-room dossier with a sticky phase rail, a
 
         .section-heading,
         .case-file,
-        .role-console {
+        .role-console,
+        .role-lens-model {
+          grid-template-columns: 1fr;
+        }
+
+        .role-lens-model-arrow {
+          transform: rotate(90deg);
+        }
+
+        .role-lens-boundary {
           grid-template-columns: 1fr;
         }
 
@@ -4054,67 +4142,133 @@ FORM: A vertical scrollytelling control-room dossier with a sticky phase rail, a
         <div class="section-heading">
           <h2 id="role-title">同じworkflowを、違う職種の価値で読む。</h2>
           <p>
-            左の職種を選ぶと関連箇所が強調されます。役割を孤立させず、同じstable IDと
-            gateを共有することがGitHub上の協業価値です。
+            工程別Agentが「何をしてよいか」を制御し、Role Lensが「何に注目するか」を
+            変えます。同じstable IDを複数Lensで読み、人間teamへ質問を返します。
+          </p>
+        </div>
+        <div class="role-lens-model" aria-label="Phase Agent and Role Lens model">
+          <div class="role-lens-model-node">
+            <strong>SAME TARGET</strong>
+            <p>ID / path / phase / review question</p>
+          </div>
+          <div class="role-lens-model-arrow" aria-hidden="true">→</div>
+          <div class="role-lens-model-center">
+            <span>GAME DESIGNER</span>
+            <span>DIRECTOR</span>
+            <span>PRODUCER</span>
+            <span>PM</span>
+            <span>ENGINEER</span>
+            <span>QA</span>
+            <span>ART</span>
+            <span>AUDIO</span>
+            <span>UX / A11Y</span>
+            <span>PLATFORM</span>
+            <span>ARCHIVE / RIGHTS</span>
+            <span>READ / SEARCH ONLY</span>
+          </div>
+          <div class="role-lens-model-arrow" aria-hidden="true">→</div>
+          <div class="role-lens-model-node">
+            <strong>HUMAN TEAM</strong>
+            <p>questions / risks / trade-offs / decisions</p>
+          </div>
+        </div>
+        <div class="role-lens-boundary">
+          <strong>ROLE LENS ≠ PERSONA</strong>
+          <p>
+            Role Lensは架空の同僚、reviewer、approver、team consensusではありません。
+            専門職の分析フレームを適用し、承認・選択・優先順位は実際の人間teamへ返します。
           </p>
         </div>
         <div class="role-console">
           <div class="role-selector" role="group" aria-label="Profession lens">
             <button type="button" data-role-filter="all" aria-pressed="true">すべての職種</button>
-            <button type="button" data-role-filter="design" aria-pressed="false">Design / Direction</button>
-            <button type="button" data-role-filter="production" aria-pressed="false">Production</button>
-            <button type="button" data-role-filter="engineering" aria-pressed="false">Engineering</button>
-            <button type="button" data-role-filter="qa" aria-pressed="false">QA / Data</button>
-            <button type="button" data-role-filter="creative" aria-pressed="false">Art / Audio / UX</button>
-            <button type="button" data-role-filter="platform" aria-pressed="false">Platform / Release</button>
-            <button type="button" data-role-filter="archive" aria-pressed="false">Archive / Rights</button>
+            <button type="button" data-role-filter="game-designer" aria-pressed="false">Game Designer</button>
+            <button type="button" data-role-filter="creative-director" aria-pressed="false">Creative Director</button>
+            <button type="button" data-role-filter="producer" aria-pressed="false">Producer</button>
+            <button type="button" data-role-filter="project-manager" aria-pressed="false">Project Manager</button>
+            <button type="button" data-role-filter="gameplay-engineer" aria-pressed="false">Gameplay Engineer</button>
+            <button type="button" data-role-filter="qa-lead" aria-pressed="false">QA Lead</button>
+            <button type="button" data-role-filter="art-director" aria-pressed="false">Art Director</button>
+            <button type="button" data-role-filter="audio-director" aria-pressed="false">Audio Director</button>
+            <button type="button" data-role-filter="ux-accessibility" aria-pressed="false">UX / Accessibility</button>
+            <button type="button" data-role-filter="platform-release" aria-pressed="false">Platform / Release</button>
+            <button type="button" data-role-filter="archive-rights" aria-pressed="false">Archive / Rights</button>
           </div>
-          <div>
+          <div class="role-table-wrap">
             <table class="role-table">
               <thead>
                 <tr>
-                  <th>Role</th><th>GitHub / Copilotの価値</th><th>主な工程</th>
+                  <th>Custom Agent</th><th>このLensが確認すること</th><th>人間へ返すもの</th>
                 </tr>
               </thead>
               <tbody>
-                <tr class="role-aware" data-roles="design">
-                  <td>Designer / Director</td>
-                  <td>根拠付きの案を比較し、選択理由と体験意図を実装・学習まで保つ。</td>
-                  <td>Understand → Decide → Learn</td>
+                <tr class="role-aware" data-roles="game-designer">
+                  <td>game-designer-lens</td>
+                  <td>verb、agency、feedback、tension、failure、learning。</td>
+                  <td>player choiceと反証条件の問い。</td>
                 </tr>
-                <tr class="role-aware" data-roles="production">
-                  <td>Producer / PM</td>
-                  <td>Issue、Project、Gateで職種横断の状態とblockerを一つの座標へ置く。</td>
-                  <td>全工程</td>
+                <tr class="role-aware" data-roles="creative-director">
+                  <td>creative-director-lens</td>
+                  <td>creative promise、discipline一貫性、捨てる価値。</td>
+                  <td>coherenceとtrade-offの問い。</td>
                 </tr>
-                <tr class="role-aware" data-roles="engineering">
-                  <td>Gameplay / Engine</td>
-                  <td>資料とDecisionへ戻りながら、決定的simulationとtest contractを実装する。</td>
-                  <td>Archive → Plan → Build</td>
+                <tr class="role-aware" data-roles="producer">
+                  <td>producer-lens</td>
+                  <td>value hypothesis、scope、gate、production risk。</td>
+                  <td>投資前に必要な観測と仮定。</td>
                 </tr>
-                <tr class="role-aware" data-roles="qa">
-                  <td>QA / Data</td>
-                  <td>仕様差をConflictとして保持し、受入条件、hash、eventを再現可能にする。</td>
-                  <td>Understand → Build → Learn</td>
+                <tr class="role-aware" data-roles="project-manager">
+                  <td>project-manager-lens</td>
+                  <td>deliverable、dependency、sequence、blocker、acceptance。</td>
+                  <td>responsible roleとhandoffの問い。</td>
                 </tr>
-                <tr class="role-aware" data-roles="creative">
-                  <td>Art / Audio / UX</td>
-                  <td>表現とgame meaningを分け、可読性・入力・rightsを独立したgateへする。</td>
-                  <td>Imagine → Plan → Build</td>
+                <tr class="role-aware" data-roles="gameplay-engineer">
+                  <td>gameplay-engineer-lens</td>
+                  <td>state、invariant、determinism、interface、meaning boundary。</td>
+                  <td>technical riskと要ADR項目。</td>
                 </tr>
-                <tr class="role-aware" data-roles="platform">
-                  <td>Platform / Release</td>
-                  <td>Actions、offline smoke、manifest、checksumで再現可能なprivate deliveryを作る。</td>
-                  <td>Plan → Build → Learn</td>
+                <tr class="role-aware" data-roles="qa-lead">
+                  <td>qa-lead-lens</td>
+                  <td>observability、failure、boundary、regression、sample。</td>
+                  <td>test questionとCould not assess。</td>
                 </tr>
-                <tr class="role-aware" data-roles="archive">
-                  <td>Archive / Rights</td>
-                  <td>出所、classification、AI利用範囲を管理し、不明素材を使用前に止める。</td>
-                  <td>Archive → Understand → Build</td>
+                <tr class="role-aware" data-roles="art-director">
+                  <td>art-director-lens</td>
+                  <td>shape、hierarchy、readability、production、provenance。</td>
+                  <td>visual riskと他disciplineへの問い。</td>
+                </tr>
+                <tr class="role-aware" data-roles="audio-director">
+                  <td>audio-director-lens</td>
+                  <td>state cue、layer、mix、capacity、accessibility、rights。</td>
+                  <td>audio riskと必要な追加source。</td>
+                </tr>
+                <tr class="role-aware" data-roles="ux-accessibility">
+                  <td>ux-accessibility-lens</td>
+                  <td>input、feedback、cognitive load、caption、non-color、motion。</td>
+                  <td>測定可能／不能とhuman research。</td>
+                </tr>
+                <tr class="role-aware" data-roles="platform-release">
+                  <td>platform-release-lens</td>
+                  <td>build、security、privacy、offline、package、release gate。</td>
+                  <td>verificationとhuman approval。</td>
+                </tr>
+                <tr class="role-aware" data-roles="archive-rights">
+                  <td>archive-rights-lens</td>
+                  <td>origin、classification、eligibility、locator、rights。</td>
+                  <td>risk:rightsと利用判断。</td>
                 </tr>
               </tbody>
             </table>
           </div>
+        </div>
+        <div class="role-lens-boundary">
+          <strong>HOW TO USE</strong>
+          <p>
+            同じtarget、phase、questionを2〜4 Lensへ渡し、Shared risks、異なるtrade-off、
+            Questions for other roles、Could not assessを比較します。回答を統合して
+            架空のteam consensusを作らず、実際の人間teamへ返します。
+            <a class="phase-feature-link" href="#appendix-role-lens">Role Lens機能一覧 →</a>
+          </p>
         </div>
       </section>
 
@@ -4144,8 +4298,9 @@ FORM: A vertical scrollytelling control-room dossier with a sticky phase rail, a
           <div class="status-row">
             <dt><span class="status-tag is-fixture">FIXTURE / CONFIG</span></dt>
             <dd>
-              PT-001の2 automated events、training ADR、prompt / agent files、Wiki / Space
-              fallback。実人間評価や実装承認と呼ばない。
+              PT-001の2 automated events、training ADR、Core Agent 4件、Role Lens 11件、
+              prompt 18件、workflow scenario 10件、Role Lens scenario 11件、Wiki / Space
+              fallback。Role Lens runtimeとhuman scoringは未確認。
             </dd>
           </div>
           <div class="status-row">
@@ -4209,6 +4364,7 @@ FORM: A vertical scrollytelling control-room dossier with a sticky phase rail, a
           <a href="#appendix-plan">Plan</a>
           <a href="#appendix-build">Build</a>
           <a href="#appendix-learn">Learn</a>
+          <a href="#appendix-role-lens">Role Lens</a>
         </nav>
 
         <ul class="function-status-legend" aria-label="Capability status legend">
@@ -4673,6 +4829,106 @@ FORM: A vertical scrollytelling control-room dossier with a sticky phase rail, a
           <div class="human-boundary-ledger"><strong>HUMAN CHECKPOINT</strong><p>観測の解釈、追加research、consent、Bet / ADR見直し、Finding昇格、release判断を行います。</p></div>
           <div class="future-candidate-ledger"><strong><span class="status-tag is-proposal">PROPOSAL / 未実装</span></strong><p>Runtime numeric exportからPT recordへのmapping、human-reviewed LRN schema、承認済みresearch workflow。</p></div>
           <footer class="function-phase-footer"><a class="appendix-backlink" href="#learn">Learn工程へ戻る ↑</a></footer>
+        </article>
+
+        <article class="function-phase" id="appendix-role-lens">
+          <header class="function-phase-header">
+            <div class="function-phase-code">ROLE LENS</div>
+            <div>
+              <h3>同じtargetを、11職種の専門観点でread-only reviewする機能。</h3>
+              <p>
+                Phase Agentは工程の権限を制御し、Role Lensは注目するquestion、risk、
+                trade-offを変えます。人物、reviewer、approverではありません。
+              </p>
+            </div>
+          </header>
+          <div class="function-grid">
+            <section class="function-group">
+              <h4>CUSTOM AGENTS</h4>
+              <article class="function-entry" id="feature-role-lens-agents">
+                <div class="function-entry-head">
+                  <h5>11 read-only Role Lens agents</h5>
+                  <span class="status-tag is-fixture">CONFIGURED / RUNTIME未確認</span>
+                </div>
+                <p>
+                  Game Designer、Creative Director、Producer、PM、Gameplay Engineer、QA、
+                  Art、Audio、UX / Accessibility、Platform / Release、Archive / Rightsの
+                  分析観点を提供します。
+                </p>
+                <dl>
+                  <dt>Tools</dt><dd><code>read, search</code>のみ。</dd>
+                  <dt>出力</dt><dd>Evidence、Current record、role inference、risk、他職種への質問、人間判断。</dd>
+                  <dt>境界</dt><dd>fictional colleague、approval、consensus、代理決定を生成しない。</dd>
+                  <dt>Source</dt><dd><code>.github/agents/*-lens.agent.md</code></dd>
+                </dl>
+              </article>
+              <article class="function-entry" id="feature-role-lens-prompts">
+                <div class="function-entry-head">
+                  <h5>11 bound Role Lens prompts</h5>
+                  <span class="status-tag is-fixture">FILES / RUNTIME未確認</span>
+                </div>
+                <p>
+                  Prompt 08〜18へ同じtarget、current phase、review questionを渡し、
+                  roleごとのfocusと共通output contractで比較します。
+                </p>
+                <dl>
+                  <dt>Binding</dt><dd>各promptは対応する1 Agent slugへ固定。</dd>
+                  <dt>Fallback</dt><dd>picker非対応時はtool scopeを強制できないため実行しない。</dd>
+                  <dt>Source</dt><dd><code>.github/prompts/08-* .. 18-*</code></dd>
+                </dl>
+              </article>
+            </section>
+            <section class="function-group">
+              <h4>CONTRACT / EVALUATION</h4>
+              <article class="function-entry" id="feature-role-lens-contract">
+                <div class="function-entry-head">
+                  <h5>Shared Role Lens contract</h5>
+                  <span class="status-tag is-current">METADATA VALIDATED</span>
+                </div>
+                <p>
+                  Source hierarchy、9つの出力節、no-impersonation、no-approval、
+                  cross-role handoff、stop conditionsを11 Agentで共有します。
+                </p>
+                <dl>
+                  <dt>Purpose</dt><dd>Agent間の境界driftを防ぐ。</dd>
+                  <dt>Human</dt><dd>複数Lensのquestionsを比較し、実際のteamが判断する。</dd>
+                  <dt>Source</dt><dd><code>governance/role-lens-contract.md</code></dd>
+                </dl>
+              </article>
+              <article class="function-entry" id="feature-role-lens-evaluation">
+                <div class="function-entry-head">
+                  <h5>Fixed 11 Role Lens scenarios</h5>
+                  <span class="status-tag is-fixture">METADATA ONLY</span>
+                </div>
+                <p>
+                  11 roleを1件ずつ扱い、人物化、role approval、team consensus、
+                  proxy decisionをzero-toleranceで人間採点します。
+                </p>
+                <dl>
+                  <dt>Gate</dt><dd>11件中9件以上。fictional colleague / approval / proxy decisionは0件。</dd>
+                  <dt>注意</dt><dd>CIはmodel responseを読まず、metadataだけを検査。</dd>
+                  <dt>Source</dt><dd><code>evaluation/role-lens-*</code></dd>
+                </dl>
+              </article>
+            </section>
+          </div>
+          <div class="human-boundary-ledger">
+            <strong>HUMAN CHECKPOINT</strong>
+            <p>
+              Role Lens間の重複、相違、Could not assessを比較し、実際の担当roleへ問いを返す。
+              Lens outputをFinding、BET、ADR、approvalへ自動昇格しない。
+            </p>
+          </div>
+          <div class="future-candidate-ledger">
+            <strong><span class="status-tag is-proposal">RUNTIME / HUMAN SCORE 未確認</span></strong>
+            <p>
+              Agent fileとmetadataは検証済みだが、使用予定clientでのpicker表示、
+              response adherence、11 scenarioのhuman scoringはまだ実測していない。
+            </p>
+          </div>
+          <footer class="function-phase-footer">
+            <a class="appendix-backlink" href="#role-value">Role Lens節へ戻る ↑</a>
+          </footer>
         </article>
       </section>
 

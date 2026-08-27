@@ -53,11 +53,16 @@ reviewer、participant、recording、reaction、approvalを作らない。
   説明できた実測run sheetを保存する。
 - [ ] 初見外部参加者5名以上でSECOND HANDを実施し、4名以上が5〜10分で完走して
   保持者と受領者の役割差を説明できた実測run sheetを保存する。
-- [ ] 固定10 Copilot scenarioを実行し、client、model、実行日、許可sourceを記録する。
+- [ ] 固定10 workflow scenarioと固定11 Role Lens scenarioを実行し、client、model、
+  実行日、許可sourceを記録する。
 - [ ] 10 scenarioを人間が構造rubricで採点し、8件以上合格、Conflict分離3件以上、
   無断decision 0件を確認する。回答本文とscored runはdemo repositoryへcommitしない。
-- [ ] prompt fileと4 custom agentを使用予定clientで再確認する。未対応surfaceでは
-  `demo/self-guided-workshop.md`のpaste fallbackを受け入れるか記録する。
+- [ ] 11 Role Lens scenarioを人間がRole Lens rubricで採点し、9件以上合格、
+  cross-role questions / human decisions分離11件、fictional colleague、role approval、
+  proxy decision 0件を確認する。
+- [ ] 18 prompt fileと15 custom agentを使用予定clientで再確認する。Core Agentは
+  documented fallbackを確認し、Role Lensはread/search-only scopeを強制できない
+  surfaceで実行しないことを確認する。
 - [ ] owner bypassを含む現在のno-ruleset運用を人間が承認するか、rulesetを設定して
   recovery pathを実機確認する。
 
@@ -99,7 +104,8 @@ reviewer、participant、recording、reaction、approvalを作らない。
   same-origin相互navigation、console error 0を確認した。
 - [x] Pages APIが`build_type: workflow`、public URL
   `https://shinyay.github.io/ghcp-with-gaming-ideation/`を返した。
-- [x] Public responseのLF-normalized SHA-256が`pages-allowlist.json`と一致した。
+- [x] 初回deployment時のPublic response LF-normalized SHA-256が、同時点の
+  `pages-allowlist.json`と一致した。現在のRole Lens更新版allowlistは未deployである。
 
 ### Deferred Phase
 

@@ -11,6 +11,13 @@
 Pagesはowner-approvedのWorkflow PresentationとSTAR RELAY Game Guideだけを公開し、
 ArchiveやGitHub snapshotの代替にはしません。
 
+工程を一周する場合は
+[`demo/self-guided-workshop.md`](https://github.com/shinyay/ghcp-with-gaming-ideation/blob/main/demo/self-guided-workshop.md)、
+同じtargetを複数職種の観点でreviewする場合は
+[`demo/role-lens-workshop.md`](https://github.com/shinyay/ghcp-with-gaming-ideation/blob/main/demo/role-lens-workshop.md)
+を使います。Role Lensは人物、承認者、実teamの合意ではありません。
+
 > English summary: Run both playables locally or from the allowlisted offline
 > package; the browser never calls the GitHub API. The public Pages site contains
-> only two generated HTML guides.
+> only two generated HTML guides. The optional Role Lens workshop compares
+> professional review questions without inventing colleagues or approvals.

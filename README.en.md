@@ -22,10 +22,12 @@ The current scope covers Phases 0–8:
 - production Museum, Archive Explorer, and Creative Lineage Explorer views;
 - an offline five-stop path from Museum through both playables;
 - deterministic ZIP packaging, a build manifest, and `SHA256SUMS`;
-- seven prompt files and four custom agents that keep evidence, inference,
-  proposal, and decision apart; and
-- ten fixed evaluation scenarios scored on structure and citation validity
-  only.
+- seven core prompt files and four phase agents that keep evidence, inference,
+  proposal, and decision apart;
+- eleven read-only professional Role Lens agents and eleven bound prompts for
+  cross-functional review without fictional colleagues or approvals; and
+- ten fixed workflow scenarios plus eleven fixed Role Lens scenarios scored on
+  structure and citation validity only.
 
 ## Copilot experience
 
@@ -37,6 +39,9 @@ prompt is granted shell execution.
 
 The [self-guided workshop](demo/self-guided-workshop.md) is a 70-minute solo
 path from archive to three distinct design bets and one planned slice.
+The [Role Lens workshop](demo/role-lens-workshop.md) applies two to four
+professional analysis lenses to the same target and returns questions to real
+human team members.
 The [Phase 8 runbook](demo/runbook.md) provides the 60-minute presenter path;
 the [self-guided demo](demo/self-guided-demo.md) is the 20-minute local path.
 

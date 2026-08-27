@@ -35,6 +35,11 @@ prompt file、custom agent、evaluation rubricに、期待される回答、期�
 - `name`はfile slugと一致させる。prompt側の`agent`がslugで解決できるようにする。
 - Archive CuratorとProvenance Auditorは読み取り専用とし、`tools`を
   `["read", "search"]`に限定する。`edit`と`execute`を与えない。
+- `*-lens`の職種別Role Lens Agentはすべて読み取り専用とし、`tools`を
+  `["read", "search"]`に限定する。
+- Role Lensは架空の人物、team member、reviewer、approverとして書かない。
+  `governance/role-lens-contract.md`の共通出力と禁止事項を持たせる。
+- Role Lensにrole approval、team consensus、Bet選択、ADR受理を行わせない。
 - 書き込み可能なagentには、書き込んでよいdirectoryを本文で限定する。
 - 各agentに「しないこと」の節を置き、決定・昇格・Conflict解消の禁止を書く。
 

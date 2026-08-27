@@ -3,10 +3,18 @@ import test from "node:test";
 import { readFile, stat } from "node:fs/promises";
 import { parse as parseYaml } from "yaml";
 import {
+  CORE_AGENT_SLUGS,
   EXPECTED_AGENT_COUNT,
   EXPECTED_PROMPT_COUNT,
   PROMPT_AGENT_SLUGS,
   READ_ONLY_AGENTS,
+  ROLE_LENS_AGENT_SLUGS,
+  ROLE_LENS_CONTRACT,
+  ROLE_LENS_INFERENCE_SECTIONS,
+  ROLE_LENS_PROMPT_STEMS,
+  ROLE_LENS_ROLES,
+  ROLE_LENS_RUN_SHEET,
+  ROLE_LENS_SCENARIO_MANIFEST,
   SCENARIO_MANIFEST,
   SPACE_MANIFEST,
   STRUCTURAL_RUBRIC,
@@ -25,8 +33,13 @@ interface Scenario {
   readonly prompt_file: string;
   readonly recommended_agent: string;
   readonly entry_ids: readonly string[];
+  readonly required_sections: readonly string[];
   readonly structural_checks: readonly string[];
   readonly auto_fail_if: readonly string[];
+}
+
+interface RoleLensScenario extends Scenario {
+  readonly role: string;
 }
 
 async function readScenarios(): Promise<readonly Scenario[]> {
@@ -36,7 +49,16 @@ async function readScenarios(): Promise<readonly Scenario[]> {
   return manifest.scenarios;
 }
 
-test("seven prompt files and four custom agents are installed", async () => {
+async function readRoleLensScenarios(): Promise<readonly RoleLensScenario[]> {
+  const manifest = JSON.parse(
+    await readFile(ROLE_LENS_SCENARIO_MANIFEST, "utf8")
+  ) as {
+    readonly scenarios: readonly RoleLensScenario[];
+  };
+  return manifest.scenarios;
+}
+
+test("eighteen prompts and fifteen custom agents are installed", async () => {
   const [prompts, agents] = await Promise.all([
     loadPromptFiles(),
     loadAgentFiles()
@@ -44,15 +66,13 @@ test("seven prompt files and four custom agents are installed", async () => {
 
   assert.equal(prompts.length, EXPECTED_PROMPT_COUNT);
   assert.equal(agents.length, EXPECTED_AGENT_COUNT);
-  assert.deepEqual(agents.map((agent) => agent.slug).sort(), [
-    "archive-curator",
-    "design-facilitator",
-    "provenance-auditor",
-    "slice-planner"
-  ]);
+  assert.deepEqual(
+    agents.map((agent) => agent.slug).sort(),
+    [...CORE_AGENT_SLUGS, ...ROLE_LENS_AGENT_SLUGS].sort()
+  );
 });
 
-test("curator and auditor cannot edit or execute", async () => {
+test("curator, auditor, and every Role Lens cannot edit or execute", async () => {
   const agents = await loadAgentFiles();
 
   for (const slug of READ_ONLY_AGENTS) {
@@ -69,6 +89,55 @@ test("curator and auditor cannot edit or execute", async () => {
   }
 });
 
+test("Role Lens agents carry the shared identity and decision boundary", async () => {
+  const agents = await loadAgentFiles();
+
+  for (const slug of ROLE_LENS_AGENT_SLUGS) {
+    const agent = agents.find((candidate) => candidate.slug === slug);
+    assert.ok(agent, `${slug} is missing`);
+    assert.equal(agent.frontmatter["disable-model-invocation"], true);
+    for (const marker of [
+      "Role Lens",
+      "role-lens-contract.md",
+      "Questions for other roles",
+      "Proposal (unselected)",
+      "Human decisions required",
+      "Could not assess",
+      "架空"
+    ]) {
+      assert.ok(agent.body.includes(marker), `${slug} is missing ${marker}`);
+    }
+  }
+
+  const contract = await readFile(ROLE_LENS_CONTRACT, "utf8");
+  for (const section of [
+    "位置づけ",
+    "Source hierarchy",
+    "Shared output contract",
+    "Shared prohibitions",
+    "Cross-role handoff",
+    "Stop conditions"
+  ]) {
+    assert.ok(contract.includes(section), `Role Lens contract misses ${section}`);
+  }
+});
+
+test("Role Lens run sheet records agent selection and read-only tool scope", async () => {
+  const runSheet = await readFile(ROLE_LENS_RUN_SHEET, "utf8");
+  for (const marker of [
+    "Allowed source paths",
+    "Agent slug",
+    "Invocation",
+    "Tool scope",
+    "read, search",
+    "paste-based run",
+    "RL-G1",
+    "RL-G4"
+  ]) {
+    assert.ok(runSheet.includes(marker), `Role Lens run sheet misses ${marker}`);
+  }
+});
+
 test("no prompt declares its own tool scope or a generic agent", async () => {
   const prompts = await loadPromptFiles();
 
@@ -82,20 +151,23 @@ test("no prompt declares its own tool scope or a generic agent", async () => {
       `${prompt.path} uses the retired mode key`
     );
     assert.ok(
-      PROMPT_AGENT_SLUGS.includes(prompt.frontmatter.agent as string),
+      (PROMPT_AGENT_SLUGS as readonly string[]).includes(
+        prompt.frontmatter.agent as string
+      ),
       `${prompt.path} does not bind a repository custom agent`
     );
   }
 });
 
 test("each prompt binds the agent its scenario recommends", async () => {
-  const [prompts, scenarios] = await Promise.all([
+  const [prompts, coreScenarios, roleScenarios] = await Promise.all([
     loadPromptFiles(),
-    readScenarios()
+    readScenarios(),
+    readRoleLensScenarios()
   ]);
   const byPath = new Map(prompts.map((prompt) => [prompt.path, prompt]));
 
-  for (const scenario of scenarios) {
+  for (const scenario of [...coreScenarios, ...roleScenarios]) {
     const prompt = byPath.get(scenario.prompt_file);
     assert.ok(prompt, `${scenario.prompt_file} is missing`);
     assert.equal(
@@ -103,6 +175,49 @@ test("each prompt binds the agent its scenario recommends", async () => {
       scenario.recommended_agent,
       `${scenario.scenario_id} and ${scenario.prompt_file} disagree on the agent`
     );
+  }
+});
+
+test("eleven Role Lens prompts bind one-to-one to eleven read-only agents", async () => {
+  const [prompts, scenarios] = await Promise.all([
+    loadPromptFiles(),
+    readRoleLensScenarios()
+  ]);
+  const rolePrompts = prompts.filter((prompt) =>
+    ROLE_LENS_PROMPT_STEMS.includes(prompt.slug as never)
+  );
+
+  assert.equal(rolePrompts.length, 11);
+  assert.equal(scenarios.length, 11);
+  assert.deepEqual(
+    scenarios.map((scenario) => scenario.role).sort(),
+    [...ROLE_LENS_ROLES].sort()
+  );
+  assert.deepEqual(
+    scenarios.map((scenario) => scenario.recommended_agent).sort(),
+    [...ROLE_LENS_AGENT_SLUGS].sort()
+  );
+  assert.deepEqual(
+    scenarios.map((scenario) => scenario.prompt_file).sort(),
+    rolePrompts.map((prompt) => prompt.path).sort()
+  );
+
+  for (const scenario of scenarios) {
+    assert.equal(scenario.recommended_agent, `${scenario.role}-lens`);
+    const inferenceSection = ROLE_LENS_INFERENCE_SECTIONS[scenario.role];
+    assert.ok(inferenceSection, `${scenario.role} has no inference heading`);
+    assert.ok(scenario.required_sections.includes(inferenceSection));
+    const prompt = rolePrompts.find(
+      (candidate) => candidate.path === scenario.prompt_file
+    );
+    assert.match(prompt?.body ?? "", new RegExp(inferenceSection));
+  }
+
+  for (const prompt of rolePrompts) {
+    assert.match(prompt.body, /read\/search-only tool scope/);
+    assert.match(prompt.body, /unsupported surface/);
+    assert.match(prompt.body, /fallbackにしません/);
+    assert.doesNotMatch(prompt.body, /本文を先に貼り付けてください/);
   }
 });
 
@@ -228,14 +343,16 @@ test("path instructions cover evidence, design, and playable trees", async () =>
 });
 
 test("every scenario cites stable IDs that exist", async () => {
-  const [scenarios, ids] = await Promise.all([
+  const [coreScenarios, roleScenarios, ids] = await Promise.all([
     readScenarios(),
+    readRoleLensScenarios(),
     collectStableIds()
   ]);
 
-  assert.equal(scenarios.length, 10);
+  assert.equal(coreScenarios.length, 10);
+  assert.equal(roleScenarios.length, 11);
 
-  for (const scenario of scenarios) {
+  for (const scenario of [...coreScenarios, ...roleScenarios]) {
     for (const id of scenario.entry_ids) {
       assert.ok(ids.has(id), `${scenario.scenario_id} cites missing ${id}`);
     }
@@ -243,24 +360,49 @@ test("every scenario cites stable IDs that exist", async () => {
 });
 
 test("rubric defines every check and auto-fail the scenarios use", async () => {
-  const [scenarios, rubric] = await Promise.all([
+  const [coreScenarios, roleScenarios, rubric, roleRubric] = await Promise.all([
     readScenarios(),
-    readFile(STRUCTURAL_RUBRIC, "utf8")
+    readRoleLensScenarios(),
+    readFile(STRUCTURAL_RUBRIC, "utf8"),
+    readFile("evaluation/role-lens-rubric.md", "utf8")
   ]);
-  const terms = rubricTerms(rubric);
+  const coreTerms = rubricTerms(rubric);
+  const roleTerms = rubricTerms(roleRubric);
 
-  for (const scenario of scenarios) {
+  for (const scenario of coreScenarios) {
     for (const term of [
       ...scenario.structural_checks,
       ...scenario.auto_fail_if
     ]) {
-      assert.ok(terms.has(term), `rubric does not define ${term}`);
+      assert.ok(coreTerms.has(term), `core rubric does not define ${term}`);
     }
   }
+  for (const scenario of roleScenarios) {
+    for (const term of [
+      ...scenario.structural_checks,
+      ...scenario.auto_fail_if
+    ]) {
+      assert.ok(roleTerms.has(term), `Role Lens rubric does not define ${term}`);
+    }
+  }
+  const referencedRoleTerms = new Set(
+    roleScenarios.flatMap((scenario) => [
+      ...scenario.structural_checks,
+      ...scenario.auto_fail_if
+    ])
+  );
+  assert.deepEqual(
+    [...roleTerms].filter((term) => !referencedRoleTerms.has(term)),
+    [],
+    "every Role Lens rubric term must be exercised by a scenario"
+  );
 });
 
 test("scenario manifest stores no expected answer text", async () => {
-  const raw = await readFile(SCENARIO_MANIFEST, "utf8");
+  const raw = [
+    await readFile(SCENARIO_MANIFEST, "utf8"),
+    await readFile(ROLE_LENS_SCENARIO_MANIFEST, "utf8")
+  ].join("\n");
   const guard = JSON.parse(
     await readFile("governance/disclosure-guard.json", "utf8")
   ) as {
