@@ -29,8 +29,8 @@
       "public_route": "/ghcp-with-gaming-ideation/",
       "content_id": "PAGES-WORKFLOW-001",
       "classification": "demo-safe",
-      "bytes": 188307,
-      "sha256": "20efbf56515b288a1a92eba8de00ebb4d24985118bfcd1280b192c9c97ab162a"
+      "bytes": 199692,
+      "sha256": "5a9706eab25b70350348b6e9d2d7fe9d0850aeb9b6f985c7d2619704b435718d"
     }
   ],
   "forbidden_html_patterns": [

@@ -8,17 +8,101 @@ export const INSTRUCTION_DIRECTORY = ".github/instructions";
 export const REPOSITORY_INSTRUCTIONS = ".github/copilot-instructions.md";
 export const SCENARIO_MANIFEST = "evaluation/scenario-manifest.json";
 export const STRUCTURAL_RUBRIC = "evaluation/structural-rubric.md";
+export const ROLE_LENS_SCENARIO_MANIFEST =
+  "evaluation/role-lens-scenario-manifest.json";
+export const ROLE_LENS_RUBRIC = "evaluation/role-lens-rubric.md";
+export const ROLE_LENS_RUN_SHEET = "evaluation/role-lens-run-sheet.md";
+export const ROLE_LENS_CONTRACT = "governance/role-lens-contract.md";
 export const SPACE_MANIFEST = "ops/github/copilot-space-manifest.yaml";
 
-export const EXPECTED_PROMPT_COUNT = 7;
-export const EXPECTED_AGENT_COUNT = 4;
+export const CORE_PROMPT_STEMS = [
+  "01-reconstruct-shipped-game",
+  "02-find-conflicts",
+  "03-extract-play-dna",
+  "04-create-design-bets",
+  "05-draft-decision",
+  "06-plan-slice",
+  "07-synthesize-playtest"
+] as const;
+
+export const ROLE_LENS_PROMPT_STEMS = [
+  "08-review-as-game-designer",
+  "09-review-as-creative-director",
+  "10-review-as-producer",
+  "11-review-as-project-manager",
+  "12-review-as-gameplay-engineer",
+  "13-review-as-qa-lead",
+  "14-review-as-art-director",
+  "15-review-as-audio-director",
+  "16-review-as-ux-accessibility",
+  "17-review-as-platform-release",
+  "18-review-as-archive-rights"
+] as const;
+
+export const CORE_AGENT_SLUGS = [
+  "archive-curator",
+  "design-facilitator",
+  "slice-planner",
+  "provenance-auditor"
+] as const;
+
+export const ROLE_LENS_AGENT_SLUGS = [
+  "game-designer-lens",
+  "creative-director-lens",
+  "producer-lens",
+  "project-manager-lens",
+  "gameplay-engineer-lens",
+  "qa-lead-lens",
+  "art-director-lens",
+  "audio-director-lens",
+  "ux-accessibility-lens",
+  "platform-release-lens",
+  "archive-rights-lens"
+] as const;
+
+export const ROLE_LENS_ROLES = [
+  "game-designer",
+  "creative-director",
+  "producer",
+  "project-manager",
+  "gameplay-engineer",
+  "qa-lead",
+  "art-director",
+  "audio-director",
+  "ux-accessibility",
+  "platform-release",
+  "archive-rights"
+] as const;
+
+export const ROLE_LENS_INFERENCE_SECTIONS: Readonly<Record<string, string>> = {
+  "game-designer": "Inference from the Game Designer lens",
+  "creative-director": "Inference from the Creative Director lens",
+  producer: "Inference from the Producer lens",
+  "project-manager": "Inference from the Project Manager lens",
+  "gameplay-engineer": "Inference from the Gameplay Engineer lens",
+  "qa-lead": "Inference from the QA Lead lens",
+  "art-director": "Inference from the Art Director lens",
+  "audio-director": "Inference from the Audio Director lens",
+  "ux-accessibility": "Inference from the UX and Accessibility lens",
+  "platform-release": "Inference from the Platform and Release lens",
+  "archive-rights": "Inference from the Archive and Rights lens"
+};
+
+export const EXPECTED_PROMPT_COUNT =
+  CORE_PROMPT_STEMS.length + ROLE_LENS_PROMPT_STEMS.length;
+export const EXPECTED_AGENT_COUNT =
+  CORE_AGENT_SLUGS.length + ROLE_LENS_AGENT_SLUGS.length;
 
 /**
  * Agents that must not be able to change the repository or run commands. A
  * curator that can edit, or an auditor that can execute, would let an inference
  * become a stored fact without human review.
  */
-export const READ_ONLY_AGENTS = ["archive-curator", "provenance-auditor"];
+export const READ_ONLY_AGENTS = [
+  "archive-curator",
+  "provenance-auditor",
+  ...ROLE_LENS_AGENT_SLUGS
+];
 
 export const ALLOWED_AGENT_TOOLS = [
   "read",
@@ -37,10 +121,8 @@ export const ALLOWED_AGENT_TOOLS = [
  * profile authoritative, so prompts declare no tools of their own.
  */
 export const PROMPT_AGENT_SLUGS = [
-  "archive-curator",
-  "design-facilitator",
-  "slice-planner",
-  "provenance-auditor"
+  ...CORE_AGENT_SLUGS,
+  ...ROLE_LENS_AGENT_SLUGS
 ];
 
 export interface Frontmatter {

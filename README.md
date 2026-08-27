@@ -30,10 +30,13 @@ Archive -> Understand -> Imagine -> Decide -> Plan -> Build -> Learn
 - GitHub APIを呼ばないMuseum、Archive Explorer、Creative Lineage Explorer
 - `Museum -> Archive -> Lineage -> Legacy -> SECOND HAND`のoffline path
 - `demo-site.zip`、両playable zip、offline pack、manifest、SHA256SUMS
-- 4つのcustom agentと7つのprompt fileを使う70分の
+- 4つの工程別custom agentと7つのprompt fileを使う70分の
   [self-guided workshop](demo/self-guided-workshop.md)
+- 11職種のread-only Role Lens Agentと11 promptを使う
+  [cross-functional workshop](demo/role-lens-workshop.md)
 - [60分runbook](demo/runbook.md)と[20分self-guided demo](demo/self-guided-demo.md)
-- 構造と引用だけを見る[固定10シナリオの評価](evaluation/README.md)
+- 構造と引用だけを見る固定10 workflow scenarioと固定11 Role Lens scenarioの
+  [評価](evaluation/README.md)
 
 Archiveの読み方は[archive/README.md](archive/README.md)と
 [archive/evidence-packets/README.md](archive/evidence-packets/README.md)を参照して

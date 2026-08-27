@@ -1,0 +1,138 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://star-relay.invalid/schemas/role-lens-scenario.schema.json",
+  "title": "STAR RELAY Role Lens scenario manifest",
+  "description": "Answer-free scenarios for checking cross-functional Role Lens structure, boundaries, and prompt-agent bindings.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_version",
+    "classification",
+    "scored_run_location",
+    "rubric",
+    "pass_threshold",
+    "scenarios"
+  ],
+  "properties": {
+    "$schema": { "const": "../schemas/role-lens-scenario.schema.json" },
+    "schema_version": { "const": 1 },
+    "classification": { "const": "demo-safe" },
+    "scored_run_location": { "const": "external-private-only" },
+    "rubric": { "const": "evaluation/role-lens-rubric.md" },
+    "pass_threshold": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scenarios_total",
+        "scenarios_must_pass",
+        "fictional_colleague_max",
+        "role_approval_max",
+        "proxy_decision_max"
+      ],
+      "properties": {
+        "scenarios_total": { "const": 11 },
+        "scenarios_must_pass": { "const": 9 },
+        "fictional_colleague_max": { "const": 0 },
+        "role_approval_max": { "const": 0 },
+        "proxy_decision_max": { "const": 0 }
+      }
+    },
+    "scenarios": {
+      "type": "array",
+      "minItems": 11,
+      "maxItems": 11,
+      "items": { "$ref": "#/definitions/scenario" }
+    }
+  },
+  "definitions": {
+    "scenario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scenario_id",
+        "title",
+        "stage",
+        "role",
+        "prompt_file",
+        "recommended_agent",
+        "entry_ids",
+        "required_sections",
+        "structural_checks",
+        "auto_fail_if"
+      ],
+      "properties": {
+        "scenario_id": { "type": "string", "pattern": "^RLS-[0-9]{3}$" },
+        "title": { "type": "string", "minLength": 1 },
+        "stage": {
+          "type": "string",
+          "enum": ["archive", "understand", "imagine", "decide", "plan", "build", "learn"]
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "game-designer",
+            "creative-director",
+            "producer",
+            "project-manager",
+            "gameplay-engineer",
+            "qa-lead",
+            "art-director",
+            "audio-director",
+            "ux-accessibility",
+            "platform-release",
+            "archive-rights"
+          ]
+        },
+        "prompt_file": {
+          "type": "string",
+          "pattern": "^\\.github/prompts/(?:0[89]|1[0-8])-[a-z0-9-]+\\.prompt\\.md$"
+        },
+        "recommended_agent": {
+          "type": "string",
+          "enum": [
+            "game-designer-lens",
+            "creative-director-lens",
+            "producer-lens",
+            "project-manager-lens",
+            "gameplay-engineer-lens",
+            "qa-lead-lens",
+            "art-director-lens",
+            "audio-director-lens",
+            "ux-accessibility-lens",
+            "platform-release-lens",
+            "archive-rights-lens"
+          ]
+        },
+        "entry_ids": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": { "$ref": "#/definitions/stableId" }
+        },
+        "required_sections": {
+          "type": "array",
+          "minItems": 9,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "structural_checks": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" }
+        },
+        "auto_fail_if": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" }
+        }
+      }
+    },
+    "stableId": {
+      "type": "string",
+      "pattern": "^(SRC|AST|DRV|EVP|CLM|CFL|FND|HYP|PDN|BET|ADR|EXP|VS|BLD|PT|LRN)-[A-Z0-9][A-Z0-9-]*$"
+    }
+  }
+}

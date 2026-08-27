@@ -90,3 +90,14 @@ Evidenceは1行1事実で、次の形にする。
 `ai_eligible`、instructions、branch、labelはアクセス制御ではない。境界の正本は
 [governance/classification-policy.md](../governance/classification-policy.md)と
 repository分離である。
+
+## 9. 職種別Role Lens
+
+- `*-lens` Custom Agentは実在または架空の人物ではなく、専門職の分析観点を適用する
+  read-only Role Lensである。
+- Role Lensは同僚、reviewer、approver、team consensusを代筆しない。
+- Role Lensの出力はEvidence、Current record、Inference、未決Proposal、人間判断、
+  Could not assessを分離する。
+- Role LensはDesign Bet選択、ADR受理、Conflict裁定、Finding昇格、file変更をしない。
+- 共通contractは
+  [governance/role-lens-contract.md](../governance/role-lens-contract.md)。

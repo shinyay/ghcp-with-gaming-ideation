@@ -1,7 +1,7 @@
 # Self-guided workshop — Archive to Design Bet
 
-> English summary: A 70-minute solo workshop. You use four custom agents and
-> seven prompt files to move from a fictional 1998 archive to three genuinely
+> English summary: A 70-minute solo workshop. You use four phase agents and
+> seven core prompt files to move from a fictional 1998 archive to three genuinely
 > distinct design bets and one planned slice. Two checkpoints are yours alone:
 > naming and saving the bet you chose, and accepting the decision record.
 > Copilot never decides for you. There are no answer keys here; correctness is
@@ -22,9 +22,13 @@ npm run validate:copilot-metadata
 
 Copilot側の確認:
 
-1. `.github/agents/`の4つのcustom agentが選択できるか
-2. `.github/prompts/`の7つのprompt fileが呼び出せるか
+1. `.github/agents/`の4つの工程別custom agentが選択できるか
+2. `.github/prompts/01-*`〜`07-*`の7つのcore prompt fileが呼び出せるか
 3. 呼び出せない場合は[fallback](#surfaceが使えない場合)へ
+
+異なる職種の観点を比較する場合は、このworkshopを完了または中断した後に
+[Cross-functional Role Lens workshop](role-lens-workshop.md)を使用してください。
+Role Lensは工程別Agentを置き換えません。
 
 利用中のsurfaceでの実測結果は
 [ops/github/capability-report.md](../ops/github/capability-report.md)にあります。

@@ -34,8 +34,10 @@
 |---|---|---|
 | Repository instructions | `.github/copilot-instructions.md` | 1 |
 | Path instructions | `.github/instructions/` | 4 |
-| Prompt file | `.github/prompts/` | 7 |
-| Custom agent | `.github/agents/` | 4 |
+| Core prompt file | `.github/prompts/01-*`〜`07-*` | 7 |
+| Role Lens prompt file | `.github/prompts/08-*`〜`18-*` | 11 |
+| Core custom agent | `.github/agents/` | 4 |
+| Read-only Role Lens agent | `.github/agents/*-lens.agent.md` | 11 |
 
 | Agent | 役割 | tools |
 |---|---|---|
@@ -48,6 +50,25 @@
 新規fileだけを対象にする。prompt fileはtool scopeを宣言せず、bindしたcustom agent
 側のscopeが正本である。
 
+## Cross-functional Role Lens
+
+Role Lensは実在または架空のteam memberを演じず、同じtargetへ職種固有のreview観点を
+適用する。11件すべて`read`と`search`だけを持つ。
+
+| Lens group | 観点 |
+|---|---|
+| Game Designer / Creative Director | player experience、creative coherence、trade-off |
+| Producer / Project Manager | value、scope、gate、dependency、handoff |
+| Gameplay Engineer / QA Lead | invariant、determinism、observability、regression |
+| Art / Audio / UX Accessibility | readability、cue、input、feedback、production constraint |
+| Platform Release / Archive Rights | delivery、security、privacy、provenance、rights stop |
+
+Role Lensは承認、合意、代理決定を生成しない。出力を比較した後、実際の人間teamへ
+questionsと`Human decisions required`を返す。
+
+共通contractは[role-lens-contract.md](role-lens-contract.md)、使い方は
+[Role Lens workshop](../demo/role-lens-workshop.md)を参照する。
+
 ## 人間しかできない操作
 
 | 操作 | 理由 |
@@ -57,8 +78,9 @@
 | Conflictの裁定 | どちらを採るかは証拠ではなく判断だから |
 | 評価の採点 | 出力を読んで合否を決めるのは人間だから |
 
-規律が守られているかは[evaluation/](../evaluation/README.md)の固定10シナリオと
-構造rubricで確認する。rubricは構造と引用の実在だけを見る。回答本文は採点しない。
+規律が守られているかは[evaluation/](../evaluation/README.md)の固定10 workflow
+scenarioと固定11 Role Lens scenarioで確認する。rubricは構造と引用の実在だけを見る。
+回答本文は採点しない。
 
 ## 検証
 

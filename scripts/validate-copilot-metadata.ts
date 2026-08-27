@@ -4,11 +4,21 @@ import addFormats from "ajv-formats";
 import { parse as parseYaml } from "yaml";
 import {
   ALLOWED_AGENT_TOOLS,
+  CORE_AGENT_SLUGS,
+  CORE_PROMPT_STEMS,
   EXPECTED_AGENT_COUNT,
   EXPECTED_PROMPT_COUNT,
   PROMPT_AGENT_SLUGS,
   READ_ONLY_AGENTS,
   REPOSITORY_INSTRUCTIONS,
+  ROLE_LENS_AGENT_SLUGS,
+  ROLE_LENS_CONTRACT,
+  ROLE_LENS_INFERENCE_SECTIONS,
+  ROLE_LENS_PROMPT_STEMS,
+  ROLE_LENS_RUBRIC,
+  ROLE_LENS_RUN_SHEET,
+  ROLE_LENS_ROLES,
+  ROLE_LENS_SCENARIO_MANIFEST,
   SCENARIO_MANIFEST,
   SPACE_MANIFEST,
   STRUCTURAL_RUBRIC,
@@ -41,6 +51,21 @@ interface ScenarioManifest {
     readonly bet_asset_trace_min: number;
   };
   readonly scenarios: readonly Scenario[];
+}
+
+interface RoleLensScenario extends Scenario {
+  readonly role: string;
+}
+
+interface RoleLensScenarioManifest {
+  readonly pass_threshold: {
+    readonly scenarios_total: number;
+    readonly scenarios_must_pass: number;
+    readonly fictional_colleague_max: number;
+    readonly role_approval_max: number;
+    readonly proxy_decision_max: number;
+  };
+  readonly scenarios: readonly RoleLensScenario[];
 }
 
 interface SpaceManifest {
@@ -82,20 +107,24 @@ const REQUIRED_INSTRUCTION_SECTIONS = [
 ];
 
 const REQUIRED_PROMPT_STEMS = [
-  "01-reconstruct-shipped-game",
-  "02-find-conflicts",
-  "03-extract-play-dna",
-  "04-create-design-bets",
-  "05-draft-decision",
-  "06-plan-slice",
-  "07-synthesize-playtest"
+  ...CORE_PROMPT_STEMS,
+  ...ROLE_LENS_PROMPT_STEMS
 ];
 
 const REQUIRED_AGENT_STEMS = [
-  "archive-curator",
-  "design-facilitator",
-  "slice-planner",
-  "provenance-auditor"
+  ...CORE_AGENT_SLUGS,
+  ...ROLE_LENS_AGENT_SLUGS
+];
+
+const ROLE_LENS_REQUIRED_SECTIONS = [
+  "Lens and target",
+  "Evidence",
+  "Current record",
+  "Risks and trade-offs",
+  "Questions for other roles",
+  "Proposal (unselected)",
+  "Human decisions required",
+  "Could not assess"
 ];
 
 /**
@@ -129,14 +158,28 @@ const validateScenarioManifest = ajv.compile<ScenarioManifest>(
     await readFile("schemas/copilot-scenario.schema.json", "utf8")
   ) as AnySchema
 );
+const validateRoleLensScenarioManifest =
+  ajv.compile<RoleLensScenarioManifest>(
+    JSON.parse(
+      await readFile("schemas/role-lens-scenario.schema.json", "utf8")
+    ) as AnySchema
+  );
 
 const manifest = JSON.parse(
   await readFile(SCENARIO_MANIFEST, "utf8")
 ) as ScenarioManifest;
+const roleLensManifest = JSON.parse(
+  await readFile(ROLE_LENS_SCENARIO_MANIFEST, "utf8")
+) as RoleLensScenarioManifest;
 
 if (!validateScenarioManifest(manifest)) {
   throw new Error(
     `${SCENARIO_MANIFEST}: ${formatErrors(validateScenarioManifest.errors)}`
+  );
+}
+if (!validateRoleLensScenarioManifest(roleLensManifest)) {
+  throw new Error(
+    `${ROLE_LENS_SCENARIO_MANIFEST}: ${formatErrors(validateRoleLensScenarioManifest.errors)}`
   );
 }
 
@@ -144,7 +187,9 @@ const prompts = await loadPromptFiles();
 const agents = await loadAgentFiles();
 const instructions = await loadInstructionFiles();
 const rubric = await readFile(STRUCTURAL_RUBRIC, "utf8");
+const roleLensRubric = await readFile(ROLE_LENS_RUBRIC, "utf8");
 const terms = rubricTerms(rubric);
+const roleLensTerms = rubricTerms(roleLensRubric);
 const stableIds = await collectStableIds();
 
 // --- Repository instructions -------------------------------------------------
@@ -203,7 +248,7 @@ for (const stem of REQUIRED_PROMPT_STEMS) {
 }
 
 for (const prompt of prompts) {
-  const { frontmatter, path } = prompt;
+  const { frontmatter, path, slug, body } = prompt;
   require(
     typeof frontmatter.description === "string" &&
       frontmatter.description.length > 0,
@@ -220,7 +265,8 @@ for (const prompt of prompts) {
 
   const boundAgent = frontmatter.agent;
   require(
-    typeof boundAgent === "string" && PROMPT_AGENT_SLUGS.includes(boundAgent),
+    typeof boundAgent === "string" &&
+      (PROMPT_AGENT_SLUGS as readonly string[]).includes(boundAgent),
     `${path} must bind agent to one of the repository custom agents; a generic ask/agent value would override the selected profile.`
   );
 
@@ -232,6 +278,19 @@ for (const prompt of prompts) {
     !("tools" in frontmatter),
     `${path} must not declare tools; the bound custom agent owns the tool scope.`
   );
+
+  if ((ROLE_LENS_PROMPT_STEMS as readonly string[]).includes(slug)) {
+    require(
+      body.includes("read/search-only tool scope") &&
+        body.includes("unsupported surface") &&
+        body.includes("fallbackにしません"),
+      `${path} must stop when the read-only Role Lens agent cannot be selected.`
+    );
+    require(
+      !body.includes("本文を先に貼り付けてください"),
+      `${path} must not present unrestricted paste as a Role Lens fallback.`
+    );
+  }
 }
 
 // --- Custom agents -----------------------------------------------------------
@@ -283,6 +342,30 @@ for (const agent of agents) {
     require(
       tools.every((tool) => tool === "read" || tool === "search"),
       `${path} must stay read-only; it may only use read and search.`
+    );
+  }
+
+  if (ROLE_LENS_AGENT_SLUGS.includes(slug as never)) {
+    require(
+      frontmatter["disable-model-invocation"] === true,
+      `${path} must disable model invocation; Role Lens selection is explicit.`
+    );
+    for (const required of [
+      "Role Lens",
+      "role-lens-contract.md",
+      "Questions for other roles",
+      "Proposal (unselected)",
+      "Human decisions required",
+      "Could not assess"
+    ]) {
+      require(
+        agent.body.includes(required),
+        `${path} is missing the Role Lens contract marker "${required}".`
+      );
+    }
+    require(
+      agent.body.includes("架空"),
+      `${path} must say that it is not a fictional colleague.`
     );
   }
 
@@ -343,6 +426,111 @@ for (const [index, scenario] of manifest.scenarios.entries()) {
     );
   }
 
+  const seenRoleScenarioIds = new Set<string>();
+  const seenRoles = new Set<string>();
+  const referencedRoleLensTerms = new Set<string>();
+  for (const [index, scenario] of roleLensManifest.scenarios.entries()) {
+    const expectedId = `RLS-${String(index + 1).padStart(3, "0")}`;
+    require(
+      scenario.scenario_id === expectedId,
+      `Role Lens scenario ${index + 1} should be ${expectedId}; found ${scenario.scenario_id}.`
+    );
+    require(
+      !seenRoleScenarioIds.has(scenario.scenario_id),
+      `Duplicate Role Lens scenario ID ${scenario.scenario_id}.`
+    );
+    seenRoleScenarioIds.add(scenario.scenario_id);
+    seenRoles.add(scenario.role);
+    referencedPrompts.add(scenario.prompt_file);
+    referencedAgents.add(scenario.recommended_agent);
+
+    require(
+      ROLE_LENS_ROLES.includes(scenario.role as never),
+      `${scenario.scenario_id} declares unknown role ${scenario.role}.`
+    );
+    require(
+      scenario.recommended_agent === `${scenario.role}-lens`,
+      `${scenario.scenario_id} role ${scenario.role} does not match agent ${scenario.recommended_agent}.`
+    );
+
+    const promptSlug = scenario.prompt_file.slice(
+      ".github/prompts/".length,
+      -".prompt.md".length
+    );
+    require(
+      promptBySlug.has(promptSlug),
+      `${scenario.scenario_id} points at missing prompt ${scenario.prompt_file}.`
+    );
+    require(
+      agentBySlug.has(scenario.recommended_agent),
+      `${scenario.scenario_id} points at missing agent ${scenario.recommended_agent}.`
+    );
+    require(
+      promptBySlug.get(promptSlug)?.frontmatter.agent ===
+        scenario.recommended_agent,
+      `${scenario.scenario_id} and ${scenario.prompt_file} disagree on the Role Lens agent.`
+    );
+
+    for (const section of ROLE_LENS_REQUIRED_SECTIONS) {
+      require(
+        scenario.required_sections.includes(section),
+        `${scenario.scenario_id} is missing required section ${section}.`
+      );
+    }
+    const inferenceSection = ROLE_LENS_INFERENCE_SECTIONS[scenario.role];
+    require(
+      typeof inferenceSection === "string" &&
+        scenario.required_sections.includes(inferenceSection),
+      `${scenario.scenario_id} has the wrong role-specific Inference section.`
+    );
+    const boundPrompt = promptBySlug.get(promptSlug);
+    const boundRoleAgent = agentBySlug.get(scenario.recommended_agent);
+    require(
+      typeof inferenceSection === "string" &&
+        boundPrompt?.body.includes(inferenceSection) === true,
+      `${scenario.prompt_file} does not require "${String(inferenceSection)}".`
+    );
+    require(
+      typeof inferenceSection === "string" &&
+        boundRoleAgent?.body.includes(inferenceSection) === true,
+      `${scenario.recommended_agent} does not define "${String(inferenceSection)}".`
+    );
+
+    for (const id of scenario.entry_ids) {
+      require(
+        stableIds.has(id),
+        `${scenario.scenario_id} cites ${id}, which does not exist in this repository.`
+      );
+    }
+    for (const check of scenario.structural_checks) {
+      referencedRoleLensTerms.add(check);
+      require(
+        roleLensTerms.has(check),
+        `${scenario.scenario_id} uses check "${check}" that the Role Lens rubric does not define.`
+      );
+    }
+    for (const term of scenario.auto_fail_if) {
+      referencedRoleLensTerms.add(term);
+      require(
+        roleLensTerms.has(term),
+        `${scenario.scenario_id} uses auto-fail "${term}" that the Role Lens rubric does not define.`
+      );
+    }
+  }
+
+  for (const term of roleLensTerms) {
+    require(
+      referencedRoleLensTerms.has(term),
+      `Role Lens rubric term "${term}" is never exercised by a scenario.`
+    );
+  }
+
+  require(
+    JSON.stringify([...seenRoles].sort()) ===
+      JSON.stringify([...ROLE_LENS_ROLES].sort()),
+    "Role Lens scenarios must cover each of the eleven roles exactly once."
+  );
+
   for (const check of scenario.structural_checks) {
     require(
       terms.has(check),
@@ -377,6 +565,49 @@ require(
   manifest.pass_threshold.scenarios_total === manifest.scenarios.length,
   "pass_threshold.scenarios_total disagrees with the scenario count."
 );
+require(
+  roleLensManifest.pass_threshold.scenarios_total ===
+    roleLensManifest.scenarios.length,
+  "Role Lens pass_threshold.scenarios_total disagrees with the scenario count."
+);
+require(
+  roleLensManifest.pass_threshold.fictional_colleague_max === 0 &&
+    roleLensManifest.pass_threshold.role_approval_max === 0 &&
+    roleLensManifest.pass_threshold.proxy_decision_max === 0,
+  "Role Lens zero-tolerance thresholds must remain zero."
+);
+
+const roleLensContract = await readFile(ROLE_LENS_CONTRACT, "utf8");
+for (const section of [
+  "位置づけ",
+  "Source hierarchy",
+  "Shared output contract",
+  "Shared prohibitions",
+  "Cross-role handoff",
+  "Stop conditions"
+]) {
+  require(
+    roleLensContract.includes(section),
+    `${ROLE_LENS_CONTRACT} is missing section ${section}.`
+  );
+}
+
+const roleLensRunSheet = await readFile(ROLE_LENS_RUN_SHEET, "utf8");
+for (const marker of [
+  "Allowed source paths",
+  "Agent slug",
+  "Invocation",
+  "Tool scope",
+  "read, search",
+  "paste-based run",
+  "RL-G1",
+  "RL-G4"
+]) {
+  require(
+    roleLensRunSheet.includes(marker),
+    `${ROLE_LENS_RUN_SHEET} is missing execution evidence field "${marker}".`
+  );
+}
 
 // --- Planning fallback fixture -----------------------------------------------
 
@@ -539,7 +770,8 @@ const guardedFiles = [
   ...(await collectFiles(".github/agents")),
   ...(await collectFiles(".github/instructions")),
   ...(await collectFiles("evaluation")),
-  REPOSITORY_INSTRUCTIONS
+  REPOSITORY_INSTRUCTIONS,
+  ROLE_LENS_CONTRACT
 ];
 
 for (const path of guardedFiles) {
@@ -570,6 +802,7 @@ const linkedFiles = [
   "demo/fixtures/README.md",
   PLANNING_FIXTURE,
   "governance/copilot-boundaries.md",
+  ROLE_LENS_CONTRACT,
   "ops/github/copilot-space-setup.md"
 ].filter((path) => path.endsWith(".md"));
 
@@ -605,7 +838,8 @@ console.log(
     `${agents.length} custom agents (${READ_ONLY_AGENTS.length} read-only)`,
     `${instructions.length} path instruction files`,
     `${manifest.scenarios.length} fixed scenarios`,
-    `${terms.size} rubric terms`,
+    `${roleLensManifest.scenarios.length} Role Lens scenarios`,
+    `${terms.size + roleLensTerms.size} rubric terms across two suites`,
     `${stableIds.size} resolvable stable IDs`,
     `${checkedLinks} in-repository links`,
     `Space automation ${space.automation_status}, sources ${space.allowed_sources.length}, created=${space.verification.space_created}`

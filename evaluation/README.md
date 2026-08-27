@@ -1,8 +1,9 @@
 # 構造評価
 
-> English summary: Ten fixed scenarios exercise the seven prompt files and four
-> custom agents. Scoring covers structure and citation validity only. No
-> expected answers, no answer keys, and no scored runs live in this repository.
+> English summary: Two independent answer-free suites cover ten workflow
+> scenarios and eleven cross-functional Role Lens scenarios. Scoring covers
+> structure, citation validity, identity boundaries, and human decision gates.
+> No response text or scored runs live in this repository.
 
 ## 中身
 
@@ -11,8 +12,12 @@
 | [scenario-manifest.json](scenario-manifest.json) | 固定10シナリオ。structural checkとauto-failの定義 |
 | [structural-rubric.md](structural-rubric.md) | 採点基準。構造と引用の実在のみを見る |
 | [run-sheet.md](run-sheet.md) | 1回の実行を控えるためのテンプレート |
+| [role-lens-scenario-manifest.json](role-lens-scenario-manifest.json) | 11職種を1件ずつ扱う固定Role Lensシナリオ |
+| [role-lens-rubric.md](role-lens-rubric.md) | 人物化、承認、代理決定を禁止するRole Lens基準 |
+| [role-lens-run-sheet.md](role-lens-run-sheet.md) | Role Lens実行用の空テンプレート |
 
-Schemaは[schemas/copilot-scenario.schema.json](../schemas/copilot-scenario.schema.json)です。
+Schemaは[workflow schema](../schemas/copilot-scenario.schema.json)と
+[Role Lens schema](../schemas/role-lens-scenario.schema.json)です。
 
 ## 設計方針
 
@@ -27,12 +32,13 @@ Schemaは[schemas/copilot-scenario.schema.json](../schemas/copilot-scenario.sche
 
 ## 自動検査が見るもの / 見ないもの
 
-`npm run validate:copilot-metadata`は**設定のmetadata検査**です。prompt file、
-custom agent、instructions、シナリオ、rubric、Space manifestの整合性だけを読みます。
+`npm run validate:copilot-metadata`は**設定のmetadata検査**です。Core / Role Lensの
+prompt file、custom agent、instructions、2つのscenario suite、rubric、Space manifestの
+整合性だけを読みます。
 
 | 検査する | 検査しない |
 |---|---|
-| シナリオが10件、IDが`SCN-001`〜`SCN-010`で重複なし | モデルが何と答えたか |
+| Workflow 10件とRole Lens 11件のID、role、binding | モデルが何と答えたか |
 | 各`prompt_file`が実在し、frontmatterが規約どおり | 引用されたIDが実在したか |
 | 各prompt fileのbind先と`recommended_agent`が一致 | 層が分離されていたか |
 | 各`recommended_agent`が`.github/agents/`に実在 | Conflictを裁定しなかったか |
@@ -54,6 +60,9 @@ answer keyは別の非公開reference repositoryが持ちます。
 | G2 | 意図的な矛盾を3件以上、EvidenceとInferenceへ分離している | 人間 |
 | G3 | 3つの異なるDesign Betが、それぞれ3つ以上の異なる旧資産へ遡れる | 人間 |
 | G4 | 採用案を勝手に決定した出力を含むシナリオは不合格 | 人間 |
+
+Role Lens suiteは[role-lens-rubric.md](role-lens-rubric.md)の独立Gateを使う。
+11件中9件以上に加え、架空同僚、role approval、proxy decisionを0件とする。
 
 ## 実行
 
