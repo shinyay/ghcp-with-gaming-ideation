@@ -20,8 +20,25 @@ interface PagesAllowlist {
   readonly build_type: "workflow";
   readonly hash_projection: "utf8-lf-sha256-v1";
   readonly rights_policy: string;
+  readonly languages: readonly ["ja", "en"];
+  readonly default_language: "ja";
+  readonly language_toggle: "segmented";
+  readonly preference_storage: "localStorage";
+  readonly preference_storage_key: "star-relay-pages-language-v1";
   readonly files: readonly PagesFile[];
   readonly forbidden_html_patterns: readonly string[];
+}
+
+interface TranslationEntry {
+  readonly ja: string;
+  readonly en: string;
+}
+
+interface TranslationCatalog {
+  readonly schemaVersion: 1;
+  readonly defaultLanguage: "ja";
+  readonly storageKey: "star-relay-pages-language-v1";
+  readonly translations: Readonly<Record<string, TranslationEntry>>;
 }
 
 interface DisclosureGuard {
@@ -70,6 +87,104 @@ function htmlIds(content: string): readonly string[] {
 
 function fragmentTargets(content: string): readonly string[] {
   return [...content.matchAll(/href="#([^"]+)"/g)].map((match) => match[1]!);
+}
+
+function assertBilingualHtml(
+  path: string,
+  content: string,
+  allowlist: PagesAllowlist
+): void {
+  const catalogMatch = content.match(
+    /<script\b(?=[^>]*\bid="i18n-catalog")(?=[^>]*\btype="application\/json")[^>]*>([\s\S]*?)<\/script>/
+  );
+  if (catalogMatch?.[1] === undefined) {
+    throw new Error(`${path} is missing its inline i18n catalog.`);
+  }
+
+  let catalog: TranslationCatalog;
+  try {
+    catalog = JSON.parse(catalogMatch[1]) as TranslationCatalog;
+  } catch (error) {
+    throw new Error(`${path} has invalid i18n catalog JSON.`, { cause: error });
+  }
+
+  if (
+    catalog.schemaVersion !== 1 ||
+    catalog.defaultLanguage !== allowlist.default_language ||
+    catalog.storageKey !== allowlist.preference_storage_key
+  ) {
+    throw new Error(`${path} i18n catalog does not match the Pages allowlist.`);
+  }
+
+  const translationEntries = Object.entries(catalog.translations);
+  if (translationEntries.length === 0) {
+    throw new Error(`${path} i18n catalog has no translations.`);
+  }
+  for (const [key, entry] of translationEntries) {
+    if (!/^[a-z][a-z0-9]*(?:[._-][a-z0-9]+)*$/i.test(key)) {
+      throw new Error(`${path} has an invalid i18n key: ${key}`);
+    }
+    if (
+      typeof entry !== "object" ||
+      entry === null ||
+      typeof entry.ja !== "string" ||
+      entry.ja.trim().length === 0 ||
+      typeof entry.en !== "string" ||
+      entry.en.trim().length === 0
+    ) {
+      throw new Error(`${path} has an incomplete i18n entry: ${key}`);
+    }
+  }
+
+  const markupWithoutCatalog = content.replace(catalogMatch[0], "");
+  const referencedKeys = [
+    ...markupWithoutCatalog.matchAll(
+      /\sdata-i18n(?:-[a-z][a-z0-9-]*)?="([^"]+)"/gi
+    )
+  ].map((match) => match[1]!);
+  if (referencedKeys.length === 0) {
+    throw new Error(`${path} has no i18n bindings.`);
+  }
+  for (const key of referencedKeys) {
+    if (catalog.translations[key] === undefined) {
+      throw new Error(`${path} references a missing i18n key: ${key}`);
+    }
+  }
+
+  const languageChoices = [
+    ...content.matchAll(/\sdata-language-choice="([^"]+)"/g)
+  ].map((match) => match[1]!);
+  if (
+    JSON.stringify(languageChoices.sort()) !== JSON.stringify([...allowlist.languages].sort())
+  ) {
+    throw new Error(`${path} must expose exactly the ja/en language choices.`);
+  }
+  if (
+    !content.includes("data-language-switcher") ||
+    !content.includes("data-language-status") ||
+    !content.includes("data-translation-notice")
+  ) {
+    throw new Error(`${path} is missing required bilingual accessibility markers.`);
+  }
+  if (!/<html\b[^>]*\blang="ja"/i.test(content)) {
+    throw new Error(`${path} must keep Japanese as the default document language.`);
+  }
+  if (!/<title\b[^>]*\bdata-i18n="[^"]+"/i.test(content)) {
+    throw new Error(`${path} must localize the document title.`);
+  }
+  if (
+    !/<meta\b(?=[^>]*\bname="description")(?=[^>]*\bdata-i18n-content="[^"]+")[^>]*>/i.test(
+      content
+    )
+  ) {
+    throw new Error(`${path} must localize the meta description.`);
+  }
+  if (!content.includes("localStorage")) {
+    throw new Error(`${path} must persist its language choice locally.`);
+  }
+  if (/\binnerHTML\b/.test(content)) {
+    throw new Error(`${path} must not use innerHTML for translation.`);
+  }
 }
 
 function assertSelfContainedHtml(
@@ -136,7 +251,12 @@ if (
   allowlist.pages_visibility !== "public" ||
   allowlist.build_type !== "workflow" ||
   allowlist.hash_projection !== "utf8-lf-sha256-v1" ||
-  allowlist.rights_policy !== "governance/pages-publication-policy.md"
+  allowlist.rights_policy !== "governance/pages-publication-policy.md" ||
+  JSON.stringify(allowlist.languages) !== JSON.stringify(["ja", "en"]) ||
+  allowlist.default_language !== "ja" ||
+  allowlist.language_toggle !== "segmented" ||
+  allowlist.preference_storage !== "localStorage" ||
+  allowlist.preference_storage_key !== "star-relay-pages-language-v1"
 ) {
   throw new Error("Unsupported Pages allowlist configuration.");
 }
@@ -191,6 +311,7 @@ for (const entry of allowlist.files) {
 
   if (entry.path.endsWith(".html")) {
     const text = content.toString("utf8");
+    assertBilingualHtml(entry.path, text, allowlist);
     assertSelfContainedHtml(
       entry.path,
       text,

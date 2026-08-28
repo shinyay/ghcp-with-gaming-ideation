@@ -7,6 +7,11 @@
   "build_type": "workflow",
   "hash_projection": "utf8-lf-sha256-v1",
   "rights_policy": "governance/pages-publication-policy.md",
+  "languages": ["ja", "en"],
+  "default_language": "ja",
+  "language_toggle": "segmented",
+  "preference_storage": "localStorage",
+  "preference_storage_key": "star-relay-pages-language-v1",
   "files": [
     {
       "path": "pages/.nojekyll",
@@ -21,16 +26,16 @@
       "public_route": "/ghcp-with-gaming-ideation/game-guide/",
       "content_id": "PAGES-GAME-GUIDE-001",
       "classification": "demo-safe",
-      "bytes": 126199,
-      "sha256": "1ddf8688bb51cde6928ad5d584397d8bf1c2a82af4e1a0534f5fde545f70d2c5"
+      "bytes": 236878,
+      "sha256": "708230cc8a98407c2c24baeb8c63492ff7508023ac0b6c5e939eaa1124e3e01c"
     },
     {
       "path": "pages/index.html",
       "public_route": "/ghcp-with-gaming-ideation/",
       "content_id": "PAGES-WORKFLOW-001",
       "classification": "demo-safe",
-      "bytes": 199692,
-      "sha256": "5a9706eab25b70350348b6e9d2d7fe9d0850aeb9b6f985c7d2619704b435718d"
+      "bytes": 334871,
+      "sha256": "9b62f83621e697d1860a246c2d98ea9925f9daf8048e761a39ff39a16499faf0"
     }
   ],
   "forbidden_html_patterns": [

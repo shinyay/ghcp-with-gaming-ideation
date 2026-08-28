@@ -9,6 +9,8 @@ on:
       - "ops/github/pages-allowlist.json"
       - "scripts/validate-pages-site.ts"
       - "tests/packaging/pages.test.ts"
+      - "tests/pages/**"
+      - "playwright.pages.config.ts"
       - "governance/pages-publication-policy.md"
       - "NOTICE.md"
       - ".github/workflows/deploy-pages.yml"
@@ -32,7 +34,9 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npx playwright install --with-deps chromium
       - run: npm run validate:pages
+      - run: npm run test:pages
 
   upload:
     needs: validate

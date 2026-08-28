@@ -84,6 +84,18 @@ pages:
   visibility: public
   repository_visibility_required: private
   build_type: workflow
+  languages:
+    - ja
+    - en
+  default_language: ja
+  language_toggle: segmented
+  preference:
+    storage: browser_local_storage
+    key: star-relay-pages-language-v1
+    allowed_values:
+      - ja
+      - en
+    telemetry: forbidden
   workflow: .github/workflows/deploy-pages.yml
   source: pages
   allowlist: ops/github/pages-allowlist.json
