@@ -3,8 +3,8 @@
 > **日本語が正本です。** English summary: The two owner-approved HTML
 > artifacts are live on GitHub Pages. The repository remains private, the
 > deployment contains only the allowlisted files, and public hashes matched the
-> deployment-time LF-normalized manifest. A later Role Lens source update is
-> pending locally and has not been deployed.
+> deployment-time LF-normalized manifest. A complete Japanese/English source
+> update is validated locally and pending; it has not been deployed.
 
 - Publication ID: `PAGES-001`
 - Verified at: 2026-08-27
@@ -38,21 +38,29 @@
 公開responseをUTF-8 / LFへ正規化したhashは
 公開時点の`ops/github/pages-allowlist.json`と一致した。
 
-## Pending source update
+## Pending bilingual source update
 
-2026-08-27にWorkflow PresentationへCross-functional Role Lens説明を追加し、
-`pages/index.html`の次回公開候補hashを更新した。
+2026-08-28にrepository ownerは、既存2 HTML内で日本語正本と英語translationを切り替える
+source更新を指示した。Workflow PresentationのRole Lens説明を含む現在sourceとGame Guideの
+全表示文、Evidence / Inference / Proposal、ARIA、meta、SVG説明、動的statusをbilingual化
+した。日本語がdefaultで、選択した`ja`または`en`だけを
+`star-relay-pages-language-v1`へ保存する。
 
 | State | Value |
 |---|---|
-| Next source LF bytes | 199692 |
-| Next source SHA-256 | `5a9706eab25b70350348b6e9d2d7fe9d0850aeb9b6f985c7d2619704b435718d` |
+| Next Workflow source LF bytes | 334871 |
+| Next Workflow source SHA-256 | `9b62f83621e697d1860a246c2d98ea9925f9daf8048e761a39ff39a16499faf0` |
+| Next Game Guide source LF bytes | 236878 |
+| Next Game Guide source SHA-256 | `708230cc8a98407c2c24baeb8c63492ff7508023ac0b6c5e939eaa1124e3e01c` |
+| Language contract | `ja` / `en`、default `ja`、同一origin内だけで選択保持 |
+| Local static validation | `npm run validate:pages` success |
+| Local browser validation | desktop / mobile Chromium、4 passed、external request 0 |
 | `deploy-pages` workflow | `disabled_manually` |
 | Public site | 上記初回deploymentのまま |
 
-ユーザーから再公開指示があるまでworkflowを有効化・実行しない。したがって現在の
-repository allowlistは次回候補、上のpublic response hashはlive siteの実測として
-区別する。
+今回の依頼はsource、test、allowlist更新までである。ユーザーから別の再公開指示があるまで
+workflowを有効化・実行しない。したがって現在のrepository allowlistは次回候補、上の
+public response hashはlive siteの実測として区別する。
 
 ## Inference
 
@@ -62,12 +70,15 @@ repository allowlistは次回候補、上のpublic response hashはlive siteの�
   allowlist外pathがdeployment artifactへ現れるか、hashが不一致になれば反証される。
 - Inference: RepositoryをPrivateのまま維持しながら、説明用HTMLだけを公開できている。
   確信度は高い。GitHub APIまたはrepository visibilityが変更された場合に反証される。
+- Inference: pending bilingual sourceは公開file数とroute数を増やさず、同じ2 HTML内だけで
+  languageを切り替える構成である。確信度は高い。Pages treeへ別言語file、script、CSS、
+  assetが追加された場合、またはbrowser外部requestが発生した場合に反証される。
 
 ## Proposal
 
 - Proposal: custom domain、追加route、public Releaseは未決であり、今回の許諾scopeに
   含まれない。必要な場合は新しい人間の権利判断、NOTICE、allowlist、validationを要求する。
-- Proposal: Role Lensを含む更新版Workflow Presentationの再公開は未決である。
+- Proposal: Role Lensとbilingual表示を含む更新版2 HTMLの再公開は未決である。
   `deploy-pages`を再有効化するにはユーザーの明示指示を要求する。
 
 ## Deployment note
